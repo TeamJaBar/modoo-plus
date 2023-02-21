@@ -1,0 +1,328 @@
+h3, div, input, button {
+	font-family: 'GmarketSansMedium';
+}
+
+a.sub_content:link {
+	color: #000;
+	text-decoration: none
+}
+
+a.sub_content:visited {
+	color: #000;
+	text-decoration: none
+}
+
+a.sub_content:hover {
+	color: #7ab4de;
+	text-decoration: none
+}
+
+a.sub_content:active {
+	text-decoration: none
+}
+
+.sub_content {
+	position: relative;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 0 0;
+	font-size: 12px;
+}
+
+.context_box {
+	float: left;
+	width: 100%;
+}
+
+.member_wrap {
+	width: 593px;
+	margin: 20px auto 40px auto;
+}
+
+.member_title h2 {
+	font-size: 28px;
+	margin: 0 0 20px 0;
+	font-weight: bold;
+}
+
+.member_cont {
+	padding: 70px 60px;
+	border: 1px solid #dbdbdb;
+}
+
+.member_cont .member_login_box h3 {
+	font-weight: normal;
+	font-size: 18px;
+	color: #222222;
+}
+
+.member_findPW_box h3 {
+	font-weight: normal;
+	font-size: 18px;
+	color: #222222;
+}
+
+.member_findPW_box input {
+	display: inline;
+}
+
+.member_cont .member_login_box .login_input_sec {
+	overflow: hidden;
+}
+
+.member_cont .member_login_box .login_input_sec>div {
+	float: left;
+}
+
+.member_cont .member_login_box input {
+	display: block;
+	width: 292px;
+	height: 36px;
+	margin: 15px 0 10px 0;
+	padding: 0 0 0 8px;
+	border: 1px solid #d0d0d0;
+	color: #979d9d;
+}
+
+.member_cont .member_login_box .findpw_box input {
+	display: block;
+	width: 292px;
+	height: 36px;
+	padding: 0 0 0 8px;
+	border: 1px solid #d0d0d0;
+	color: #979d9d;
+	margin: 0 auto;
+}
+
+.member_cont .member_login_box .login_input_sec button {
+	float: right;
+	width: 158px;
+	height: 91px;
+	margin: 15px 0 0 0;
+	border: 1px solid #0188CB;
+	background: #0188CB;
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.member_cont .member_login_box .id_chk {
+	padding: 0 0 15px 0;
+}
+
+.member_cont .member_login_box .id_chk span {
+	display: inline-block;
+}
+
+.member_cont .member_login_box .id_chk input {
+	display: none;
+}
+
+.form_element input {
+	position: absolute;
+	top: 3px;
+	left: 1px;
+	width: 0;
+	z-index: -1;
+}
+
+.form_element {
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+}
+
+span.form_element {
+	display: inline-block;
+}
+
+.member_cont .member_login_box .id_chk p {
+	padding: 6px 0 0 0;
+}
+
+.member_cont .member_login_box .member_login_shop {
+	/*
+	margin: 0 0 20px 0;
+	padding: 0 0 20px 0;
+	border-bottom: 1px solid #dcdcdc;*/
+}
+
+.shop_mall_join { /*color랑 border 바꿈*/
+	display: block;
+	padding: 20px 0 20px 0;
+	font-size: 15px;
+	text-align: center;
+	border: 1px solid #0188CB;
+	background: #ffffff;
+	color: #222;
+}
+
+.member_sns_login>*:first-child {
+	margin-top: 0;
+}
+
+.member_sns_login>* {
+	display: block;
+	margin-top: 12px;
+}
+
+.member_sns_login img {
+	border: 0 none;
+	vertical-align: top;
+}
+
+.btn_login_box {
+	overflow: hidden;
+	margin: 20px 0 0 0;
+	padding: 20px 0 0 0;
+	border-top: 1px solid #dcdcdc;
+}
+
+.btn_login_box li {
+	float: left;
+	margin: 0 0 0 10px;
+}
+
+.btn_login_box li:first-child {
+	margin: 0;
+}
+
+.btn_member_join {
+	width: 150px;
+	height: 45px;
+	margin: 0;
+	color: #ffffff;
+	font-size: 14px;
+	border: 1px solid #0188CB;
+	background: #0188CB;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.btn_member_blue {
+	width: 150px;
+	height: 45px;
+	margin: 0;
+	color: #ffffff;
+	font-size: 13px;
+	border: 1px solid #0188CB;
+	background: #0188CB;
+	cursor: pointer;
+}
+
+.btn_member_white {
+	width: 150px;
+	height: 45px;
+	color: #3e3d3c;
+	font-weight: bold;
+	font-size: 13px;
+	border: 1px solid #cccccc;
+	background: #fff;
+	cursor: pointer;
+}
+
+.btn_member_next {
+	width: 158px;
+	height: 45px;
+	border: 1px solid #0188CB;
+	margin-top: 40px;
+	background: #0188CB;
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.btn_submit:hover {
+	border-color: #0188CB !important;
+	background-color: #fff !important;
+	color: #0188CB !important;
+}
+
+.chk_none {
+	font-size: 12px;
+	display: block;
+	min-height: 17px;
+	margin: 10px 0 0 0;
+	padding: 5px 0 5px 19px;
+	color: #181818;
+	font-weight: normal;
+	/*background: url("/ModooShop/images/icons/icon_warning.png") no-repeat left 8px;*/
+}
+
+.member_guide_txt {
+	text-align: center;
+	padding: 10px;
+	color: #666666;
+}
+
+.result-container {
+	text-align: center;
+	font-size: 17px;
+}
+
+.result-container>#name {
+	font-weight: bold;
+}
+
+.result {
+	margin-top: 8px;
+}
+
+.findpw_box {
+	display: block;
+	text-align: center;
+}
+
+.result>span {
+	color: #0188CB;
+}
+
+.info_again {
+	width: 292px;
+	text-align: left;
+	margin: 10px auto;
+	color: #bebebc;
+}
+
+.findPw-info {
+	margin-top: 10px;
+	margin-bottom: 30px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #dcdcdc;
+	color: #bebebc;
+}
+
+.btn-center-box {
+	text-align: center !important;
+}
+
+label[for="authEmail"] {
+	position: relative;
+	top: -3px;
+	display: inline;
+}
+
+#passwordMsg {
+	margin-bottom: 10px !important;
+}
+
+input[type=checkbox] {
+	display: none;
+}
+
+input[type=checkbox]+label {
+	cursor: pointer;
+	padding-left: 23px;
+	padding-bottom:10px;
+	background: url('/ModooShop/images/icons/check_off_small.png') no-repeat 1px top;;
+}
+
+input[type=checkbox]:checked+label {
+	background: url('/ModooShop/images/icons/check_on_small.png')  no-repeat 1px top;;
+}
+
+input[type=checkbox]+label:hover {
+	background: url('/ModooShop/images/icons/check_over_small.png') no-repeat 1px top;;
+}
