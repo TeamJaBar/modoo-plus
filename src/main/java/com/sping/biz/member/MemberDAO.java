@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import common.JDBCUtil;
+import com.sping.biz.common.JDBCUtil;
 
 public class MemberDAO {
 	ArrayList<MemberVO> member;
