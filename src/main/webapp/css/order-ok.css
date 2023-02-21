@@ -1,0 +1,436 @@
+.order_ok_box,
+.order_ok_tit {
+    text-align: center;
+    background: url(/ModooShop/images/icons/img_join_ok.png) no-repeat center 0;
+    padding: 50px 0 0 0;
+}
+.sub_content a:link {
+	color: #000;
+	text-decoration: none
+}
+
+.sub_content a:visited {
+	color: #000;
+	text-decoration: none
+}
+
+.sub_content a:hover {
+	color: #7ab4de;
+	text-decoration: none
+}
+
+.sub_content a:active {
+	text-decoration: none
+}
+
+.sub_content {
+	position: relative;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 0 0;
+	font-size: 12px;
+}
+
+.context_box {
+	float: left;
+	width: 100%;
+}
+
+.member_wrap>.member_cont {
+	width: 593px;
+	margin: 20px auto 40px auto;
+}
+
+.content_box .member_tit {
+	overflow: hidden;
+	border-bottom: 1px solid #999999;
+	font-family: 'GmarketSansMedium'
+}
+
+.member_tit h2 {
+	font-size: 28px;
+	margin: 0 0 20px 0;
+	font-weight: bold;
+}
+
+.content_box .member_tit ol {
+	float: right;
+	line-height: 62px;
+	font-family: 'GmarketSansMedium'
+}
+
+.content_box .member_tit .page_on {
+	color: #181818;
+	font-family: 'GmarketSansMedium'
+}
+
+.content_box .member_tit ol li {
+	float: left;
+	font-size: 14px;
+	color: #d1d1d1;
+	font-family: 'GmarketSansMedium'
+}
+
+.content_box .member_tit li span {
+	font-size: 16px;
+	font-weight: bold;
+	font-family: 'GmarketSansMedium'
+}
+
+.content_box .member_tit li span>img {
+	padding: 0 14px;
+	vertical-align: -1px;
+}
+
+.member_cont {
+	width: 743px;
+	margin: 0 auto;
+	border: none;
+	padding: 70px 60px;
+}
+
+#order_ok_member_content {
+	border: 1px solid #dbdbdb;
+}
+
+.order_agreement_wrap .order_agreement_cont {
+	padding: 30px 0 0 0;
+	border-top: 1px solid #999999;
+}
+
+.order_agreement_cont .order_agreement_box {
+	margin: 0 0 30px 0;
+}
+
+.order_agreement_cont .form_element em {
+	font-weight: bold;
+	font-style: normal;
+}
+
+.order_agreement_cont .agreement_box {
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 89px;
+	margin: 10px 0 0;
+	padding: 20px;
+	border: 1px solid #e6e6e6;
+	border-top: 1px solid #999999;
+	line-height: 18px;
+}
+
+.form_element {
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+}
+
+.form_element input {
+	position: absolute;
+	top: 3px;
+	left: 1px;
+	width: 0;
+	z-index: -1;
+}
+
+/* inform-input */
+.base_info_box .base_info_sec {
+	border-top: 1px solid #999999;
+}
+
+.order_base_wrap .member_cont h3 {
+	padding: 0 0 17px 0;
+	font-size: 18px;
+	color: #222222;
+	font-family: 'GmarketSansMedium'
+}
+
+.base_info_box h3 {
+	display: inline-block;
+}
+
+.member_cont h3 {
+	font-weight: normal;
+	font-size: 18px;
+	color: #222222;
+	font-family: 'GmarketSansMedium'
+}
+
+.member_cont .btn_center_box,
+.member_warning+.btn_center_box {
+	margin: 35px 0 0 0;
+}
+
+.base_info_sec table {
+	width: 100%;
+}
+
+.base_info_sec table th:first-child,
+.base_info_sec table td:first-child {
+	border-left: none;
+}
+
+.base_info_sec table th {
+	text-align: left;
+	border-bottom: 1px solid #dcdcdc;
+	background: #fbfbfb;
+}
+
+.order_base_wrap table th {
+	padding: 10px 25px;
+}
+
+.order_base_wrap table th span {
+	padding: 0 0 0 10px;
+	margin: 0 0 0 -10px;
+}
+
+.base_info_sec table td {
+	padding: 15px 0 15px 15px;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+#wrap .member_warning {
+	display: inline;
+	position: relative;
+}
+
+.member_email .member_warning,
+.find_address {
+	width: 380px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.member_email .member_warning #email,
+#sample3_postcode {
+	width: 75%;
+}
+
+#emailDomain,
+#find_address {
+	width: 24%;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #7ab4de;
+	border-image: initial;
+	border-radius: 2px;
+}
+
+.member_address .address_input input {
+	margin: 10px 0 0 0;
+}
+
+.base_info_sec table input[type="text"] {
+	width: 380px;
+}
+
+input[type="text"],
+input[type="password"] {
+	padding: 0 10px;
+	outline: none;
+	font-size: 12px;
+}
+
+input[type="text"],
+input[type="password"] {
+	height: 31px;
+	padding: 0 5px;
+	color: #333333;
+	border: 1px solid #d6d6d6;
+	line-height: 31px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.order_base_wrap .important {
+	background: url("../../images/icons/icon_dot_03.png") no-repeat 0 center;
+}
+
+.base_info_box>span {
+	float: right;
+	padding: 0 0 0 10px;
+	line-height: 40px;
+	color: #181818;
+}
+
+.base_info_sec table .form_element {
+	display: block;
+	margin-top: 5px;
+}
+
+.form_element input {
+	position: absolute;
+	top: 3px;
+	left: 1px;
+	width: 0;
+	z-index: -1;
+}
+
+input[type="checkbox"] {
+	width: 13px;
+	height: 13px;
+	vertical-align: top;
+}
+
+#contents .member_address .address_postcode {
+	overflow: hidden;
+}
+
+#contents .member_address .address_postcode input {
+	float: left;
+	width: 190px;
+}
+
+input[type="button"] {
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+#contents .member_address .address_input {
+	float: left;
+	width: 72%;
+}
+
+/* order-ok */
+.order_ok_box .order_ok_tit {
+	text-align: center;
+	background: url('../../images/icons/img_order_ok.png') no-repeat center 0;
+	padding: 50px 0 0 0;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .order_ok_tit p {
+	padding: 20px 0 20px 0;
+	color: #989898;
+	letter-spacing: -0.5px;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .order_ok_tit p span {
+	font-weight: bold;
+	color: #222222;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .order_ok_tit .complete {
+	padding: 20px 0 0 0;
+	font-size: 18px;
+	color: #222222;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .order-ok-title p {
+	padding: 20px 0 20px 0;
+	color: #989898;
+	letter-spacing: -0.5px;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .order_ok_tit .complete strong {
+	font-weight: bold;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .btn_member_sec {
+	border-top: 1px solid #dbdbdb;
+}
+
+.order_ok_box .btn_member_sec ul {
+	overflow: hidden;
+	margin: 20px 0 0 0;
+	text-align: center;
+	font-size: 0;
+	font-family: 'GmarketSansMedium'
+}
+
+.order_ok_box .btn_member_sec li:first-child {
+	margin: 0;
+}
+
+.order_ok_box .btn_member_sec li {
+	display: inline-block;
+	margin: 0 0 0 10px;
+}
+
+/* 이전/다음 취소/회원가입 */
+.btn_center_box,
+.member_warning+.btn_center_box {
+	margin: 35px 0 0 0;
+}
+
+.btn_center_box {
+	text-align: center;
+}
+
+.btn_center_box button+button,
+.btn_left_box button+button,
+.btn_right_box button+button {
+	margin-left: 6px;
+}
+
+.btn_member_prev,
+.btn_member_cancel,
+#btnHome {
+	width: 150px;
+	height: 45px;
+	margin: 35px 0 0 0;
+	color: #3e3d3c;
+	font-size: 14px;
+	border: 1px solid #cccccc;
+	background: #ffffff;
+	cursor: pointer;
+}
+
+.btn_member_next,
+.btn_comfirm,
+.btn_login {
+	width: 150px;
+	height: 45px;
+	margin: 35px 0 0 0;
+	color: #ffffff;
+	font-size: 14px;
+	border: 1px solid #0188cb;
+	background: #0188cb;
+	cursor: pointer;
+	font-weight: bold;
+	
+	
+}
+
+.form_element label {
+	position: relative;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	min-height: 20px;
+}
+
+.form_element label.check {
+	min-width: 20px;
+	padding: 0 0 0 27px;
+	background: url('/images/icons/check_off.png') no-repeat 1px top;
+}
+
+.form_element label.check:hover {
+	background: url('/images/icons/check_over.png') no-repeat 1px top;
+}
+
+.form_element label.check.on {
+	background: url('/images/icons/check_on.png') no-repeat 1px top;
+}
+
+.form_element label.check_s {
+    min-width: 13px;
+    padding: 0 0 0 22px;
+    background: url('/images/icons/check_off_small.png') no-repeat 1px top;
+}
+
+.form_element label.check_s:hover {
+	background: url('/images/icons/check_over_small.png') no-repeat 1px top;
+}
+
+.form_element label.check_s.on {
+	background: url('/images/icons/check_on_small.png') no-repeat 1px top;
+}
