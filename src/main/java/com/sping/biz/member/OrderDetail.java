@@ -1,4 +1,4 @@
-package member;
+package com.sping.biz.member;
 
 public class OrderDetail {
 	private int odNum; // 주문 상세 번호(PK)

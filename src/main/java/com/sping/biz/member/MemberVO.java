@@ -1,4 +1,4 @@
-package member;
+package com.sping.biz.member;
 
 import java.sql.Date;
 

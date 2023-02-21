@@ -502,22 +502,21 @@
 			/*가격 검색 유회성 검사*/
 			$('#lowNum').on('select2:select', function(e) {
 				console.log('lowNum 이벤트 발생');
-				console.log('lowNum 현재 값: '+$(this).val());
-				console.log('highNum 현재 값: '+$('#highNum').val());
-				
+				console.log('lowNum 현재 값: ' + $(this).val());
+				console.log('highNum 현재 값: ' + $('#highNum').val());
+
 				if ($('#highNum').val() != 0 && $(this).val() > $('#highNum').val()) {
 					alert("최소 가격은 최대 가격보다 커야 합니다.");
 					$('#lowNum opiton[value=0]').attr("selected", true);
 					$('#lowNum').val('0').trigger('change');
-				}	
+				}
 			})
-			
-			
+
 			$('#highNum').on('select2:select', function(e) {
 				console.log('highNum 이벤트 발생');
-				console.log('highNum 현재 값: '+$(this).val());
-				console.log('lowNum 현재 값: '+$('#lowNum').val());
-				if($('#highNum').val() != 0 && $(this).val() < $('#lowNum').val()){
+				console.log('highNum 현재 값: ' + $(this).val());
+				console.log('lowNum 현재 값: ' + $('#lowNum').val());
+				if ($('#highNum').val() != 0 && $(this).val() < $('#lowNum').val()) {
 					alert("최대 가격은 최소 가격보다 커야 합니다.");
 					$('#highNum opiton[value=0]').attr("selected", true);
 					$('#highNum').val('0').trigger('change');

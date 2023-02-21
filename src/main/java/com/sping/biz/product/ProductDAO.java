@@ -1,4 +1,4 @@
-package product;
+package com.sping.biz.product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
