@@ -1,4 +1,4 @@
-package common;
+package com.sping.biz.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

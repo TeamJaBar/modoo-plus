@@ -1,22 +1,8 @@
-package controller;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Random;
+package com.sping.biz.controller;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import common.JDBCUtil;
 
 @WebListener
 public class ProductListener implements ServletContextListener {

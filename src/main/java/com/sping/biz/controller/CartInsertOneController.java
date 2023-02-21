@@ -1,4 +1,4 @@
-package controller;
+package com.sping.biz.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.DibDAO;
-import member.DibVO;
-import product.ProductDAO;
-import product.ProductVO;
+import com.sping.biz.product.ProductDAO;
+import com.sping.biz.product.ProductVO;
 
 // 퀵뷰, 상세 페이지
 @WebServlet("/view/cartInsertOne")

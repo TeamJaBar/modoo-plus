@@ -1,10 +1,10 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.AddressDAO;
-import member.AddressVO;
+import com.sping.biz.member.AddressDAO;
+import com.sping.biz.member.AddressVO;
 
 public class AddrsUpdateAction implements Action {
 
@@ -17,16 +17,16 @@ public class AddrsUpdateAction implements Action {
 
 		AddressDAO adao = new AddressDAO();
 		AddressVO avo = new AddressVO();
-		
-		avo.setmNum((int)request.getSession().getAttribute("mNum"));
-		
+
+		avo.setmNum((Integer)request.getSession().getAttribute("mNum"));
+
 		if (request.getParameter("defaultFl") == null) {
 			avo.setIsDefault("0"); // 일반
 		} else {
 			adao.update(avo); // 기존 기본배송지 일반배송지로
 			avo.setIsDefault("1");
 		}
-		
+
 		avo.setShipName(request.getParameter("shipName"));
 		avo.setDestination(request.getParameter("destination"));
 		avo.setZipCode(request.getParameter("zipCode"));

@@ -1,11 +1,11 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import product.CategoryVO;
-import product.ProductDAO;
-import product.ProductVO;
+import com.sping.biz.product.CategoryVO;
+import com.sping.biz.product.ProductDAO;
+import com.sping.biz.product.ProductVO;
 
 public class ProdAction implements Action {
 	@Override
@@ -37,11 +37,11 @@ public class ProdAction implements Action {
 		pvo.setHighNum(highNum);
 		pvo.setPageCnt(initPageCnt);
 		if (request.getSession().getAttribute("mNum") != null) {
-			pvo.setDib((int)request.getSession().getAttribute("mNum"));
+			pvo.setDib((Integer)request.getSession().getAttribute("mNum"));
 		}
 
 		request.setAttribute("prodList", pdao.selectAll(pvo));
-		
+
 		forward.setPath("product.jsp");
 
 		return forward;

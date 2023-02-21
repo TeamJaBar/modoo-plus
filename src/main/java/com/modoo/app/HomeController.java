@@ -1,4 +1,4 @@
-package com.modoo.shop;
+package com.modoo.app;
 
 import java.text.DateFormat;
 import java.util.Date;

@@ -1,7 +1,6 @@
-package controller;
+package com.sping.biz.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.DibDAO;
-import member.DibVO;
+import com.sping.biz.member.DibDAO;
+import com.sping.biz.member.DibVO;
 
 /**
  * Servlet implementation class DeleteDibController
@@ -37,18 +36,18 @@ public class DeleteDibController extends HttpServlet {
 			dvo.setpNum(Integer.parseInt(request.getParameter("pNum")));
 			System.out.println("로그 : DeleteDibController - pNum: " + Integer.parseInt(request.getParameter("pNum")));
 
-			dvo.setmNum((int)(request.getSession().getAttribute("mNum")));
-			System.out.println("로그 : DeleteDibController - mNum: " + (int)(request.getSession().getAttribute("mNum")));
+			dvo.setmNum((Integer)(request.getSession().getAttribute("mNum")));
+			System.out.println("로그 : DeleteDibController - mNum: " + (Integer)(request.getSession().getAttribute("mNum")));
 
 			if (!ddao.delete(dvo)) {
 				checkFlag = false;
 			}
 		} else {
-			//ArrayList<String> dib = (ArrayList<String>)(request.getParameter("dibProduct");
+			// ArrayList<String> dib = (ArrayList<String>)(request.getParameter("dibProduct");
 			String[] dib = request.getParameterValues("dibProduct");
-			for(int i=0; i<dib.length; i++) {
+			for (int i = 0; i < dib.length; i++) {
 				dvo.setDibNum(Integer.parseInt(dib[i]));
-				if(!ddao.delete(dvo)) {
+				if (!ddao.delete(dvo)) {
 					checkFlag = false;
 				}
 			}

@@ -1,10 +1,10 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.DibDAO;
-import member.DibVO;
+import com.sping.biz.member.DibDAO;
+import com.sping.biz.member.DibVO;
 
 public class DibListAction implements Action {
 
@@ -18,7 +18,7 @@ public class DibListAction implements Action {
 		DibDAO ddao = new DibDAO();
 
 		if (request.getSession().getAttribute("mNum") != null) {
-			dvo.setmNum((int)request.getSession().getAttribute("mNum"));
+			dvo.setmNum((Integer)request.getSession().getAttribute("mNum"));
 		}
 
 		request.setAttribute("dList", ddao.selectAll(dvo));
