@@ -1,4 +1,4 @@
-package controller;
+package com.sping.biz.controller;
 
 import java.io.IOException;
 
@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-
-import product.ProductDAO;
-import product.ProductVO;
+import com.sping.biz.product.ProductDAO;
+import com.sping.biz.product.ProductVO;
 
 @WebServlet("/view/quickView")
 public class QuickViewController extends HttpServlet {
@@ -28,17 +27,17 @@ public class QuickViewController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO pdao = new ProductDAO();
 		ProductVO pvo = new ProductVO();
-		
+
 		pvo.setpNum(Integer.parseInt(request.getParameter("pNum")));
-		if(request.getSession().getAttribute("mNum") != null) {
-			pvo.setDib((int)(request.getSession().getAttribute("mNum")));
+		if (request.getSession().getAttribute("mNum") != null) {
+			pvo.setDib((Integer)(request.getSession().getAttribute("mNum")));
 		}
-		
+
 		pvo = pdao.selectOne(pvo);
-		
-		if(pvo != null) {
+
+		if (pvo != null) {
 			Gson gson = new Gson();
-			response.setContentType("text/html;charset=UTF-8"); 
+			response.setContentType("text/html;charset=UTF-8");
 			response.getWriter().print(gson.toJson(pvo));
 			System.out.println(gson.toJson(pvo));
 		}

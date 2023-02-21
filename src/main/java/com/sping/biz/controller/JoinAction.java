@@ -1,23 +1,23 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.MemberDAO;
-import member.MemberVO;
+import com.sping.biz.member.MemberDAO;
+import com.sping.biz.member.MemberVO;
 
 public class JoinAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
-		
+
 		forward.setPath("join-ok.jsp");
 		forward.setRedirect(false);
 
 		MemberDAO mdao = new MemberDAO();
 		MemberVO mvo = new MemberVO();
-		
+
 		mvo.setmId(request.getParameter("mId"));
 		mvo.setmPw(request.getParameter("mPw"));
 		mvo.setmName(request.getParameter("mName"));

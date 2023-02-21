@@ -1,24 +1,23 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.MemberDAO;
-import member.MemberVO;
+import com.sping.biz.member.MemberDAO;
+import com.sping.biz.member.MemberVO;
 
-public class MemUpdateAction implements Action{
+public class MemUpdateAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward forward=new ActionForward();
+		ActionForward forward = new ActionForward();
 		forward.setPath("adMemberMain.do");
 		forward.setRedirect(true);
-		
-		MemberVO mvo=new MemberVO();
-		MemberDAO mdao=new MemberDAO();
-		
-		
-		System.out.println("로그 (컨트롤러) : mNUM"+ request.getParameter("mNum"));
+
+		MemberVO mvo = new MemberVO();
+		MemberDAO mdao = new MemberDAO();
+
+		System.out.println("로그 (컨트롤러) : mNUM" + request.getParameter("mNum"));
 		mvo.setmNum(Integer.parseInt(request.getParameter("mNum")));
 		mvo.setmPw(request.getParameter("mPw"));
 		mvo.setmName(request.getParameter("mName"));
@@ -28,9 +27,9 @@ public class MemUpdateAction implements Action{
 		mvo.setUserAddr(request.getParameter("userAddr"));
 		mvo.setDetailAddr(request.getParameter("detailAddr"));
 		mvo.setmPoint(Integer.parseInt(request.getParameter("mPoint")));
-		
+
 		mdao.update(mvo);
-		
+
 		return forward;
 	}
 

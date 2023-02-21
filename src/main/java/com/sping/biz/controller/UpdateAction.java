@@ -1,10 +1,10 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.MemberDAO;
-import member.MemberVO;
+import com.sping.biz.member.MemberDAO;
+import com.sping.biz.member.MemberVO;
 
 // pw-find - 비밀번호 재설정
 // change-inform - 회원 정보 변경
@@ -27,7 +27,7 @@ public class UpdateAction implements Action {
 			mvo.setmPw(request.getParameter("mPw"));
 		} else { // change-inform
 			forward.setPath("changeInfo.do");
-			mvo.setmNum((int)request.getSession().getAttribute("mNum"));
+			mvo.setmNum((Integer)request.getSession().getAttribute("mNum"));
 			mvo.setmPw(request.getParameter("mPw"));
 			mvo.setmEmail(request.getParameter("mEmail"));
 			mvo.setmTel(request.getParameter("mTel"));

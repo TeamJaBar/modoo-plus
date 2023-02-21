@@ -1,4 +1,4 @@
-package controller;
+package com.sping.biz.controller;
 
 import java.util.Properties;
 import java.util.Random;
@@ -20,7 +20,7 @@ public class SendEmailAction implements Action {
 		ActionForward forward = new ActionForward();
 		forward.setPath("pw-find-03.jsp");
 		forward.setRedirect(false);
-		
+
 		request.setAttribute("mId", request.getParameter("mId"));
 
 		// 랜덤 인증번호 생성

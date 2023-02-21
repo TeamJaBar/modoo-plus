@@ -1,4 +1,4 @@
-package member;
+package com.sping.biz.member;
 
 public class AddressVO {
 	private int aNum; // 주소번호(PK)

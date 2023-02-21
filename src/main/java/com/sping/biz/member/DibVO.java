@@ -1,4 +1,4 @@
-package member;
+package com.sping.biz.member;
 
 public class DibVO {
 	private int dibNum; // 찜번호(PK)

@@ -1,4 +1,4 @@
-package member;
+package com.sping.biz.member;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import common.JDBCUtil;
+import com.sping.biz.common.JDBCUtil;
 
 public class AddressDAO {
 	ArrayList<AddressVO> addr;

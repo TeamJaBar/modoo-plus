@@ -1,10 +1,10 @@
-package controller;
+package com.sping.biz.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.AddressDAO;
-import member.AddressVO;
+import com.sping.biz.member.AddressDAO;
+import com.sping.biz.member.AddressVO;
 
 public class AddrsInsertAction implements Action {
 
@@ -24,8 +24,8 @@ public class AddrsInsertAction implements Action {
 		avo.setUserAddr(request.getParameter("userAddr"));
 		avo.setDetailAddr(request.getParameter("detailAddr"));
 		avo.setTel(request.getParameter("tel"));
-		avo.setmNum((int)request.getSession().getAttribute("mNum"));
-		
+		avo.setmNum((Integer)request.getSession().getAttribute("mNum"));
+
 		if (request.getParameter("defaultFl") == null) {
 			avo.setIsDefault("0"); // 일반
 		} else {

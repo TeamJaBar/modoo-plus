@@ -1,4 +1,4 @@
-package product;
+package com.sping.biz.product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import common.JDBCUtil;
+import com.sping.biz.common.JDBCUtil;
 
 public class ProductDAO {
 	ArrayList<ProductVO> product;
@@ -340,21 +340,21 @@ public class ProductDAO {
 		try {
 			String filter = "SELECT DECODE(D.MNUM, ?, 1, 0) DIB, P.PNUM, P.CATENUM, P.PNAME, P.FIXPRICE, P.SELPRICE, P.RDATE, P.REPERSON, P.REAGE, P.BRAND, P.PIMG, P.PRODUCTCNT, DECODE(O.CNT, NULL, 0, O.CNT) OCNT FROM PRODUCT P LEFT OUTER JOIN DIB D ON P.PNUM = D.PNUM  FULL JOIN (SELECT PNUM, SUM(CNT) CNT FROM ORDERDETAIL GROUP BY PNUM) O ON P.PNUM=O.PNUM WHERE 1=1 ";
 
-			if((pvo.getCateNum()>99 && pvo.getCateNum()<300)||(pvo.getCateNum()>999 && pvo.getCateNum()<1200)) {
+			if ((pvo.getCateNum() > 99 && pvo.getCateNum() < 300) || (pvo.getCateNum() > 999 && pvo.getCateNum() < 1200)) {
 				filter += " AND 1=1 ";
-			} else if(pvo.getCateNum()%100==0) {
+			} else if (pvo.getCateNum() % 100 == 0) {
 				filter += " AND CATENUM BETWEEN ? AND ?";
 			} else {
-				filter += " AND CATENUM=?";				
+				filter += " AND CATENUM=?";
 			}
-			
+
 			if (pvo.getFilterTags() == 31) {
 				filter += " AND REPERSON LIKE '1명' ";
 			} else if (pvo.getFilterTags() == 32) {
 				filter += " AND REPERSON NOT LIKE '1명' ";
 			}
 
-			 if (pvo.getFilterPrice() == 22) {
+			if (pvo.getFilterPrice() == 22) {
 				filter += " AND SELPRICE BETWEEN 0 AND 10000";
 			} else if (pvo.getFilterPrice() == 23) {
 				filter += " AND SELPRICE BETWEEN 10000 AND 20000";
@@ -381,21 +381,21 @@ public class ProductDAO {
 			}
 
 			pstmt = conn.prepareStatement(filter);
-			
-			int num=2;
-			pstmt.setInt(1, pvo.getDib());
-			
-			if((pvo.getCateNum()>99 && pvo.getCateNum()<300)||(pvo.getCateNum()>999 && pvo.getCateNum()<1200)) {
 
-			} else if(pvo.getCateNum()%100==0) {
+			int num = 2;
+			pstmt.setInt(1, pvo.getDib());
+
+			if ((pvo.getCateNum() > 99 && pvo.getCateNum() < 300) || (pvo.getCateNum() > 999 && pvo.getCateNum() < 1200)) {
+
+			} else if (pvo.getCateNum() % 100 == 0) {
 				pstmt.setInt(num++, pvo.getCateNum());
-				pstmt.setInt(num++, pvo.getCateNum()+99);
+				pstmt.setInt(num++, pvo.getCateNum() + 99);
 			} else {
 				pstmt.setInt(num++, pvo.getCateNum());
 			}
 
-			if (pvo.getpName() != null) {				
-				pstmt.setString(num++, pvo.getpName());					
+			if (pvo.getpName() != null) {
+				pstmt.setString(num++, pvo.getpName());
 			}
 
 			ResultSet rs = pstmt.executeQuery();
@@ -434,8 +434,8 @@ public class ProductDAO {
 			pstmt.setString(5, pvo.getRePerson());
 			pstmt.setInt(6, pvo.getReAge());
 			pstmt.setString(7, pvo.getBrand());
-			//pstmt.setString(8, pvo.getpImg());
-			//pstmt.setString(9, pvo.getInfoImg());
+			// pstmt.setString(8, pvo.getpImg());
+			// pstmt.setString(9, pvo.getInfoImg());
 			pstmt.setInt(8, pvo.getProductCnt());
 			pstmt.setInt(9, pvo.getpNum());
 

@@ -914,7 +914,6 @@
 .gutter-sizer {
 	width: 12%;
 }
-
 </style>
 <jsp:include page="common/header.jsp" flush="false">
 	<jsp:param name="page" value="main" />
@@ -948,7 +947,7 @@
 							<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">슈뢰딩거의 고양이</h2>
 						</div>
 						<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-							<div class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04"> 슬리브 + 밴드 증정 </div>
+							<div class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">슬리브 + 밴드 증정</div>
 						</div>
 					</div>
 				</div>
@@ -963,7 +962,7 @@
 							<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">캐스캐디아</h2>
 						</div>
 						<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-							<div class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04"> Shop Now </div>
+							<div class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">Shop Now</div>
 						</div>
 					</div>
 				</div>
@@ -1055,10 +1054,14 @@
 										<div class="item_money_box">
 											<strong class="item_price">
 												<strong class="discount_rate">
-													<fmt:parseNumber value="${product.selPrice div product.fixPrice * 100}" integerOnly="true" />%
+													<fmt:parseNumber value="${product.selPrice div product.fixPrice * 100}" integerOnly="true" />
+													%
 												</strong>
 												<span>
-													<strong><fmt:formatNumber value="${product.selPrice}" type="number" /></strong>원
+													<strong>
+														<fmt:formatNumber value="${product.selPrice}" type="number" />
+													</strong>
+													원
 												</span>
 											</strong>
 										</div>
@@ -1198,13 +1201,15 @@
 							<tr>
 								<td>정가</td>
 								<td colspan="2">
-									<span class="fixPrice"></span>원
+									<span class="fixPrice"></span>
+									원
 								</td>
 							</tr>
 							<tr>
 								<td>판매가</td>
 								<td colspan="2" class="item_price">
-									<span id="price" class="selPrice"></span>원
+									<span id="price" class="selPrice"></span>
+									원
 								</td>
 							</tr>
 							<tr>
@@ -1256,6 +1261,7 @@
 	</div>
 </div>
 <script>
+	
 </script>
 <!--===============================================================================================-->
 <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>

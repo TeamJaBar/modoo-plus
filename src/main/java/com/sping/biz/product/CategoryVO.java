@@ -1,4 +1,4 @@
-package product;
+package com.sping.biz.product;
 
 public class CategoryVO {
 	private int cateNum; // 카테고리번호(PK)
