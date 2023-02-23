@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,20 +57,28 @@
 									<div class="card-body">
 										<ul class="nav nav-pills">
 											<li class="nav-item">
-												<a class="nav-link active" href="#">전체 <span
-														class="badge badge-white">3</span></a>
+												<a class="nav-link active" href="#">
+													전체
+													<span class="badge badge-white">${cnt[0] + cnt[1] + cnt[2]}</span>
+												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">모집 중 <span
-														class="badge badge-primary">1</span></a>
+												<a class="nav-link" href="#">
+													모집 중
+													<span class="badge badge-primary">${cnt[1]}</span>
+												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">모집 완료 <span
-														class="badge badge-primary">1</span></a>
+												<a class="nav-link" href="#">
+													모집 완료
+													<span class="badge badge-primary">${cnt[0]}</span>
+												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">지난 모임 <span
-														class="badge badge-primary">1</span></a>
+												<a class="nav-link" href="#">
+													지난 모임
+													<span class="badge badge-primary">${cnt[2]}</span>
+												</a>
 											</li>
 										</ul>
 									</div>
@@ -80,41 +89,18 @@
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h4>All Posts</h4>
+										<h4>글 목록</h4>
 									</div>
 									<div class="card-body">
-										<div class="float-left">
-											<select class="form-control selectric">
-												<option>제목</option>
-												<option>작성자</option>
-												<option>내용</option>
-											</select>
-										</div>
-										<div class="float-right">
-											<form>
-												<div class="input-group">
-													<input type="text" class="form-control" placeholder="검색">
-													<div class="input-group-append">
-														<button class="btn btn-primary"><i
-																class="fas fa-search"></i></button>
-													</div>
-												</div>
-											</form>
-										</div>
-
 										<div class="clearfix mb-3"></div>
 
 										<div class="table-responsive">
 											<table class="table table-striped">
 												<tr>
 													<th width="5%" class="text-center pt-2">
-														<div
-															class="custom-checkbox custom-checkbox-table custom-control">
-															<input type="checkbox" data-checkboxes="mygroup"
-																data-checkbox-role="dad" class="custom-control-input"
-																id="checkbox-all">
-															<label for="checkbox-all"
-																class="custom-control-label">&nbsp;</label>
+														<div class="custom-checkbox custom-checkbox-table custom-control">
+															<input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
+															<label for="checkbox-all" class="custom-control-label">&nbsp;</label>
 														</div>
 													</th>
 													<th width="7%">글번호</th>
@@ -122,87 +108,46 @@
 													<th width="10%">작성자</th>
 													<th width="15%">모임날짜</th>
 													<th width="10%">상태</th>
-													<th width="8%">삭제</th>
+													<th width="8%">실행</th>
 												</tr>
-												<tr>
-													<td style="text-align: center;">
-														<div class="custom-checkbox custom-control">
-															<input type="checkbox" data-checkboxes="mygroup"
-																class="custom-control-input" id="checkbox-1" name="chk">
-															<label for="checkbox-1"
-																class="custom-control-label">&nbsp;</label>
-														</div>
-													</td>
-													<td class="bNum" name="bNum" id="101">
-														101
-													</td>
-													<td class="bTitle" name="bTitle">
-														놀고 싶다!!
-													</td>
-													<td>
-														<div>이성훈</div>
-													</td>
-													<td class="bDate" name="bDate">2023-02-20 12:30</td>
-													<td>
-														<div class="badge badge-primary btn-status">모집 중</div>
-													</td>
-													<td>
-														<a href="#" class="btn btn-primary btn-delete">삭제하기</a>
-													</td>
-												</tr>
-												<tr>
-													<td style="text-align: center;">
-														<div class="custom-checkbox custom-control">
-															<input type="checkbox" data-checkboxes="mygroup"
-																class="custom-control-input" id="checkbox-2" name="chk">
-															<label for="checkbox-2"
-																class="custom-control-label">&nbsp;</label>
-														</div>
-													</td>
-													<td class="bNum" name="bNum">
-														102
-													</td>
-													<td class="bTitle" name="bTitle">
-														3팀 회식
-													</td>
-													<td>
-														<div>김효경</div>
-													</td>
-													<td class="bDate" name="bDate">2023-02-22 18:00</td>
-													<td>
-														<div class="badge badge-warning btn-status">모집 완료</div>
-													</td>
-													<td>
-														<a href="#" class="btn btn-primary btn-delete">삭제하기</a>
-													</td>
-												</tr>
-												<tr>
-													<td style="text-align: center;">
-														<div class="custom-checkbox custom-control">
-															<input type="checkbox" data-checkboxes="mygroup"
-																class="custom-control-input" id="checkbox-3" name="chk">
-															<label for="checkbox-3"
-																class="custom-control-label">&nbsp;</label>
-														</div>
-													</td>
-													<td class="bNum" name="bNum">
-														103
-													</td>
-													<td class="bTitle" name="bTitle">
-														허접들은 가셈 (콩 제공)
-													</td>
-													<td>
-														<div>김시하</div>
-													</td>
-													<td class="bDate" name="bDate">2023-02-18 18:00</td>
-													<td>
-														<div class="badge badge-danger btn-status">지난 모임</div>
-													</td>
-													<td>
-														<a href="#" class="btn btn-primary btn-delete">삭제하기</a>
-													</td>
-												</tr>
-
+												<c:forEach var="board" items="${bDatas}" varStatus="i" begin=1 end=10 step=1>
+													<tr>
+														<c:set var="sysDate">
+															<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm" />
+														</c:set>
+														<td style="text-align: center;">
+															<div class="custom-checkbox custom-control">
+																<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-'${vs.index}'" name="chk">
+																<label for="checkbox-'${vs.index}'" class="custom-control-label">&nbsp;</label>
+															</div>
+														</td>
+														<td class="bNum" name="bNum">${board.bNum}</td>
+														<td class="bTitle" name="bTitle">${board.bTitle}</td>
+														<td>
+															<div>${board.mId}</div>
+														</td>
+														<td class="bDate" name="bDate">${board.bDate}</td>
+														<td>
+															<c:if test="${board.bAction==0}">
+																<div class="badge badge-warning btn-status">모집 완료</div>
+															</c:if>
+															<c:if test="${board.bAction==1}">
+																<div class="badge badge-primary btn-status">모집 중</div>
+															</c:if>
+															<c:if test="${board.bDate < sysDate}">
+																<div class="badge badge-danger btn-status">지난 모임</div>
+															</c:if>
+														</td>
+														<td>
+															<a href="#" class="btn btn-icon btn-primary">
+																<i class="fas fa-check"></i>
+															</a>
+															<a href="#" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="alert('삭제완료되었습니다 :)');">
+																<i class="fas fa-times"></i>
+															</a>
+														</td>
+													</tr>
+												</c:forEach>
 											</table>
 										</div>
 										<div class="float-right">
@@ -232,7 +177,7 @@
 												</ul>
 											</nav>
 										</div>
-										<div class="float-right">
+										<div class="float-left">
 											<button class="btn btn-primary" onclick="del()">선택한 글 삭제하기</button>
 										</div>
 									</div>
