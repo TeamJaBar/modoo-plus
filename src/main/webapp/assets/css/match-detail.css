@@ -1,0 +1,339 @@
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.match-container {
+	padding : 20px 100px 50px 100px;
+}
+
+.match-header {
+	font-family: 'GmarketSansMedium';
+	font-weight:600;
+	font-size: 18px;
+	color: rgba(0, 0, 0, .8);
+	margin-top:15px;
+}
+
+.title {
+	margin-top:3px;
+}
+
+.address {
+	line-height: 1em;
+    font-weight: 400;
+    font-size: 14px;
+    margin-top: 19px;
+}
+
+.btn-address {
+    margin-right:10px;
+  	background-color:#ffffff;
+    border: 1px solid #0188CB;
+    color: #0188CB;
+}
+
+.btn-share {
+    background-color:#0188CB;
+    border-color: #0188CB;
+    color: white;
+    font-family:'GmarketSansMedium'
+}
+
+.btn-custom { 
+    border-radius:50px;
+    display:inline-block;
+	margin-top:15px;
+	font-weight: 600;
+    font-size: 12px;
+    line-height: 24px;
+    padding: 0.3rem 0.8rem;
+    letter-spacing: .5px;
+}
+
+.btn-custom:hover {
+	background-color:#004669;
+    border-color: #004669;
+    color: white;
+    text-decoration:none;
+}
+
+.match-body {
+	margin-top:50px;
+	font-family: 'GmarketSansMedium';
+}
+
+.match-body .nav-tabs .nav-item .nav-link {
+	color: #0188CB;
+}
+
+.match-body .nav-tabs .nav-item .active {
+	color: #000;
+}
+
+.tab-applicant {
+	padding:20px 50px 20px 50px;
+    margin-top: 1rem;
+}
+
+.tab-applicant .text-job {
+	font-size:13px;
+	padding-bottom:10px;
+}
+
+.tab-pane table {
+	width:80%;
+	margin: 0 auto;
+}
+
+.tab-pane table tr td{
+	width:33.3%;
+	height:80px;
+	line-height: 1em;
+    font-size: 17px;
+    font-weight: 700;
+    color: #000;
+    text-align:center;
+}
+
+.tab-pane table tr:first-child td{
+	padding-top:50px;
+	height:30px;
+	line-height: 1em;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+    text-align:center;
+}
+
+.match-content {
+	margin-top:50px;
+	font-size: 15px;
+}
+
+.tab-applicant .media .media-body {
+	margin-left:15px;
+}
+
+#applicant {
+	padding-left:80px;
+	padding-right:80px;
+}
+
+.match-comment {
+    border-top: 1px solid rgba(0,0,0,.2);
+    padding-top:50px;
+    margin-top: 50px;
+}
+
+.match-comment .form-group {
+	display:flex;
+}
+
+.match-comment .form-group .btn-submit {
+	margin-left:20px;
+	background-color:#0188CB;
+    border-color: #0188CB;
+    box-shadow: 0 2px 6px #80bbd9;
+    color:white;
+}
+
+.match-comment .form-group .btn-submit:hover {
+	background-color:#004669 !important;
+    border-color: #004669 !important;
+    color: white;
+    text-decoration:none;
+}
+
+.match-comment .form-group .btn-submit .fas {
+	font-size: 15px;
+}
+
+.comment-title {
+	font-weight: 500;
+    font-size: 16px;
+    margin-bottom:10px;
+    color: #000;
+}
+
+.list-unstyled-border {
+	margin-top:30px;
+}
+
+.list-unstyled-border li {
+    /*border-bottom: 1px solid #ededed !important;*/
+    border-bottom:none !important;
+    padding-top:10px !important;
+    padding-bottom: 10px !important;
+}
+
+.list-unstyled-border li:last-child {
+    border-bottom: none !important;
+}
+
+.comment-head {
+	display:flex;
+	vertical-align : baseline;
+}
+
+.comment-head .text-time {
+	margin-left:10px;
+	margin-top:3.3px;
+}
+
+.fixed-buttons {
+	position : fixed;
+	bottom:5%;
+	right:3%;
+	z-index:1200;
+	/*
+	width:100%;
+	height:50px;
+	background-color:white;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;*/
+}
+
+.fixed-buttons a {
+	/*text-decoration : none;
+	text-align:center;
+	line-height:50px;
+	font-weight: 600;
+    font-size: 15px;
+    color:#0188CB;
+    font-family : 'GmarketSansMedium'; */
+    display:block;
+}
+
+.fixed-bottom {
+	display:flex;
+	position : fixed;
+	margin:0 auto;
+	width:73%;
+	height:50px;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color:white;
+	/*border-top-left-radius: 20px;*/
+	/*border-top-right-radius: 20px;*/
+}
+
+.fixed-bottom a {
+	text-decoration : none;
+	text-align:center;
+	line-height:50px;
+	font-weight: 600;
+    font-size: 15px;
+    color:#0188CB;
+    font-family : 'GmarketSansMedium';
+}
+
+.fixed-bottom a:hover {
+	background-color:#004669;
+    border-color: #004669;
+    color: white;
+    text-decoration:none;
+    box-shadow: none;
+}
+
+.fixed-bottom .correct {
+	width:28%;
+	/*box-shadow: -1px 12px 10px 2px #f2f2f2 inset;*/
+	/*border-top-left-radius: 20px;*/
+	border:0.5px solid #0188CB;
+}
+
+.fixed-bottom .delete {
+	width:28%;
+	/*box-shadow: -1px 12px 10px 2px #f2f2f2 inset;*/
+	border-top:0.5px solid #0188CB;
+}
+
+.fixed-bottom .complete {
+	width:44%;
+	background-color:#0188CB;
+	color:white;
+	/*border-top-right-radius: 20px;*/
+}
+
+.btn-sue {
+	margin-left:15px;
+	font-size:13px;
+	color:#999999;
+	cursor:pointer;
+	background:none;
+	border:none;
+}
+
+.btn-sue:hover{
+	text-decoration: underline;
+	color:#999999;
+	cursor:pointer;
+	background:none;
+	border:none;
+}
+
+.btn-sue:focus{ 	
+   border: none;
+   outline:none;
+}
+
+.radio-container {
+	padding:10px 30px;
+}
+
+.modal-description {
+	padding-left:10px;
+}
+
+.modal-header h5 {
+	margin-top:10px;
+	padding-left:10px;
+	font-family : 'GmarketSansMedium' !important;
+}
+
+.btn-modal {
+	display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color 
+			    .15s ease-in-out,border-color 
+			    .15s ease-in-out,box-shadow 
+			    .15s ease-in-out;
+	font-weight:600;
+	font-size:12px;
+	line-height:24px;
+	padding: 0.3rem 0.8rem;
+	letter-spacing: .5px;
+    background-color:#0188CB;
+    border-color: #0188CB;
+    color: white;
+    font-family:'GmarketSansMedium'
+}
+
+.btn-modal:hover {
+	background-color:#004669 !important;
+    border-color: #004669 !important;
+    color: white;
+    text-decoration:none;
+}
+
+.btn-modal:focus{ 	
+   border: none;
+   outline:none;
+}
+/*민수 수정*/
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
