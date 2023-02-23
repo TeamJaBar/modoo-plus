@@ -18,8 +18,9 @@
               	 alert창(로그인이 필요한 페이지 입니다) 띄우고 로그인 페이지로 이동 -->
               	 <a class="dropdown-item" href="mypage">내가 작성한 글</a>
              	 <a class="dropdown-item" href="mymatch">내가 매칭한 목록</a>
+             	 <!-- 여기까지 -->
              	<div class="dropdown-divider"></div>
-               	<a class="dropdown-item" href="#">모두의 보드</a>
+               	<a class="dropdown-item" href="main.do">모두의 보드</a>
              </div>
         </div>
         <!-- 검색창 -->
@@ -99,9 +100,9 @@
           <!-- 로그인 아이콘 -->
           <li class="dropdown"><a href="mypage.jsp" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-              <div class="d-sm-none d-lg-inline-block">관리자 ${member.mid}</div></a>
+              <div class="d-sm-none d-lg-inline-block">관리자</div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-title">안녕하세요, 관리자${member.membername}님</div>
+              <div class="dropdown-title">안녕하세요, 관리자님</div>
               <a href="mypage.do" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> 마이 페이지
               </a>
@@ -116,17 +117,22 @@
           
           <!--<c:choose>
           <c:when test="${empty member}">
-          	<button type="button" class="btn btn-header" onclick="location.href='main.html'">로그인</button>
+          	<button type="button" class="btn btn-header" onclick="location.href='login.jsp'">로그인</button>
           </c:when>
           <c:otherwise>
           <li class="dropdown"><a href="mypage.do" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="../../assets/img/avatar/${member.mImg}" class="rounded-circle mr-1">
               <div class="d-sm-none d-lg-inline-block">${member.mid}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-title">안녕하세요, ${member.membername}님</div>
               <a href="mypage.do" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> 마이 페이지
               </a>
+              <c:if test="${member.mAthu == 'admin'}">
+               <a href="selectAdBoard.do" class="dropdown-item has-icon">
+                 <img alt="image" src="../../assets/img/favicon.png" class="rounded-circle mr-1"> 관리자 페이지
+              </a>
+              </c:if>
               <div class="dropdown-divider"></div>
               <a href="logout.do" class="dropdown-item has-icon text-danger">
                 <i class="fas fa-sign-out-alt"></i> 로그아웃
