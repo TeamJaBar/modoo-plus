@@ -44,6 +44,39 @@
           <div class="section-header">
             <h1>신고 상세 페이지</h1>
           </div>
+          <!-- jstl 연결한 바디 -->
+          <div class="section-body">
+            <h2 class="section-title">${sue.bTitle}</h2>
+            <div class="card">
+              <div class="card-header">
+                <span class="badge badge-info">${sue.score}</span><h4>${sue.mId}</h4>
+              </div>
+              <div class="card-body">
+                <p>${sue.bContent}</p>
+              </div>
+              <div class="card-body">
+                <p>신고 사유 : ${sue.scName}</p>
+              </div>
+              <div class="card-footer bg-whitesmoke">
+                게시 : ${sue.bwDate} <div class="bullet"></div> 신고 : ${sue.sDate}
+                <button class="btn btn-danger" style="float:right;" data-confirm="정말 처리하시겠습니까?" data-confirm-yes="alert('처리 되었습니다. :)');">신고처리</button>
+				<div class="btn-group mb-2" style="float:right;">								<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
+               <button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      점수 강등
+               </button>
+                  <div class="dropdown-menu">
+                     <a class="dropdown-item" href="#">-10</a>
+                     <a class="dropdown-item" href="#">-100</a>
+                     <div class="dropdown-divider"></div>
+                     <a class="dropdown-item" href="#">계정 1주일 정지</a>
+                     <a class="dropdown-item" href="#">계정 1개월 정지</a>
+                     <a class="dropdown-item" href="#">계정 영구 정지</a>
+                   </div>
+           		 </div>
+              </div>
+            </div>
+          </div>
+          <!-- jstl연결 바디 끝 -->
 
           <div class="section-body">
             <h2 class="section-title">언제까지 어깨춤을 추게 할거야~</h2>
@@ -62,7 +95,7 @@
                 게시 : 2023-2-15 <div class="bullet"></div> 신고 : 2023-2-16
                 <button class="btn btn-danger" style="float:right;" data-confirm="정말 삭제하시겠습니까?" data-confirm-yes="alert('삭제되었습니다. :)');">글 삭제</button>
 				<div class="btn-group mb-2" style="float:right;">
-               <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       점수 강등
                </button>
                   <div class="dropdown-menu">
@@ -79,14 +112,6 @@
           </div>
         </section>
       </div>
-      <footer class="main-footer">
-        <div class="footer-left">
-          Copyright &copy; 2023 <div class="bullet"></div> Design By <a href="https://nauval.in/">Team jabar</a>
-        </div>
-        <div class="footer-right">
-          
-        </div>
-      </footer>
     </div>
   </div>
   <style>
@@ -103,12 +128,9 @@
    font-weight: normal;
    font-style: normal;
 }
-.badge.badge-info{
-	margin-right:10px;
-}
-.btn-group>.btn:first-child{
-	margin-right:10px;
-	height: 36px;
+#sue-btn {
+margin-right:10px;
+height: 36px;
 }
 body{
 	font-family: 'GmarketSansMedium';
