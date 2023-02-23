@@ -1,23 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
-	name="viewport">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
 <link rel="icon" href="../../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 매칭 상세페이지</title>
 
 <!-- General CSS Files -->
-<link rel="stylesheet"
-	href="../../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="../../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
 <link rel="stylesheet" href="../../assets/css/match-detail.css">
 
 <!-- CSS Libraries -->
@@ -26,8 +22,7 @@
 <link rel="stylesheet" href="../../assets/css/style.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <!-- Start GA -->
-<script async
-	src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -38,13 +33,10 @@
 <!-- /END GA -->
 
 <!-- Jquery CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 <!--네이버 MAP API -->
-<script type="text/javascript"
-	src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7fsod5t8fd"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7fsod5t8fd"></script>
 
 
 <!-- 카카오 API -->
@@ -84,28 +76,27 @@
 									</div>
 									<!-- 주소 -->
 									<div class="address">경기도 고양시 덕양구 수역이길 42</div>
-									<a href="#" class="btn-custom btn-address"><i
-										class="far fa-copy"></i> 주소복사하기</a> <a href="#" id="btn-share"
-										onclick="fn_share('kakaotalk');return false;"
-										class="btn-custom btn-share"><i class="fas fa-share-alt"></i>
-										공유하기</a>
+									<a href="#" class="btn-custom btn-address">
+										<i class="far fa-copy"></i> 주소복사하기
+									</a>
+									<a href="#" id="btn-share" onclick="fn_share('kakaotalk');return false;" class="btn-custom btn-share">
+										<i class="fas fa-share-alt"></i> 공유하기
+									</a>
 								</div>
 								<div class="match-body">
 
 									<!-- 탭 -->
 									<ul class="nav nav-tabs" id="myTab2" role="tablist">
-										<li class="nav-item"><a class="nav-link active show"
-											id="info-tab2" data-toggle="tab" href="#info" role="tab"
-											aria-controls="info" aria-selected="true">정보</a></li>
-										<li class="nav-item"><a class="nav-link"
-											id="applicant-tab2" data-toggle="tab" href="#applicant"
-											role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
+										<li class="nav-item">
+											<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
 										</li>
 									</ul>
 									<div class="tab-content tab-bordered">
 										<!--매치 정보-->
-										<div class="tab-pane fade active show" id="info"
-											role="tabpanel" aria-labelledby="info-tab2">
+										<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
 											<table>
 												<tr>
 													<td>인원</td>
@@ -120,16 +111,12 @@
 											</table>
 										</div>
 										<!--참가 신청자 정보-->
-										<div class="tab-pane fade" id="applicant" role="tabpanel"
-											aria-labelledby="applicant-tab2">
-											<ul
-												class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+										<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
+											<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
 												<!--방장 - 글 작성자-->
 												<li class="media">
 													<div class="avatar-item">
-														<img alt="image"
-															src="../../assets/img/avatar/avatar-1.png" width="50"
-															class="mr-3 img-fluid">
+														<img alt="image" src="../../assets/img/avatar/avatar-1.png" width="50" class="mr-3 img-fluid">
 														<div class="avatar-badge">
 															<i class="fas fa-crown" style="color: #ffdd00"></i>
 														</div>
@@ -141,15 +128,13 @@
 													<div class="media-progressbar">
 														<div class="progress-text">30점</div>
 														<div class="progress" data-height="6" style="height: 6px;">
-															<div class="progress-bar bg-primary" data-width="6%"
-																style="width: 6%;"></div>
+															<div class="progress-bar bg-primary" data-width="6%" style="width: 6%;"></div>
 														</div>
 													</div>
 												</li>
 												<!--일반 참여자-->
-												<li class="media"><img alt="image"
-													class="mr-3 rounded-circle" width="50"
-													src="../../assets/img/avatar/avatar-5.png">
+												<li class="media">
+													<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-5.png">
 													<div class="media-body">
 														<div class="media-title">윤석환</div>
 														<div class="text-job text-muted">고수</div>
@@ -157,16 +142,16 @@
 													<div class="media-progressbar">
 														<div class="progress-text">120점</div>
 														<div class="progress" data-height="6" style="height: 6px;">
-															<div class="progress-bar bg-primary" data-width="24%"
-																style="width: 24%;"></div>
+															<div class="progress-bar bg-primary" data-width="24%" style="width: 24%;"></div>
 														</div>
-													</div> <!--퇴출하기 버튼은 글 작성자에게만 보임-->
+													</div>
+													<!--퇴출하기 버튼은 글 작성자에게만 보임-->
 													<div class="media-cta">
 														<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-													</div></li>
-												<li class="media"><img alt="image"
-													class="mr-3 rounded-circle" width="50"
-													src="../../assets/img/avatar/avatar-4.png">
+													</div>
+												</li>
+												<li class="media">
+													<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-4.png">
 													<div class="media-body">
 														<div class="media-title">박가연</div>
 														<div class="text-job text-muted">초고수</div>
@@ -174,63 +159,76 @@
 													<div class="media-progressbar">
 														<div class="progress-text">450점</div>
 														<div class="progress" data-height="6" style="height: 6px;">
-															<div class="progress-bar bg-primary" data-width="90%"
-																style="width: 90%;"></div>
+															<div class="progress-bar bg-primary" data-width="90%" style="width: 90%;"></div>
 														</div>
 													</div>
 													<div class="media-cta">
 														<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-													</div></li>
+													</div>
+												</li>
 											</ul>
 										</div>
 									</div>
 									<!-- 본문 내용 -->
 									<div class="match-content">
-										01064816085<br>편하게 연락주세요
+										01064816085
+										<br>
+										편하게 연락주세요
 									</div>
 									<!-- 댓글 -->
 									<div class="match-comment">
 										<form action="#" method="post">
 											<div class="comment-title">댓글 (2개)</div>
 											<div class="form-group">
-												<textarea class="form-control"
-													placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150"
-													style="height: 87px;"></textarea>
+												<textarea class="form-control" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;"></textarea>
 												<button type="submit" class="btn btn-lg btn-submit">
 													<i class="fas fa-comments"></i>
 												</button>
 											</div>
 										</form>
 
-										<ul
-											class="list-unstyled list-unstyled-border list-unstyled-noborder">
-											<!-- 현재 로그인한 사람이 작성한 댓글 -->
-											<li class="media">
-												<div class="media-body">
-													<div class="comment-head">
-														<div class="media-title mb-1">조수빈</div>
-														<div class="text-time">2023-02-19</div>
-													</div>
-													<div class="media-description text-muted">안녕하세요. 진짜
-														빡고수만 받으시나요?</div>
-													<div class="media-links">
-														<a href="#">수정</a>
-														<div class="bullet"></div>
-														<a href="#" class="text-danger">삭제</a>
-													</div>
-												</div>
-											</li>
-											<!-- 일반 댓글 -->
-											<li class="media">
-												<div class="media-body">
-													<div class="comment-head">
-														<div class="media-title mb-1">서석지</div>
-														<div class="text-time">수정됨</div>
-													</div>
-													<div class="media-description text-muted">안녕하세요, 혹시
-														정확하게 몇시까지 하시는지 알 수 있을까요?</div>
-												</div>
-											</li>
+										<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
+											<c:forEach var="com" items="${cDatas}">
+												<c:if test="${member.mNum == com.mNum}">
+													<!-- 현재 로그인한 사람이 작성한 댓글 -->
+													<li class="media">
+														<div class="media-body">
+															<div class="comment-head">
+																<div class="media-title mb-1">${com.mId}</div>
+																<c:if test="${com.ccDate == null}">
+																	<div class="text-time">${com.cwDate}</div>
+																</c:if>
+																<c:if test="${com.ccDate != null}">
+																	<div class="text-time">수정됨</div>
+																</c:if>
+															</div>
+															<div class="media-description text-muted">${com.cContent}</div>
+															<div class="media-links">
+																<a href="#">수정</a>
+																<div class="bullet"></div>
+																<a href="#" class="text-danger">삭제</a>
+															</div>
+														</div>
+													</li>
+												</c:if>
+												<c:if test="${member.mNum != com.mNum}">
+													<!-- 일반 댓글 -->
+													<li class="media">
+														<div class="media-body">
+															<div class="comment-head">
+																<div class="media-title mb-1">${com.mId}</div>
+																<c:if test="${com.ccDate == null}">
+																	<div class="text-time">${com.cwDate}</div>
+																</c:if>
+																<c:if test="${com.ccDate != null}">
+																	<div class="text-time">수정됨</div>
+																</c:if>
+															</div>
+															<div class="media-description text-muted">${com.cContent}</div>
+														</div>
+													</li>
+												</c:if>
+											</c:forEach>
 										</ul>
 									</div>
 								</div>
@@ -238,8 +236,15 @@
 						</div>
 						<div class="fixed-bottom">
 
-							<a class="correct" href="#">수정</a> <a class="delete" href="#">삭제</a>
-							<a class="complete" href="#">매치 완료/신청하기</a>
+							<c:if test="${member.mNum == bDatas.mNum}">
+								<a class="correct" href="#">수정</a>
+								<a class="delete" href="#">삭제</a>
+								<a class="complete" href="#">매치 완료/신청하기</a>
+							</c:if>
+							<c:if test="${member.mNum == bDatas.mNum}">
+								<a class="complete" href="#">매치 완료/신청하기</a>
+							</c:if>
+							
 							<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
@@ -265,8 +270,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">Modal title</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
@@ -274,10 +278,8 @@
 							<p>Modal body text goes here.</p>
 						</div>
 						<div class="modal-footer bg-whitesmoke br">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save
-								changes</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
 						</div>
 					</div>
 				</div>
@@ -288,30 +290,27 @@
 			<div class="footer-left">
 				Copyright &copy; 2018
 				<div class="bullet"></div>
-				Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+				Design By
+				<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
 			</div>
 			<div class="footer-right"></div>
 		</footer>
 	</div>
 
-	<form class="modal-part" id="modal-sue-part"
-		style="font-family: 'GmarketSansMedium'">
+	<form class="modal-part" id="modal-sue-part" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">신고 사유를 선택해주세요.</p>
 		<div class="radio-container">
 			<div class="custom-control custom-radio">
-				<input type="radio" value="1" id="sc1" name="scnum"
-					class="custom-control-input"> <label
-					class="custom-control-label" for="sc1">욕설</label>
+				<input type="radio" value="1" id="sc1" name="scnum" class="custom-control-input">
+				<label class="custom-control-label" for="sc1">욕설</label>
 			</div>
 			<div class="custom-control custom-radio">
-				<input type="radio" value="2" id="sc2" name="scnum"
-					class="custom-control-input"> <label
-					class="custom-control-label" for="sc2">혐오발언</label>
+				<input type="radio" value="2" id="sc2" name="scnum" class="custom-control-input">
+				<label class="custom-control-label" for="sc2">혐오발언</label>
 			</div>
 			<div class="custom-control custom-radio">
-				<input type="radio" value="3" id="sc3" name="scnum"
-					class="custom-control-input"> <label
-					class="custom-control-label" for="sc3">부적절한 ID</label>
+				<input type="radio" value="3" id="sc3" name="scnum" class="custom-control-input">
+				<label class="custom-control-label" for="sc3">부적절한 ID</label>
 			</div>
 
 		</div>
