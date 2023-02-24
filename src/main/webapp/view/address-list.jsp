@@ -657,7 +657,7 @@ address, caption, cite, code, dfn, em, var {
 		let aNum = $(this).parent().parent().prop("id");
 		$(this).on('click', function(e) {
 			e.preventDefault();
-			location.href='addrsSelect.do?type=update&aNum='+aNum;
+			location.href='addrsSelectOne.do?type=update&aNum='+aNum;
 		});
 	});
 	
