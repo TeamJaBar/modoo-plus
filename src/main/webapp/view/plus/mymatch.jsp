@@ -48,7 +48,7 @@
 					</div>
 
 					<div class="section-body">
-						<h2 class="">매칭 목록</h2>
+						<h2 class="section-title">매칭 목록</h2>
 
 
 						<div class="row">
