@@ -10,6 +10,7 @@ public class AddressVO {
 	private String detailAddr; // 상세주소
 	private String tel; // 전화번호
 	private String isDefault; // 기본배송지
+	private String type; // JAVA에서만 저장용으로 사용하는 데이터 : 업데이트인지 선택인지
 
 	public int getaNum() {
 		return aNum;
@@ -81,6 +82,14 @@ public class AddressVO {
 
 	public void setIsDefault(String isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
