@@ -115,7 +115,7 @@
           
           <!-- 데이터 연결되면 주석 해제 -->
           
-          <!--<c:choose>
+          <c:choose>
           <c:when test="${empty member}">
           	<button type="button" class="btn btn-header" onclick="location.href='login.jsp'">로그인</button>
           </c:when>
@@ -124,7 +124,7 @@
             <img alt="image" src="../../assets/img/avatar/${member.mImg}" class="rounded-circle mr-1">
               <div class="d-sm-none d-lg-inline-block">${member.mid}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-title">안녕하세요, ${member.membername}님</div>
+              <div class="dropdown-title">안녕하세요, ${member.mName}님</div>
               <a href="mypage.do" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> 마이 페이지
               </a>
@@ -140,7 +140,7 @@
             </div>
           </li>
            </c:otherwise>
-          </c:choose> -->
+          </c:choose> 
           
           
         </ul>

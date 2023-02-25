@@ -947,17 +947,17 @@ label[for="defaultFl"] {
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-lg-9 p-b-80 p-r-50">
-				<c:if test="${type!='update'}">
+				<c:if test="${address.type!='update'}">
 					<form action="addrsInsert.do" method="post" onsubmit="return manageSubmit();">
 				</c:if>
-				<c:if test="${type=='update'}">
+				<c:if test="${address.type=='update'}">
 					<form action="addrsUpdate.do" method="post" onsubmit="return manageSubmit();">
 				</c:if>
 				<div class="member-title">
-					<c:if test="${type!='update'}">
+					<c:if test="${address.type!='update'}">
 						<h2>새로운 배송지 추가</h2>
 					</c:if>
-					<c:if test="${type=='update'}">
+					<c:if test="${address.type=='update'}">
 						<h2>배송지 수정</h2>
 					</c:if>
 				</div>
@@ -1028,10 +1028,10 @@ label[for="defaultFl"] {
 						</div>
 						<br>
 						<div class="form_element" style="display: flex">
-							<c:if test="${type=='update' and address.isDefault=='1'}">
+							<c:if test="${address.type=='update' and address.isDefault=='1'}">
 								<input type="checkbox" id="defaultFl" name="defaultFl" class="checkbox" checked>
 							</c:if>
-							<c:if test="${(type=='update' and address.isDefault=='0') or type!='update'}">
+							<c:if test="${(address.type=='update' and address.isDefault=='0') or type!='update'}">
 								<input type="checkbox" id="defaultFl" name="defaultFl" class="checkbox">
 							</c:if>
 							<label for="defaultFl">
@@ -1041,7 +1041,7 @@ label[for="defaultFl"] {
 					</div>
 					<!-- //scroll_box -->
 					<div class="btn_center_box">
-						<button type="button" class="btn-member-prev" onclick="location.href='addrsSelect.do'">
+						<button type="button" class="btn-member-prev" onclick="location.href='addrsSelectAll.do'">
 							<strong>취소</strong>
 						</button>
 						<button type="submit" class="btn-member-next">
