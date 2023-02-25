@@ -2,6 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+
+
+<!-- member : 로그인 회원정보, bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,34 +108,50 @@
 													<td>상태</td>
 												</tr>
 												<tr>
-													<td>6명</td>
-													<td>초고수</td>
-													<td>모집중</td>
+													<td>${bDatas.bCnt}</td>
+													<td>${bDatas.bRate}</td>
+													<td>
+														<c:if test="${bDatas==0}">모집완료</c:if>
+														<c:if test="${bDatas==1}">모집 중</c:if>
+														<c:if test="${bDatas==2}">지난 모임</c:if>
+													</td>
 												</tr>
 											</table>
 										</div>
 										<!--참가 신청자 정보-->
 										<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
 											<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
-												<!--방장 - 글 작성자-->
-												<li class="media">
-													<div class="avatar-item">
-														<img alt="image" src="../../assets/img/avatar/avatar-1.png" width="50" class="mr-3 img-fluid">
-														<div class="avatar-badge">
-															<i class="fas fa-crown" style="color: #ffdd00"></i>
-														</div>
-													</div>
-													<div class="media-body">
-														<div class="media-title">김시하</div>
-														<div class="text-job text-muted">초보</div>
-													</div>
-													<div class="media-progressbar">
-														<div class="progress-text">30점</div>
-														<div class="progress" data-height="6" style="height: 6px;">
-															<div class="progress-bar bg-primary" data-width="6%" style="width: 6%;"></div>
-														</div>
-													</div>
-												</li>
+												<c:forEach var="entry" items="${aDatas}">
+													<c:if test="${bDatas.mNum == entry.mNum}">
+														<!--방장 - 글 작성자-->
+														<li class="media">
+															<div class="avatar-item">
+																<img alt="image" src="../../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
+																<div class="avatar-badge">
+																	<i class="fas fa-crown" style="color: #ffdd00"></i>
+																</div>
+															</div>
+															<div class="media-body">
+																<div class="media-title">${entry.mId}</div>
+																<div class="text-job text-muted">
+																	<modoo:score score="${entry.score}" />
+																</div>
+															</div>
+															<div class="media-progressbar">
+																<div class="progress-text">${entry.score}점</div>
+																<div class="progress" data-height="6" style="height: 6px;">
+																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: 6%;"></div>
+																</div>
+															</div>
+															<div class="media-cta">
+																<div class="btn btn-outline-info">방개설자</div>
+															</div>
+														</li>
+													</c:if>
+													<c:if test="${bDatas.mNum != entry.mNum}">
+
+													</c:if>
+												</c:forEach>
 												<!--일반 참여자-->
 												<li class="media">
 													<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-5.png">
@@ -170,15 +190,11 @@
 										</div>
 									</div>
 									<!-- 본문 내용 -->
-									<div class="match-content">
-										01064816085
-										<br>
-										편하게 연락주세요
-									</div>
+									<div class="match-content">${bDatas.bContent}</div>
 									<!-- 댓글 -->
 									<div class="match-comment">
 										<form action="#" method="post">
-											<div class="comment-title">댓글 (2개)</div>
+											<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
 											<div class="form-group">
 												<textarea class="form-control" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;"></textarea>
 												<button type="submit" class="btn btn-lg btn-submit">
@@ -235,16 +251,30 @@
 							</div>
 						</div>
 						<div class="fixed-bottom">
+							<c:if test="${bDatas.bAction != 3}">
+								<c:if test="${member.mNum == bDatas.mNum}">
+									<a class="correct" href="#">수정</a>
+									<a class="delete" href="#">삭제</a>
+									<c:if test="${bDatas.bAction == 1}">
+										<a class="complete" href="#">매치 완료하기</a>
+									</c:if>
+									<c:if test="${bDatas.bAction == 0}">
+										<a class="complete" href="#">매치 완료 취소하기</a>
+									</c:if>
+								</c:if>
+								<c:if test="${member.mNum != bDatas.mNum}">
+									<c:if test="${member.mNum == aDatas.mNum}">
+										<a class="complete" href="#" style="width: 100%">매치 신청하기</a>
+									</c:if>
+									<c:if test="${member.mNum != aDatas.mNum}">
+										<a class="complete" href="#" style="width: 100%">매치 신청 취소하기</a>
+									</c:if>
+								</c:if>
+							</c:if>
+							<c:if test="${member.mNum == 'admin'}">
+								<a class="delete" href="#" style="width: 100%">삭제하기</a>
+							</c:if>
 
-							<c:if test="${member.mNum == bDatas.mNum}">
-								<a class="correct" href="#">수정</a>
-								<a class="delete" href="#">삭제</a>
-								<a class="complete" href="#">매치 완료/신청하기</a>
-							</c:if>
-							<c:if test="${member.mNum == bDatas.mNum}">
-								<a class="complete" href="#">매치 완료/신청하기</a>
-							</c:if>
-							
 							<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
