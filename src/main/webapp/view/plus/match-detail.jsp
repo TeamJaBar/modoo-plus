@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -11,18 +10,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
-	name="viewport">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
 <link rel="icon" href="../../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 매칭 상세페이지</title>
 
 <!-- General CSS Files -->
-<link rel="stylesheet"
-	href="../../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="../../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
 <link rel="stylesheet" href="../../assets/css/match-detail.css">
 
 <!-- CSS Libraries -->
@@ -31,8 +26,7 @@
 <link rel="stylesheet" href="../../assets/css/style.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <!-- Start GA -->
-<script async
-	src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -43,13 +37,10 @@
 <!-- /END GA -->
 
 <!-- Jquery CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 <!--네이버 MAP API -->
-<script type="text/javascript"
-	src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7fsod5t8fd"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7fsod5t8fd"></script>
 
 
 <!-- 카카오 API -->
@@ -81,8 +72,7 @@
 										<div style="display: flex">
 											<!-- 날짜 -->
 											<div class="date">
-												<fmt:formatDate value="${bDatas.bDate}"
-													pattern="yy.MM.dd. (E) HH:mm" />
+												<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
 											</div>
 											<c:if test="${bStatus == 0}">
 												<button class="btn-sue" id="modal-sue" data-toggle="modal">
@@ -99,31 +89,27 @@
 									</div>
 									<!-- 주소 -->
 									<div class="address">${bDatas.bAddress}</div>
-									<a href="#" class="btn-custom btn-address"
-										onclick="clip(); return false;"> <i class="far fa-copy"></i>
-										주소복사하기
-									</a> <a href="#" id="btn-share"
-										onclick="fn_share('kakaotalk');return false;"
-										class="btn-custom btn-share"> <i class="fas fa-share-alt"></i>
-										공유하기
+									<a href="#" class="btn-custom btn-address" onclick="clip(); return false;">
+										<i class="far fa-copy"></i> 주소복사하기
+									</a>
+									<a href="#" id="btn-share" onclick="fn_share('kakaotalk');return false;" class="btn-custom btn-share">
+										<i class="fas fa-share-alt"></i> 공유하기
 									</a>
 								</div>
 								<div class="match-body">
 
 									<!-- 탭 -->
 									<ul class="nav nav-tabs" id="myTab2" role="tablist">
-										<li class="nav-item"><a class="nav-link active show"
-											id="info-tab2" data-toggle="tab" href="#info" role="tab"
-											aria-controls="info" aria-selected="true">정보</a></li>
-										<li class="nav-item"><a class="nav-link"
-											id="applicant-tab2" data-toggle="tab" href="#applicant"
-											role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
+										<li class="nav-item">
+											<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
 										</li>
 									</ul>
 									<div class="tab-content tab-bordered">
 										<!--매치 정보-->
-										<div class="tab-pane fade active show" id="info"
-											role="tabpanel" aria-labelledby="info-tab2">
+										<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
 											<table>
 												<tr>
 													<td>인원</td>
@@ -133,25 +119,23 @@
 												<tr>
 													<td>${bDatas.bCnt}</td>
 													<td>${bDatas.bRate}</td>
-													<td><c:if test="${bDatas==0}">모집완료</c:if> <c:if
-															test="${bDatas==1}">모집 중</c:if> <c:if test="${bDatas==2}">지난 모임</c:if>
+													<td>
+														<c:if test="${bDatas.bAction==0}">모집완료</c:if>
+														<c:if test="${bDatas.bAction==1}">모집 중</c:if>
+														<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
 													</td>
 												</tr>
 											</table>
 										</div>
 										<!--참가 신청자 정보-->
-										<div class="tab-pane fade" id="applicant" role="tabpanel"
-											aria-labelledby="applicant-tab2">
-											<ul id="a_box"
-												class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+										<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
+											<ul id="a_box" class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
 												<c:forEach var="entry" items="${aDatas}">
 													<c:if test="${bDatas.mNum == entry.mNum}">
 														<!--방장 - 글 작성자-->
 														<li class="media">
 															<div class="avatar-item">
-																<img alt="image"
-																	src="../../assets/img/avatar/${entry.mImg}" width="50"
-																	class="mr-3 img-fluid">
+																<img alt="image" src="../../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
 																<div class="avatar-badge">
 																	<i class="fas fa-crown" style="color: #ffdd00"></i>
 																</div>
@@ -164,11 +148,8 @@
 															</div>
 															<div class="media-progressbar">
 																<div class="progress-text">${entry.score}점</div>
-																<div class="progress" data-height="6"
-																	style="height: 6px;">
-																	<div class="progress-bar bg-primary"
-																		data-width="<modoo:exp score="${entry.score}" />%"
-																		style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																<div class="progress" data-height="6" style="height: 6px;">
+																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
 																</div>
 															</div>
 															<div class="media-cta">
@@ -179,9 +160,7 @@
 													<c:if test="${bDatas.mNum != entry.mNum}">
 														<!--일반 참여자-->
 														<li class="media" id="${entry.aNum}">
-															<img alt="image"
-															class="mr-3 rounded-circle" width="50"
-															src="../../assets/img/avatar/${entry.mImg}">
+															<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${entry.mImg}">
 															<div class="media-body">
 																<div class="media-title">${entry.mId}</div>
 																<div class="text-job text-muted">
@@ -190,24 +169,22 @@
 															</div>
 															<div class="media-progressbar">
 																<div class="progress-text">${entry.score}점</div>
-																<div class="progress" data-height="6"
-																	style="height: 6px;">
-																	<div class="progress-bar bg-primary"
-																		data-width="<modoo:exp score="${entry.score}" />%"
-																		style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																<div class="progress" data-height="6" style="height: 6px;">
+																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
 																</div>
-															</div> <!--퇴출하기 버튼은 글 작성자에게만 보임--> 
-															<c:if
-																test="${bDatas.mNum == member.mNum}">
+															</div>
+															<!--퇴출하기 버튼은 글 작성자에게만 보임-->
+															<c:if test="${bDatas.mNum == member.mNum}">
 																<div class="media-cta">
-																	<button class="btn btn-outline-primary"
-																		id="kickUser">퇴출하기</button>
+																	<button class="btn btn-outline-primary" id="kickUser">퇴출하기</button>
 																</div>
-															</c:if> <c:if test="${bDatas.mNum != member.mNum}">
+															</c:if>
+															<c:if test="${bDatas.mNum != member.mNum}">
 																<div class="media-cta">
 																	<div class="btn btn-outline-primary">방참가자</div>
 																</div>
-															</c:if></li>
+															</c:if>
+														</li>
 													</c:if>
 												</c:forEach>
 											</ul>
@@ -220,20 +197,16 @@
 										<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
 										<form action="insertComment.do" method="post">
 											<div class="form-group">
-												<input type="hidden" name="bNum" id="bNum"
-													value="${bDatas.bNum}" /> <input type="hidden" name="mNum"
-													id="mNum" value="${member.mNum}" />
-												<textarea class="form-control" name="cContent" id="cContent"
-													placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150"
-													style="height: 87px;"></textarea>
+												<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
+												<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
+												<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;"></textarea>
 												<button type="submit" class="btn btn-lg btn-submit">
 													<i class="fas fa-comments"></i>
 												</button>
 											</div>
 										</form>
 
-										<ul id="c_box"
-											class="list-unstyled list-unstyled-border list-unstyled-noborder">
+										<ul id="c_box" class="list-unstyled list-unstyled-border list-unstyled-noborder">
 											<c:forEach var="com" items="${cDatas}">
 												<!-- 현재 로그인한 사람이 작성한 댓글 -->
 												<c:if test="${member.mNum == com.mNum}">
@@ -250,19 +223,14 @@
 															</div>
 															<div class="media-description text-muted">${com.cContent}</div>
 															<div class="media-links">
-																<a data-toggle="collapse" href="#collapseExample"
-																	role="button" aria-expanded="false"
-																	aria-controls="collapseExample">수정</a>
+																<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																<div class="bullet"></div>
 																<button class="text-danger">삭제</button>
 																<div class="collapse" id="collapseExample">
 																	<form action="updateComment.do" method="post">
 																		<div class="form-group">
-																			<input type="hidden" name="cNum" id="cNum"
-																				value="${com.cNum}" />
-																			<textarea class="form-control" name="cContent"
-																				id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)"
-																				data-height="150" style="height: 87px;">${com.cContent}</textarea>
+																			<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
+																			<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;">${com.cContent}</textarea>
 																			<button type="submit" class="btn btn-lg btn-submit">
 																				<i class="fas fa-comments"></i>
 																			</button>
@@ -298,8 +266,7 @@
 						</div>
 						<!-- 하단 바 -->
 						<div class="fixed-bottom">
-							<modoo:bottomBar bDatas="${bDatas}" member="${member}"
-								aDatas="${aDatas}" />
+							<modoo:bottomBar bDatas="${bDatas}" member="${member}" aDatas="${aDatas}" />
 							<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
@@ -324,18 +291,15 @@
 		</div>
 	</div>
 
-	<form class="modal-part" id="modal-sue-part" action="insertSue.do"
-		method="post" style="font-family: 'GmarketSansMedium'">
+	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">신고 사유 선택해주세요.</p>
 		<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
 		<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
 		<div class="radio-container">
-			<c:forEach items="${sDatas}" var="cate" varStatus="i" begin=1
-				end="${fn:length(sDatas)}" step=1>
+			<c:forEach items="${sDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(sDatas)}" step=1>
 				<div class="custom-control custom-radio">
-					<input type="radio" value="${cate.scNum}" id="sc${i.index}"
-						name="scNum" class="custom-control-input"> <label
-						class="custom-control-label" for="sc${i.index}">${cate.scName}</label>
+					<input type="radio" value="${cate.scNum}" id="sc${i.index}" name="scNum" class="custom-control-input">
+					<label class="custom-control-label" for="sc${i.index}">${cate.scName}</label>
 				</div>
 			</c:forEach>
 		</div>
