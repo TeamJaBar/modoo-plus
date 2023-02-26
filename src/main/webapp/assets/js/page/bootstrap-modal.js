@@ -96,3 +96,39 @@ $('.oh-my-modal').fireModal({
   title: 'My Modal',
   body: 'This is cool plugin!'
 });
+
+
+$("#modal-sue").fireModal({
+  title:'신고하기',
+  body: $("#modal-sue-part"),
+  center: true,
+  footerClass: 'bg-whitesmoke',
+  autoFocus: false,
+  onFormSubmit: function(modal, e, form) {
+    // Form Data
+    let form_data = $(e.target).serialize();
+    console.log(form_data)
+
+    // DO AJAX HERE
+    let fake_ajax = setTimeout(function() {
+      form.stopProgress();
+      modal.find('.modal-body').prepend('<div class="alert alert-info">신고하기를 실패하였습니다. 관리자에게 문의하세요.</div>')
+
+      clearInterval(fake_ajax);
+    }, 1500);
+
+    e.preventDefault();
+  },
+  shown: function(modal, form) {
+    console.log(form)
+  },
+  buttons: [
+    {
+      text: '신고하기',
+      submit: true,
+      class: 'btn-modal btn-shadow',
+      handler: function(modal) {
+      }
+    }
+  ]
+});

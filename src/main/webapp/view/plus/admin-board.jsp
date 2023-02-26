@@ -5,7 +5,7 @@
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- cnt[] : 각 요소(모집완료[0], 모집중[1], 지난게임[2])의 갯수 배열 -->
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
@@ -117,8 +117,8 @@
 														</c:set>
 														<td style="text-align: center;">
 															<div class="custom-checkbox custom-control">
-																<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-'${vs.index}'" name="chk">
-																<label for="checkbox-'${vs.index}'" class="custom-control-label">&nbsp;</label>
+																<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-${i.index}" name="chk">
+																<label for="checkbox-${i.index}" class="custom-control-label">&nbsp;</label>
 															</div>
 														</td>
 														<td class="bNum" name="bNum">${board.bNum}</td>
