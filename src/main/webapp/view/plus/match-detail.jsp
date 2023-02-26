@@ -193,7 +193,7 @@
 									<!-- 본문 내용 -->
 									<div class="match-content">${bDatas.bContent}</div>
 									<!-- 댓글 -->
-									<div class="match-comment">
+									<div  id="c_box" class="match-comment">
 										<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
 										<form action="insertComment.do" method="post">
 											<div class="form-group">
@@ -206,7 +206,7 @@
 											</div>
 										</form>
 
-										<ul id="c_box" class="list-unstyled list-unstyled-border list-unstyled-noborder">
+										<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
 											<c:forEach var="com" items="${cDatas}">
 												<!-- 현재 로그인한 사람이 작성한 댓글 -->
 												<c:if test="${member.mNum == com.mNum}">
