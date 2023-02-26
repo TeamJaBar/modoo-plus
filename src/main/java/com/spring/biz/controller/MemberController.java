@@ -1,15 +1,22 @@
 package com.spring.biz.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.biz.member.AddressService;
 import com.spring.biz.member.AddressVO;
+import com.spring.biz.member.DibService;
+import com.spring.biz.member.DibVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 
@@ -20,6 +27,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private AddressService addressService;
+	@Autowired
+	private DibService dibService;
 
 	/* 배송지 */
 	// 배송지 추가
@@ -88,6 +97,64 @@ public class MemberController {
 		mav.addObject("address", addressService.selectOne(avo));
 
 		mav.setViewName("address-manage.jsp");
+		return mav;
+	}
+	
+	/* 찜 */
+	// 찜 추가하기
+	@ResponseBody
+	@RequestMapping(value = "/view/dibInsert", method = RequestMethod.POST)
+	public String insertDib(DibVO dvo, HttpSession session) {
+		if (session.getAttribute("mNum") != null) {
+			dvo.setmNum((Integer)(session.getAttribute("mNum")));
+			if (dibService.insert(dvo)) {
+				return "1";
+			}
+		}
+		return "-1";
+	}
+
+	// 찜 삭제
+	@ResponseBody
+	@RequestMapping(value = "/view/dibDelete", method = RequestMethod.POST)
+	public String deteletDib(DibVO dvo, HttpSession session, @RequestParam(value = "dibProduct[]") List<String> dibProduct) {
+		boolean checkFlag = true;
+
+		if (dvo.getpNum() != 0) { // 하나 삭제
+			System.out.println("로그 : DeleteDibController - pNum: " + dvo.getpNum());
+
+			dvo.setmNum((Integer)session.getAttribute("mNum"));
+			System.out.println("로그 : DeleteDibController - mNum: " + dvo.getmNum());
+
+			if (!dibService.delete(dvo)) {
+				checkFlag = false;
+			}
+		} else { // 찜 목록에서 삭제
+			for (int i = 0; i < dibProduct.size(); i++) {
+				dvo.setDibNum(Integer.parseInt(dibProduct.get(i)));
+				if (!dibService.delete(dvo)) {
+					checkFlag = false;
+				}
+			}
+		}
+
+		if (checkFlag) {
+			return "1";
+		}
+		return "-1";
+	}
+
+	// 찜 전체 조회
+	@RequestMapping(value = "/dibList.do")
+	public ModelAndView selectAllDib(DibVO dvo, HttpSession session, ModelAndView mav) throws Exception {
+
+		if (session.getAttribute("mNum") != null) {
+			dvo.setmNum((Integer)session.getAttribute("mNum"));
+		}
+
+		mav.addObject("dList", dibService.selectAll(dvo));
+
+		mav.setViewName("dibs-list.jsp");
 		return mav;
 	}
 
