@@ -34,7 +34,7 @@ public class SueDAO {
 	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE,M.MNAME,B.BCONTENT,SC.SCNAME,B.BWDATE,S.SDATE,S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM and S.SCNUM = SC.SCNUM and M.MNUM = B.MNUM";
 	// 신고하기
 	public boolean insert(SueVO vo) {
-		jdbcTemplate.update(SUE_INSERT, vo.getsNum(),vo.getbNum(),vo.getmNum(),vo.getScNum(),vo.getsResult());
+		jdbcTemplate.update(SUE_INSERT, vo.getbNum(),vo.getmNum(),vo.getScNum(),null,vo.getsResult());
 		return true;
 	}
 	public List<SueVO> selectAll(SueVO vo) {

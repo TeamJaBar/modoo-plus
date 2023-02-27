@@ -174,7 +174,7 @@ public class ProductController {
 	}
 	
 	//장바구니에 추가 - 퀵뷰 / 상품상세 페이지
-	@RequestMapping(value="cartInsertOne.do")
+	@RequestMapping(value="/cartInsertOne.do")
 	public @ResponseBody String cartInsertOne(HttpSession session, ProductVO pvo) {
 		ArrayList<ProductVO> cart = (ArrayList<ProductVO>)session.getAttribute("cart");
 
@@ -198,7 +198,7 @@ public class ProductController {
 	}
 	
 	//장바구니에 추가 - 찜 목록 페이지
-	@RequestMapping(value="cartInsertDib.do")
+	@RequestMapping(value="/cartInsertDib.do")
 	public @ResponseBody String cartInsertDib(HttpServletRequest request, ProductVO pvo) {
 		ArrayList<ProductVO> cart = (ArrayList<ProductVO>)request.getSession().getAttribute("cart");
 
@@ -243,6 +243,7 @@ public class ProductController {
 		session.setAttribute("cart", cart);
 		return "1";
 	}
+	
 	
 	@RequestMapping(value="/cartDelete.do")
 	public @ResponseBody String cartDelete(HttpServletRequest request) {
