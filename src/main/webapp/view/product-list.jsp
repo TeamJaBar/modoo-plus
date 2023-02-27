@@ -36,7 +36,7 @@
 
 		$.ajax({
 			type : 'POST', //POST 방식으로 보낼래
-			url : 'searchFilter', // 임의로 했음
+			url : 'searchFilter.do', // 임의로 했음
 			async : false,
 			data : {
 				pName : pName,
@@ -82,7 +82,7 @@
 
 		$.ajax({
 			type : 'POST', //POST 방식으로 보낼래
-			url : 'searchFilter', // 임의로 했음
+			url : 'searchFilter.do', // 임의로 했음
 			async : false,
 			data : {
 				cateNum : cateNum,
