@@ -32,7 +32,7 @@ public class ProductDAO {
 	final String SELECTALL = "SELECT DIB, PNUM, CATENUM, PNAME, FIXPRICE, SELPRICE, RDATE, REPERSON, REAGE, BRAND, PIMG, INFOIMG, PRODUCTCNT "
 			+ "FROM (SELECT DECODE(D.MNUM, ?, 1, 0) DIB, P.* FROM PRODUCT P LEFT OUTER JOIN DIB D ON P.PNUM = D.PNUM)";
 	// R : Category
-	final String SELECTONE_CATE = "SELECT TRUNC(CATENUM, -2) AS CATENUM, CATEL, CATEM FROM CATEGORY WHERE CATENUM=?";
+	final String SELECTONE_CATE = "SELECT TRUNCATE(CATENUM, -2) AS CATENUM, CATEL, CATEM FROM CATEGORY WHERE CATENUM=?";
 	final String SELECTALL_LCATE = "SELECT DISTINCT CATEL, DECODE(MOD(CATENUM, 100) , 0 , CATENUM , CATENUM-MOD(CATENUM, 100)) CATENUM FROM CATEGORY WHERE CATENUM BETWEEN ? AND ?";
 	final String SELECTALL_MCATENAME = "SELECT CATEL, CATEM, CATENUM FROM CATEGORY WHERE CATEL=?";
 	final String SELECTALL_MCATENUM = "SELECT CATENUM, CATEL, CATEM FROM CATEGORY WHERE CATENUM BETWEEN ? AND (?+99)";
@@ -287,12 +287,13 @@ public class ProductDAO {
 				searchBar += " AND CATENUM=? ";
 			}
 			if (pvo.getpName() != null) {
-				searchBar += " AND PNAME LIKE '%'||?||'%' ";
+				searchBar += " AND PNAME LIKE CONCAT('%', ?, '%')  ";
 			}
 			if (pvo.getBrand() != null) {
 				searchBar += " AND Brand=? ";
 			}
 
+			System.out.println("SearhBar : " + searchBar);
 			pstmt = conn.prepareStatement(searchBar);
 			pstmt.setInt(1, pvo.getLowNum());
 			pstmt.setInt(2, pvo.getHighNum() == 0 ? data0.getHighNum() : pvo.getHighNum());
@@ -338,7 +339,7 @@ public class ProductDAO {
 		conn = JDBCUtil.connect();
 
 		try {
-			String filter = "SELECT DECODE(D.MNUM, ?, 1, 0) DIB, P.PNUM, P.CATENUM, P.PNAME, P.FIXPRICE, P.SELPRICE, P.RDATE, P.REPERSON, P.REAGE, P.BRAND, P.PIMG, P.PRODUCTCNT, DECODE(O.CNT, NULL, 0, O.CNT) OCNT FROM PRODUCT P LEFT OUTER JOIN DIB D ON P.PNUM = D.PNUM  FULL JOIN (SELECT PNUM, SUM(CNT) CNT FROM ORDERDETAIL GROUP BY PNUM) O ON P.PNUM=O.PNUM WHERE 1=1 ";
+			String filter = "SELECT DECODE(D.MNUM, ?, 1, 0) DIB, P.PNUM, P.CATENUM, P.PNAME, P.FIXPRICE, P.SELPRICE, P.RDATE, P.REPERSON, P.REAGE, P.BRAND, P.PIMG, P.PRODUCTCNT, DECODE(O.CNT, NULL, 0, O.CNT) OCNT FROM PRODUCT P LEFT OUTER JOIN DIB D ON P.PNUM = D.PNUM FULL JOIN (SELECT PNUM, SUM(CNT) CNT FROM ORDERDETAIL GROUP BY PNUM) O ON P.PNUM=O.PNUM WHERE 1=1 ";
 
 			if ((pvo.getCateNum() > 99 && pvo.getCateNum() < 300) || (pvo.getCateNum() > 999 && pvo.getCateNum() < 1200)) {
 				filter += " AND 1=1 ";
@@ -367,7 +368,7 @@ public class ProductDAO {
 			}
 
 			if (pvo.getpName() != null) {
-				filter += " AND PNAME LIKE '%'||?||'%' ";
+				filter += " AND PNAME LIKE CONCAT('%', ?, '%') ";
 			}
 
 			if (pvo.getFilterSortBy() == 11) {

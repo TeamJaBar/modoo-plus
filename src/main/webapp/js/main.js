@@ -275,6 +275,22 @@
 	});
 
 
+	function updateCart(pNum, pCnt) {
+		$.ajax({
+			type : 'POST', //POST 방식으로 보낼래
+			url : 'cartUpdate.do',
+			data : {
+				pNum : pNum,
+				pCnt : pCnt
+			},
+			success : function(result) {
+				if (result == 1) {
+					console.log('적용 성공');
+				}
+			}
+		});
+	}
+
 	$('.btn-num-cart-up').each(function() {
 		$(this).click(function() {
 			var current = $(this).attr('id');
@@ -300,6 +316,9 @@
 				$('#totalSale').text((totalSale - (salePrice * numProduct) + (salePrice * Number($(this).prev().val()))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 				$('#payment').text((sumPrice - totalSale + 2500).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 			}
+			
+			
+			updateCart(current, Number($(this).prev().val()));
 		});
 	});
 
@@ -333,6 +352,8 @@
 				var totalSale = parseInt($('#totalSale').text().replace(',', ''));
 				$('#payment').text((sumPrice - totalSale + 2500).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 			}
+			
+			updateCart(current, Number($(this).next().val()));
 		});
 	});
 
@@ -398,7 +419,7 @@
 		$(this).on('click', function() {
 			$.ajax({
 				type: 'POST',
-				url: 'quickView',
+				url: 'quickView.do',
 				async: false,
 				dataType: 'json',
 				data: {
@@ -479,7 +500,7 @@
 
 		$.ajax({
 			type: 'POST', //POST 방식으로 보낼래
-			url: 'cartInsertOne',
+			url: 'cartInsertOne.do',
 			data: {
 				pNum: pNum,
 				pCnt: pCnt
@@ -579,7 +600,7 @@
 
 		$.ajax({
 			type: 'POST', //POST 방식으로 보낼래
-			url: 'cartInsertOne',
+			url: 'cartInsertOne.do',
 			data: {
 				pNum: pNum,
 				pCnt: pCnt
