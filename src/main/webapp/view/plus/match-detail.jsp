@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 
-
-<!-- member : 로그인 회원정보, bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보-->
+<!-- member : 로그인 회원정보, bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, sDatas : 신고 카테고리 정보-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,16 +71,25 @@
 									<div class="match-title">
 										<div style="display: flex">
 											<!-- 날짜 -->
-											<div class="date">23.02.18. (토) 22:00 - 00:00</div>
-											<button class="btn-sue" id="modal-sue">
-												<i class="fas fa-siren"></i>신고하기
-											</button>
+											<div class="date">
+												<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
+											</div>
+											<c:if test="${bStatus == 0}">
+												<button class="btn-sue" id="modal-sue" data-toggle="modal">
+													<i class="fas fa-siren"></i>신고하기
+												</button>
+											</c:if>
+											<c:if test="${bStatus == 1}">
+												<div class="btn-sue">
+													<i class="fas fa-siren"></i>신고완료
+												</div>
+											</c:if>
 										</div>
-										<div class="title">빡고수들만 모이셈</div>
+										<div class="title">${bDatas.bTitle}</div>
 									</div>
 									<!-- 주소 -->
-									<div class="address">경기도 고양시 덕양구 수역이길 42</div>
-									<a href="#" class="btn-custom btn-address">
+									<div class="address">${bDatas.bAddress}</div>
+									<a href="#" class="btn-custom btn-address" onclick="clip(); return false;">
 										<i class="far fa-copy"></i> 주소복사하기
 									</a>
 									<a href="#" id="btn-share" onclick="fn_share('kakaotalk');return false;" class="btn-custom btn-share">
@@ -111,16 +120,16 @@
 													<td>${bDatas.bCnt}</td>
 													<td>${bDatas.bRate}</td>
 													<td>
-														<c:if test="${bDatas==0}">모집완료</c:if>
-														<c:if test="${bDatas==1}">모집 중</c:if>
-														<c:if test="${bDatas==2}">지난 모임</c:if>
+														<c:if test="${bDatas.bAction==0}">모집완료</c:if>
+														<c:if test="${bDatas.bAction==1}">모집 중</c:if>
+														<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
 													</td>
 												</tr>
 											</table>
 										</div>
 										<!--참가 신청자 정보-->
 										<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
-											<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+											<ul id="a_box" class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
 												<c:forEach var="entry" items="${aDatas}">
 													<c:if test="${bDatas.mNum == entry.mNum}">
 														<!--방장 - 글 작성자-->
@@ -140,7 +149,7 @@
 															<div class="media-progressbar">
 																<div class="progress-text">${entry.score}점</div>
 																<div class="progress" data-height="6" style="height: 6px;">
-																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: 6%;"></div>
+																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
 																</div>
 															</div>
 															<div class="media-cta">
@@ -149,54 +158,48 @@
 														</li>
 													</c:if>
 													<c:if test="${bDatas.mNum != entry.mNum}">
-
+														<!--일반 참여자-->
+														<li class="media" id="${entry.aNum}">
+															<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${entry.mImg}">
+															<div class="media-body">
+																<div class="media-title">${entry.mId}</div>
+																<div class="text-job text-muted">
+																	<modoo:score score="${entry.score}" />
+																</div>
+															</div>
+															<div class="media-progressbar">
+																<div class="progress-text">${entry.score}점</div>
+																<div class="progress" data-height="6" style="height: 6px;">
+																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																</div>
+															</div>
+															<!--퇴출하기 버튼은 글 작성자에게만 보임-->
+															<c:if test="${bDatas.mNum == member.mNum}">
+																<div class="media-cta">
+																	<button class="btn btn-outline-primary" id="kickUser">퇴출하기</button>
+																</div>
+															</c:if>
+															<c:if test="${bDatas.mNum != member.mNum}">
+																<div class="media-cta">
+																	<div class="btn btn-outline-primary">방참가자</div>
+																</div>
+															</c:if>
+														</li>
 													</c:if>
 												</c:forEach>
-												<!--일반 참여자-->
-												<li class="media">
-													<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-5.png">
-													<div class="media-body">
-														<div class="media-title">윤석환</div>
-														<div class="text-job text-muted">고수</div>
-													</div>
-													<div class="media-progressbar">
-														<div class="progress-text">120점</div>
-														<div class="progress" data-height="6" style="height: 6px;">
-															<div class="progress-bar bg-primary" data-width="24%" style="width: 24%;"></div>
-														</div>
-													</div>
-													<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-													<div class="media-cta">
-														<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-													</div>
-												</li>
-												<li class="media">
-													<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-4.png">
-													<div class="media-body">
-														<div class="media-title">박가연</div>
-														<div class="text-job text-muted">초고수</div>
-													</div>
-													<div class="media-progressbar">
-														<div class="progress-text">450점</div>
-														<div class="progress" data-height="6" style="height: 6px;">
-															<div class="progress-bar bg-primary" data-width="90%" style="width: 90%;"></div>
-														</div>
-													</div>
-													<div class="media-cta">
-														<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-													</div>
-												</li>
 											</ul>
 										</div>
 									</div>
 									<!-- 본문 내용 -->
 									<div class="match-content">${bDatas.bContent}</div>
 									<!-- 댓글 -->
-									<div class="match-comment">
-										<form action="#" method="post">
-											<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
+									<div  id="c_box" class="match-comment">
+										<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
+										<form action="insertComment.do" method="post">
 											<div class="form-group">
-												<textarea class="form-control" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;"></textarea>
+												<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
+												<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
+												<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;"></textarea>
 												<button type="submit" class="btn btn-lg btn-submit">
 													<i class="fas fa-comments"></i>
 												</button>
@@ -205,9 +208,9 @@
 
 										<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
 											<c:forEach var="com" items="${cDatas}">
+												<!-- 현재 로그인한 사람이 작성한 댓글 -->
 												<c:if test="${member.mNum == com.mNum}">
-													<!-- 현재 로그인한 사람이 작성한 댓글 -->
-													<li class="media">
+													<li class="media" id="${com.cNum}">
 														<div class="media-body">
 															<div class="comment-head">
 																<div class="media-title mb-1">${com.mId}</div>
@@ -220,9 +223,20 @@
 															</div>
 															<div class="media-description text-muted">${com.cContent}</div>
 															<div class="media-links">
-																<a href="#">수정</a>
+																<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																<div class="bullet"></div>
-																<a href="#" class="text-danger">삭제</a>
+																<button class="text-danger">삭제</button>
+																<div class="collapse" id="collapseExample">
+																	<form action="updateComment.do" method="post">
+																		<div class="form-group">
+																			<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
+																			<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;">${com.cContent}</textarea>
+																			<button type="submit" class="btn btn-lg btn-submit">
+																				<i class="fas fa-comments"></i>
+																			</button>
+																		</div>
+																	</form>
+																</div>
 															</div>
 														</div>
 													</li>
@@ -250,31 +264,9 @@
 								</div>
 							</div>
 						</div>
+						<!-- 하단 바 -->
 						<div class="fixed-bottom">
-							<c:if test="${bDatas.bAction != 3}">
-								<c:if test="${member.mNum == bDatas.mNum}">
-									<a class="correct" href="#">수정</a>
-									<a class="delete" href="#">삭제</a>
-									<c:if test="${bDatas.bAction == 1}">
-										<a class="complete" href="#">매치 완료하기</a>
-									</c:if>
-									<c:if test="${bDatas.bAction == 0}">
-										<a class="complete" href="#">매치 완료 취소하기</a>
-									</c:if>
-								</c:if>
-								<c:if test="${member.mNum != bDatas.mNum}">
-									<c:if test="${member.mNum == aDatas.mNum}">
-										<a class="complete" href="#" style="width: 100%">매치 신청하기</a>
-									</c:if>
-									<c:if test="${member.mNum != aDatas.mNum}">
-										<a class="complete" href="#" style="width: 100%">매치 신청 취소하기</a>
-									</c:if>
-								</c:if>
-							</c:if>
-							<c:if test="${member.mNum == 'admin'}">
-								<a class="delete" href="#" style="width: 100%">삭제하기</a>
-							</c:if>
-
+							<modoo:bottomBar bDatas="${bDatas}" member="${member}" aDatas="${aDatas}" />
 							<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
@@ -295,57 +287,23 @@
 				</section>
 			</div>
 
-			<div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Modal title</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<p>Modal body text goes here.</p>
-						</div>
-						<div class="modal-footer bg-whitesmoke br">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save changes</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<footer class="main-footer">
-			<div class="footer-left">
-				Copyright &copy; 2018
-				<div class="bullet"></div>
-				Design By
-				<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
-			</div>
-			<div class="footer-right"></div>
-		</footer>
+		</div>
 	</div>
 
-	<form class="modal-part" id="modal-sue-part" style="font-family: 'GmarketSansMedium'">
-		<p class="modal-description">신고 사유를 선택해주세요.</p>
+	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
+		<p class="modal-description">신고 사유 선택해주세요.</p>
+		<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
+		<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
 		<div class="radio-container">
-			<div class="custom-control custom-radio">
-				<input type="radio" value="1" id="sc1" name="scnum" class="custom-control-input">
-				<label class="custom-control-label" for="sc1">욕설</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" value="2" id="sc2" name="scnum" class="custom-control-input">
-				<label class="custom-control-label" for="sc2">혐오발언</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" value="3" id="sc3" name="scnum" class="custom-control-input">
-				<label class="custom-control-label" for="sc3">부적절한 ID</label>
-			</div>
-
+			<c:forEach items="${sDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(sDatas)}" step=1>
+				<div class="custom-control custom-radio">
+					<input type="radio" value="${cate.scNum}" id="sc${i.index}" name="scNum" class="custom-control-input">
+					<label class="custom-control-label" for="sc${i.index}">${cate.scName}</label>
+				</div>
+			</c:forEach>
 		</div>
 	</form>
-
 
 	<script>
 		<!-- NaverMap API -->
@@ -404,8 +362,71 @@
 			}
 		}
 	</script>
+	<script type="text/javascript">
+	<!-- 주소복사 -->
+	function clip(){
 
-
+		var url = '';
+		var textarea = document.createElement("textarea");
+		document.body.appendChild(textarea);
+		url = window.document.location.href;
+		textarea.value = url;
+		textarea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textarea);
+		alert("주소가 복사되었습니다.")
+	}
+	</script>
+	<script>
+	<!-- 댓글 삭제 -->
+	$(document).ready(function() {
+		$('.text-danger').each(function() {
+			let cNum = $(this).parent().parent().parent().prop("id");
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(cNum);
+				if (confirm('정말 삭제하시겠습니까?')) {
+					$.ajax({
+						type: 'POST',
+						url: 'deleteComment',
+						data: {
+							cNum: cNum
+						},
+						success: function(result) {
+							if (result == 1) {
+								$('#c_box').load(location.href + ' #c_box>*');
+							}
+						}
+					});
+				} 
+			})
+		})
+	})
+	<!-- 퇴출하기 -->
+		$(document).ready(function() {
+		$('#kickUser').each(function() {
+			let aNum = $(this).parent().parent().parent().prop("id");
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(aNum);
+				if (confirm('퇴출하시겠습니까?')) {
+					$.ajax({
+						type: 'POST',
+						url: 'boardDelete',
+						data: {
+							aNum: aNum
+						},
+						success: function(result) {
+							if (result == 1) {
+								$('#a_box').load(location.href + ' #a_box>*');
+							}
+						}
+					});
+				} 
+			})
+		})
+	})
+	</script>
 	<!-- General JS Scripts -->
 	<script src="../../assets/modules/jquery.min.js"></script>
 	<script src="../../assets/modules/popper.js"></script>
