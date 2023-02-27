@@ -245,31 +245,6 @@
 		});
 	})
 
-	/* 수량 변경 시 cart에 저장 */
-	$('.btn-num-cart-down, .btn-num-cart-up').each(function() {
-		$(this).click(function() {
-			let input = $(this).parent().find("input"); // 클릭한 요소의 부모 중 input인 요소
-			let pNum = input.prop('id').slice(4); // "pCntxxx" > 4번 인덱스부터 끝까지만 남김 > xxx = pNum
-			let pCnt = input.val(); // pCnt
-			console.log(pNum);
-			console.log(pCnt);
-
-			$.ajax({
-				type : 'POST', //POST 방식으로 보낼래
-				url : 'cartUpdate',
-				data : {
-					pNum : pNum,
-					pCnt : pCnt
-				},
-				success : function(result) {
-					if (result == 1) {
-						console.log('적용 성공');
-					}
-				}
-			});
-		});
-	});
-
 	/* 선택한 상품 삭제 */
 	function del() {
 		console.log('삭제');
@@ -290,7 +265,7 @@
 			if (confirm("정말 삭제하시겠습니까?")) {
 				$.ajax({
 					type : 'POST',
-					url : 'cartDelete',
+					url : 'cartDelete.do',
 					traditional : true,
 					data : {
 						arProduct : arProduct
