@@ -45,7 +45,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.memberId}" name="${member.memberName}" />
+			<modoo:header id="${member.mId}" name="${member.mName}" />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -94,7 +94,7 @@
 												</thead>
 												<tbody>
 													<!-- 나의 작성 글 el식 적용 -->
-													<c:forEach items="${board}" var="v">
+													<c:forEach items="${bDatas}" var="v">
 														<tr>
 															<td>
 																<div class="sort-handler">
@@ -102,7 +102,7 @@
 																</div>
 															</td>
 															<td>
-																<a href="#">${v.bTitle}</a>
+																<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
 															</td>
 															<td>${v.bAddress}</td>
 															<td>${v.bDate}</td>
@@ -142,101 +142,6 @@
 													</c:forEach>
 													<!-- 나의 작성글 끝 -->
 
-													<tr>
-														<td>
-															<div class="sort-handler">
-																<i class="fas fa-th"></i>
-															</div>
-														</td>
-														<td>
-															<a href="#">보드게임에 진심이신분들 구합니다!</a>
-														</td>
-														<td>레드버튼 강남역</td>
-														<td>2018-01-10 (월)</td>
-														<td>20:00</td>
-														<td>
-															<a href="#" data-toggle="modal" data-target="#exampleModal">3 / 5</a>
-														</td>
-														<td>
-															<div class="dropdown d-inline mr-2">
-																<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">모집 완료</button>
-																<div class="dropdown-menu">
-																	<a class="dropdown-item" href="#">모집 중</a>
-																	<a class="dropdown-item" href="#">모집완료</a>
-																</div>
-															</div>
-														</td>
-														<td>
-															<a href="#" class="btn btn-icon btn-primary" id="modal-5">
-																<i class="far fa-edit" id="modal-5"></i>
-															</a>
-															<a href="#" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="alert('삭제완료되었습니다 :)');">
-																<i class="fas fa-times"></i>
-															</a>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<div class="sort-handler">
-																<i class="fas fa-th"></i>
-															</div>
-														</td>
-														<td>
-															<a href="#">아발론 잘하시는분들 구합니다!</a>
-														</td>
-														<td>강남역 레드버튼</td>
-														<td>2018-01-20 (월)</td>
-														<td>20:00</td>
-														<td>
-															<a href="#" data-toggle="modal" data-target="#exampleModal">3 / 10</a>
-														</td>
-														<td>
-															<div class="dropdown d-inline mr-2">
-																<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">모집 중</button>
-																<div class="dropdown-menu">
-																	<a class="dropdown-item" href="#">모집 중</a>
-																	<a class="dropdown-item" href="#">모집완료</a>
-																</div>
-															</div>
-														</td>
-														<td>
-															<a href="#" class="btn btn-icon btn-primary" id="modal-5">
-																<i class="far fa-edit" id="modal-5"></i>
-															</a>
-															<a href="#" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="alert('삭제완료되었습니다 :)');">
-																<i class="fas fa-times"></i>
-															</a>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<div class="sort-handler">
-																<i class="fas fa-th"></i>
-															</div>
-														</td>
-														<td>
-															<a href="#">텔레스트레이션 ㄱ</a>
-														</td>
-														<td>홈즈앤 루팡 범계점</td>
-														<td>2022-01-20 (월)</td>
-														<td>19:00</td>
-														<td>
-															<a href="#" data-toggle="modal" data-target="#exampleModal">5 / 5</a>
-														</td>
-														<td>
-															<div class="dropdown d-inline mr-2">
-																<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">모집완료</button>
-															</div>
-														</td>
-														<td>
-															<a href="#" class="btn btn-icon btn-primary" id="modal-5">
-																<i class="far fa-edit" id="modal-5"></i>
-															</a>
-															<a href="#" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="alert('삭제완료되었습니다 :)');">
-																<i class="fas fa-times"></i>
-															</a>
-														</td>
-													</tr>
 												</tbody>
 											</table>
 										</div>
@@ -249,16 +154,22 @@
 														</a>
 													</li>
 													<li class="page-item active">
-														<a class="page-link" href="#">
+														<a class="page-link" href="myPage.do?pageBegin=0&pageEnd=9">
 															1
 															<span class="sr-only">(current)</span>
 														</a>
 													</li>
 													<li class="page-item">
-														<a class="page-link" href="#">2</a>
+														<a class="page-link" href="myPage.do?pageBegin=10&pageEnd=19">
+															2
+															<span class="sr-only">(current)</span>
+														</a>
 													</li>
 													<li class="page-item">
-														<a class="page-link" href="#">3</a>
+														<a class="page-link" href="myPage.do?pageBegin=20&pageEnd=29">
+															3
+															<span class="sr-only">(current)</span>
+														</a>
 													</li>
 													<li class="page-item">
 														<a class="page-link" href="#">
@@ -276,11 +187,11 @@
 					</div>
 				</section>
 			</div>
-			<form class="modal-part" id="modal-login-part">
+			<form action="boardUpdate.do" class="modal-part" id="modal-login-part">
 				<div class="form-group">
 					<label>게임 지역</label>
 					<div class="input-group">
-						<select class="form-control">
+						<select class="form-control" name="bLocal">
 							<option disabled selected>경기 지역을 선택해 주세요</option>
 							<option>서울 - 도봉/노원/강북/중랑</option>
 							<option>서울 - 성북/동대문/종로</option>
@@ -304,7 +215,7 @@
 				<div class="form-group">
 					<label>모집 인원</label>
 					<div class="input-group">
-						<select class="form-control">
+						<select class="form-control" name="bCnt">
 							<option disabled selected>매치 방식을 선택해 주세요</option>
 							<option>2명</option>
 							<option>3명</option>
@@ -319,13 +230,13 @@
 				<div class="form-group">
 					<label>게임 시간</label>
 					<div class="input-group">
-						<input type="datetime-local" class="form-control">
+						<input type="datetime-local" name="bDate" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label>게임 위치</label>
 					<div class="form-group">
-						<select class="form-control">
+						<select class="form-control" name="bAddress">
 							<option>Option 1</option>
 							<option>Option 2</option>
 							<option>Option 3</option>
@@ -337,15 +248,15 @@
 					<div class="input-group">
 						<div class="selectgroup w-100">
 							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="50" class="selectgroup-input"></input>
-								<span class="selectgroup-button">빡고수</span>
+								<input type="radio" name="bRate" value="5000" class="selectgroup-input"></input>
+								<span class="selectgroup-button">초고수</span>
 							</label>
 							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="100" class="selectgroup-input">
+								<input type="radio" name="bRate" value="1000" class="selectgroup-input">
 								<span class="selectgroup-button">고수</span>
 							</label>
 							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="150" class="selectgroup-input">
+								<input type="radio" name="bRate" value="500" class="selectgroup-input">
 								<span class="selectgroup-button">초보</span>
 							</label>
 							<label class="selectgroup-item">
@@ -358,7 +269,7 @@
 				<div class="form-group">
 					<label>내용</label>
 					<div class="input-group">
-						<textarea class="form-control" id="editor"></textarea>
+						<textarea class="form-control" name="bContent" id="editor"></textarea>
 					</div>
 					<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
 					<script>
@@ -367,15 +278,6 @@
 				</div>
 
 			</form>
-			<footer class="main-footer">
-				<div class="footer-left">
-					Copyright &copy; 2018
-					<div class="bullet"></div>
-					Design By
-					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
-				</div>
-				<div class="footer-right"></div>
-			</footer>
 		</div>
 	</div>
 
@@ -392,72 +294,30 @@
 				<div class="modal-body">
 					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
 
-						<!--일반 참여자-->
-						<li class="media">
-							<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-1.png">
-							<div class="media-body">
-								<div class="media-title">윤석환</div>
-								<div class="text-job text-muted">고수</div>
-							</div>
-							<div class="media-progressbar">
-								<div class="progress-text">120점</div>
-								<div class="progress" data-height="6" style="height: 6px;">
-									<div class="progress-bar bg-primary" data-width="24%" style="width: 24%;"></div>
+						<!--일반 참여자 el식 적용-->
+						<c:forEach items="${aDatas}" var="v">
+							<li class="media">
+								<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${v.mImg}">
+								<div class="media-body">
+									<div class="media-title">${v.mId}</div>
+									<div class="text-job text-muted">
+										<modoo:exp score="${v.score}" />
+									</div>
 								</div>
-							</div>
-							<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-							<div class="media-cta">
-								<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-							</div>
-						</li>
-						<li class="media">
-							<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-4.png">
-							<div class="media-body">
-								<div class="media-title">박가연</div>
-								<div class="text-job text-muted">초고수</div>
-							</div>
-							<div class="media-progressbar">
-								<div class="progress-text">450점</div>
-								<div class="progress" data-height="6" style="height: 6px;">
-									<div class="progress-bar bg-primary" data-width="90%" style="width: 90%;"></div>
+								<div class="media-progressbar">
+									<div class="progress-text">
+										<modoo:score score="${v.score}" />
+									</div>
+									<div class="progress" data-height="6" style="height: 6px;">
+										<div class="progress-bar bg-primary" data-width="<modoo:score score="${v.score}" />%" style="width: <modoo:score score="${v.score}" />%;"></div>
+									</div>
 								</div>
-							</div>
-							<div class="media-cta">
-								<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-							</div>
-						</li>
-						<li class="media">
-							<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-2.png">
-							<div class="media-body">
-								<div class="media-title">김민수</div>
-								<div class="text-job text-muted">초고수</div>
-							</div>
-							<div class="media-progressbar">
-								<div class="progress-text">3000점</div>
-								<div class="progress" data-height="6" style="height: 6px;">
-									<div class="progress-bar bg-primary" data-width="90%" style="width: 90%;"></div>
+								<!--퇴출하기 버튼은 글 작성자에게만 보임-->
+								<div class="media-cta">
+									<a href="entryDelete.do?mNum=${v.mNum}" class="btn btn-outline-primary">퇴출하기</a>
 								</div>
-							</div>
-							<div class="media-cta">
-								<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-							</div>
-						</li>
-						<li class="media">
-							<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/avatar-3.png">
-							<div class="media-body">
-								<div class="media-title">김효경</div>
-								<div class="text-job text-muted">초고수</div>
-							</div>
-							<div class="media-progressbar">
-								<div class="progress-text">450점</div>
-								<div class="progress" data-height="6" style="height: 6px;">
-									<div class="progress-bar bg-primary" data-width="90%" style="width: 90%;"></div>
-								</div>
-							</div>
-							<div class="media-cta">
-								<a href="#" class="btn btn-outline-primary">퇴출하기</a>
-							</div>
-						</li>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -480,6 +340,11 @@
 
 body {
 	font-family: 'GmarketSansMedium';
+}
+
+.modal-content {
+	width: 680px;
+	max-width: none;
 }
 </style>
 
