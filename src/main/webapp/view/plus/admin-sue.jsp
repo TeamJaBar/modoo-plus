@@ -38,7 +38,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.memberId}" name="${member.memberName}" />
+			<modoo:header id="${member.mId}" name="${member.mName}" />
 
 
 			<!-- Main Content -->
@@ -59,18 +59,16 @@
 												<a class="nav-link active" href="admin-sue.do">
 													전체
 													<span class="badge badge-white">
-														5
-														<c:out value="${sueTotal}" />
+														${sueTotal.aCnt}
 													</span>
 												</a>
 											</li>
-											<!-- ajax 사용해서 비동기로 목록 출력 -->
+											<!-- 해야할 것 ajax 사용해서 비동기로 목록 출력 -->
 											<li class="nav-item">
 												<a class="nav-link" href="admin-sue.do?">
 													미처리
 													<span class="badge badge-primary">
-														2
-														<c:out value="${presue}" />
+														${sueTotal.nCnt}
 													</span>
 												</a>
 											</li>
@@ -78,8 +76,7 @@
 												<a class="nav-link" href="admin-sue.do?">
 													처리완료
 													<span class="badge badge-primary">
-														3
-														<c:out value="${ressue}" />
+														${sueTotal.cCnt}
 													</span>
 												</a>
 											</li>
@@ -95,27 +92,6 @@
 										<h4>전체 신고글</h4>
 									</div>
 									<div class="card-body">
-										<div class="float-left">
-											<select class="form-control selectric">
-												<option>전체 신고글</option>
-												<option>미처리 신고글</option>
-												<option>삭제 완료 신고글</option>
-											</select>
-										</div>
-										<div class="float-right">
-											<form action="searchBoard.do">
-												<div class="input-group">
-													<input type="text" class="form-control" name="searchContent" placeholder="검색">
-													<div class="input-group-append">
-														<button class="btn btn-primary">
-															<i class="fas fa-search"></i>
-														</button>
-													</div>
-												</div>
-											</form>
-										</div>
-
-										<div class="clearfix mb-3"></div>
 
 										<div class="table-responsive">
 											<table class="table table-striped">
@@ -128,25 +104,22 @@
 												</tr>
 												<!-- 신고 게시글 목록 -->
 												<c:forEach items="${sue}" var="v">
-													<c:set var="sueTotal" value="${sueTotal + 1}" />
 													<tr>
 														<td>${v.bNum}</td>
 														<td>
-															<a href="sue-detail.do?bNum=${v.bNum}">${v.btitle}</a>
+															<a href="sue-detail.do?bNum=${v.bNum}">${v.bTitle}</a>
 														</td>
 														<td>
-															<img alt="image" src="../../assets/img/avatar/${v.mimg}" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">${v.mid}</div>
+															<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
+															<div class="d-inline-block ml-1">${v.mId}</div>
 														</td>
-														<td>${v.bwdate}</td>
+														<td>${v.bWdate}</td>
 														<td>
 															<c:choose>
-																<c:when test="${v.bstatus == 0}">
-																	<c:set var="presue" value="${presue +1}" />
+																<c:when test="${v.bStatus == 0}">
 																	<div class="badge badge-danger">미처리</div>
 																</c:when>
 																<c:otherwise>
-																	<c:set var="ressue" value="${ressue +1}" />
 																	<div class="badge badge-primary">처리완료</div>
 																</c:otherwise>
 															</c:choose>
@@ -154,86 +127,6 @@
 													</tr>
 												</c:forEach>
 												<!-- 신고 게시글 목록 끝-->
-												<tr>
-													<td>101</td>
-													<td>
-														<a href="sue-detail.jsp">내일 게임 하실분~</a>
-													</td>
-													<td>
-														<a href="#">
-															<img alt="image" src="../../assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">김시하</div>
-														</a>
-													</td>
-													<td>2018-01-20</td>
-													<td>
-														<div class="badge badge-primary">처리완료</div>
-													</td>
-												</tr>
-												<tr>
-													<td>102</td>
-													<td>
-														<a href="sue-detail.jsp">강남에서 보드게임 하실분 구합니다</a>
-													</td>
-													<td>
-														<a href="#">
-															<img alt="image" src="../../assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">박가연</div>
-														</a>
-													</td>
-													<td>2018-01-20</td>
-													<td>
-														<div class="badge badge-primary">처리완료</div>
-													</td>
-												</tr>
-												<tr>
-													<td>103</td>
-													<td>
-														<a href="sue-detail.jsp">시하님이 좋아하는 사다리게임</a>
-													</td>
-													<td>
-														<a href="#">
-															<img alt="image" src="../../assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">김민수</div>
-														</a>
-													</td>
-													<td>2018-01-20</td>
-													<td>
-														<div class="badge badge-primary">처리완료</div>
-													</td>
-												</tr>
-												<tr>
-													<td>104</td>
-													<td>
-														<a href="sue-detail.jsp">언제까지 어깨춤을 추게 할거야~</a>
-													</td>
-													<td>
-														<a href="#">
-															<img alt="image" src="../../assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">윤석환</div>
-														</a>
-													</td>
-													<td>2018-01-20</td>
-													<td>
-														<div class="badge badge-danger">미처리</div>
-													</td>
-												</tr>
-												<tr>
-													<td>105</td>
-													<td>
-														<a href="sue-detail.jsp">콩먹은 용만이 찾기 게임</a>
-													</td>
-													<td>
-														<a href="#">
-															<img alt="image" src="../../assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">서석지</div>
-														</a>
-													</td>
-													<td>2018-01-20</td>
-													<td>
-														<div class="badge badge-warning">재검토</div>
-													</td>
-												</tr>
 											</table>
 										</div>
 										<div class="float-right">
