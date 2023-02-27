@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<CategoryVO> selectAllCateNum(CategoryVO cvo) {
-		return productDAO.selectAll(cvo);
+		return productDAO.selectAllCateNum(cvo);
 	}
 
 	@Override
