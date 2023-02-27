@@ -304,6 +304,8 @@
 			</c:forEach>
 		</div>
 	</form>
+	
+	
 
 	<script>
 		<!-- NaverMap API -->
@@ -314,7 +316,7 @@
 		
 		function initMap() {
 		 var mapOptions = {
-			    center: new naver.maps.LatLng(37.552758094502494, 126.98732600494576),	//지도 초기 중심 좌표
+			    center: new naver.maps.LatLng(${bDatas.bLatitude}, ${bDatas.bLongitude}),	//지도 초기 중심 좌표
 			    zoom: 15	//지도의 초기 줌 레벨
 			};
 		 
@@ -322,7 +324,7 @@
 		 
 		 var marker = new naver.maps.Marker({
 			map:map,
-			position: new naver.maps.LatLng(37.552758094502494, 126.98732600494576),
+			position: new naver.maps.LatLng(${bDatas.bLatitude}, ${bDatas.bLongitude}),
 			icon: {
 				content: '<img src="<c:url value="/../../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
 				size: new naver.maps.Size(32,32),
@@ -335,13 +337,13 @@
 		<!-- 카카오 공유-->
 		function fn_share(sns) {
 			var thisUrl = document.URL;
-			var snsTitle = "빡고수들만 모이셈";
+			var snsTitle = ${bDatas.bTitle};
 			 
 			if(sns == 'kakaotalk') {			    
 			    // 카카오링크 버튼 생성
 			    Kakao.Share.sendDefault({
 			        objectType: 'location',
-			        address : '경기도 고양시 덕양구 수역이길 42', //주소
+			        address : ${bDatas.bAddress}, //주소
 			        content: {
 				        title: snsTitle, // 제목
 				        imageUrl: thisUrl, // 콘텐츠 URL
