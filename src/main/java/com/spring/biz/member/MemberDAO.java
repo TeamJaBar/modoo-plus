@@ -36,7 +36,7 @@ public class MemberDAO {
 	final String SELECTALL_MEMBER = "SELECT * FROM MEMBER ORDER BY MNUM ASC";
 	final String UPDATE_USER = "UPDATE MEMBER SET MPW=?, MEMAIL=?, MTEL=?, ZIPCODE=?, USERADDR=?, DETAILADDR=? WHERE MNUM=?";
 	final String UPDATE_ADMIN = "UPDATE MEMBER SET MPW=?, MNAME=?, MEMAIL=?, MTEL=?, ZIPCODE=?, USERADDR=?, DETAILADDR=?, MPOINT=? WHERE MNUM=?";
-	final String UPDATE_PW = "UPDATE MEMBER SET MPW=? WHERE MNUM=?";
+	final String UPDATE_PW = "UPDATE MEMBER SET MPW=? WHERE MID=?";
 	final String DELETE_USER = "DELETE FROM MEMBER WHERE MNUM=? AND MPW=?";
 	final String DELETE_ADMIN = "DELETE FROM MEMBER WHERE MNUM=?";
 	// 멤버 상태
@@ -55,7 +55,7 @@ public class MemberDAO {
 	}
 
 	public boolean updatePw(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_PW, vo.getmPw(), vo.getmNum());
+		int res = jdbcTemplate.update(UPDATE_PW, vo.getmPw(), vo.getmId());
 		if (res < 1) {
 			return false;
 		}
