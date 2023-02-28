@@ -39,7 +39,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.mId}" name="${member.mName}" />
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -62,28 +62,58 @@
 										<div class="table-responsive">
 											<table class="table table-striped">
 												<tbody>
-													<tr>
-														<th>No.</th>
+													<tr class="text-center">
+														<th>
+															<div class="sort-handler">
+																<i class="fas fa-th"></i>
+															</div>
+														</th>
 														<th>제목</th>
 														<th>장소</th>
 														<th>인원</th>
 														<th>날짜</th>
-														<th>신청취소</th>
-														<th>평가하기</th>
+														<th>신청 / 평가</th>
 													</tr>
-													<c:forEach items="${aDatas}" var="v">
-														<tr>
-															<td class="p-0 text-center">${v.bNum}</td>
+													<!-- 샘플 -->
+													<tr class="text-center">
+														<td>
+															<div class="sort-handler">
+																<i class="fas fa-th"></i>
+															</div>
+														</td>
+														<td>제목 입력</td>
+														<td>장소 입력</td>
+														<td>3 / 5</td>
+														<td>22-3-12</td>
+														<td>
+															<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
+														</td>
+													</tr>
+													<!-- 샘플 -->
+													<c:forEach items="${aDatas}" var="v" begin="1">
+														<c:set var="i" value="0" />
+														<tr class="text-center">
+															<td>
+																<div class="sort-handler">
+																	<i class="fas fa-th"></i>
+																</div>
+															</td>
 															<td>${v.bTitle}</td>
-															<td class="align-middle">${v.bAddress}</td>
-															<td>${fn:length(aDatas)}/ ${v.bCnt}</td>
+															<td>${v.bAddress}</td>
+															<td>${fn:length(aDatas)} / ${v.bCnt}</td>
 															<td>${v.bDate}</td>
-															<td>
-																<a href="myEntryDelete.do?aNum=${v.aNum}" class="btn btn-secondary">취소하기</a>
-															</td>
-															<td>
-																<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">평가하기</button>
-															</td>
+															<c:choose>
+																<c:when test="${aDatas.bAction == 2}">
+																	<td>
+																		<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																	</td>
+																</c:when>
+																<c:otherwise>
+																	<td>
+																		<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
+																	</td>
+																</c:otherwise>
+															</c:choose>
 														</tr>
 													</c:forEach>
 												</tbody>
