@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <!-- 파비콘 삽입 -->
+<!-- 파비콘 삽입 -->
 <link rel="icon" href="../../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 매칭 작성 페이지</title>
 
@@ -222,11 +222,13 @@ select option[disabled] {
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
 
-  gtag('config', 'UA-94034622-3');
+	gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA -->
 </head>
@@ -234,10 +236,10 @@ select option[disabled] {
 <body>
 	<div id="app">
 		<div class="main-wrapper main-wrapper-1">
-		
-		<!--  header -->
-		<modoo:header id="${member.memberId}" name="${member.memberName}" />
-		
+
+			<!--  header -->
+			<modoo:header id="${member.memberId}" name="${member.memberName}" />
+
 			<!-- Main Content -->
 			<div class="main-content">
 				<section class="section">
@@ -253,76 +255,77 @@ select option[disabled] {
 										<h4>매칭 게시글</h4>
 									</div>
 									<div class="card-body">
-										<div class="form-group">
-											<label>제목</label>
-											<input type="text" class="form-control" name="bTitle" value="${bDatas.bTitle}" />
-										</div>
-										<div class="form-group">
-											<label>모집 인원</label>
-											<div class="input-group">
-												<div class="input-group mb-2">
-													<input type="text" class="form-control text-right" id="inlineFormInputGroup2" name="bCnt" value="${bDatas.bCnt}" />
-													<div class="input-group-append">
-														<div class="input-group-text">명</div>
+										<form action="${title == '게시글 작성' ? 'insertBoard.do' : 'boardUpdate.do'}" method="post">
+											<div class="form-group">
+												<label>제목</label>
+												<input type="text" class="form-control" name="bTitle" value="${bDatas.bTitle}" />
+											</div>
+											<div class="form-group">
+												<label>모집 인원</label>
+												<div class="input-group">
+													<div class="input-group mb-2">
+														<input type="text" class="form-control text-right" id="inlineFormInputGroup2" name="bCnt" value="${bDatas.bCnt}" />
+														<div class="input-group-append">
+															<div class="input-group-text">명</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<label>게임 시간</label>
-											<div class="input-group">
-												<input type="datetime-local" class="form-control" name="bDate" value="${bDatas.bDate}" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label>게임 위치</label>
-											<div class="input-group">
-												<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly="" />
-												<div class="input-group-append">
-													<button class="btn btn-primary" data-toggle="modal" data-target="#mapModal">지도 검색</button>
+											<div class="form-group">
+												<label>게임 시간</label>
+												<div class="input-group">
+													<input type="datetime-local" class="form-control" name="bDate" value="${bDatas.bDate}" />
 												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<label>실력</label>
-											<div class="input-group">
-												<div class="selectgroup w-100">
-													<label class="selectgroup-item">
-														<input type="radio" name="bRate" value="초고수" class="selectgroup-input" checked="${bDatas.bRate == '초고수' ? 'true' : 'false'}" />
-														<span class="selectgroup-button">초고수</span>
-													</label>
-													<label class="selectgroup-item">
-														<input type="radio" name="bRate" value="고수" class="selectgroup-input" checked="${bDatas.bRate == '고수' ? 'true' : 'false'}" />
-														<span class="selectgroup-button">고수</span>
-													</label>
-													<label class="selectgroup-item">
-														<input type="radio" name="bRate" value="초보" class="selectgroup-input" checked="${bDatas.bRate == '초보' ? 'true' : 'false'}" />
-														<span class="selectgroup-button">초보</span>
-													</label>
-													<label class="selectgroup-item">
-														<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" checked="${bDatas.bRate == '왕초보' ? 'true' : 'false'}" />
-														<span class="selectgroup-button">왕초보</span>
-													</label>
+											<div class="form-group">
+												<label>게임 위치</label>
+												<div class="input-group">
+													<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly="" />
+													<div class="input-group-append">
+														<button class="btn btn-primary" data-toggle="modal" data-target="#mapModal">지도 검색</button>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<label>내용</label>
-											<textarea class="form-control" id="editor" name="cContent">${bDatas.cContent}</textarea>
-											<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-											<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
-											<script>
-												ClassicEditor.create(document.querySelector('#editor'), {
-													language : "ko"
-												});
-											</script>
-										</div>
-										<div class="card-footer text-right">
-											<button type="button" class="btn btn-secondary">취소</button>
-											<button type="button" class="btn btn-primary" id="update">작성 완료</button>
-										</div>
+											<div class="form-group">
+												<label>실력</label>
+												<div class="input-group">
+													<div class="selectgroup w-100">
+														<label class="selectgroup-item">
+															<input type="radio" name="bRate" value="초고수" class="selectgroup-input" checked="${bDatas.bRate == '초고수' ? 'true' : 'false'}" />
+															<span class="selectgroup-button">초고수</span>
+														</label>
+														<label class="selectgroup-item">
+															<input type="radio" name="bRate" value="고수" class="selectgroup-input" checked="${bDatas.bRate == '고수' ? 'true' : 'false'}" />
+															<span class="selectgroup-button">고수</span>
+														</label>
+														<label class="selectgroup-item">
+															<input type="radio" name="bRate" value="초보" class="selectgroup-input" checked="${bDatas.bRate == '초보' ? 'true' : 'false'}" />
+															<span class="selectgroup-button">초보</span>
+														</label>
+														<label class="selectgroup-item">
+															<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" checked="${bDatas.bRate == '왕초보' ? 'true' : 'false'}" />
+															<span class="selectgroup-button">왕초보</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>내용</label>
+												<textarea class="form-control" id="editor" name="cContent">${bDatas.cContent}</textarea>
+												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+												<script>
+													ClassicEditor.create(document.querySelector('#editor'), {
+														language : "ko"
+													});
+												</script>
+											</div>
+											<div class="card-footer text-right">
+												<button type="button" class="btn btn-secondary" onclick="history.go(-1)">취소</button>
+												<button type="submit" class="btn btn-primary">작성 완료</button>
+											</div>
+										</form>
 									</div>
-
 								</div>
 							</div>
 						</div>
@@ -384,9 +387,6 @@ select option[disabled] {
 		var infowindow = new kakao.maps.InfoWindow({
 			zIndex : 1
 		});
-
-		// 키워드로 장소를 검색합니다
-		searchPlaces();
 
 		// 키워드 검색을 요청하는 함수입니다
 		function searchPlaces() {
@@ -621,7 +621,7 @@ body {
 	<script src="../../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 	<!-- Page Specific JS File -->
 	<script src="../../assets/js/page/forms-advanced-forms.js"></script>
-	
+
 	<!-- Template JS File -->
 	<script src="../../assets/js/scripts.js"></script>
 	<script src="../../assets/js/custom.js"></script>
