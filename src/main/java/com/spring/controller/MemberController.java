@@ -1,4 +1,4 @@
-package com.spring.biz.controller;
+package com.spring.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ import com.spring.biz.product.ProductService;
 import com.spring.biz.product.ProductVO;
 
 @Controller
+@RequestMapping(value="/view")
 public class MemberController {
 
 	@Autowired
@@ -104,20 +105,21 @@ public class MemberController {
 	}
 
 	// 취소 목록 조회
-	@RequestMapping(value = "/orderSelect.do")
-	public String selectAllCancel(OrderVO ovo, HttpSession session, Model model) {
-		ovo.setmNum((Integer)session.getAttribute("mNum"));
-
-		List<OrderVO> canorder = orderService.selectAll(ovo);
-
-		model.addAttribute("canorder", canorder);
-
-		return "cancel-list.jsp";
-	}
+	/*
+	 * @RequestMapping(value = "/orderSelect.do") public String
+	 * selectAllCancel(OrderVO ovo, HttpSession session, Model model) {
+	 * ovo.setmNum((Integer)session.getAttribute("mNum"));
+	 * 
+	 * List<OrderVO> canorder = orderService.selectAll(ovo);
+	 * 
+	 * model.addAttribute("canorder", canorder);
+	 * 
+	 * return "cancel-list.jsp"; }
+	 */
 	
 	
 	// 전체 목록 날짜 조회
-	@RequestMapping(value = "/orderSelect.do")
+	@RequestMapping(value = "/orderSearch.do")
 	public String selectAllSearchOrder(OrderVO ovo, HttpSession session, Model model) {
 		if (session.getAttribute("mNum") != null) {
 			ovo.setmNum((Integer)(session.getAttribute("mNum")));

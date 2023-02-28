@@ -1,4 +1,4 @@
-package com.spring.biz.controller;
+package com.spring.controller;
 
 import java.util.Properties;
 import java.util.Random;
@@ -26,6 +26,7 @@ import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 
 @Controller
+@RequestMapping(value="/view")
 public class AccountController {
 
 	@Autowired

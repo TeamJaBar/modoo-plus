@@ -1,4 +1,4 @@
-package com.spring.biz.controller;
+package com.spring.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +15,7 @@ import com.spring.biz.product.ProductService;
 import com.spring.biz.product.ProductVO;
 
 @Controller
-@RequestMapping(value="/view")
+@RequestMapping(value={"/view", "/view/admin"})
 public class AdminController {
 	
 		@Autowired
@@ -26,7 +26,7 @@ public class AdminController {
 		private ProductService productService;
 	
 		//관리자 메인 페이지로 이동
-		@RequestMapping(value={"/admin-main.do", "/admin/admin-main.do"})
+		@RequestMapping(value={"/admin-main.do"})
 		public String adminMainView(HttpSession session, OrderVO ovo, MemberVO mvo, Model model) {
 
 			model.addAttribute("statusList", orderService.selectAll_ADMIN(ovo));
