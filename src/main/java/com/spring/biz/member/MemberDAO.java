@@ -17,7 +17,7 @@ public class MemberDAO {
 	PreparedStatement pstmt;
 
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate template;
 
 	final String INSERT = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAOLOGIN, MIMG) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), NULL, ?)";
 	final String INSERT_KAKAO = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAOLOGIN, MIMG) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), ?, ?)";
@@ -48,78 +48,88 @@ public class MemberDAO {
 	// 매칭디테일
 	final String SELECTALL_MATCHING = "SELECT M.MNUM, M.MNAME, M.SCORE,B.BRATE, M.MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE M.MNUM = B.MNUM AND A.MNUM = B.MNUM AND B.BNUM=? ORDER BY M.MNUM ASC";
 
+	
+	
+	
 	public boolean insertMember(MemberVO vo) {
-		jdbcTemplate.update(INSERT, vo.getmId(), vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getmPoint(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getScore(),
+		template.update(INSERT, vo.getmId(), vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getmPoint(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getScore(),
 				vo.getMstatus(), vo.getmImg());
 		return true;
 	}
-
-	public boolean updatePw(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_PW, vo.getmPw(), vo.getmId());
-		if (res < 1) {
+    
+	public boolean updateMember(MemberVO vo) {
+		try {
+	if(vo.getmId()!=null) {
+		template.update(UPDATE_PW, vo.getmPw(), vo.getmId());
+	}else if(vo.getmName()!=null){
+		template.update(UPDATE_ADMIN, vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(),
+				vo.getUserAddr(), vo.getDetailAddr(), vo.getmPoint(), vo.getmNum());	
+	}else if(vo.getMstatus()!=null) {
+		template.update(UPDATE_STATUS, vo.getMstatus(), vo.getmNum());
+	}else if(vo.getScore()!=0) {
+		template.update(UPDATE_SCORE, vo.getScore(), vo.getmNum());
+	}else if(vo.getmPoint()!=0 &&vo.getmNum()!=0) {
+		template.update(UPDATE_POINT, vo.getmPoint(), vo.getmNum());
+	}else {
+		template.update(UPDATE_USER, vo.getmPw(), vo.getmEmail(), vo.getmTel(),
+		vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmNum());
+	}	
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 
-	public boolean updateUser(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_USER, vo.getmPw(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmNum());
-		if (res < 1) {
+	public boolean deleteMember(MemberVO vo) {
+		try {
+		if(vo.getmPw()!=null) {
+			template.update(DELETE_USER, vo.getmNum(), vo.getmPw());
+		}else {
+			template.update(DELETE_ADMIN, vo.getmNum());
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
+
+	public boolean selectOneMember(MemberVO vo) {
+		try {
+		if(vo.getmPw()!=null) {
+		Object[] args = { vo.getmId(), vo.getmPw() };
+		template.queryForObject(SELECTONE_LOGIN, args, new MemberRowMapper());
+		}else if(vo.getmNum()!=0) {
+			Object[] args = { vo.getmNum() };
+			template.queryForObject(SELECTONE_INFO, args, new MemberRowMapper());
+		}else if(vo.getmName()!=null && vo.getmEmail()!=null) {
+			Object[] args = { vo.getmName(), vo.getmEmail() };
+			template.queryForObject(SELECTONE_ID, args, new MemberRowMapper());
+		}else {
+			Object[] args = { vo.getmId() };
+			template.queryForObject(SELECTONE_IDCHK, args, new MemberRowMapper());
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-
-	public boolean updateAdmin(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_ADMIN, vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmPoint(), vo.getmNum());
-		if (res < 1) {
-			return false;
-		}
-		return true;
+	
+	
+	//selectOneMember의 SELECTONE_IDCHK와 인자가 같아서 메서드를 따로 생성
+	public MemberVO selectOneEmailCHK(MemberVO vo) {
+		Object[] args = { vo.getmId() };
+		return template.queryForObject(SELECTONE_IDCHK, args, new MemberRowMapper());
 	}
-
-	public boolean updateStatus(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_STATUS, vo.getMstatus(), vo.getmNum());
-
-		if (res < 1) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean updateScore(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_SCORE, vo.getScore(), vo.getmNum());
-
-		if (res < 1) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean updatePoint(MemberVO vo) {
-		int res = jdbcTemplate.update(UPDATE_POINT, vo.getmPoint(), vo.getmNum());
-
-		if (res < 1) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean deleteAdmin(MemberVO vo) {
-		int res = jdbcTemplate.update(DELETE_ADMIN, vo.getmNum());
-		if (res < 1) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean deleteUser(MemberVO vo) {
-		int res = jdbcTemplate.update(DELETE_USER, vo.getmNum(), vo.getmPw());
-		if (res < 1) {
-			return false;
-		}
-		return true;
-	}
+	
+	
+	
+	
+	
+	
 
 	public List<MemberVO> selectAll(MemberVO vo) {
 		return jdbcTemplate.query(SELECTALL, new MemberRowMapper());
@@ -128,32 +138,7 @@ public class MemberDAO {
 	public List<MemberVO> selectAllMember(MemberVO vo) {
 		return jdbcTemplate.query(SELECTALL_MEMBER, new MemberRowMapper());
 	}
-
-	public MemberVO selectOneLogin(MemberVO vo) {
-		Object[] args = { vo.getmId(), vo.getmPw() };
-		return jdbcTemplate.queryForObject(SELECTONE_LOGIN, args, new MemberRowMapper());
-	}
-
-	public MemberVO selectOneInfo(MemberVO vo) {
-		Object[] args = { vo.getmNum() };
-		return jdbcTemplate.queryForObject(SELECTONE_INFO, args, new MemberRowMapper());
-	}
-
-	public MemberVO selectOneId(MemberVO vo) {
-		Object[] args = { vo.getmName(), vo.getmEmail() };
-		return jdbcTemplate.queryForObject(SELECTONE_ID, args, new MemberRowMapper());
-	}
-
-	public MemberVO selectOneEmailCHK(MemberVO vo) {
-		Object[] args = { vo.getmId() };
-		return jdbcTemplate.queryForObject(SELECTONE_IDCHK, args, new MemberRowMapper());
-	}
-
-	public MemberVO selectOneFindPw(MemberVO vo) {
-		Object[] args = { vo.getmId() };
-		return jdbcTemplate.queryForObject(SELECTONE_EMAIL, args, new MemberRowMapper());
-	}
-
+	
 	public List<MemberVO> selectAllMatching(MemberVO vo) {
 		return jdbcTemplate.query(SELECTALL, new MemberRowMapper());
 
