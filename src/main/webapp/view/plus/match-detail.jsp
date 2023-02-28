@@ -46,6 +46,12 @@
 <!-- 카카오 API -->
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
+<style type="text/css">
+.hidden {
+	display: none;
+}
+</style>
+
 </head>
 
 <body class="layout-3">
@@ -62,6 +68,7 @@
 						<h1>매칭 상세페이지</h1>
 					</div>
 					<div class="section-body">
+						<h2 class="section-title">매칭 게시글</h2>
 						<div class="card">
 							<div class="navermap-container" style="width: 100%;">
 								<div id="map" style="width: 100%; height: 350px;"></div>
@@ -74,12 +81,12 @@
 											<div class="date">
 												<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
 											</div>
-											<c:if test="${bStatus == 0}">
+											<c:if test="${bDatas.bStatus == 0}">
 												<button class="btn-sue" id="modal-sue" data-toggle="modal">
 													<i class="fas fa-siren"></i>신고하기
 												</button>
 											</c:if>
-											<c:if test="${bStatus == 1}">
+											<c:if test="${bDatas.bStatus == 1}">
 												<div class="btn-sue">
 													<i class="fas fa-siren"></i>신고완료
 												</div>
@@ -193,19 +200,23 @@
 									<!-- 본문 내용 -->
 									<div class="match-content">${bDatas.bContent}</div>
 									<!-- 댓글 -->
-									<div  id="c_box" class="match-comment">
+									<div id="c_box" class="match-comment">
 										<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
-										<form action="insertComment.do" method="post">
-											<div class="form-group">
-												<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
-												<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
-												<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;"></textarea>
-												<button type="submit" class="btn btn-lg btn-submit">
-													<i class="fas fa-comments"></i>
-												</button>
-											</div>
-										</form>
-
+										<div class="media-links">
+											<a class="TextCount" style="font-size: 2px;">0</a>
+											<a class="TextTotal" style="font-size: 2px;">/400</a>
+										</div>
+										<div class="form-group">
+											<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
+											<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
+											<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+											<button class="btn btn-lg btn-submit" id="insertCommet">
+												<i class="fas fa-comments"></i>
+											</button>
+										</div>
+										<div class="alert alert-info hidden">글자수는 400자까지 입력 가능합니다.</div>
+										<div class="alert alert-info hidden">댓글을 입력해주세요.</div>
+										<div class="alert alert-info hidden">공백만 입력되었습니다.</div>
 										<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
 											<c:forEach var="com" items="${cDatas}">
 												<!-- 현재 로그인한 사람이 작성한 댓글 -->
@@ -227,15 +238,20 @@
 																<div class="bullet"></div>
 																<button class="text-danger">삭제</button>
 																<div class="collapse" id="collapseExample">
-																	<form action="updateComment.do" method="post">
-																		<div class="form-group">
-																			<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
-																			<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;">${com.cContent}</textarea>
-																			<button type="submit" class="btn btn-lg btn-submit">
-																				<i class="fas fa-comments"></i>
-																			</button>
-																		</div>
-																	</form>
+																	<div class="media-links">
+																		<a class="TextCount" style="font-size: 2px;">0</a>
+																		<a class="TextTotal" style="font-size: 2px;">/400</a>
+																	</div>
+																	<div class="form-group">
+																		<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
+																		<textarea class="form-control" name="cContent" id="${com.cNum}" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
+																		<button class="btn btn-lg btn-submit" id="updateCommet">
+																			<i class="fas fa-comments"></i>
+																		</button>
+																	</div>
+																	<div class="alert alert-info hidden">글자수는 400자까지 입력 가능합니다.</div>
+																	<div class="alert alert-info hidden">댓글을 입력해주세요.</div>
+																	<div class="alert alert-info hidden">공백만 입력되었습니다.</div>
 																</div>
 															</div>
 														</div>
@@ -286,15 +302,13 @@
 					</div>
 				</section>
 			</div>
-
-
 		</div>
 	</div>
 
 	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">신고 사유 선택해주세요.</p>
-		<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
-		<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
+		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
+		<input type="hidden" name="mNum" value="${member.mNum}" />
 		<div class="radio-container">
 			<c:forEach items="${sDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(sDatas)}" step=1>
 				<div class="custom-control custom-radio">
@@ -304,8 +318,8 @@
 			</c:forEach>
 		</div>
 	</form>
-	
-	
+
+
 
 	<script>
 		<!-- NaverMap API -->
@@ -428,6 +442,86 @@
 			})
 		})
 	})
+	<!-- 댓글 작성하기 -->
+		$(document).ready(function() {
+		$('#insertCommet').each(function() {
+			let mNum = $(this).siblings( '#mNum' ).val;
+			let bNum = $(this).siblings( '#bNum' ).val;
+			let cContent = $(this).parent().children( '#cContent' ).val;
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(aNum, bNum, cContent);
+				if(cContent == '' ||cContent == null){
+					 $('.textCount').prepend('<div class="alert alert-info">댓글을 입력해주세요.</div>')
+				} else if(){
+					 $('.textCount').prepend('<div class="alert alert-info">공백만 입력되었습니다.</div>')
+				} else{
+					$.ajax({
+						type: 'POST',
+						url: 'insertComment',
+						data: {
+							mNum: mNum,
+							bNum: bNum,
+							cContent: cContent
+						},
+						success: function(result) {
+							if (result == 1) {
+								$('#c_box').load(location.href + ' #c_box>*');
+							}
+						}
+					});
+				}
+			})
+		})
+	})
+	
+		<!-- 댓글 수정하기 -->
+		$(document).ready(function() {
+		$('#updateCommet').each(function() {
+			let cNum = $(this).siblings( '#cNum' ).val;
+			let cContent = $(this).siblings( '#cContent' ).val;
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(aNum, bNum, cContent);
+				
+					$.ajax({
+						type: 'POST',
+						url: 'updateCommet',
+						data: {
+							cNum: cNum,
+							cContent: cContent
+						},
+						success: function(result) {
+							if (result == 1) {
+								$('#c_box').load(location.href + ' #c_box>*');
+							}
+						}
+					});	
+			})
+		})
+	})
+	
+	<!-- 유효성 검사 -->
+		function validation(a){
+			$('#'+a).keyup(function (e) {
+				let content = $(this).val();
+				console.log($(this).parent().siblings());
+			    // 글자수 세기
+			    if (content.length == 0 || content == '') {
+			    	$(this).parent().siblings('.media-links').children('.textCount').text('0자');
+			    } else {
+			    	$(this).parent().siblings('.media-links').children('.textCount').text(content.length + '자');
+			    }
+			    
+			    // 글자수 제한
+			    if (content.length > 400) {
+			    	// 400자 부터는 타이핑 되지 않도록
+			        $(this).val($(this).val().substring(0, 400));
+			        // 400자 넘으면 알림창 뜨도록
+			        $(this).parent().siblings('.alert-info').removeClass('hidden');
+			    };
+			});
+		}
 	</script>
 	<!-- General JS Scripts -->
 	<script src="../../assets/modules/jquery.min.js"></script>
