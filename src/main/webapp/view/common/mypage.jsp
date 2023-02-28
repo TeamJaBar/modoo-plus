@@ -38,7 +38,7 @@
 									<a href="withdrawal.jsp">- 회원 탈퇴</a>
 								</li>
 								<li>
-									<a href="addrsSelect.do">- 배송지 관리</a>
+									<a href="addrsSelectAll.do">- 배송지 관리</a>
 								</li>
 							</ul>
 						</li>
