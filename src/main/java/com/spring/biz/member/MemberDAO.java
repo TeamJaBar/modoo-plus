@@ -96,26 +96,25 @@ public class MemberDAO {
 		
 	}
 
-	public boolean selectOneMember(MemberVO vo) {
+	public MemberVO selectOneMember(MemberVO vo) {
 		try {
 		if(vo.getmPw()!=null) {
 		Object[] args = { vo.getmId(), vo.getmPw() };
-		template.queryForObject(SELECTONE_LOGIN, args, new MemberRowMapper());
+		return template.queryForObject(SELECTONE_LOGIN, args, new MemberRowMapper());
 		}else if(vo.getmNum()!=0) {
 			Object[] args = { vo.getmNum() };
-			template.queryForObject(SELECTONE_INFO, args, new MemberRowMapper());
+		return template.queryForObject(SELECTONE_INFO, args, new MemberRowMapper());
 		}else if(vo.getmName()!=null && vo.getmEmail()!=null) {
 			Object[] args = { vo.getmName(), vo.getmEmail() };
-			template.queryForObject(SELECTONE_ID, args, new MemberRowMapper());
+		return template.queryForObject(SELECTONE_ID, args, new MemberRowMapper());
 		}else {
 			Object[] args = { vo.getmId() };
-			template.queryForObject(SELECTONE_IDCHK, args, new MemberRowMapper());
+		return template.queryForObject(SELECTONE_IDCHK, args, new MemberRowMapper());
 		}
 		}catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-		return true;
 	}
 	
 	
@@ -126,21 +125,16 @@ public class MemberDAO {
 	}
 	
 	
-	
-	
-	
-	
-
 	public List<MemberVO> selectAll(MemberVO vo) {
-		return jdbcTemplate.query(SELECTALL, new MemberRowMapper());
+		return template.query(SELECTALL, new MemberRowMapper());
 	}
 
 	public List<MemberVO> selectAllMember(MemberVO vo) {
-		return jdbcTemplate.query(SELECTALL_MEMBER, new MemberRowMapper());
+		return template.query(SELECTALL_MEMBER, new MemberRowMapper());
 	}
 	
 	public List<MemberVO> selectAllMatching(MemberVO vo) {
-		return jdbcTemplate.query(SELECTALL, new MemberRowMapper());
+		return template.query(SELECTALL, new MemberRowMapper());
 
 	}
 
