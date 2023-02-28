@@ -37,7 +37,7 @@ select * from BOARD;
 /*--관리자*/
 INSERT INTO MEMBER
 (MNUM, MID, MPW, MNAME, MEMAIL)
-VALUES(-1, 'admin', 'abc123123123', '관리자', 'modoo.shop.3@gmail.com');
+VALUES(-1, 'admin', '1234', '관리자', 'modoo.shop.3@gmail.com');
 
 -- MEMBER 샘플 데이터
 INSERT INTO MEMBER
