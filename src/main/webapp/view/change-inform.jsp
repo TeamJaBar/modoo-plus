@@ -355,7 +355,7 @@ var phoneCheck = true;
 			//이메일 중복검사		
 			$.ajax({
 				type:'POST', //POST 방식으로 보낼래
-				url:'check', 
+				url:'check.do', 
 				data:{mEmail:mEmail,
 					mode: "emailCHK"},
 				success: function(result) {

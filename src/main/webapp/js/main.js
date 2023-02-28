@@ -458,7 +458,7 @@
 			if ($(this).hasClass('js-addedwish-b2')) {
 				$.ajax({
 					type: 'POST',
-					url: 'dibDelete',
+					url: 'dibDelete.do',
 					data: {
 						pNum: pNum
 					},
@@ -472,7 +472,7 @@
 			} else {
 				$.ajax({
 					type: 'POST', //POST 방식으로 보낼래
-					url: 'dibInsert',
+					url: 'dibInsert.do',
 					data: {
 						pNum: pNum
 					},
@@ -528,7 +528,7 @@
 		} else {
 			$.ajax({
 				type: 'POST', //POST 방식으로 보낼래
-				url: 'dibInsert',
+				url: 'dibInsert.do',
 				async: false,
 				data: {
 					pNum: pNum
@@ -568,7 +568,7 @@
 		} else {
 			$.ajax({
 				type: 'POST', //POST 방식으로 보낼래
-				url: 'dibInsert',
+				url: 'dibInsert.do',
 				async: false,
 				data: {
 					pNum: pNum
