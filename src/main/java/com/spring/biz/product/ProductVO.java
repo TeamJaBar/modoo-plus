@@ -1,7 +1,7 @@
 package com.spring.biz.product;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class ProductVO implements Serializable {
 	// 직렬화: 자바 시스템 내부에서 사용되는 Object 또는 Data를 외부의 자바 시스템에서도 사용할 수 있도록 바이트 형태로 데이터를
