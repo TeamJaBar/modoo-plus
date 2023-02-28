@@ -29,6 +29,7 @@
 	gtag('js', new Date());
 
 	gtag('config', 'UA-94034622-3');
+	
 </script>
 <!-- /END GA -->
 </head>
@@ -38,7 +39,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.mId}" name="${member.mName}" />
+			<modoo:header />
 
 
 			<!-- Main Content -->
@@ -56,28 +57,22 @@
 									<div class="card-body">
 										<ul class="nav nav-pills">
 											<li class="nav-item">
-												<a class="nav-link active" href="admin-sue.do">
+												<a class="nav-link active" href="admin-sue.do?aCnt=${sueTotal.aCnt}">
 													전체
-													<span class="badge badge-white">
-														${sueTotal.aCnt}
-													</span>
+													<span class="badge badge-white"> ${sueTotal.aCnt} </span>
 												</a>
 											</li>
 											<!-- 해야할 것 ajax 사용해서 비동기로 목록 출력 -->
 											<li class="nav-item">
-												<a class="nav-link" href="admin-sue.do?">
+												<a class="nav-link" href="admin-sue.do?nCnt=${sueTotal.nCnt}">
 													미처리
-													<span class="badge badge-primary">
-														${sueTotal.nCnt}
-													</span>
+													<span class="badge badge-primary"> ${sueTotal.nCnt} </span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="admin-sue.do?">
+												<a class="nav-link" href="admin-sue.do?cCnt=${sueTotal.cCnt}">
 													처리완료
-													<span class="badge badge-primary">
-														${sueTotal.cCnt}
-													</span>
+													<span class="badge badge-primary"> ${sueTotal.cCnt} </span>
 												</a>
 											</li>
 										</ul>
@@ -89,7 +84,7 @@
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h4>전체 신고글</h4>
+										<h4>신고 게시글 목록</h4>
 									</div>
 									<div class="card-body">
 
@@ -132,27 +127,32 @@
 										<div class="float-right">
 											<nav>
 												<ul class="pagination">
-													<li class="page-item disabled">
-														<a class="page-link" href="#" aria-label="Previous">
-															<span aria-hidden="true">&laquo;</span>
-															<span class="sr-only">Previous</span>
-														</a>
-													</li>
-													<li class="page-item active">
-														<a class="page-link" href="#">1</a>
-													</li>
-													<li class="page-item">
+													<c:if test="${pageVO.prev}">
+														<li class="page-item disabled">
+															<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
+																<span aria-hidden="true">&laquo;</span>
+																<span class="sr-only">Previous</span>
+															</a>
+														</li>
+													</c:if>
+													<!-- 1. 페이지번호 처리 -->
+													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+														<li class="page-item active">
+															<a class="page-link" href="list.board?pageNum=${num}&amount=${pageVO.amount}">${num}</a>
+														</li>
+													</c:forEach>
+													<!-- <li class="page-item">
 														<a class="page-link" href="#">2</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#">3</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#" aria-label="Next">
-															<span aria-hidden="true">&raquo;</span>
-															<span class="sr-only">Next</span>
-														</a>
-													</li>
+													</li> -->
+													<c:if test="${pageVO.next}">
+														<li class="page-item">
+															<a class="page-link" href="list.board?pageNum=${pageVO.endPage + 1}&amount=${pageVO.amount}" aria-label="Next">
+																<span aria-hidden="true">&raquo;</span>
+																<span class="sr-only">Next</span>
+															</a>
+														</li>
+													</c:if>
+													
 												</ul>
 											</nav>
 										</div>

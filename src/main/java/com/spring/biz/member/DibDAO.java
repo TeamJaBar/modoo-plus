@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository("dibDAO")
 public class DibDAO {
 	
-	JdbcTemplate template;
+	@Autowired
+	private JdbcTemplate template;
 
 	final String INSERT = "INSERT INTO DIB (PNUM, MNUM, DCNT) VALUES(?, ?, 1)";
 	final String SELECTALL = "SELECT D.DIBNUM, P.PNUM, D.MNUM, P.PIMG, P.PNAME, P.SELPRICE, D.DCNT FROM DIB D, PRODUCT P WHERE D.PNUM=P.PNUM AND MNUM=? ORDER BY DIBNUM ASC";
