@@ -9,6 +9,14 @@ public class SueVO {
 	private int scNum;
 	private Date sDate;
 	private String sResult;
+	//JAVA에서만 저장용으로 사용되는 데이터
+	private String bTitle; //제목
+	private String mName; //이름
+	private String mImg; //프로필 사진
+	private String bwDate; //작성일자
+	private String bStatus; //신고처리
+	private String bContent; //내용
+	private String scName; //신고 분류명
 	public int getsNum() {
 		return sNum;
 	}
@@ -45,8 +53,48 @@ public class SueVO {
 	public void setsResult(String sResult) {
 		this.sResult = sResult;
 	}
-	
-	
+	public String getbTitle() {
+		return bTitle;
+	}
+	public void setbTitle(String bTitle) {
+		this.bTitle = bTitle;
+	}
+	public String getmName() {
+		return mName;
+	}
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
+	public String getmImg() {
+		return mImg;
+	}
+	public void setmImg(String mImg) {
+		this.mImg = mImg;
+	}
+	public String getBwDate() {
+		return bwDate;
+	}
+	public void setBwDate(String bwDate) {
+		this.bwDate = bwDate;
+	}
+	public String getbStatus() {
+		return bStatus;
+	}
+	public void setbStatus(String bStatus) {
+		this.bStatus = bStatus;
+	}
+	public String getbContent() {
+		return bContent;
+	}
+	public void setbContent(String bContent) {
+		this.bContent = bContent;
+	}
+	public String getScName() {
+		return scName;
+	}
+	public void setScName(String scName) {
+		this.scName = scName;
+	}
 	
 
 	

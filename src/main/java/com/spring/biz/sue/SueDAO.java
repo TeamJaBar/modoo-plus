@@ -1,9 +1,11 @@
 package com.spring.biz.sue;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,24 +35,57 @@ public class SueDAO {
 	//신고글 내용
 	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE,M.MNAME,B.BCONTENT,SC.SCNAME,B.BWDATE,S.SDATE,S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM and S.SCNUM = SC.SCNUM and M.MNUM = B.MNUM";
 	// 신고하기
+	
+	
 	public boolean insert(SueVO vo) {
-		jdbcTemplate.update(SUE_INSERT, vo.getbNum(),vo.getmNum(),vo.getScNum(),null,vo.getsResult());
+		try {
+			jdbcTemplate.update(SUE_INSERT, vo.getbNum(),vo.getmNum(),vo.getScNum(),null,vo.getsResult());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 		return true;
-	}
-	public List<SueVO> selectAll(SueVO vo) {
-		return jdbcTemplate.query(SELECTALL_SUE, new SueRowMapper());
 	}
 	
 	public List<SueVO> selectCount(SueVO vo) {
-		return jdbcTemplate.query(SUE_COUNT, new SueRowMapper());
+		List<SueVO> datas = new ArrayList<SueVO>();
+		try {			
+			datas = jdbcTemplate.query(SUE_COUNT, new SueRowMapper());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return datas;
 	}
+	
+	public List<SueVO> selectAll(SueVO vo) {
+		List<SueVO> datas = new ArrayList<SueVO>();
+		try {			
+			datas = jdbcTemplate.query(SELECTALL_SUE, new SueRowMapper());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return datas;
+	}
+	
 	public SueVO selectOne(SueVO vo) {
-		Object[] args= { vo.getbNum()};
-		return jdbcTemplate.queryForObject(SELECTONE_SUE, args, new SueRowMapper());
+		SueVO data = new SueVO();
+		try {
+			data = jdbcTemplate.queryForObject(SELECTONE_SUE, (rs, rowNum) -> {
+				SueVO tmpData = new SueVO();
+				tmpData.setbNum(rs.getInt("BNUM"));
+				return tmpData;
+			}, vo.getbNum(),vo.getbTitle(),vo.getmName(),vo.getbContent(),vo.getScName(),vo.getBwDate(),vo.getsDate(),vo.getsResult());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return data;
 	}
+	
 	
 	class SueRowMapper implements RowMapper<SueVO> {
 
+		
 		@Override
 		public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			SueVO data=new SueVO();
@@ -60,6 +95,13 @@ public class SueDAO {
 			data.setScNum(rs.getInt("SCNUM"));
 			data.setsDate(rs.getDate("SDATE"));
 			data.setsResult(rs.getString("SRESULT"));
+			data.setbTitle(rs.getString("BTITLE"));
+			data.setmName(rs.getString("MNAME"));
+			data.setmImg(rs.getString("MIMG"));
+			data.setBwDate(rs.getString("BWDATE"));
+			data.setbStatus(rs.getString("BSTATUS"));
+			data.setbContent(rs.getString("BCONTENT"));
+			data.setScName(rs.getString("SCNAME"));
 			return data;
 		}
 		
