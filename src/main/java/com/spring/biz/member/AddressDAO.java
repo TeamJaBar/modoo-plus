@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository("addressDAO")
 public class AddressDAO {
 	
+	@Autowired
 	private JdbcTemplate template;
 
 	final String INSERT = "INSERT INTO ADDRESS (MNUM, SHIPNAME, DESTINATION, ZIPCODE, USERADDR, DETAILADDR, TEL, ISDEFAULT) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";

@@ -293,7 +293,7 @@
 
 	$('.btn-num-cart-up').each(function() {
 		$(this).click(function() {
-			var current = $(this).attr('id');
+			var current = $(this).prev().prop('id').slice(4);
 			var numProduct = Number($(this).prev().val());
 			if (numProduct == 10) {
 				alert('최대 10개까지만 주문가능합니다.');
@@ -324,7 +324,7 @@
 
 	$('.btn-num-cart-down').each(function() {
 		$(this).click(function() {
-			var current = $(this).attr('id');
+			var current = $(this).next().prop('id').slice(4);
 			var numProduct = Number($(this).next().val());
 
 			console.log('현재 : ' + $(this).next().val());

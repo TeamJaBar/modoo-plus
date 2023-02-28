@@ -1,4 +1,4 @@
-package com.spring.biz.controller;
+package com.spring.controller;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 
 import com.spring.biz.common.JDBCUtil;
 
+/*
 @WebListener
 public class ProductListener implements ServletContextListener {
 
@@ -104,4 +105,4 @@ public class ProductListener implements ServletContextListener {
 		System.out.println("   로그: 크롤링 완료");
 	}
 
-}
+}*/

@@ -6,43 +6,32 @@ import java.sql.PreparedStatement;
 
 public class JDBCUtil {
 
-	static final String driverName="oracle.jdbc.driver.OracleDriver";
-	static final String url="jdbc:oracle:thin:@localhost:1521:xe";
-	static final String user="sunghoon";
-	static final String passwd="1234";
+	static final String driverClassName = "com.mysql.cj.jdbc.Driver";
+	static final String url = "jdbc:mysql://localhost/modoodb";
+	static final String username = "root";
+	static final String password = "1234";
+
 	public static Connection connect() {
-		Connection conn=null;
+		Connection conn = null;
 		try {
-			Class.forName(driverName);
-			conn=DriverManager.getConnection(url, user, passwd);
-		} catch(Exception e) {
+			Class.forName(driverClassName);
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			System.out.println("   로그: connect() 수행완료");
+			System.out.println("\t로그: connect() 수행완료");
 		}
 		return conn;
 	}
-	public static void disconnect(Connection conn,PreparedStatement pstmt) {
+
+	public static void disconnect(Connection conn, PreparedStatement pstmt) {
 		try {
 			pstmt.close();
 			conn.close();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			System.out.println("   로그: disconnect() 수행완료");
-		}		
+			System.out.println("\t로그: disconnect() 수행완료");
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
