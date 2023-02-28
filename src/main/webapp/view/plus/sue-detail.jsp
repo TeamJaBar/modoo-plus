@@ -38,7 +38,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.mId}" name="${member.mName}" />
+			<modoo:header/>
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -69,7 +69,10 @@
 										게시 : ${sue.bwDate}
 										<div class="bullet"></div>
 										신고 : ${sue.sDate}
-										<button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button>
+										<!-- <button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button> -->
+										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}'">
+																	신고취소
+																</button>
 										<div class="btn-group mb-2" style="float: right;">
 											<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
 											<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원 관리</button>
