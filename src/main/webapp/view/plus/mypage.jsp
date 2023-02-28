@@ -36,6 +36,7 @@
 	gtag('js', new Date());
 
 	gtag('config', 'UA-94034622-3');
+
 </script>
 <!-- /END GA -->
 </head>
@@ -45,7 +46,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.mId}" name="${member.mName}" />
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -85,24 +86,58 @@
 														</th>
 														<th>제목</th>
 														<th>장소</th>
-														<th>날짜</th>
-														<th>시간</th>
+														<th>모임일자</th>
 														<th>인원</th>
 														<th>상태</th>
 														<th>실행</th>
 													</tr>
 												</thead>
 												<tbody>
+													<tr class="text-center">
+														<td>
+															<div class="sort-handler">
+																<i class="fas fa-th"></i>
+															</div>
+														</td>
+														<td>
+															<a href="boardDetail.do?bNum=${v.bNum}">제목</a>
+														</td>
+														<td>경기도래요</td>
+														<td>2023-3-15</td>
+														<td>
+															<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
+															<a href="#" data-toggle="modal" data-target="#exampleModal">3 / 5</a>
+														</td>
+														<td>
+															<div class="dropdown d-inline mr-2">
+																<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">모집 완료</button>
+																<div class="dropdown-menu">
+																	<a class="dropdown-item" href="boardUpdate.do?bAction=1">모집 중</a>
+																	<a class="dropdown-item" href="boardUpdate.do?bAction=0">모집완료</a>
+																</div>
+															</div>
+														</td>
+														<td>
+															<a href="#" class="btn btn-icon btn-primary" id="modal-5">
+																<i class="far fa-edit" id="modal-5"></i>
+															</a>
+															<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do'">
+																<i class="fas fa-times"></i>
+																<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
+															</button>
+														</td>
+													</tr>
 													<!-- 나의 작성 글 el식 적용 -->
 													<c:forEach items="${bDatas}" var="v">
-														<tr>
+													<input type="hidden" name="bNum" value="${v.bNum}"/>
+														<tr class="text-center">
 															<td>
 																<div class="sort-handler">
 																	<i class="fas fa-th"></i>
 																</div>
 															</td>
 															<td>
-																<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
+																<a href="boardDetail.do">${v.bTitle}</a>
 															</td>
 															<td>${v.bAddress}</td>
 															<td>${v.bDate}</td>
@@ -133,10 +168,10 @@
 																<a href="#" class="btn btn-icon btn-primary" id="modal-5">
 																	<i class="far fa-edit" id="modal-5"></i>
 																</a>
-																<a href="#" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="alert('삭제완료되었습니다 :)');">
+																<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do'">
 																	<i class="fas fa-times"></i>
-																	<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
-																</a>
+																	<!-- 처리 yes 누르면 data-confirm-yes="delete()" -->
+																</button>
 															</td>
 														</tr>
 													</c:forEach>
@@ -286,7 +321,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">현재 참여한 회원</h5>
+					<h5 class="modal-title">함께 참여한 회원</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
