@@ -1,5 +1,6 @@
 package com.spring.biz.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,11 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.biz.member.AddressService;
 import com.spring.biz.member.AddressVO;
@@ -19,6 +20,12 @@ import com.spring.biz.member.DibService;
 import com.spring.biz.member.DibVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
+import com.spring.biz.member.OrderDAO;
+import com.spring.biz.member.OrderDetail;
+import com.spring.biz.member.OrderService;
+import com.spring.biz.member.OrderVO;
+import com.spring.biz.product.ProductService;
+import com.spring.biz.product.ProductVO;
 
 @Controller
 public class MemberController {
@@ -29,11 +36,105 @@ public class MemberController {
 	private AddressService addressService;
 	@Autowired
 	private DibService dibService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private ProductService productService;
+
+	/* 주문 */
+	// 주문페이지로 이동
+	@RequestMapping(value = "/order.do")
+	public String order(MemberVO mvo, AddressVO avo, ProductVO pvo, @RequestParam(value = "chk") String[] arpNum, @RequestParam(value = "num-product") String[] arpCnt, ArrayList<ProductVO> prodList,
+			HttpSession session, Model model) {
+		for (int i = 0; i < arpNum.length; i++) {
+			pvo.setpNum(Integer.parseInt(arpNum[i]));
+			pvo = productService.selectOne(pvo);
+			pvo.setpCnt(Integer.parseInt(arpCnt[i]));
+			prodList.add(pvo);
+		}
+		System.out.println("\t주문서 상품 로그: " + prodList);
+
+		mvo.setmNum((Integer)session.getAttribute("mNum"));
+		avo.setmNum((Integer)session.getAttribute("mNum"));
+
+		model.addAttribute("member", memberService.selectOneInfo(mvo));
+		model.addAttribute("defAddr", addressService.selectOne(avo));
+		model.addAttribute("prodList", prodList);
+
+		return "order.jsp";
+	}
+
+	// 주문하기
+	@RequestMapping(value = "/orderOk.do")
+	public String orderOk(ProductVO pvo, OrderVO ovo, OrderVO last, OrderDetail od, @RequestParam(value = "chk") String[] arpNum, @RequestParam(value = "num-product") String[] arpCnt,
+			List<ProductVO> prodList, HttpSession session, Model model) {
+		for (int i = 0; i < arpNum.length; i++) {
+			pvo.setpNum(Integer.parseInt(arpNum[i]));
+			pvo = productService.selectOne(pvo);
+			pvo.setpCnt(Integer.parseInt(arpCnt[i]));
+			prodList.add(pvo);
+		}
+
+		int mNum = (Integer)session.getAttribute("mNum");
+		ovo.setmNum(mNum);
+		orderService.insert(ovo);
+
+		last = orderService.selectOne(ovo);
+		for (int i = 0; i < prodList.size(); i++) {
+			od.setoNum(last.getoNum());
+			od.setpNum(prodList.get(i).getpNum());
+			od.setCnt(prodList.get(i).getpCnt());
+			orderService.insert(od);
+		}
+
+		return "redirect:order-ok.jsp";
+	}
+
+	// 주문 목록 조회
+	@RequestMapping(value = "/orderSelect.do")
+	public String selectAllOrder(OrderVO ovo, HttpSession session, Model model) {
+		ovo.setmNum((Integer)session.getAttribute("mNum"));
+
+		List<OrderVO> orders = orderService.selectAll(ovo);
+		System.out.println("주문목록 이동 로그 : " + orders.size());
+
+		model.addAttribute("orders", orders);
+
+		return "order-list.jsp";
+	}
+
+	// 취소 목록 조회
+	@RequestMapping(value = "/orderSelect.do")
+	public String selectAllCancel(OrderVO ovo, HttpSession session, Model model) {
+		ovo.setmNum((Integer)session.getAttribute("mNum"));
+
+		List<OrderVO> canorder = orderService.selectAll(ovo);
+
+		model.addAttribute("canorder", canorder);
+
+		return "cancel-list.jsp";
+	}
+	
+	
+	// 전체 목록 날짜 조회
+	@RequestMapping(value = "/orderSelect.do")
+	public String selectAllSearchOrder(OrderVO ovo, HttpSession session, Model model) {
+		if (session.getAttribute("mNum") != null) {
+			ovo.setmNum((Integer)(session.getAttribute("mNum")));
+		}
+
+		System.out.println("로그 : " + ovo.getSearchCal());
+
+		List<OrderVO> searchResult = orderService.selectAll(ovo);
+
+		model.addAttribute("orders", searchResult);
+		return "order-list.jsp";
+	}
 
 	/* 배송지 */
 	// 배송지 추가
 	@RequestMapping(value = "/addrsInsert.do")
-	public String insertAddrs(AddressVO avo, HttpSession session, HttpServletRequest request) throws Exception {
+	public String insertAddrs(AddressVO avo, HttpSession session, HttpServletRequest request) {
 		if (request.getParameter("defaultFl") == null) {
 			avo.setIsDefault("0"); // 일반
 		} else {
@@ -50,7 +151,7 @@ public class MemberController {
 
 	// 배송지 수정
 	@RequestMapping(value = "/addrsUpdate.do")
-	public String updateAddrs(AddressVO avo, HttpSession session, HttpServletRequest request) throws Exception {
+	public String updateAddrs(AddressVO avo, HttpSession session, HttpServletRequest request) {
 		int aNum = avo.getmNum();
 		avo.setmNum(0);
 
@@ -71,7 +172,7 @@ public class MemberController {
 
 	// 배송지 삭제
 	@RequestMapping(value = "/addrsDelete.do.do")
-	public String deleteAddrs(AddressVO avo) throws Exception {
+	public String deleteAddrs(AddressVO avo) {
 		if (addressService.delete(avo)) {
 			return "redirect:addrsSelectAll.do";
 		}
@@ -80,30 +181,28 @@ public class MemberController {
 
 	// 배송지 전체 조회
 	@RequestMapping(value = "/addrsSelectAll.do")
-	public ModelAndView selectAllAddrs(AddressVO avo, MemberVO mvo, HttpSession session, ModelAndView mav) throws Exception {
+	public String selectAllAddrs(AddressVO avo, MemberVO mvo, HttpSession session, Model model) {
 		mvo.setmId((String)session.getAttribute("mId"));
-		mav.addObject("member", memberService.selectOneInfo(mvo));
+		model.addAttribute("member", memberService.selectOneInfo(mvo));
 
 		avo.setmNum((Integer)session.getAttribute("mNum"));
-		mav.addObject("address", addressService.selectAll(avo));
+		model.addAttribute("address", addressService.selectAll(avo));
 
-		mav.setViewName("address-list.jsp");
-		return mav;
+		return "address-list.jsp";
 	}
 
 	// 배송지 조회
 	@RequestMapping(value = "/addrsSelectOne.do")
-	public ModelAndView selectOneAddrs(AddressVO avo, ModelAndView mav) throws Exception {
-		mav.addObject("address", addressService.selectOne(avo));
+	public String selectOneAddrs(AddressVO avo, Model model) {
+		model.addAttribute("address", addressService.selectOne(avo));
 
-		mav.setViewName("address-manage.jsp");
-		return mav;
+		return "address-manage.jsp";
 	}
-	
+
 	/* 찜 */
 	// 찜 추가하기
 	@ResponseBody
-	@RequestMapping(value = "/view/dibInsert", method = RequestMethod.POST)
+	@RequestMapping(value = "/dibInsert.do", method = RequestMethod.POST)
 	public String insertDib(DibVO dvo, HttpSession session) {
 		if (session.getAttribute("mNum") != null) {
 			dvo.setmNum((Integer)(session.getAttribute("mNum")));
@@ -116,7 +215,7 @@ public class MemberController {
 
 	// 찜 삭제
 	@ResponseBody
-	@RequestMapping(value = "/view/dibDelete", method = RequestMethod.POST)
+	@RequestMapping(value = "/dibDelete.do", method = RequestMethod.POST)
 	public String deteletDib(DibVO dvo, HttpSession session, @RequestParam(value = "dibProduct[]") List<String> dibProduct) {
 		boolean checkFlag = true;
 
@@ -146,16 +245,15 @@ public class MemberController {
 
 	// 찜 전체 조회
 	@RequestMapping(value = "/dibList.do")
-	public ModelAndView selectAllDib(DibVO dvo, HttpSession session, ModelAndView mav) throws Exception {
+	public String selectAllDib(DibVO dvo, HttpSession session, Model model) {
 
 		if (session.getAttribute("mNum") != null) {
 			dvo.setmNum((Integer)session.getAttribute("mNum"));
 		}
 
-		mav.addObject("dList", dibService.selectAll(dvo));
+		model.addAttribute("dList", dibService.selectAll(dvo));
 
-		mav.setViewName("dibs-list.jsp");
-		return mav;
+		return "dibs-list.jsp";
 	}
 
 }
