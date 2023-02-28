@@ -4,9 +4,9 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 	$(document).ready(function() {
-		var title = "<c:out value='${title}' />";
-		var msg = "<c:out value='${msg}' />";
-		var url = "<c:out value='${url}' />";
+		var title = "<c:out value='${sweet.title}' />";
+		var msg = "<c:out value='${sweet.msg}' />";
+		var url = "<c:out value='${sweet.url}' />";
 
 		swal({
 			title : title,
@@ -15,6 +15,5 @@
 		}).then(function() {
 			location.href = url;
 		})
-
 	});
 </script>

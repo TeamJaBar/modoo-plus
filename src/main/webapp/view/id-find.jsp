@@ -103,12 +103,12 @@
 		
 		$.ajax({
 			type : 'POST', //POST 방식으로 보낼래
-			url : 'check',
+			url : 'check.do',
 			async : false,
 			data : {
 				mName : mName,
 				mEmail : mEmail,
-				mode : "idFind"
+				mode : "findID"
 			}, //mId라는 이름으로 mId 변수에 있는 값 보냄
 			success : function(result) {
 				console.log('로그 : 중복체크 성공');
