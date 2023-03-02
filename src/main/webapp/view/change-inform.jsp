@@ -329,12 +329,13 @@ var phoneCheck = true;
 
 		/* 이메일 정규식 */
 		const emailRegEx = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/m
+		let emailFront = $('#email').val();
+		let domain = $('#emailDomain option:selected').val();
+		mEmail = emailFront;
 		
 		$('#email, #emailDomain').focusout(function () {
-			let emailFront = $('#email').val();
-			let domain = $('#emailDomain option:selected').val();
-			mEmail = emailFront;
-					
+			emailFront = $('#email').val();
+			domain = $('#emailDomain option:selected').val();
 			$('#memEm-error').addClass('hidden');
 			$('#memEm-existing-error').addClass('hidden');
 			$('#memEm-good').addClass('hidden');

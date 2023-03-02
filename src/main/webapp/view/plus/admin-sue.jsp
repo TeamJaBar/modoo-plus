@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +30,6 @@
 	gtag('js', new Date());
 
 	gtag('config', 'UA-94034622-3');
-	
 </script>
 <!-- /END GA -->
 </head>
@@ -57,22 +57,37 @@
 									<div class="card-body">
 										<ul class="nav nav-pills">
 											<li class="nav-item">
-												<a class="nav-link active" href="admin-sue.do?aCnt=${sueTotal.aCnt}">
+												<a class="nav-link active" href="admin-sue.do?aCnt=${sueCount.aCnt}">
 													전체
-													<span class="badge badge-white"> ${sueTotal.aCnt} </span>
+													<c:if test="${fn:length(sueCount.aCnt) == 0 }">
+														<span class="badge badge-white"> 0 </span>
+													</c:if>
+													<c:if test="${fn:length(sueCount.aCnt) =! 0 }">
+														<span class="badge badge-white"> ${sueCount.aCnt} </span>
+													</c:if>
 												</a>
 											</li>
 											<!-- 해야할 것 ajax 사용해서 비동기로 목록 출력 -->
 											<li class="nav-item">
-												<a class="nav-link" href="admin-sue.do?nCnt=${sueTotal.nCnt}">
+												<a class="nav-link" href="admin-sue.do?nCnt=${sueCount.nCnt}">
 													미처리
-													<span class="badge badge-primary"> ${sueTotal.nCnt} </span>
+													<c:if test="${fn:length(sueCount.nCnt) == 0 }">
+														<span class="badge badge-primary"> 0 </span>
+													</c:if>
+													<c:if test="${fn:length(sueCount.nCnt) =! 0 }">
+														<span class="badge badge-primary"> ${sueCount.nCnt} </span>
+													</c:if>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="admin-sue.do?cCnt=${sueTotal.cCnt}">
+												<a class="nav-link" href="admin-sue.do?cCnt=${sueCount.cCnt}">
 													처리완료
-													<span class="badge badge-primary"> ${sueTotal.cCnt} </span>
+													<c:if test="${fn:length(sueCount.cCnt) == 0 }">
+														<span class="badge badge-primary"> 0 </span>
+													</c:if>
+													<c:if test="${fn:length(sueCount.cCnt) =! 0 }">
+														<span class="badge badge-primary"> ${sueCount.cCnt} </span>
+													</c:if>
 												</a>
 											</li>
 										</ul>
@@ -98,35 +113,46 @@
 													<th>처리상태</th>
 												</tr>
 												<!-- 신고 게시글 목록 -->
-												<c:forEach items="${sue}" var="v">
+												<c:if test="${fn:length(sue) == 0}">
 													<tr>
-														<td>${v.bNum}</td>
-														<td>
-															<a href="sue-detail.do?bNum=${v.bNum}">${v.bTitle}</a>
-														</td>
-														<td>
-															<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
-															<div class="d-inline-block ml-1">${v.mId}</div>
-														</td>
-														<td>${v.bWdate}</td>
-														<td>
-															<c:choose>
-																<c:when test="${v.bStatus == 0}">
-																	<div class="badge badge-danger">미처리</div>
-																</c:when>
-																<c:otherwise>
-																	<div class="badge badge-primary">처리완료</div>
-																</c:otherwise>
-															</c:choose>
-														</td>
+														<td></td>
+														<td>접수된 신고가 없습니다.</td>
+														<td></td>
+														<td></td>
+														<td></td>
 													</tr>
-												</c:forEach>
+												</c:if>
+												<c:if test="${fn:length(sue) =! 0}">
+													<c:forEach items="${sue}" var="v">
+														<tr>
+															<td>${v.bNum}</td>
+															<td>
+																<a href="sue-detail.do?bNum=${v.bNum}">${v.bTitle}</a>
+															</td>
+															<td>
+																<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
+																<div class="d-inline-block ml-1">${v.mId}</div>
+															</td>
+															<td>${v.bWdate}</td>
+															<td>
+																<c:choose>
+																	<c:when test="${v.bStatus == 0}">
+																		<div class="badge badge-danger">미처리</div>
+																	</c:when>
+																	<c:otherwise>
+																		<div class="badge badge-primary">처리완료</div>
+																	</c:otherwise>
+																</c:choose>
+															</td>
+														</tr>
+													</c:forEach>
+												</c:if>
 												<!-- 신고 게시글 목록 끝-->
 											</table>
 										</div>
-										<div class="float-right">
-											<nav>
-												<ul class="pagination">
+										<div class="card-footer text-center">
+											<nav class="d-inline-block">
+												<ul class="pagination mb-0">
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
 															<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
@@ -152,7 +178,7 @@
 															</a>
 														</li>
 													</c:if>
-													
+
 												</ul>
 											</nav>
 										</div>

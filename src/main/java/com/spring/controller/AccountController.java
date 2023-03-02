@@ -62,27 +62,28 @@ public class AccountController {
 
 	// 로그인
 	@RequestMapping(value = "/login.do")
-	public String login(MemberVO mvo, SweetAlertDTO sweet, HttpServletResponse response, HttpSession session) {
-		mvo = memberService.selectOneLogin(mvo);
-		System.out.println("체크박스 : " + mvo.getSaveId());
+	public String login(MemberVO mvo, SweetAlertDTO sweet, HttpServletResponse response, HttpSession session, Model model) {
 		Cookie cookie = new Cookie("mId", mvo.getmId());
+		if (mvo.getSaveId() != null) {// saveId가 있을때(아이디저장 체크가 되어있을때)
+			cookie.setMaxAge(60 * 60 * 24 * 30);
+			response.addCookie(cookie);
+		} else {// 체크가 되어있지 않을때
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
+		
+		mvo = memberService.selectOneMember(mvo);
 
-		if (mvo.getmId() == null) {
+		if (mvo == null) {
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 			sweet.setTitle("가입된 정보가 없습니다.");
 			sweet.setMsg("아이디 혹은 비밀번호를 확인하세요.");
 			sweet.setUrl("login.jsp");
+			model.addAttribute("sweet", sweet);
 			return "alert.jsp";
 		} else {
 			// 로그인 성공
-			if (mvo.getSaveId() != null) {// saveId가 있을때(아이디저장 체크가 되어있을때)
-				cookie.setMaxAge(60 * 60 * 24 * 30);
-				response.addCookie(cookie);
-			} else {// 체크가 되어있지 않을때
-				cookie.setMaxAge(0);
-				response.addCookie(cookie);
-			}
 			session.setAttribute("mNum", mvo.getmNum());
 			session.setAttribute("mId", mvo.getmId());
 			session.setAttribute("mName", mvo.getmName());
@@ -93,12 +94,13 @@ public class AccountController {
 	// 아이디 찾기
 	@RequestMapping(value = "/idFind.do")
 	public String idFind(MemberVO mvo, SweetAlertDTO sweet, Model model) {
-		mvo = memberService.selectOneId(mvo);
+		mvo = memberService.selectOneMember(mvo);
 
 		if (mvo == null) {
 			sweet.setTitle("가입된 정보가 없습니다.");
 			sweet.setMsg("아이디 혹은 비밀번호를 확인하세요.");
 			sweet.setUrl("id-find.jsp");
+			model.addAttribute("sweet", sweet);
 			return "alert.jsp";
 		} else {
 			model.addAttribute("mName", mvo.getmName());
@@ -111,10 +113,10 @@ public class AccountController {
 	// 비밀번호 찾기 - 01. 조회
 	@RequestMapping(value = "/pwFind.do")
 	public String pwFind(MemberVO mvo, SweetAlertDTO sweet, Model model) {
-		mvo = memberService.selectOneId(mvo);
+		mvo = memberService.selectOneMember(mvo);
 		model.addAttribute("mId", mvo.getmId());
 
-		mvo = memberService.selectOneFindPw(mvo);
+		mvo = memberService.selectOneEmail(mvo);
 		model.addAttribute("mEmail", mvo.getmEmail());
 		model.addAttribute("findPw", mvo.getFindPw());
 
@@ -192,14 +194,13 @@ public class AccountController {
 	@RequestMapping(value = "/update.do")
 	public String update(MemberVO mvo, HttpSession session) {
 		String path = "";
-
-		mvo.setmNum((Integer)session.getAttribute("mNum"));
 		if (session.getAttribute("mId") == null) { // pw-find
-			path = "login.jsp";
+			path = "redirect:login.jsp";
 		} else { // change-inform
-			path = "changeInfo.do";
+			mvo.setmNum((Integer)session.getAttribute("mNum"));
+			path = "redirect:changeInfo.do";
 		}
-
+		
 		if (memberService.update(mvo)) {
 			return path;
 		}
@@ -212,7 +213,7 @@ public class AccountController {
 		String mId = (String)session.getAttribute("mId");
 		mvo.setmId(mId);
 
-		mvo = memberService.selectOneLogin(mvo);// 탈퇴하려는 id랑 pw랑 같고 그게 멤버 테이블에 있으면
+		mvo = memberService.selectOneMember(mvo);// 탈퇴하려는 id랑 pw랑 같고 그게 멤버 테이블에 있으면
 		if (mvo != null) {
 			if (memberService.delete(mvo)) {
 				Cookie cookie = new Cookie("mId", mId);
@@ -237,7 +238,7 @@ public class AccountController {
 	@RequestMapping(value = "/changeInfo.do")
 	public String selectOneChangeInfo(MemberVO mvo, HttpSession session, Model model) {
 		mvo.setmNum((Integer)session.getAttribute("mNum"));
-		model.addAttribute("member", memberService.selectOneInfo(mvo));
+		model.addAttribute("member", memberService.selectOneMember(mvo));
 
 		return "change-inform.jsp";
 	}
@@ -247,23 +248,11 @@ public class AccountController {
 	@ResponseBody
 	@RequestMapping(value = "/check.do", method = RequestMethod.POST)
 	public String selectOneCheck(MemberVO mvo) {
-		boolean checkFlag = false;
 
-		if (mvo.getMode().equals("idCHK") || mvo.getMode().equals("findPW")) {
-			// 아이디 중복검사, 비밀번호 찾기, 아이디 찾기
-			if (memberService.selectOneId(mvo) == null) {
-				checkFlag = true;
-			}
-		} else if (mvo.getMode().equals("emailCHK")) {
-			// 이메일 중복검사
-			if (memberService.selectOneEmailCHK(mvo) == null) {
-				checkFlag = true;
-			}
+		if (memberService.selectOneMember(mvo) == null) {
+			return "1";
 		}
-
-		if (checkFlag) {
-			return "1"; // 응답할 때 getWriter()를 사용
-		}
+		
 		return "-1";
 	}
 	

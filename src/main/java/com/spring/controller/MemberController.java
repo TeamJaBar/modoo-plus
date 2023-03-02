@@ -58,7 +58,7 @@ public class MemberController {
 		mvo.setmNum((Integer)session.getAttribute("mNum"));
 		avo.setmNum((Integer)session.getAttribute("mNum"));
 
-		model.addAttribute("member", memberService.selectOneInfo(mvo));
+		model.addAttribute("member", memberService.selectOneMember(mvo));
 		model.addAttribute("defAddr", addressService.selectOne(avo));
 		model.addAttribute("prodList", prodList);
 
@@ -180,12 +180,11 @@ public class MemberController {
 		}
 		return null;
 	}
-
 	// 배송지 전체 조회
 	@RequestMapping(value = "/addrsSelectAll.do")
 	public String selectAllAddrs(AddressVO avo, MemberVO mvo, HttpSession session, Model model) {
-		mvo.setmId((String)session.getAttribute("mId"));
-		model.addAttribute("member", memberService.selectOneInfo(mvo));
+		mvo.setmNum((Integer)session.getAttribute("mNum"));
+		model.addAttribute("member", memberService.selectOneMember(mvo));
 
 		avo.setmNum((Integer)session.getAttribute("mNum"));
 		model.addAttribute("address", addressService.selectAll(avo));

@@ -90,6 +90,7 @@
 														</td>
 													</tr>
 													<!-- 샘플 -->
+
 													<c:forEach items="${aDatas}" var="v" begin="1">
 														<c:set var="i" value="0" />
 														<tr class="text-center">
@@ -100,7 +101,7 @@
 															</td>
 															<td>${v.bTitle}</td>
 															<td>${v.bAddress}</td>
-															<td>${fn:length(aDatas)} / ${v.bCnt}</td>
+															<td>${fn:length(aDatas)}/${v.bCnt}</td>
 															<td>${v.bDate}</td>
 															<c:choose>
 																<c:when test="${aDatas.bAction == 2}">
@@ -119,8 +120,39 @@
 												</tbody>
 											</table>
 										</div>
+										<div class="card-footer text-center">
+											<nav class="d-inline-block">
+												<ul class="pagination mb-0">
+													<c:if test="${pageVO.prev}">
+														<li class="page-item disabled">
+															<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
+																<span aria-hidden="true">&laquo;</span>
+																<span class="sr-only">Previous</span>
+															</a>
+														</li>
+													</c:if>
+													<!-- 1. 페이지번호 처리 -->
+													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+														<li class="page-item active">
+															<a class="page-link" href="list.board?pageNum=${num}&amount=${pageVO.amount}">${num}</a>
+														</li>
+													</c:forEach>
+													<!-- <li class="page-item">
+														<a class="page-link" href="#">2</a>
+													</li> -->
+													<c:if test="${pageVO.next}">
+														<li class="page-item">
+															<a class="page-link" href="list.board?pageNum=${pageVO.endPage + 1}&amount=${pageVO.amount}" aria-label="Next">
+																<span aria-hidden="true">&raquo;</span>
+																<span class="sr-only">Next</span>
+															</a>
+														</li>
+													</c:if>
+
+												</ul>
+											</nav>
+										</div>
 									</div>
-									<!--el 적용 -->
 								</div>
 							</div>
 						</div>
@@ -166,12 +198,10 @@
 							</tbody>
 						</table>
 					</div>
-
 					<div class="modal-footer bg-whitesmoke br">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-primary" onclick="submit()">평가 완료</button>
 					</div>
-
 				</form>
 			</div>
 		</div>

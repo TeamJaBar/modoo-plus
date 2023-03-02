@@ -10,15 +10,9 @@ public interface MemberService {
 
 	public List<MemberVO> selectAllMember(MemberVO mvo);
 
-	public MemberVO selectOneLogin(MemberVO mvo);
+	public MemberVO selectOneMember(MemberVO mvo);
 
-	public MemberVO selectOneInfo(MemberVO mvo);
-
-	public MemberVO selectOneId(MemberVO mvo);
-
-	public MemberVO selectOneEmailCHK(MemberVO mvo);
-
-	public MemberVO selectOneFindPw(MemberVO mvo);
+	public MemberVO selectOneEmail(MemberVO mvo);
 
 	public boolean update(MemberVO mvo);
 

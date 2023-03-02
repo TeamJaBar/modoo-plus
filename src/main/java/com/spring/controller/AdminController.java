@@ -52,7 +52,7 @@ public class AdminController {
 		//사용자 수정 페이지로 이동
 		@RequestMapping(value="/memSelect.do")
 		public String adminSelectOneInfo(MemberVO mvo, Model model) {
-			model.addAttribute("infomember", memberService.selectOneInfo(mvo));
+			model.addAttribute("infomember", memberService.selectOneMember(mvo));
 			return "/view/admin/admin-member-update.jsp";
 		}
 		

@@ -50,7 +50,7 @@ public class AddressDAO {
 	}
 
 	public List<AddressVO> selectAll(AddressVO avo) {
-		List<AddressVO> datas = new ArrayList<>();
+		List<AddressVO> datas = new ArrayList<AddressVO>();
 		try {
 			datas = template.query(SELECTALL,new AddressRowMapper(), avo.getmNum());
 		} catch (Exception e) {
