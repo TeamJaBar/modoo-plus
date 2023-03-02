@@ -114,7 +114,7 @@
 		<!-- Topbar -->
 		<div class="top-bar">
 			<div class="content-topbar flex-sb-m h-full container">
-				<div class="left-top-bar">Modoo Shop</div>
+				<div class="left-top-bar">Modoo+</div>
 				<div class="right-top-bar flex-w h-full">
 					<modoo:login />
 				</div>
