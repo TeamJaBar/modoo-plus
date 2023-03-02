@@ -947,24 +947,26 @@ label[for="defaultFl"] {
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-lg-9 p-b-80 p-r-50">
-				<c:if test="${address.type!='update'}">
+				<c:if test="${param.type!='update'}">
 					<form action="addrsInsert.do" method="post" onsubmit="return manageSubmit();">
 				</c:if>
-				<c:if test="${address.type=='update'}">
+				<c:if test="${param.type=='update'}">
 					<form action="addrsUpdate.do" method="post" onsubmit="return manageSubmit();">
 				</c:if>
 				<div class="member-title">
-					<c:if test="${address.type!='update'}">
+					<c:if test="${param.type!='update'}">
 						<h2>새로운 배송지 추가</h2>
 					</c:if>
-					<c:if test="${address.type=='update'}">
+					<c:if test="${param.type=='update'}">
 						<h2>배송지 수정</h2>
 					</c:if>
 				</div>
 				<div class="ly_cont">
 					<div class="scroll_box">
 						<div class="left_table_type">
-							<input type="hidden" name="aNum" value="${address.aNum}" />
+							<c:if test="${param.type=='update'}">
+								<input type="hidden" name="aNum" value="${address.aNum}" />
+							</c:if>
 							<table>
 								<colgroup>
 									<col style="width: 20%;">
@@ -1028,10 +1030,10 @@ label[for="defaultFl"] {
 						</div>
 						<br>
 						<div class="form_element" style="display: flex">
-							<c:if test="${address.type=='update' and address.isDefault=='1'}">
+							<c:if test="${param.type=='update' and address.isDefault=='1'}">
 								<input type="checkbox" id="defaultFl" name="defaultFl" class="checkbox" checked>
 							</c:if>
-							<c:if test="${(address.type=='update' and address.isDefault=='0') or type!='update'}">
+							<c:if test="${(param.type=='update' and address.isDefault=='0') or param.type!='update'}">
 								<input type="checkbox" id="defaultFl" name="defaultFl" class="checkbox">
 							</c:if>
 							<label for="defaultFl">
