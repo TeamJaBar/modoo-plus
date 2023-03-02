@@ -13,19 +13,25 @@ import com.spring.biz.member.MemberVO;
 
 @Repository("pageDAO")
 public class PageDAO {
-	// 전체 게시글
-	final String BOARD_COUNT = "SELECT * FROM BOARD ORDER BY BNUM DESC LIMIT ?, ?";
-	// 나의 작성글
-	final String MYBOARD_COUNT = "SELECT * FROM BOARD WHERE MNUM=? ORDER BY BNUM DESC LIMIT ?, ?";
-	//아직 사용 안하는 곳들
-	
-	//총 게시글
-	final String PAGE_COUNT = "select count(*) as total from board";
-	
-	//나의 총 게시글 수
-	final String MYPAGE_COUNT = "select count(*) as total from board where mnum=?";
+//	// 전체 게시글
+//	final String BOARD_COUNT = "SELECT * FROM BOARD ORDER BY BNUM DESC LIMIT ?, ?";
+//	// 나의 작성글
+//	final String MYBOARD_COUNT = "SELECT * FROM BOARD WHERE MNUM=? ORDER BY BNUM DESC LIMIT ?, ?";
 
-	final String PRE_PAGE = "select * " + "from (select rownum rn," + " a.* " + "from (select *" + " from board order by bno desc) a ) " + "where rn > ? and rn <= ?";
+	// 총 게시글
+	final String PAGE_COUNT = "select count(*) as total from board";
+
+	// 나의 총 게시글 수
+	final String MYPAGE_COUNT = "select count(*) as total from board where mnum=?";
+	// 총 신고글 수
+	final String SUE_COUNT = "SELECT COUNT(*) AS TOTAL FROM SUE";
+	// 현재 페이지에 나타낼 게시글 계산
+	final String PRE_PAGE = "select * " 
+							+ "from (select rownum rn," 
+							+ " a.* " 
+							+ "from (select *" 
+							+ " from board order by bno desc) a ) " 
+							+ "where rn > ? and rn <= ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -66,24 +72,27 @@ public class PageDAO {
 //		}
 //		return result;
 //	}
-	
-	
+
 	// 총 게시글이 몇개인지 (type.2)
 	public int getTotal() {
 		int count = jdbcTemplate.queryForObject(PAGE_COUNT, Integer.class);
 		return count;
 	}
-	
-	// 나의 총 게시글 갯수
-	public int getMyTotal(MemberVO mvo) {
-		int count = jdbcTemplate.queryForObject(PAGE_COUNT, Integer.class ,mvo.getmNum());
+	// 총 신고글이 몇개인지
+	public int getSueTotal() {
+		int count = jdbcTemplate.queryForObject(SUE_COUNT, Integer.class);
 		return count;
 	}
 
-	
+	// 나의 총 게시글 갯수
+	public int getMyTotal(MemberVO mvo) {
+		int count = jdbcTemplate.queryForObject(PAGE_COUNT, Integer.class, mvo.getmNum());
+		return count;
+	}
+
 	// 각 페이지마다 나와야될 게시글 구간 지정
 	public List<BoardVO> getList(int pageNum, int amount) {
-		
+
 		List<BoardVO> bList = jdbcTemplate.query(PRE_PAGE, new RowMapper<BoardVO>() {
 			@Override
 			public BoardVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -100,9 +109,9 @@ public class PageDAO {
 				bvo.setbAction(rs.getString("bAction"));
 				return bvo;
 			}
-		},(pageNum - 1) * amount , pageNum * amount);
-			//첫번째 물음표 = (현재 페이지 - 1) * 보여줄 게시글 개수
-			//두번째 물음표 = 현재 페이지 * 보여줄 게시글 개수
+		}, (pageNum - 1) * amount, pageNum * amount);
+		// 첫번째 물음표 = (현재 페이지 - 1) * 보여줄 게시글 개수
+		// 두번째 물음표 = 현재 페이지 * 보여줄 게시글 개수
 		return bList;
 	}
 }

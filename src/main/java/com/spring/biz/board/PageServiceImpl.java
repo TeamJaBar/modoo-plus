@@ -19,6 +19,11 @@ public class PageServiceImpl implements PageService {
 	}
 	
 	@Override
+	public int getSueTotal() {
+		return pageDAO.getSueTotal();
+	}
+	
+	@Override
 	public int getMyTotal(MemberVO mvo) {
 		return pageDAO.getMyTotal(mvo);
 	}
@@ -26,6 +31,7 @@ public class PageServiceImpl implements PageService {
 	public List<BoardVO> getList(int pageNum, int amount){
 		return pageDAO.getList(pageNum, amount);
 	}
+
 
 
 }
