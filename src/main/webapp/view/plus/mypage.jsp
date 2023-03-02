@@ -36,7 +36,6 @@
 	gtag('js', new Date());
 
 	gtag('config', 'UA-94034622-3');
-
 </script>
 <!-- /END GA -->
 </head>
@@ -89,10 +88,28 @@
 														<th>모임일자</th>
 														<th>인원</th>
 														<th>상태</th>
-														<th>실행</th>
+														<th>수정/삭제</th>
 													</tr>
 												</thead>
 												<tbody>
+													<c:if test="${fn:length(bDatas) == 0 }">
+														<tr class="text-center">
+															<td>
+																<div class="sort-handler">
+																	<i class="fas fa-th"></i>
+																</div>
+															</td>
+															<td></td>
+															<td>게시글이 없습니다.</td>
+															<td></td>
+															<td></td>
+															<td>
+																<button class="btn btn-primary" type="button" onclick="location.href='createBoard.do'">글쓰러 가기</button>
+															</td>
+															<td></td>
+														</tr>
+													</c:if>
+													<!-- 샘플 -->
 													<tr class="text-center">
 														<td>
 															<div class="sort-handler">
@@ -114,6 +131,7 @@
 																<div class="dropdown-menu">
 																	<a class="dropdown-item" href="boardUpdate.do?bAction=1">모집 중</a>
 																	<a class="dropdown-item" href="boardUpdate.do?bAction=0">모집완료</a>
+
 																</div>
 															</div>
 														</td>
@@ -127,90 +145,92 @@
 															</button>
 														</td>
 													</tr>
+													<!-- 샘플 -->
+
 													<!-- 나의 작성 글 el식 적용 -->
-													<c:forEach items="${bDatas}" var="v">
-													<input type="hidden" name="bNum" value="${v.bNum}"/>
-														<tr class="text-center">
-															<td>
-																<div class="sort-handler">
-																	<i class="fas fa-th"></i>
-																</div>
-															</td>
-															<td>
-																<a href="boardDetail.do">${v.bTitle}</a>
-															</td>
-															<td>${v.bAddress}</td>
-															<td>${v.bDate}</td>
-															<td>
-																<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
-																<a href="#" data-toggle="modal" data-target="#exampleModal"> ${fn:length(aDatas)} / ${v.bCnt}</a>
-															</td>
-															<td>
-																<div class="dropdown d-inline mr-2">
-																	<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																		<c:if test="${v.bAction==0}">
+													<c:if test="${fn:length(bDatas) =! 0 }">
+														<c:forEach items="${bDatas}" var="v">
+															<input type="hidden" name="bNum" value="${v.bNum}" />
+															<tr class="text-center">
+																<td>
+																	<div class="sort-handler">
+																		<i class="fas fa-th"></i>
+																	</div>
+																</td>
+																<td>
+																	<a href="boardDetail.do">${v.bTitle}</a>
+																</td>
+																<td>${v.bAddress}</td>
+																<td>${v.bDate}</td>
+																<td>
+																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
+																	<a href="#" data-toggle="modal" data-target="#exampleModal"> ${fn:length(aDatas)} / ${v.bCnt}</a>
+																</td>
+																<td>
+																	<div class="dropdown d-inline mr-2">
+																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																			<c:if test="${v.bAction==0}">
 																		모집 완료
 																		</c:if>
-																		<c:if test="${v.bAction==1}">
+																			<c:if test="${v.bAction==1}">
 																		모집중
 																		</c:if>
-																		<c:if test="${v.bAction==2}">
+																			<c:if test="${v.bAction==2}">
 																		지난 모임
 																		</c:if>
-																	</button>
-																	<div class="dropdown-menu">
-																		<a class="dropdown-item" href="boardUpdate.do?bAction=1">모집 중</a>
-																		<a class="dropdown-item" href="boardUpdate.do?bAction=0">모집완료</a>
+																		</button>
+																		<div class="dropdown-menu">
+																			<a class="dropdown-item" href="boardUpdate.do?bAction=1">모집 중</a>
+																			<a class="dropdown-item" href="boardUpdate.do?bAction=0">모집완료</a>
+																		</div>
+																		<!-- ajax로 구현하기 -->
 																	</div>
-																</div>
-															</td>
-															<td>
-																<a href="#" class="btn btn-icon btn-primary" id="modal-5">
-																	<i class="far fa-edit" id="modal-5"></i>
-																</a>
-																<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do'">
-																	<i class="fas fa-times"></i>
-																	<!-- 처리 yes 누르면 data-confirm-yes="delete()" -->
-																</button>
-															</td>
-														</tr>
-													</c:forEach>
+																</td>
+																<td>
+																	<a href="#" class="btn btn-icon btn-primary" id="modal-5">
+																		<i class="far fa-edit" id="modal-5"></i>
+																	</a>
+																	<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do'">
+																		<i class="fas fa-times"></i>
+																		<!-- 처리 yes 누르면 data-confirm-yes="delete()" -->
+																	</button>
+																</td>
+															</tr>
+														</c:forEach>
+													</c:if>
 													<!-- 나의 작성글 끝 -->
 
 												</tbody>
 											</table>
 										</div>
-										<div class="card-footer text-right">
+										<div class="card-footer text-center">
 											<nav class="d-inline-block">
 												<ul class="pagination mb-0">
-													<li class="page-item disabled">
-														<a class="page-link" href="#" tabindex="-1">
-															<i class="fas fa-chevron-left"></i>
-														</a>
-													</li>
-													<li class="page-item active">
-														<a class="page-link" href="myPage.do?pageBegin=0&pageEnd=9">
-															1
-															<span class="sr-only">(current)</span>
-														</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="myPage.do?pageBegin=10&pageEnd=19">
-															2
-															<span class="sr-only">(current)</span>
-														</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="myPage.do?pageBegin=20&pageEnd=29">
-															3
-															<span class="sr-only">(current)</span>
-														</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#">
-															<i class="fas fa-chevron-right"></i>
-														</a>
-													</li>
+													<c:if test="${pageVO.prev}">
+														<li class="page-item disabled">
+															<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
+																<span aria-hidden="true">&laquo;</span>
+																<span class="sr-only">Previous</span>
+															</a>
+														</li>
+													</c:if>
+													<!-- 1. 페이지번호 처리 -->
+													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+														<li class="page-item active">
+															<a class="page-link" href="list.board?pageNum=${num}&amount=${pageVO.amount}">${num}</a>
+														</li>
+													</c:forEach>
+													<!-- <li class="page-item">
+														<a class="page-link" href="#">2</a>
+													</li> -->
+													<c:if test="${pageVO.next}">
+														<li class="page-item">
+															<a class="page-link" href="list.board?pageNum=${pageVO.endPage + 1}&amount=${pageVO.amount}" aria-label="Next">
+																<span aria-hidden="true">&raquo;</span>
+																<span class="sr-only">Next</span>
+															</a>
+														</li>
+													</c:if>
 												</ul>
 											</nav>
 										</div>

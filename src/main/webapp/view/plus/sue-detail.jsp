@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +39,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header/>
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -71,8 +72,7 @@
 										신고 : ${sue.sDate}
 										<!-- <button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button> -->
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}'">
-																	신고취소
-																</button>
+											신고취소</button>
 										<div class="btn-group mb-2" style="float: right;">
 											<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
 											<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원 관리</button>
@@ -104,63 +104,32 @@
 									</div>
 									<div class="card-body">
 										<p>신고 사유 : ${sue.scName}</p>
-										<p>처리 결과 : 처리완료</p>
-										<!-- 처리결과 어떤 처리를 했는지 나타내고 싶음 -->
+										<p>처리 결과 : 
+										<c:choose>
+										<c:when test="${sue.mStatus == 1}">계정 정지상태</c:when>
+										<c:otherwise>점수감점</c:otherwise>
+										</c:choose>
+											<!-- 처리결과 어떤 처리를 했는지 나타내고 싶음 -->
+										</p>
 									</div>
 									<div class="card-footer bg-whitesmoke">
 										게시 : ${sue.bwDate}
 										<div class="bullet"></div>
 										신고 : ${sue.sDate}
-										<button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button>
+										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}'">
+											신고취소</button>
+										<c:if test="${sue.mStatus == 1}">
 										<div class="btn-group mb-2" style="float: right;">
-											<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
-											<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원 관리</button>
-											<div class="dropdown-menu">
-												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&score=-30">점수감점 (-30)</a>
-												<div class="dropdown-divider"></div>
-												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&mStatus=1">계정 7일 정지</a>
-											</div>
+										<button name="updateSue" style="float: right;" class="btn btn-icon btn-primary" data-confirm="정지 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='adSueMem.do?mNum=${sue.mNum}&mStatus=0'">
+											정지풀기</button>
 										</div>
+										</c:if>
 									</div>
 								</div>
 							</div>
 						</c:otherwise>
 					</c:choose>
 					<!-- 처리된 신고 끝 -->
-
-					<div class="section-body">
-						<h2 class="section-title">언제까지 어깨춤을 추게 할거야~</h2>
-						<!--  <p class="section-lead">This page is just an example for you to create your own page.</p> -->
-						<div class="card">
-							<div class="card-header">
-								<span class="badge badge-info">평단원</span>
-								<h4>윤석환</h4>
-							</div>
-							<div class="card-body">
-								<p>얄라리 얄라 얄라셩 얄라리 얄라</p>
-							</div>
-							<div class="card-body">
-								<p>신고 사유 : 부적절한 내용</p>
-							</div>
-							<div class="card-footer bg-whitesmoke">
-								게시 : 2023-2-15
-								<div class="bullet"></div>
-								신고 : 2023-2-16
-								<button class="btn btn-danger" style="float: right;" data-confirm="정말 삭제하시겠습니까?" data-confirm-yes="alert('삭제되었습니다. :)');">글 삭제</button>
-								<div class="btn-group mb-2" style="float: right;">
-									<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">점수 강등</button>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="#">-10</a>
-										<a class="dropdown-item" href="#">-100</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">계정 1주일 정지</a>
-										<a class="dropdown-item" href="#">계정 1개월 정지</a>
-										<a class="dropdown-item" href="#">계정 영구 정지</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</section>
 			</div>
 		</div>
