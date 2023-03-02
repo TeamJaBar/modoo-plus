@@ -34,18 +34,12 @@
 							<a href="login.jsp" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
 						</li>
 						<li class="p-b-10">
-							<a href="login.jsp" class="stext-107 cl6 hov-cl1 trans-04">취소내역</a>
-						</li>
-						<li class="p-b-10">
 							<a href="login.jsp" class="stext-107 cl6 hov-cl1 trans-04">마이페이지</a>
 						</li>
 					</c:if>
 					<c:if test="${mId == 'admin'}">
 						<li class="p-b-10">
-							<a href="order-list.jsp" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
-						</li>
-						<li class="p-b-10">
-							<a href="cancel-list.jsp" class="stext-107 cl6 hov-cl1 trans-04">취소내역</a>
+							<a href="orderSelect.do" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
 						</li>
 						<li class="p-b-10">
 							<a href="adMain.do" class="stext-107 cl6 hov-cl1 trans-04">관리자페이지</a>
@@ -53,13 +47,10 @@
 					</c:if>
 					<c:if test="${mId != null && mId != 'admin'}">
 						<li class="p-b-10">
-							<a href="order-list.jsp" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
+							<a href="orderSelect.do" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
 						</li>
 						<li class="p-b-10">
-							<a href="cancel-list.jsp" class="stext-107 cl6 hov-cl1 trans-04">취소내역</a>
-						</li>
-						<li class="p-b-10">
-							<a href="change-inform.jsp" class="stext-107 cl6 hov-cl1 trans-04">마이페이지</a>
+							<a href="changeInfo.do" class="stext-107 cl6 hov-cl1 trans-04">마이페이지</a>
 						</li>
 					</c:if>
 				</ul>
@@ -81,14 +72,6 @@
 		</div>
 
 		<div class="p-t-40">
-			<div class="flex-c-m flex-w p-b-18">
-				<img src="../images/icons/icon-pay-01.png" alt="ICON-PAY">
-				<img src="../images/icons/icon-pay-02.png" alt="ICON-PAY">
-				<img src="../images/icons/icon-pay-03.png" alt="ICON-PAY">
-				<img src="../images/icons/icon-pay-04.png" alt="ICON-PAY">
-				<img src="../images/icons/icon-pay-05.png" alt="ICON-PAY">
-			</div>
-
 			<p class="stext-107 cl6 txt-center">
 				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 				Copyright &copy;
