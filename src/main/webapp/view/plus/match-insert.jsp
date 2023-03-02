@@ -9,8 +9,11 @@
 <!-- 파비콘 삽입 -->
 <link rel="icon" href="../../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 매칭 작성 페이지</title>
-
 <style type="text/css">
+.hidden {
+	display: none;
+}
+
 select option[disabled] {
 	display: none;
 }
@@ -255,28 +258,41 @@ select option[disabled] {
 										<h4>매칭 게시글</h4>
 									</div>
 									<div class="card-body">
-										<form action="${title == '게시글 작성' ? 'insertBoard.do' : 'boardUpdate.do'}" method="post">
+										<form action="${title eq '게시글 작성' ? 'insertBoard.do' : 'boardUpdate.do'}" method="post">
+											<c:if test="${title eq '게시글 수정'}">
+												<input type="hidden" name="bNum" value="${bDatas.bNum}" />
+											</c:if>
+											<input type="hidden" name="mNum" value="${member.mNum}" />
+											<input type="hidden" name="bLatitude" value="${bDatas.bLatitude}" />
+											<input type="hidden" name="bLongitude" value="${bDatas.bLongitude}" />
+											<input type="hidden" name="bLocal" value="${bDatas.bLocal}" />
 											<div class="form-group">
 												<label>제목</label>
-												<input type="text" class="form-control" name="bTitle" value="${bDatas.bTitle}" />
+												<input type="text" class="form-contro titlel" name="bTitle" value="${bDatas.bTitle}" />
 											</div>
+											<div class="alert alert-info hidden char">글자수는 50자까지 입력 가능합니다.</div>
+											<div class="alert alert-info hidden space">제목을 입력해주세요.</div>
+											<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 											<div class="form-group">
 												<label>모집 인원</label>
 												<div class="input-group">
 													<div class="input-group mb-2">
-														<input type="text" class="form-control text-right" id="inlineFormInputGroup2" name="bCnt" value="${bDatas.bCnt}" />
+														<input type="text" class="form-control text-right bCnt" id="inlineFormInputGroup2" name="bCnt" value="${bDatas.bCnt}" />
 														<div class="input-group-append">
 															<div class="input-group-text">명</div>
 														</div>
 													</div>
 												</div>
 											</div>
+											<div class="alert alert-info hidden max">모집인원은 최대 20명까지 입력 가능합니다.</div>
+											<div class="alert alert-info hidden num">숫자만 입력 가능합니다.</div>
 											<div class="form-group">
 												<label>게임 시간</label>
 												<div class="input-group">
 													<input type="datetime-local" class="form-control" name="bDate" value="${bDatas.bDate}" />
 												</div>
 											</div>
+											<div class="alert alert-info hidden datetime">현재 시간의 1시간 이후 보다 이전의 날짜는 설정할 수 없습니다.</div>
 											<div class="form-group">
 												<label>게임 위치</label>
 												<div class="input-group">
@@ -314,15 +330,20 @@ select option[disabled] {
 												<textarea class="form-control" id="editor" name="cContent">${bDatas.cContent}</textarea>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+												<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 												<script>
 													ClassicEditor.create(document.querySelector('#editor'), {
-														language : "ko"
+														toolbar : [ 'heading', '|', 'bold', 'italic', 'CKFinder' ],
+														language : "ko",
+														ckckfinder : {
+															uploadUrl : '../../assets/img'
+														}
 													});
 												</script>
 											</div>
 											<div class="card-footer text-right">
 												<button type="button" class="btn btn-secondary" onclick="history.go(-1)">취소</button>
-												<button type="submit" class="btn btn-primary">작성 완료</button>
+												<button type="submit" class="btn btn-primary" onclick="return submit()">작성 완료</button>
 											</div>
 										</form>
 									</div>
@@ -562,24 +583,81 @@ select option[disabled] {
 			}
 		}
 
-		//
-	</script>
-	<script type="text/javascript">
+		// 검색결과 선택 시 address에 추가하는 함수입니다
 		function selectAdd(args0) {
 			var value = $(args0).val();
 			document.getElementById("address").value = value;
 			document.getElementById("address").innerText = value;
 		}
+	</script>
+	<script type="text/javascript">
+		//타이틀 유효성검사
+		$(".title").keyup(function(e) {
+			let title = $(this).val();
+			// console.log($(this).val());
 
-		$().ready(function() {
-			$("#alertStart").click(function() {
-				Swal.fire({
-					icon : 'success',
-					title : 'Alert가 실행되었습니다.',
-					text : '이곳은 내용이 나타나는 곳입니다.',
-				});
-			});
+			// 글자수 제한
+			if (title.length > 50) {
+				// 50자 부터는 타이핑 되지 않도록
+				$(this).val($(this).val().substring(0, 50));
+				// 50자 넘으면 알림창 뜨도록
+				$(this).parent().siblings('gap').addClass('hidden');
+				$(this).parent().siblings('space').addClass('hidden');
+				$(this).parent().siblings('.char').removeClass('hidden');
+			}
+			;
 		});
+
+		//모집인원 유효성검사
+		$(".bCnt").keyup(function(e) {
+			var regExp = /^[0-9]*$/;
+			let cnt = $(this).val();
+			console.log($(this).val() == 1);
+
+			// 인원 제한
+			if (!regExp.test(cnt)) {
+				// 숫자 이외의 값 입력시 0으로 변환
+				$(this).val(0);
+				// 숫자 이외의 값 넣으면 알림창 뜨도록
+				$(this).parent().parent().parent().siblings('.max').addClass('hidden');
+				$(this).parent().parent().parent().siblings('.num').removeClass('hidden');
+			} else if (cnt > 20) {
+				// 10자리 이상 부터는 타이핑 되지 않도록
+				$(this).val($(this).val().substring(0, 2));
+				// 20 이상 넘을시 20으로 자동 변환
+				$(this).val(20);
+				// 50자 넘으면 알림창 뜨도록
+				$(this).parent().parent().parent().siblings('.num').addClass('hidden');
+				$(this).parent().parent().parent().siblings('.max').removeClass('hidden');
+			}
+			;
+		});
+
+		//모임 기간 유효성검사
+		var now_utc = new Date();
+		var oneHoursLater = new Date(now_utc.setHours(now_utc.getHours() + 1));
+		var timeOff = new Date().getTimezoneOffset() * 60000;
+		var today = new Date(oneHoursLater - timeOff).toISOString().substring(0, 16);
+		//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
+		document.getElementById("DateLocal").setAttribute("min", today);
+
+		var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
+		var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
+		//최대 2달 이후까지 선택할수 있게 설정
+		document.getElementById("DateLocal").setAttribute("max", monthLater);
+
+		//현재 시간의 1시간 이후 시간보다 이전 시간 선택시 알림창 뜨도록
+		function setMinValue() {
+			if (document.getElementById("DateLocal").value < today) {
+				$(".datetime").removeClass('hidden');
+				document.getElementById("DateLocal").value = today;
+			}
+		}
+		
+		//작성완료시 유효성검사
+		function submit() {
+			
+		}
 	</script>
 
 	<style>
@@ -621,6 +699,7 @@ body {
 	<script src="../../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 	<!-- Page Specific JS File -->
 	<script src="../../assets/js/page/forms-advanced-forms.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 	<!-- Template JS File -->
 	<script src="../../assets/js/scripts.js"></script>

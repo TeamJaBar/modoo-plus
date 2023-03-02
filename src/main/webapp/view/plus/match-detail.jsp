@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 
-<!-- member : 로그인 회원정보, bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, sDatas : 신고 카테고리 정보-->
+<!-- member : 로그인 회원정보, bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, scDatas : 신고 카테고리 정보, sDatas : 현재 멤버에 대한 현재글 신고 정보-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,12 +81,12 @@
 											<div class="date">
 												<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
 											</div>
-											<c:if test="${bDatas.bStatus == 0}">
+											<c:if test="${member.mNum != sDatas.mNum}">
 												<button class="btn-sue" id="modal-sue" data-toggle="modal">
 													<i class="fas fa-siren"></i>신고하기
 												</button>
 											</c:if>
-											<c:if test="${bDatas.bStatus == 1}">
+											<c:if test="${member.mNum == sDatas.mNum}">
 												<div class="btn-sue">
 													<i class="fas fa-siren"></i>신고완료
 												</div>
@@ -209,14 +209,14 @@
 										<div class="form-group">
 											<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
 											<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
-											<textarea class="form-control" name="cContent" id="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+											<textarea class="form-control cContent" name="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
 											<button class="btn btn-lg btn-submit" id="insertCommet">
 												<i class="fas fa-comments"></i>
 											</button>
 										</div>
-										<div class="alert alert-info hidden">글자수는 400자까지 입력 가능합니다.</div>
-										<div class="alert alert-info hidden">댓글을 입력해주세요.</div>
-										<div class="alert alert-info hidden">공백만 입력되었습니다.</div>
+										<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+										<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+										<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 										<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
 											<c:forEach var="com" items="${cDatas}">
 												<!-- 현재 로그인한 사람이 작성한 댓글 -->
@@ -249,9 +249,9 @@
 																			<i class="fas fa-comments"></i>
 																		</button>
 																	</div>
-																	<div class="alert alert-info hidden">글자수는 400자까지 입력 가능합니다.</div>
-																	<div class="alert alert-info hidden">댓글을 입력해주세요.</div>
-																	<div class="alert alert-info hidden">공백만 입력되었습니다.</div>
+																	<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+																	<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+																	<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 																</div>
 															</div>
 														</div>
@@ -310,7 +310,7 @@
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 		<input type="hidden" name="mNum" value="${member.mNum}" />
 		<div class="radio-container">
-			<c:forEach items="${sDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(sDatas)}" step=1>
+			<c:forEach items="${scDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(scDatas)}" step=1>
 				<div class="custom-control custom-radio">
 					<input type="radio" value="${cate.scNum}" id="sc${i.index}" name="scNum" class="custom-control-input">
 					<label class="custom-control-label" for="sc${i.index}">${cate.scName}</label>
@@ -447,14 +447,19 @@
 		$('#insertCommet').each(function() {
 			let mNum = $(this).siblings( '#mNum' ).val;
 			let bNum = $(this).siblings( '#bNum' ).val;
-			let cContent = $(this).parent().children( '#cContent' ).val;
+			let cContent = $(this).siblings( '.cContent' ).val;
 			$(this).on('click', function(e) {
 				e.preventDefault();
 				console.log(aNum, bNum, cContent);
+				var blank_pattern = /^\s+|\s+$/g;
 				if(cContent == '' ||cContent == null){
-					 $('.textCount').prepend('<div class="alert alert-info">댓글을 입력해주세요.</div>')
-				} else if(){
-					 $('.textCount').prepend('<div class="alert alert-info">공백만 입력되었습니다.</div>')
+			        $(this).parent().siblings('gap').addClass('hidden');
+			        $(this).parent().siblings('space').removeClass('hidden');
+			        $(this).parent().siblings('.char').addClass('hidden');
+				} else if(cContent == " "){
+			        $(this).parent().siblings('gap').removeClass('hidden');
+			        $(this).parent().siblings('space').addClass('hidden');
+			        $(this).parent().siblings('.char').addClass('hidden');
 				} else{
 					$.ajax({
 						type: 'POST',
@@ -479,11 +484,19 @@
 		$(document).ready(function() {
 		$('#updateCommet').each(function() {
 			let cNum = $(this).siblings( '#cNum' ).val;
-			let cContent = $(this).siblings( '#cContent' ).val;
+			let cContent = $(this).siblings( '#form-control').val;
 			$(this).on('click', function(e) {
 				e.preventDefault();
-				console.log(aNum, bNum, cContent);
-				
+				console.log(cNum, cContent);
+				if(cContent == '' ||cContent == null){
+			        $(this).parent().siblings('gap').addClass('hidden');
+			        $(this).parent().siblings('space').removeClass('hidden');
+			        $(this).parent().siblings('.char').addClass('hidden');
+				} else if(cContent == " "){
+			        $(this).parent().siblings('gap').removeClass('hidden');
+			        $(this).parent().siblings('space').addClass('hidden');
+			        $(this).parent().siblings('.char').addClass('hidden');
+				} else{
 					$.ajax({
 						type: 'POST',
 						url: 'updateCommet',
@@ -497,6 +510,7 @@
 							}
 						}
 					});	
+				}
 			})
 		})
 	})
@@ -518,7 +532,9 @@
 			    	// 400자 부터는 타이핑 되지 않도록
 			        $(this).val($(this).val().substring(0, 400));
 			        // 400자 넘으면 알림창 뜨도록
-			        $(this).parent().siblings('.alert-info').removeClass('hidden');
+			        $(this).parent().siblings('gap').addClass('hidden');
+			        $(this).parent().siblings('space').addClass('hidden');
+			        $(this).parent().siblings('.char').removeClass('hidden');
 			    };
 			});
 		}
