@@ -111,28 +111,28 @@
 									<input type="hidden" value="${infomember.mNum}" name="mNum" />
 									아이디
 									<div class="form-floating mb-3">
-										<input readonly class="form-control" id="id" type="text" placeholder="Enter your id" value="${infomember.mId}" required="required" name="mId" />
+										<input disabled class="form-control" id="id" type="text" placeholder="Enter your id" value="${infomember.mId}" name="mId" />
 										<label for="inputName">${infomember.mId}</label>
 									</div>
 									비밀번호
 									<div class="form-floating mb-3">
-										<input class="form-control" id="pw" type="password" placeholder="Enter your password" value="${infomember.mPw}" required="required" name="mPw" />
+										<input class="form-control" id="pw" type="password" placeholder="Enter your password" value="${infomember.mPw}" required name="mPw" />
 										<label for="inputName">${infomember.mPw}</label>
 									</div>
 									이름
 									<div class="form-floating mb-3">
-										<input class="form-control" id="Name" type="text" placeholder="Enter your name" value="${infomember.mName}" required="required" name="mName" />
+										<input class="form-control" id="Name" type="text" placeholder="Enter your name" value="${infomember.mName}" required name="mName" />
 										<label for="inputName">${infomember.mName}</label>
 									</div>
 									이메일
 									<div class="form-floating mb-3">
-										<input class="form-control" id="Email" type="email" placeholder="name@example.com" value="${infomember.mEmail}" required="required" name="mEmail" />
+										<input class="form-control" id="Email" type="email" placeholder="name@example.com" value="${infomember.mEmail}" required name="mEmail" />
 										<label for="inputEmail">${infomember.mEmail}</label>
 									</div>
 									전화번호
 									<div class="form-floating mb-3">
 										<input class="form-control" id="Phone" type="text" name="mTel" placeholder="Enter your phone" value="${infomember.mTel}" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"
-											required="required" />
+											required />
 										<label for="inputPhone">${infomember.mTel}</label>
 									</div>
 									주소
@@ -158,7 +158,7 @@
 									포인트
 									<div class="form-floating mb-3">
 										<input class="form-control" id="Point" type="text" name="mPoint" placeholder="Enter your point" value="${infomember.mPoint}" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"
-											required="required" />
+											required />
 										<label for="inputPoint">${infomember.mPoint}</label>
 									</div>
 									<div class="mt-4 mb-0">
@@ -300,7 +300,7 @@
         let number = pw.search(/[0-9]/g);
         let english = pw.search(/[a-z]/ig);
         let spece = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-        let reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        let reg = /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,20}$/m;
 
         if(id!=""){
         if (pw.length < 8 || pw.length > 20) {
@@ -311,21 +311,10 @@
             alert("비밀번호는 공백 없이 입력해주세요.");
             return false;
 
-        } else if (number < 0 || english < 0 || spece < 0) {
-            alert("영문,숫자,특수문자를 혼합하여 입력해주세요.");
-            return false;
-
         } else if ((number < 0 && english < 0) || (english < 0 && spece < 0) || (spece < 0 && number < 0)) {
-            alert("영문,숫자, 특수문자 중 2가지 이상을 혼합하여 입력해주세요.");
+            alert("영문,숫자,특수문자 중 2가지 이상을 혼합하여 입력해주세요.");
             return false;
 
-        } else if (/(\w)\1\1\1/.test(pw)) {
-            alert('같은 문자를 4번 이상 사용하실 수 없습니다.');
-            return false;
-
-        } else if (pw.search(id) > -1) {
-            alert("비밀번호에 아이디가 포함되었습니다.");
-            return false;
         } else {
             if(name==""||email==""||phone==""||add==""||point==""){
                 alert("빈 칸 없이 모두입력해주세요.");
@@ -338,7 +327,7 @@
         }
 
         if (false === reg.test(pw)) {
-            alert('비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
+            alert('비밀번호는 8자 이상이어야 하며, 영문,숫자,특수문자 중 2가지 이상을 혼합하여야 합니다.');
             return false;
         } else {
             if(name==""||email==""||phone==""||add==""||point==""){
