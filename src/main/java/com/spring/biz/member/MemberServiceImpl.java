@@ -13,12 +13,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public boolean insert(MemberVO vo) {
-		return memberDAO.insertMember(vo);
+		return memberDAO.insert(vo);
 	}
 
 	@Override
 	public List<MemberVO> selectAll(MemberVO vo) {
-		return memberDAO.selectAllMember(vo);
+		return memberDAO.selectAll(vo);
 	}
 
 	@Override
@@ -27,37 +27,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO selectOneLogin(MemberVO vo) {
-		return memberDAO.selectOneLogin(vo);
+	public MemberVO selectOneMember(MemberVO vo) {
+		return memberDAO.selectOneMember(vo);
 	}
 
 	@Override
-	public MemberVO selectOneInfo(MemberVO vo) {
-		return memberDAO.selectOneInfo(vo);
+	public MemberVO selectOneEmail(MemberVO vo) {
+		return memberDAO.selectOneEmail(vo);
 	}
 
-	@Override
-	public MemberVO selectOneId(MemberVO vo) {
-		return memberDAO.selectOneId(vo);
-	}
-
-	@Override
-	public MemberVO selectOneEmailCHK(MemberVO vo) {
-		return memberDAO.selectOneEmailCHK(vo);
-	}
-
-	@Override
-	public MemberVO selectOneFindPw(MemberVO vo) {
-		return memberDAO.selectOneFindPw(vo);
-	}
 
 	@Override
 	public boolean update(MemberVO vo) {
-		return memberDAO.updateUser(vo);
+		return memberDAO.update(vo);
 	}
 
 	@Override
 	public boolean delete(MemberVO vo) {
-		return memberDAO.deleteUser(vo);
+		return memberDAO.delete(vo);
 	}
 }

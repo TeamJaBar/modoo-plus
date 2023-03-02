@@ -56,7 +56,7 @@ public class ProductController {
 		pvo.setPageCnt(initPageCnt);
 		
 		if(session.getAttribute("mNum") != null) {
-			pvo.setDib((int)(session.getAttribute("mNum")));
+			pvo.setDib((Integer)(session.getAttribute("mNum")));
 		}
 		
 		model.addAttribute("cateNum", mdCategory);
@@ -118,7 +118,7 @@ public class ProductController {
 		System.out.println("[퀵뷰 로그] 상품번호 : " + pvo.getpNum());
 		
 		if(session.getAttribute("mNum") != null) {
-			pvo.setDib((int)(session.getAttribute("mNum")));
+			pvo.setDib((Integer)(session.getAttribute("mNum")));
 		}
 		
 		pvo = productService.selectOne(pvo);
@@ -135,10 +135,6 @@ public class ProductController {
 	//검색
 	@RequestMapping(value="/search.do")
 	public String selectAllSearch(ProductVO pvo, Model model) {
-		if(pvo.getBrand().equals("브랜드")) {
-			pvo.setBrand(null);
-		}
-		
 		model.addAttribute("rList", productService.selectAllSearch(pvo));
 		model.addAttribute("searchContent",  pvo.getpName());
 		
@@ -157,7 +153,7 @@ public class ProductController {
 		
 		
 		if(session.getAttribute("mNum") != null) {
-			pvo.setDib((int)session.getAttribute("mNum"));
+			pvo.setDib((Integer)session.getAttribute("mNum"));
 		}
 		
 		model.addAttribute("searchResult", productService.selectAllFilter(pvo));
