@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ attribute type="java.lang.Integer" name="aDatas"%>
 <%@ attribute type="java.lang.Integer" name="bDatas"%>
-<%@ attribute type="java.lang.Integer" name="member"%>
+<%@ attribute type="java.lang.Integer" name="mNum"%>
 
 <!-- 지난게임이 아닐 시 -->
 <c:if test="${bDatas.bAction != 3}">
