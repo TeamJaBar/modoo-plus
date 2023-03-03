@@ -9,6 +9,14 @@ public class CommentVO {
 	private String cContent;//댓글 내용
 	private Date cWdate;//작성 일자
 	private Date cCdate;//수정 일자
+	private String mName;//JAVA 저장 객체: 작성자 이름
+	
+	public String getmName() {
+		return mName;
+	}
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
 	public int getcNum() {
 		return cNum;
 	}
@@ -44,11 +52,6 @@ public class CommentVO {
 	}
 	public void setcCdate(Date cCdate) {
 		this.cCdate = cCdate;
-	}
-	@Override
-	public String toString() {
-		return "CommentVO [cNum=" + cNum + ", bNum=" + bNum + ", mNum=" + mNum + ", cContent=" + cContent + ", cWdate="
-				+ cWdate + ", cCdate=" + cCdate + "]";
 	}
 	
 	
