@@ -135,6 +135,10 @@ public class ProductController {
 	//검색
 	@RequestMapping(value="/search.do")
 	public String selectAllSearch(ProductVO pvo, Model model) {
+		System.out.println("search로그 : " + pvo);
+		if(pvo.getBrand().equals("브랜드")){
+			pvo.setBrand(null);
+		}
 		model.addAttribute("rList", productService.selectAllSearch(pvo));
 		model.addAttribute("searchContent",  pvo.getpName());
 		
