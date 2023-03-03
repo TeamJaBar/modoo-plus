@@ -241,7 +241,7 @@ select option[disabled] {
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.memberId}" name="${member.memberName}" />
+			<modoo:header id="${mId}" name="${mName}" />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -262,17 +262,15 @@ select option[disabled] {
 											<c:if test="${title eq '게시글 수정'}">
 												<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 											</c:if>
-											<input type="hidden" name="mNum" value="${member.mNum}" />
-											<input type="hidden" name="bLatitude" value="${bDatas.bLatitude}" />
-											<input type="hidden" name="bLongitude" value="${bDatas.bLongitude}" />
-											<input type="hidden" name="bLocal" value="${bDatas.bLocal}" />
+											<input type="hidden" name="mNum" value="${mNum}" />
+											<input type="hidden" name="bLatitude" id="bLatitude" value="${bDatas.bLatitude}" />
+											<input type="hidden" name="bLongitude" id="bLongitude" value="${bDatas.bLongitude}" />
 											<div class="form-group">
+												<div class="alert alert-info hidden blankMsg">빈칸없이 입력해주세요.</div>
 												<label>제목</label>
-												<input type="text" class="form-contro titlel" name="bTitle" value="${bDatas.bTitle}" />
+												<input type="text" class="form-contro title" name="bTitle" value="${bDatas.bTitle}" />
 											</div>
 											<div class="alert alert-info hidden char">글자수는 50자까지 입력 가능합니다.</div>
-											<div class="alert alert-info hidden space">제목을 입력해주세요.</div>
-											<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 											<div class="form-group">
 												<label>모집 인원</label>
 												<div class="input-group">
@@ -289,7 +287,7 @@ select option[disabled] {
 											<div class="form-group">
 												<label>게임 시간</label>
 												<div class="input-group">
-													<input type="datetime-local" class="form-control" name="bDate" value="${bDatas.bDate}" />
+													<input type="datetime-local" class="form-control date" name="bDate" value="${bDatas.bDate}" />
 												</div>
 											</div>
 											<div class="alert alert-info hidden datetime">현재 시간의 1시간 이후 보다 이전의 날짜는 설정할 수 없습니다.</div>
@@ -307,19 +305,19 @@ select option[disabled] {
 												<div class="input-group">
 													<div class="selectgroup w-100">
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="초고수" class="selectgroup-input" checked="${bDatas.bRate == '초고수' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="초고수" class="selectgroup-input" checked="${bDatas.bRate eq '초고수' ? 'true' : 'false'}" />
 															<span class="selectgroup-button">초고수</span>
 														</label>
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="고수" class="selectgroup-input" checked="${bDatas.bRate == '고수' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="고수" class="selectgroup-input" checked="${bDatas.bRate eq '고수' ? 'true' : 'false'}" />
 															<span class="selectgroup-button">고수</span>
 														</label>
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="초보" class="selectgroup-input" checked="${bDatas.bRate == '초보' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="초보" class="selectgroup-input" checked="${bDatas.bRate eq '초보' ? 'true' : 'false'}" />
 															<span class="selectgroup-button">초보</span>
 														</label>
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" checked="${bDatas.bRate == '왕초보' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" checked="${bDatas.bRate eq '왕초보' ? 'true' : 'false'}" />
 															<span class="selectgroup-button">왕초보</span>
 														</label>
 													</div>
@@ -377,6 +375,7 @@ select option[disabled] {
 					<div id="menu_wrap" class="bg_white">
 						<ul class="list-unstyled list-unstyled-border" id="searchResult-list">
 						</ul>
+						<div id="pagination"></div>
 					</div>
 				</div>
 				<div class="modal-footer bg-whitesmoke br">
@@ -501,8 +500,10 @@ select option[disabled] {
 
 		// 검색결과 항목을 Element로 반환하는 함수입니다
 		function getListItem(index, places) {
+			var arr = [ index, places.place_name, places.address_name ];
+
 			var el = document.createElement('li'), itemStr = '<div class="media-body">' + '<div class="media-title">' + places.place_name + '</div>' + '<div class="text-small text-muted">'
-					+ places.address_name + '</div> </div>' + '<button class="btn btn-primary" value="' + places.address_name + '" onclick="selectAdd(this);" data-dismiss="modal">선택</button>';
+					+ places.address_name + '</div> </div>' + '<button class="btn btn-primary" value="' + arr + '" onclick="selectAdd(this);" data-dismiss="modal" id="adBtn">선택</button>';
 
 			el.innerHTML = itemStr;
 			el.className = 'media';
@@ -586,8 +587,14 @@ select option[disabled] {
 		// 검색결과 선택 시 address에 추가하는 함수입니다
 		function selectAdd(args0) {
 			var value = $(args0).val();
-			document.getElementById("address").value = value;
-			document.getElementById("address").innerText = value;
+			var index = value.substring(0, value.indexOf(','));
+			var name = value.substring(value.indexOf(',') + 1, value.indexOf(',', value.indexOf(',') + 1));
+			var address = value.substring(value.indexOf(',', value.indexOf(',') + 1) + 1) + ' ' + name;
+
+			document.getElementById("address").value = address;
+			document.getElementById("address").innerText = address;
+			document.getElementById("bLatitude").value = markers[index].n.La;
+			document.getElementById("bLongitude").value = markers[index].n.Ma;
 		}
 	</script>
 	<script type="text/javascript">
@@ -601,8 +608,6 @@ select option[disabled] {
 				// 50자 부터는 타이핑 되지 않도록
 				$(this).val($(this).val().substring(0, 50));
 				// 50자 넘으면 알림창 뜨도록
-				$(this).parent().siblings('gap').addClass('hidden');
-				$(this).parent().siblings('space').addClass('hidden');
 				$(this).parent().siblings('.char').removeClass('hidden');
 			}
 			;
@@ -653,10 +658,20 @@ select option[disabled] {
 				document.getElementById("DateLocal").value = today;
 			}
 		}
-		
-		//작성완료시 유효성검사
+
+		//버튼입력 시 유효성검사
 		function submit() {
+			var title = ${".title"}.val();
+			var cnt = ${".bCnt"}.val();
+			var datetime = ${".date"}.val();
+			var address = ${"#address"}.val();
 			
+			if(title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null){
+				${blankMsg}.removeClass('hidden');
+				return false;
+			} else {
+				return true;
+			}
 		}
 	</script>
 
