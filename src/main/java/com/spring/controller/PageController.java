@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.biz.board.BoardVO;
-import com.spring.biz.board.PageDAO;
 import com.spring.biz.board.PageService;
 import com.spring.biz.board.PageVO;
 import com.spring.biz.member.MemberVO;
@@ -23,7 +22,7 @@ public class PageController {
 	PageService pageService;
 	//마이페이지로 이동
 	@RequestMapping(value = "/mypage.do")
-	public String myPaging(HttpServletRequest request, Model model, PageVO vo, PageDAO dao, MemberVO mvo) {
+	public String myPaging(HttpServletRequest request, Model model, PageVO vo, MemberVO mvo) {
 		// 1. 화면전환 시에 조회하는 페이지번호 and 화면에 그려질 데이터개수 2개를 전달받음
 		// 첫 페이지 경우
 		int pageNum = 1;
@@ -43,8 +42,8 @@ public class PageController {
 		}
 		
 		// 2. pageVO생성
-		List<BoardVO> list = dao.getList(pageNum, amount);
-		int total = dao.getMyTotal(mvo); // 전체게시글수
+		List<BoardVO> list = pageService.getList(pageNum, amount);
+		int total =pageService.getMyTotal(mvo); // 전체게시글수
 		PageVO pageVO = new PageVO(pageNum, amount, total);
 
 
@@ -53,13 +52,12 @@ public class PageController {
 		// 화면에 가지고 나갈 list를 request에 저장 !!
 		model.addAttribute("list", list);
 		
-		model.addAttribute("pageVO", pageService.getTotal());
 		return "mypage.jsp";
 	}
 	
 	// 신고글 목록 페이지로 이동시
 	@RequestMapping(value = "/adMoveSue.do")
-	public String suePaging(HttpServletRequest request, Model model, PageVO vo, PageDAO dao) {
+	public String suePaging(HttpServletRequest request, Model model, PageVO vo) {
 		// 1. 화면전환 시에 조회하는 페이지번호 and 화면에 그려질 데이터개수 2개를 전달받음
 		// 첫 페이지 경우
 		int pageNum = 1;
@@ -72,8 +70,8 @@ public class PageController {
 		}
 		
 		// 2. pageVO생성
-		List<BoardVO> list = dao.getList(pageNum, amount);
-		int total = dao.getSueTotal(); // 전체게시글수
+		List<BoardVO> list = pageService.getList(pageNum, amount);
+		int total = pageService.getSueTotal(); // 전체게시글수
 		PageVO pageVO = new PageVO(pageNum, amount, total);
 
 
@@ -81,8 +79,6 @@ public class PageController {
 		model.addAttribute("pageVO", pageVO);
 		// 화면에 가지고 나갈 list를 request에 저장 !!
 		model.addAttribute("list", list);
-		
-		model.addAttribute("pageVO", pageService.getTotal());
 		return "admin-sue.jsp";
 	}
 
