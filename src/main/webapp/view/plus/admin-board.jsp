@@ -41,7 +41,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${member.memberId}" name="${member.memberName}" />
+			<modoo:header id="${mId}" name="${mName}" />
 
 			<!-- Main Content -->
 			<div class="main-content">

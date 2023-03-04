@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.spring.biz.member.DibVO;
+
 
 @Repository("applicantDAO")
 public class ApplicantDAO {
@@ -34,13 +36,14 @@ public class ApplicantDAO {
 	public boolean insert(ApplicantVO vo) {
 		jdbcTemplate.update(INSERT, vo.getbNum(),vo.getmNum());
 		return true;
-	}
+	}	
 	public List<ApplicantVO> selectAll(ApplicantVO vo){
 		return jdbcTemplate.query(SELECTALL_ACTION, new ApplicantRowMapper());
 	}
+	
 	public ApplicantVO selectOne(ApplicantVO vo) {
 		Object[] args= {vo.getaNum()};
-		return jdbcTemplate.queryForObject(SELECTONE,args,new ApplicantRowMapper());
+		return jdbcTemplate.queryForObject(SELECTONE,args,new SelectOneRowMapper());
 	}
 	public boolean delete(ApplicantVO vo) {
 		jdbcTemplate.update(DELETE, vo.getaNum());
@@ -48,7 +51,6 @@ public class ApplicantDAO {
 	}
 	
 	class ApplicantRowMapper implements RowMapper<ApplicantVO> {
-
 		@Override
 		public ApplicantVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			ApplicantVO data = new ApplicantVO();
@@ -56,11 +58,26 @@ public class ApplicantDAO {
 			data.setmNum(rs.getInt("MNUM"));
 			data.setAchk(rs.getString("ACHK"));
 			data.setaNum(rs.getInt("ANUM"));
+			data.setmName(rs.getString("MNAME"));
+			data.setmImg(rs.getString("MIMG"));
 			return data;
 		}
 
 	}
 	
-	
+
+	class SelectOneRowMapper implements RowMapper<ApplicantVO> {
+		@Override
+		public ApplicantVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			ApplicantVO data = new ApplicantVO();
+			data.setmNum(rs.getInt("MNUM"));
+			data.setmName(rs.getString("MNAME"));
+			data.setmImg(rs.getString("MIMG"));
+			data.setAchk(rs.getString("ACHK"));
+			return data;
+			
+		}
+
+	}
 	
 }

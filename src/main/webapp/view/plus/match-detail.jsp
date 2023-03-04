@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 
-<!-- member : 로그인 회원정보, bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, scDatas : 신고 카테고리 정보, sDatas : 현재 멤버에 대한 현재글 신고 정보-->
+<!-- bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, scDatas : 신고 카테고리 정보, sDatas : 현재 멤버에 대한 현재글 신고 정보-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +59,7 @@
 		<div class="main-wrapper container">
 
 			<!--  header -->
-			<modoo:header id="${member.memberId}" name="${member.memberName}" />
+			<modoo:header id="${mId}" name="${mName}" />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -67,227 +67,244 @@
 					<div class="section-header">
 						<h1>매칭 상세페이지</h1>
 					</div>
-					<div class="section-body">
-						<h2 class="section-title">매칭 게시글</h2>
-						<div class="card">
-							<div class="navermap-container" style="width: 100%;">
-								<div id="map" style="width: 100%; height: 350px;"></div>
-							</div>
-							<div class="match-container">
-								<div class="match-header">
-									<div class="match-title">
-										<div style="display: flex">
-											<!-- 날짜 -->
-											<div class="date">
-												<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
-											</div>
-											<c:if test="${member.mNum != sDatas.mNum}">
-												<button class="btn-sue" id="modal-sue" data-toggle="modal">
-													<i class="fas fa-siren"></i>신고하기
-												</button>
-											</c:if>
-											<c:if test="${member.mNum == sDatas.mNum}">
-												<div class="btn-sue">
-													<i class="fas fa-siren"></i>신고완료
-												</div>
-											</c:if>
-										</div>
-										<div class="title">${bDatas.bTitle}</div>
-									</div>
-									<!-- 주소 -->
-									<div class="address">${bDatas.bAddress}</div>
-									<a href="#" class="btn-custom btn-address" onclick="clip(); return false;">
-										<i class="far fa-copy"></i> 주소복사하기
-									</a>
-									<a href="#" id="btn-share" onclick="fn_share('kakaotalk');return false;" class="btn-custom btn-share">
-										<i class="fas fa-share-alt"></i> 공유하기
-									</a>
+					<c:if test="bDatas.bStatus==1">
+						<div class="card-body">
+							<div class="alert alert-primary alert-has-icon p-4">
+								<div class="alert-icon">
+									<i class="far fa-lightbulb"></i>
 								</div>
-								<div class="match-body">
-
-									<!-- 탭 -->
-									<ul class="nav nav-tabs" id="myTab2" role="tablist">
-										<li class="nav-item">
-											<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
-										</li>
-									</ul>
-									<div class="tab-content tab-bordered">
-										<!--매치 정보-->
-										<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
-											<table>
-												<tr>
-													<td>인원</td>
-													<td>실력</td>
-													<td>상태</td>
-												</tr>
-												<tr>
-													<td>${bDatas.bCnt}</td>
-													<td>${bDatas.bRate}</td>
-													<td>
-														<c:if test="${bDatas.bAction==0}">모집완료</c:if>
-														<c:if test="${bDatas.bAction==1}">모집 중</c:if>
-														<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
-													</td>
-												</tr>
-											</table>
+								<div class="alert-body">
+									<div class="alert-title">삭제된 게시물</div>
+									<p>다수 유저의 신고로 인해 관리자에 의해 삭제된 매칭 게시글입니다.</p>
+									<p class="mt-3">
+										<a href="https://fontawesome.com/icons" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="bDatas.bStatus==0">
+						<div class="section-body">
+							<h2 class="section-title">매칭 게시글</h2>
+							<div class="card">
+								<div class="navermap-container" style="width: 100%;">
+									<div id="map" style="width: 100%; height: 350px;"></div>
+								</div>
+								<div class="match-container">
+									<div class="match-header">
+										<div class="match-title">
+											<div style="display: flex">
+												<!-- 날짜 -->
+												<div class="date">
+													<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
+												</div>
+												<c:if test="${mNum != sDatas.mNum}">
+													<button class="btn-sue" id="modal-sue" data-toggle="modal">
+														<i class="fas fa-siren"></i>신고하기
+													</button>
+												</c:if>
+												<c:if test="${mNum == sDatas.mNum}">
+													<div class="btn-sue">
+														<i class="fas fa-siren"></i>신고완료
+													</div>
+												</c:if>
+											</div>
+											<div class="title">${bDatas.bTitle}</div>
 										</div>
-										<!--참가 신청자 정보-->
-										<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
-											<ul id="a_box" class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
-												<c:forEach var="entry" items="${aDatas}">
-													<c:if test="${bDatas.mNum == entry.mNum}">
-														<!--방장 - 글 작성자-->
-														<li class="media">
-															<div class="avatar-item">
-																<img alt="image" src="../../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
-																<div class="avatar-badge">
-																	<i class="fas fa-crown" style="color: #ffdd00"></i>
+										<!-- 주소 -->
+										<div class="address">${bDatas.bAddress}</div>
+										<a href="#" class="btn-custom btn-address" onclick="clip(); return false;">
+											<i class="far fa-copy"></i> 주소복사하기
+										</a>
+										<a href="#" id="btn-share" onclick="fn_share('kakaotalk');return false;" class="btn-custom btn-share">
+											<i class="fas fa-share-alt"></i> 공유하기
+										</a>
+									</div>
+									<div class="match-body">
+
+										<!-- 탭 -->
+										<ul class="nav nav-tabs" id="myTab2" role="tablist">
+											<li class="nav-item">
+												<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
+											</li>
+										</ul>
+										<div class="tab-content tab-bordered">
+											<!--매치 정보-->
+											<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
+												<table>
+													<tr>
+														<td>인원</td>
+														<td>실력</td>
+														<td>상태</td>
+													</tr>
+													<tr>
+														<td>${bDatas.bCnt}</td>
+														<td>${bDatas.bRate}</td>
+														<td>
+															<c:if test="${bDatas.bAction==0}">모집완료</c:if>
+															<c:if test="${bDatas.bAction==1}">모집 중</c:if>
+															<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<!--참가 신청자 정보-->
+											<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
+												<ul id="a_box" class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+													<c:forEach var="entry" items="${aDatas}">
+														<c:if test="${bDatas.mNum == entry.mNum}">
+															<!--방장 - 글 작성자-->
+															<li class="media">
+																<div class="avatar-item">
+																	<img alt="image" src="../../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
+																	<div class="avatar-badge">
+																		<i class="fas fa-crown" style="color: #ffdd00"></i>
+																	</div>
 																</div>
-															</div>
+																<div class="media-body">
+																	<div class="media-title">${entry.mId}</div>
+																	<div class="text-job text-muted">
+																		<modoo:score score="${entry.score}" />
+																	</div>
+																</div>
+																<div class="media-progressbar">
+																	<div class="progress-text">${entry.score}점</div>
+																	<div class="progress" data-height="6" style="height: 6px;">
+																		<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																	</div>
+																</div>
+																<div class="media-cta">
+																	<div class="btn btn-outline-info">방개설자</div>
+																</div>
+															</li>
+														</c:if>
+														<c:if test="${bDatas.mNum != entry.mNum}">
+															<!--일반 참여자-->
+															<li class="media" id="${entry.aNum}">
+																<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${entry.mImg}">
+																<div class="media-body">
+																	<div class="media-title">${entry.mId}</div>
+																	<div class="text-job text-muted">
+																		<modoo:score score="${entry.score}" />
+																	</div>
+																</div>
+																<div class="media-progressbar">
+																	<div class="progress-text">${entry.score}점</div>
+																	<div class="progress" data-height="6" style="height: 6px;">
+																		<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																	</div>
+																</div>
+																<!--퇴출하기 버튼은 글 작성자에게만 보임-->
+																<c:if test="${bDatas.mNum == mNum}">
+																	<div class="media-cta">
+																		<button class="btn btn-outline-primary" id="kickUser">퇴출하기</button>
+																	</div>
+																</c:if>
+																<c:if test="${bDatas.mNum != mNum}">
+																	<div class="media-cta">
+																		<div class="btn btn-outline-primary">방참가자</div>
+																	</div>
+																</c:if>
+															</li>
+														</c:if>
+													</c:forEach>
+												</ul>
+											</div>
+										</div>
+										<!-- 본문 내용 -->
+										<div class="match-content">${bDatas.bContent}</div>
+										<!-- 댓글 -->
+										<div id="c_box" class="match-comment">
+											<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
+											<div class="media-links">
+												<a class="TextCount" style="font-size: 2px;">0</a>
+												<a class="TextTotal" style="font-size: 2px;">/400</a>
+											</div>
+											<div class="form-group">
+												<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
+												<input type="hidden" name="mNum" id="mNum" value="${mNum}" />
+												<textarea class="form-control cContent" name="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+												<button class="btn btn-lg btn-submit" id="insertCommet">
+													<i class="fas fa-comments"></i>
+												</button>
+											</div>
+											<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+											<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+											<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
+											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
+												<c:forEach var="com" items="${cDatas}">
+													<!-- 현재 로그인한 사람이 작성한 댓글 -->
+													<c:if test="${mNum == com.mNum}">
+														<li class="media" id="${com.cNum}">
 															<div class="media-body">
-																<div class="media-title">${entry.mId}</div>
-																<div class="text-job text-muted">
-																	<modoo:score score="${entry.score}" />
+																<div class="comment-head">
+																	<div class="media-title mb-1">${com.mId}</div>
+																	<c:if test="${com.ccDate == null}">
+																		<div class="text-time">${com.cwDate}</div>
+																	</c:if>
+																	<c:if test="${com.ccDate != null}">
+																		<div class="text-time">수정됨</div>
+																	</c:if>
 																</div>
-															</div>
-															<div class="media-progressbar">
-																<div class="progress-text">${entry.score}점</div>
-																<div class="progress" data-height="6" style="height: 6px;">
-																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																<div class="media-description text-muted">${com.cContent}</div>
+																<div class="media-links">
+																	<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
+																	<div class="bullet"></div>
+																	<button class="text-danger">삭제</button>
+																	<div class="collapse" id="collapseExample">
+																		<div class="media-links">
+																			<a class="TextCount" style="font-size: 2px;">0</a>
+																			<a class="TextTotal" style="font-size: 2px;">/400</a>
+																		</div>
+																		<div class="form-group">
+																			<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
+																			<textarea class="form-control" name="cContent" id="${com.cNum}" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
+																			<button class="btn btn-lg btn-submit" id="updateCommet">
+																				<i class="fas fa-comments"></i>
+																			</button>
+																		</div>
+																		<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+																		<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+																		<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
+																	</div>
 																</div>
-															</div>
-															<div class="media-cta">
-																<div class="btn btn-outline-info">방개설자</div>
 															</div>
 														</li>
 													</c:if>
-													<c:if test="${bDatas.mNum != entry.mNum}">
-														<!--일반 참여자-->
-														<li class="media" id="${entry.aNum}">
-															<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${entry.mImg}">
+													<c:if test="${mNum != com.mNum}">
+														<!-- 일반 댓글 -->
+														<li class="media">
 															<div class="media-body">
-																<div class="media-title">${entry.mId}</div>
-																<div class="text-job text-muted">
-																	<modoo:score score="${entry.score}" />
+																<div class="comment-head">
+																	<div class="media-title mb-1">${com.mId}</div>
+																	<c:if test="${com.ccDate == null}">
+																		<div class="text-time">${com.cwDate}</div>
+																	</c:if>
+																	<c:if test="${com.ccDate != null}">
+																		<div class="text-time">수정됨</div>
+																	</c:if>
 																</div>
+																<div class="media-description text-muted">${com.cContent}</div>
 															</div>
-															<div class="media-progressbar">
-																<div class="progress-text">${entry.score}점</div>
-																<div class="progress" data-height="6" style="height: 6px;">
-																	<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
-																</div>
-															</div>
-															<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-															<c:if test="${bDatas.mNum == member.mNum}">
-																<div class="media-cta">
-																	<button class="btn btn-outline-primary" id="kickUser">퇴출하기</button>
-																</div>
-															</c:if>
-															<c:if test="${bDatas.mNum != member.mNum}">
-																<div class="media-cta">
-																	<div class="btn btn-outline-primary">방참가자</div>
-																</div>
-															</c:if>
 														</li>
 													</c:if>
 												</c:forEach>
 											</ul>
 										</div>
 									</div>
-									<!-- 본문 내용 -->
-									<div class="match-content">${bDatas.bContent}</div>
-									<!-- 댓글 -->
-									<div id="c_box" class="match-comment">
-										<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
-										<div class="media-links">
-											<a class="TextCount" style="font-size: 2px;">0</a>
-											<a class="TextTotal" style="font-size: 2px;">/400</a>
-										</div>
-										<div class="form-group">
-											<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
-											<input type="hidden" name="mNum" id="mNum" value="${member.mNum}" />
-											<textarea class="form-control cContent" name="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
-											<button class="btn btn-lg btn-submit" id="insertCommet">
-												<i class="fas fa-comments"></i>
-											</button>
-										</div>
-										<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
-										<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
-										<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
-										<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
-											<c:forEach var="com" items="${cDatas}">
-												<!-- 현재 로그인한 사람이 작성한 댓글 -->
-												<c:if test="${member.mNum == com.mNum}">
-													<li class="media" id="${com.cNum}">
-														<div class="media-body">
-															<div class="comment-head">
-																<div class="media-title mb-1">${com.mId}</div>
-																<c:if test="${com.ccDate == null}">
-																	<div class="text-time">${com.cwDate}</div>
-																</c:if>
-																<c:if test="${com.ccDate != null}">
-																	<div class="text-time">수정됨</div>
-																</c:if>
-															</div>
-															<div class="media-description text-muted">${com.cContent}</div>
-															<div class="media-links">
-																<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
-																<div class="bullet"></div>
-																<button class="text-danger">삭제</button>
-																<div class="collapse" id="collapseExample">
-																	<div class="media-links">
-																		<a class="TextCount" style="font-size: 2px;">0</a>
-																		<a class="TextTotal" style="font-size: 2px;">/400</a>
-																	</div>
-																	<div class="form-group">
-																		<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
-																		<textarea class="form-control" name="cContent" id="${com.cNum}" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
-																		<button class="btn btn-lg btn-submit" id="updateCommet">
-																			<i class="fas fa-comments"></i>
-																		</button>
-																	</div>
-																	<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
-																	<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
-																	<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
-																</div>
-															</div>
-														</div>
-													</li>
-												</c:if>
-												<c:if test="${member.mNum != com.mNum}">
-													<!-- 일반 댓글 -->
-													<li class="media">
-														<div class="media-body">
-															<div class="comment-head">
-																<div class="media-title mb-1">${com.mId}</div>
-																<c:if test="${com.ccDate == null}">
-																	<div class="text-time">${com.cwDate}</div>
-																</c:if>
-																<c:if test="${com.ccDate != null}">
-																	<div class="text-time">수정됨</div>
-																</c:if>
-															</div>
-															<div class="media-description text-muted">${com.cContent}</div>
-														</div>
-													</li>
-												</c:if>
-											</c:forEach>
-										</ul>
-									</div>
 								</div>
 							</div>
-						</div>
-						<!-- 하단 바 -->
-						<div class="fixed-bottom">
-							<modoo:bottomBar bDatas="${bDatas}" member="${member}" aDatas="${aDatas}" />
-							<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
+							<!-- 하단 바 -->
+							<div class="fixed-bottom">
+								<modoo:bottomBar bDatas="${bDatas}" mNum="${mNum}" aDatas="${aDatas}" />
+								<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
-							<!-- 이 아래는 작성자에게만 보이는 버튼 -->
-							<!-- <a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
+								<!-- 이 아래는 작성자에게만 보이는 버튼 -->
+								<!-- <a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 완료"><i
 								class="fas fa-user-check"></i></a> <a
 								class="btn btn-warning btn-action mb-3" data-toggle="tooltip"
@@ -298,8 +315,9 @@
 								data-confirm="정말 삭제하시겠습니까?|한 번 삭제한 글은 다시 되돌릴 수 없습니다."
 								data-confirm-yes="alert('삭제되었습니다.')" data-original-title="삭제하기"><i
 								class="fas fa-trash"></i></a> -->
+							</div>
 						</div>
-					</div>
+					</c:if>
 				</section>
 			</div>
 		</div>
@@ -308,7 +326,7 @@
 	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">신고 사유 선택해주세요.</p>
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
-		<input type="hidden" name="mNum" value="${member.mNum}" />
+		<input type="hidden" name="mNum" value="${mNum}" />
 		<div class="radio-container">
 			<c:forEach items="${scDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(scDatas)}" step=1>
 				<div class="custom-control custom-radio">
@@ -451,7 +469,7 @@
 			$(this).on('click', function(e) {
 				e.preventDefault();
 				console.log(aNum, bNum, cContent);
-				var blank_pattern = /^\s+|\s+$/g;
+
 				if(cContent == '' ||cContent == null){
 			        $(this).parent().siblings('gap').addClass('hidden');
 			        $(this).parent().siblings('space').removeClass('hidden');
