@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +63,7 @@
 													<c:if test="${fn:length(sueCount.aCnt) == 0 }">
 														<span class="badge badge-white"> 0 </span>
 													</c:if>
-													<c:if test="${fn:length(sueCount.aCnt) =! 0 }">
+													<c:if test="${fn:length(sueCount.aCnt) != 0 }">
 														<span class="badge badge-white"> ${sueCount.aCnt} </span>
 													</c:if>
 												</a>
@@ -74,7 +75,7 @@
 													<c:if test="${fn:length(sueCount.nCnt) == 0 }">
 														<span class="badge badge-primary"> 0 </span>
 													</c:if>
-													<c:if test="${fn:length(sueCount.nCnt) =! 0 }">
+													<c:if test="${fn:length(sueCount.nCnt) != 0 }">
 														<span class="badge badge-primary"> ${sueCount.nCnt} </span>
 													</c:if>
 												</a>
@@ -85,7 +86,7 @@
 													<c:if test="${fn:length(sueCount.cCnt) == 0 }">
 														<span class="badge badge-primary"> 0 </span>
 													</c:if>
-													<c:if test="${fn:length(sueCount.cCnt) =! 0 }">
+													<c:if test="${fn:length(sueCount.cCnt) != 0 }">
 														<span class="badge badge-primary"> ${sueCount.cCnt} </span>
 													</c:if>
 												</a>
@@ -122,7 +123,7 @@
 														<td></td>
 													</tr>
 												</c:if>
-												<c:if test="${fn:length(sue) =! 0}">
+												<c:if test="${fn:length(sue) != 0}">
 													<c:forEach items="${sue}" var="v">
 														<tr>
 															<td>${v.bNum}</td>
