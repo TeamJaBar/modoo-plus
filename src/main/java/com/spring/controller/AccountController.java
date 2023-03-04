@@ -11,6 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -59,11 +60,22 @@ public class AccountController {
 		}
 		return null;
 	}
+	
+	// 로그인
+	@RequestMapping(value = "/login.do", method=RequestMethod.GET)
+	public String loginView(HttpServletRequest request) {
+		String referer = request.getHeader("Referer");
+		System.out.println("referer: " + referer);
+		request.getSession().setAttribute("redirectURI", referer);
+		
+		return "redirect:login.jsp";
+	}
 
 	// 로그인
-	@RequestMapping(value = "/login.do")
+	@RequestMapping(value = "/login.do", method=RequestMethod.POST)
 	public String login(MemberVO mvo, SweetAlertDTO sweet, HttpServletResponse response, HttpSession session, Model model) {
 		Cookie cookie = new Cookie("mId", mvo.getmId());
+		String redirectURI = (String)session.getAttribute("redirectURI");
 		if (mvo.getSaveId() != null) {// saveId가 있을때(아이디저장 체크가 되어있을때)
 			cookie.setMaxAge(60 * 60 * 24 * 30);
 			response.addCookie(cookie);
@@ -79,7 +91,7 @@ public class AccountController {
 			response.addCookie(cookie);
 			sweet.setTitle("가입된 정보가 없습니다.");
 			sweet.setMsg("아이디 혹은 비밀번호를 확인하세요.");
-			sweet.setUrl("login.jsp");
+			sweet.setUrl("login.do");
 			model.addAttribute("sweet", sweet);
 			return "alert.jsp";
 		} else {
@@ -87,8 +99,9 @@ public class AccountController {
 			session.setAttribute("mNum", mvo.getmNum());
 			session.setAttribute("mId", mvo.getmId());
 			session.setAttribute("mName", mvo.getmName());
+			session.removeAttribute("redirectURI");
 		}
-		return "main.do";
+		return "redirect:"+ redirectURI;
 	}
 
 	// 아이디 찾기
@@ -195,7 +208,7 @@ public class AccountController {
 	public String update(MemberVO mvo, HttpSession session) {
 		String path = "";
 		if (session.getAttribute("mId") == null) { // pw-find
-			path = "redirect:login.jsp";
+			path = "redirect:login.do";
 		} else { // change-inform
 			mvo.setmNum((Integer)session.getAttribute("mNum"));
 			path = "redirect:changeInfo.do";
