@@ -17,6 +17,7 @@ public class BoardDAO {
 
 	private final String SQL_INSERT = "INSERT INTO BOARD (BTITLE, BCONTENT, BRATE, BCNT, BDATE, BWDATE, BSTATUS, BLATITUDE, BLONGITUDE, BLOCAL) VALUES(?,?,?,?,SYSDATE(),SYSDATE(),0,?,?,?)";
 	private final String SQL_UPDATE = "UPDATE BOARD SET BTITLE=?, BCONTENT=? BRATE=?, BCNT=?, BDATE=?, BCDATE=SYSDATE(), BLATITUDE=?, BLONGITUDE=? WHERE BNUM =?";
+	private final String SQL_UPDATE_BACTION = "UPDATE BOARD SET BACTION=? WHERE BNUM=?";
 	private final String SQL_DELETE = "DELETE FROM BOARD WHERE BNUM=?";
 	// 등록순
 	private final String SQL_SELECTALL_REGISTER = "SELECT * FROM (SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BWDATE ASC) AS A"
@@ -35,11 +36,11 @@ public class BoardDAO {
 	// 헤더 부분 검색(제목만 가능)
 	private final String SQL_SELECTALL_SEARCH = "SELECT * FROM BOARD WHERE BTITLE LIKE concat('%',?,'%')";
 	// 글 관리 페이지 상태바
-	private final String SQL_SELECTALL_STATUS = "SELECT COUNT(*)AS CNT FROM BOARD WHERE BACTION = ? ORDER BY BDATE ASC";
+	private final String SQL_SELECTALL_STATUS = "SELECT COUNT(*) AS CNT FROM BOARD WHERE BACTION = ? ORDER BY BDATE ASC";
 	// 글 관리 페이지 글 목록
 	private final String SQL_SELECTALL_TITLE = "SELECT * FROM board WHERE BACTION =? ORDER BY BDATE ASC LIMIT  0+?,9";
 	// 마이 페이지 내가 작성한 글 목록
-	private final String SQL_MYBOARD_SELECTALL = "SELECT BTITLE, BADDRERSS,LEFT(BDATE,10),RIGHT(BDATE,6), BCNT, BACTION FROM BOARD WHERE MNUM=? ORDER BY BNUM ASC";
+	private final String SQL_MYBOARD_SELECTALL = "SELECT B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM WHERE B.MNUM=? GROUP BY B.BNUM ORDER BY A.BNUM ASC";
 	// 마이 페이지 내가 신청한 매칭 목록
 	private final String SQL_SELECTALL = "SELECT B.BNUM, B.MNUM, BTITLE, BADDRESS, BDATE, BACTION FROM BOARD B LEFT JOIN `member` m ON B.MNUM = M.MNUM WHERE BACTION = ?";
 	// 마이 페이지 내가 신청한 매칭 목록(프로필 목록)
@@ -65,8 +66,12 @@ public class BoardDAO {
 	public boolean updateBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 update()");
-			jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(),
-					bvo.getbDate(), bvo.getbCdate(), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbNum());
+			if(bvo.getbAction()==null) {
+				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(),
+						bvo.getbDate(), bvo.getbCdate(), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbNum());
+			} else {
+				jdbcTemplate.update(SQL_UPDATE_BACTION, bvo.getbAction(), bvo.getbNum());
+			}
 		}catch(Exception e) {
 			return false;
 		}
@@ -98,7 +103,7 @@ public class BoardDAO {
 				tmpData.setbTitle(rs.getString("BTITLE"));
 				tmpData.setbRate(rs.getString("BRATE"));
 				tmpData.setbCnt(rs.getInt("BCNT"));
-				tmpData.setbDate(rs.getDate("BDATE"));
+				tmpData.setbDate(rs.getTimestamp("BDATE"));
 				tmpData.setbLocal(rs.getString("BLOCAL"));
 				tmpData.setbAction(rs.getString("BACTION"));
 				return tmpData;
@@ -172,13 +177,24 @@ public class BoardDAO {
 
 	public List<BoardVO> MyBoardSelectAll(BoardVO bvo){
 		try {
-			Object [] args = {bvo.getbNum()};
-			return jdbcTemplate.query(SQL_MYBOARD_SELECTALL, args, new BoardRowMapper());
+			Object [] args = {bvo.getmNum()};
+			return jdbcTemplate.query(SQL_MYBOARD_SELECTALL, args, (rs, rowNum)->{
+				BoardVO tmpData= new BoardVO();
+				tmpData.setbNum(rs.getInt("BNUM"));
+				tmpData.setbTitle(rs.getString("BTITLE"));
+				tmpData.setbAddress(rs.getString("BADDRESS"));
+				tmpData.setbDate(rs.getTimestamp("BDATE"));
+				tmpData.setaCnt(rs.getInt("ACNT"));
+				tmpData.setbCnt(rs.getInt("BCNT"));
+				tmpData.setbAction(rs.getString("BACTION"));
+				return tmpData;
+			});
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
 	public List<BoardVO> MySelectAll(BoardVO bvo){
 		Object [] args = {bvo.getbAction()};
 		return jdbcTemplate.query(SQL_SELECTALL, args, new BoardRowMapper());
@@ -215,6 +231,7 @@ public class BoardDAO {
 		}
 		return datas;
 	}
+	
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
 			return jdbcTemplate.queryForObject(MATCH_SELECTONE, new BoardRowMapper(), bvo.getbNum());
