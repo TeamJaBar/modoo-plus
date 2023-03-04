@@ -25,8 +25,14 @@ public class BoardVO {
 	private String bMname;//JAVA 저장 객체: 작성자
 	private int bMscore;//JAVA 저장 객체: 점수
 	private String bMimg;//JAVA 저장 객체: 프로필 이미지
+	private int aCnt; //JAVA 저장 객체 : 신청자 수
 	
-	
+	public int getaCnt() {
+		return aCnt;
+	}
+	public void setaCnt(int aCnt) {
+		this.aCnt = aCnt;
+	}
 	public int getbMscore() {
 		return bMscore;
 	}
