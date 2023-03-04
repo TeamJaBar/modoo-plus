@@ -48,10 +48,10 @@
 							<div class="btn_member_sec">
 								<ul>
 									<li>
-										<button onclick="location.href='/ModooShop/view/main.jsp'" id="btnHome" class="btnHome hov-btn3">홈으로</button>
+										<button onclick="location.href='main.do'" id="btnHome" class="btnHome hov-btn3">홈으로</button>
 									</li>
 									<li>
-										<button onclick="location.href='/ModooShop/view/login.jsp'" id="btn_login" class="btn_login hov-btn3">로그인</button>
+										<button onclick="location.href='login.do'" id="btn_login" class="btn_login hov-btn3">로그인</button>
 									</li>
 								</ul>
 							</div>
