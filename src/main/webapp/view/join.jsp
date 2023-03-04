@@ -47,7 +47,7 @@
 							<p>
 								<strong class="chk_none"> 모두의 보드의 회원이 되어 다양한 혜택을 만나보세요. </strong>
 								이미 쇼핑몰 회원이세요?
-								<a href="login.jsp" id="btnLoginMember"> 로그인</a>
+								<a href="login.do" id="btnLoginMember"> 로그인</a>
 							</p>
 						</div>
 					</div>

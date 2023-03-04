@@ -18,15 +18,46 @@ public class BoardVO {
 	private String bLocal;//지역
 	private String bAddress;//주소
 	private String bAction;//모집완료,모집중,지난모임
-	private String aSerchDate;//메인 페이지에서 날짜 선택시 보여주게 하는 JAVA 저장 객체
-	private String bSerchDate;//메인 페이지에서 날짜 선택시 보여주게 하는 JAVA 저장 객체
-	private String searchTitle;//헤더에서 제목 검색시 보여주게 하는 JAVA 저장 객체
-	private String searchAction;// bAction에 따라 보여주게 하는 JAVA 저장 객체
+	private Date sSearchDate;//메인 페이지에서 날짜 선택시 보여주게 하는 JAVA 저장 객체
+	private Date eSearchDate;//메인 페이지에서 날짜 선택시 보여주게 하는 JAVA 저장 객체
+	private String searchContent;//헤더에서 제목 검색시 보여주게 하는 JAVA 저장 객체
 	private String bMname;//JAVA 저장 객체: 작성자
 	private int bMscore;//JAVA 저장 객체: 점수
 	private String bMimg;//JAVA 저장 객체: 프로필 이미지
+	private int aCnt; //JAVA 저장 객체 : 신청자 수
+	private int sortBy; //JAVA 저장 객체 : 정렬 기준 - bDate(1) or bWdate(2)
 	
 	
+	public Date getsSearchDate() {
+		return sSearchDate;
+	}
+	public void setsSearchDate(Date sSearchDate) {
+		this.sSearchDate = sSearchDate;
+	}
+	public Date geteSearchDate() {
+		return eSearchDate;
+	}
+	public void seteSearchDate(Date eSearchDate) {
+		this.eSearchDate = eSearchDate;
+	}
+	public String getSearchContent() {
+		return searchContent;
+	}
+	public void setSearchContent(String searchContent) {
+		this.searchContent = searchContent;
+	}
+	public int getSortBy() {
+		return sortBy;
+	}
+	public void setSortBy(int sortBy) {
+		this.sortBy = sortBy;
+	}
+	public int getaCnt() {
+		return aCnt;
+	}
+	public void setaCnt(int aCnt) {
+		this.aCnt = aCnt;
+	}
 	public int getbMscore() {
 		return bMscore;
 	}
@@ -44,30 +75,6 @@ public class BoardVO {
 	}
 	public void setbMname(String bMname) {
 		this.bMname = bMname;
-	}
-	public String getaSerchDate() {
-		return aSerchDate;
-	}
-	public void setaSerchDate(String aSerchDate) {
-		this.aSerchDate = aSerchDate;
-	}
-	public String getSearchAction() {
-		return searchAction;
-	}
-	public void setSearchAction(String searchAction) {
-		this.searchAction = searchAction;
-	}
-	public String getSearchTitle() {
-		return searchTitle;
-	}
-	public void setSearchTitle(String searchTitle) {
-		this.searchTitle = searchTitle;
-	}
-	public String getbSerchDate() {
-		return bSerchDate;
-	}
-	public void setbSerchDate(String bSerchDate) {
-		this.bSerchDate = bSerchDate;
 	}
 	public int getbNum() {
 		return bNum;
@@ -159,14 +166,16 @@ public class BoardVO {
 	public void setbAction(String bAction) {
 		this.bAction = bAction;
 	}
+	
 	@Override
 	public String toString() {
 		return "BoardVO [bNum=" + bNum + ", mNum=" + mNum + ", bTitle=" + bTitle + ", bContent=" + bContent + ", bRate="
 				+ bRate + ", bCnt=" + bCnt + ", bDate=" + bDate + ", bWdate=" + bWdate + ", bCdate=" + bCdate
 				+ ", bStatus=" + bStatus + ", bLatitude=" + bLatitude + ", bLongitude=" + bLongitude + ", bLocal="
-				+ bLocal + ", bAddress=" + bAddress + ", bAction=" + bAction + ", aSerchDate=" + aSerchDate
-				+ ", bSerchDate=" + bSerchDate + ", searchTitle=" + searchTitle + ", searchAction=" + searchAction
-				+ ", bMname=" + bMname + ", bMscore=" + bMscore + ", bMimg=" + bMimg + "]";
+				+ bLocal + ", bAddress=" + bAddress + ", bAction=" + bAction + ", aSerchDate=" + sSearchDate
+				+ ", bSerchDate=" + eSearchDate + ", searchContent=" + searchContent + ", bMname=" + bMname
+				+ ", bMscore=" + bMscore + ", bMimg=" + bMimg + ", aCnt=" + aCnt + ", sortBy=" + sortBy + "]";
 	}
+	
 	
 }

@@ -140,9 +140,9 @@
 							</div>
 						</div>
 						<c:if test="${mId == null}">
-							<button class="flex-c-m stext-106 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" onclick="location.href='login.jsp'">선택 상품 주문</button>
+							<button class="flex-c-m stext-106 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" onclick="location.href='login.do'">선택 상품 주문</button>
 							<div>&nbsp;</div>
-							<button class="flex-c-m stext-106 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" id="all" onclick="location.href='login.jsp'">전체 상품 주문</button>
+							<button class="flex-c-m stext-106 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" id="all" onclick="location.href='login.do'">전체 상품 주문</button>
 						</c:if>
 						<c:if test="${mId != null}">
 							<button type="submit" class="flex-c-m stext-106 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" onclick="return check()">선택 상품 주문</button>

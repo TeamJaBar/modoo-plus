@@ -31,10 +31,10 @@
 				<ul>
 					<c:if test="${mId == null}">
 						<li class="p-b-10">
-							<a href="login.jsp" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
+							<a href="login.do" class="stext-107 cl6 hov-cl1 trans-04">배송조회</a>
 						</li>
 						<li class="p-b-10">
-							<a href="login.jsp" class="stext-107 cl6 hov-cl1 trans-04">마이페이지</a>
+							<a href="login.do" class="stext-107 cl6 hov-cl1 trans-04">마이페이지</a>
 						</li>
 					</c:if>
 					<c:if test="${mId == 'admin'}">

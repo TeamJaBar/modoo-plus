@@ -215,9 +215,8 @@ public class MemberController {
 	}
 
 	// 찜 삭제
-	@ResponseBody
 	@RequestMapping(value = "/dibDelete.do", method = RequestMethod.POST)
-	public String deteletDib(DibVO dvo, HttpSession session, @RequestParam(value = "dibProduct[]") List<String> dibProduct) {
+	public @ResponseBody String deteletDib(DibVO dvo, HttpSession session, @RequestParam(value = "dibProduct", required = false) List<String> dibProduct) {
 		boolean checkFlag = true;
 
 		if (dvo.getpNum() != 0) { // 하나 삭제
