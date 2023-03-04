@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,22 +75,6 @@
 														<th>날짜</th>
 														<th>신청 / 평가</th>
 													</tr>
-													<!-- 샘플 -->
-													<tr class="text-center">
-														<td>
-															<div class="sort-handler">
-																<i class="fas fa-th"></i>
-															</div>
-														</td>
-														<td>제목 입력</td>
-														<td>장소 입력</td>
-														<td>3 / 5</td>
-														<td>22-3-12</td>
-														<td>
-															<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
-														</td>
-													</tr>
-													<!-- 샘플 -->
 
 													<c:forEach items="${aDatas}" var="v" begin="1">
 														<c:set var="i" value="0" />
@@ -101,8 +86,8 @@
 															</td>
 															<td>${v.bTitle}</td>
 															<td>${v.bAddress}</td>
-															<td>${fn:length(aDatas)}/${v.bCnt}</td>
-															<td>${v.bDate}</td>
+															<td>${fn:length(aDatas)} / ${v.bCnt}</td>
+															<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
 															<c:choose>
 																<c:when test="${aDatas.bAction == 2}">
 																	<td>

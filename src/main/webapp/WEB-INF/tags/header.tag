@@ -22,7 +22,7 @@
 			<!-- 여기까지 -->
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do">모두의 보드</a>
-			<c:if test="${member.mId == 'admin'}">
+			<c:if test="${mId == 'admin'}">
 				<div class="dropdown-divider"></div>
 				<a class="dropdown-item" href="ad-plus-main.do">글 관리</a>
 				<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
@@ -118,21 +118,21 @@
 		<!-- 데이터 연결되면 주석 해제 -->
 
 		<c:choose>
-			<c:when test="${empty member}">
-				<button type="button" class="btn btn-header" onclick="location.href='login.jsp'">로그인</button>
+			<c:when test="${empty mId}">
+				<button type="button" class="btn btn-header" onclick="location.href='login.do'">로그인</button>
 			</c:when>
 			<c:otherwise>
 				<li class="dropdown">
 					<a href="mypage.do" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-						<img alt="image" src="../../assets/img/avatar/${member.mImg}" class="rounded-circle mr-1">
-						<div class="d-sm-none d-lg-inline-block">${member.mId}</div>
+						<img alt="image" src="../../assets/img/avatar/${mImg}" class="rounded-circle mr-1">
+						<div class="d-sm-none d-lg-inline-block">${mId}</div>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
-						<div class="dropdown-title">안녕하세요, ${member.mName}님</div>
+						<div class="dropdown-title">안녕하세요, ${mName}님</div>
 						<a href="mypage.do" class="dropdown-item has-icon">
 							<i class="far fa-user"></i> 마이 페이지
 						</a>
-						<c:if test="${member.mId == 'admin'}">
+						<c:if test="${mId == 'admin'}">
 							<a href="ad-plus-main.do" class="dropdown-item has-icon">
 								<img alt="image" src="../../assets/img/favicon.png" class="rounded-circle mr-1">
 								관리자 페이지
