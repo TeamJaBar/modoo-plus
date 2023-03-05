@@ -224,7 +224,7 @@ $(function() {
         nav_second.addClass('main-sidebar');
 
         let main_sidebar = $(".main-sidebar");
-        main_sidebar.find('.container').addClass('sidebar-wrapper').removeClass('container');
+        main_sidebar.find('.container').addClass('sidebar-wrapper');
         main_sidebar.find('.navbar-nav').addClass('sidebar-menu').removeClass('navbar-nav');
         main_sidebar.find('.sidebar-menu .nav-item.dropdown.show a').click();
         main_sidebar.find('.sidebar-brand').remove();
@@ -241,7 +241,7 @@ $(function() {
         }, 700);
 
         sidebar_dropdown();
-        $(".main-wrapper").removeClass("container");
+        //$(".main-wrapper").removeClass("container");
       }
     }else{
       $("body").removeClass("sidebar-gone sidebar-show");
