@@ -12,19 +12,19 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
-<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="icon" href="../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 매칭 상세페이지</title>
 
 <!-- General CSS Files -->
-<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/match-detail.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/match-detail.css">
 
 <!-- CSS Libraries -->
 
 <!-- Template CSS -->
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -75,9 +75,9 @@
 								</div>
 								<div class="alert-body">
 									<div class="alert-title">삭제된 게시물</div>
-									<p>다수 유저의 신고로 인해 관리자에 의해 삭제된 매칭 게시글입니다.</p>
+									<p>다수 유저의 신고로 인해 관리자의 권한으로 삭제된 매칭 게시글입니다.</p>
 									<p class="mt-3">
-										<a href="https://fontawesome.com/icons" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+										<a href="boardList.do" target="_blank" class="btn bg-white text-dark">돌아가기</a>
 									</p>
 								</div>
 							</div>
@@ -159,7 +159,7 @@
 															<!--방장 - 글 작성자-->
 															<li class="media">
 																<div class="avatar-item">
-																	<img alt="image" src="../../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
+																	<img alt="image" src="../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
 																	<div class="avatar-badge">
 																		<i class="fas fa-crown" style="color: #ffdd00"></i>
 																	</div>
@@ -167,13 +167,13 @@
 																<div class="media-body">
 																	<div class="media-title">${entry.mId}</div>
 																	<div class="text-job text-muted">
-																		<modoo:score score="${entry.score}" />
+																		<modoo:exp score="${entry.score}" />
 																	</div>
 																</div>
 																<div class="media-progressbar">
 																	<div class="progress-text">${entry.score}점</div>
 																	<div class="progress" data-height="6" style="height: 6px;">
-																		<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																		<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
 																	</div>
 																</div>
 																<div class="media-cta">
@@ -184,17 +184,17 @@
 														<c:if test="${bDatas.mNum != entry.mNum}">
 															<!--일반 참여자-->
 															<li class="media" id="${entry.aNum}">
-																<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${entry.mImg}">
+																<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/${entry.mImg}">
 																<div class="media-body">
 																	<div class="media-title">${entry.mId}</div>
 																	<div class="text-job text-muted">
-																		<modoo:score score="${entry.score}" />
+																		<modoo:exp score="${entry.score}" />
 																	</div>
 																</div>
 																<div class="media-progressbar">
 																	<div class="progress-text">${entry.score}점</div>
 																	<div class="progress" data-height="6" style="height: 6px;">
-																		<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																		<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
 																	</div>
 																</div>
 																<!--퇴출하기 버튼은 글 작성자에게만 보임-->
@@ -358,7 +358,7 @@
 			map:map,
 			position: new naver.maps.LatLng(${bDatas.bLatitude}, ${bDatas.bLongitude}),
 			icon: {
-				content: '<img src="<c:url value="/../../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
+				content: '<img src="<c:url value="/../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
 				size: new naver.maps.Size(32,32),
 				anchor: new naver.maps.Point(16, 32)
 			}
@@ -446,7 +446,7 @@
 				if (confirm('퇴출하시겠습니까?')) {
 					$.ajax({
 						type: 'POST',
-						url: 'boardDelete',
+						url: 'kickOut',
 						data: {
 							aNum: aNum
 						},
@@ -558,21 +558,21 @@
 		}
 	</script>
 	<!-- General JS Scripts -->
-	<script src="../../assets/modules/jquery.min.js"></script>
-	<script src="../../assets/modules/popper.js"></script>
-	<script src="../../assets/modules/tooltip.js"></script>
-	<script src="../../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="../../assets/modules/moment.min.js"></script>
-	<script src="../../assets/js/stisla.js"></script>
+	<script src="../assets/modules/jquery.min.js"></script>
+	<script src="../assets/modules/popper.js"></script>
+	<script src="../assets/modules/tooltip.js"></script>
+	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../assets/modules/moment.min.js"></script>
+	<script src="../assets/js/stisla.js"></script>
 
 	<!-- JS Libraies -->
 
 	<!-- Page Specific JS File -->
-	<script src="../../assets/js/page/bootstrap-modal.js"></script>
+	<script src="../assets/js/page/bootstrap-modal.js"></script>
 
 	<!-- Template JS File -->
-	<script src="../../assets/js/scripts.js"></script>
-	<script src="../../assets/js/custom.js"></script>
+	<script src="../assets/js/scripts.js"></script>
+	<script src="../assets/js/custom.js"></script>
 </body>
 </html>
