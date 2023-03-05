@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,289 +11,33 @@
 
 
 <style>
-@font-face
-font-family:
-'GmarketSansMedium';
-src:
-url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
-format('woff');
-font-weight:
-normal;
-font-style:
-normal;
-}
-[pg-component=header] .ghost-head[data-v-7f7d392a] {
-	display: block;
-	width: 100%;
-	height: 52px
+
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
-[pg-component=header] .ghost-foot[data-v-7f7d392a] {
-	display: block;
-	width: 100%;
-	height: 34px
-}
-
-[pg-component=header] .header[data-v-7f7d392a] {
-	width: 100%;
-	position: fixed;
-	z-index: 10;
-	left: 0;
-	top: 0;
-	background-color: #000
-}
-
-[pg-component=header] .header>.head[data-v-7f7d392a] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	height: 52px;
-	width: 100%;
-	max-width: 928px;
-	padding-left: 16px;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	margin: 0 auto
-}
-
-[pg-component=header] .header>.head>.logo-wrapper[data-v-7f7d392a] {
-	-webkit-transform: translateY(5%);
-	transform: translateY(5%);
-	text-decoration: none
-}
-
-[pg-component=header] .header>.head>.logo-wrapper>.logo[data-v-7f7d392a] {
-	width: auto;
-	height: 27px
-}
-
-[pg-component=header] .header>.head>.right-box[data-v-7f7d392a] {
-	margin-left: auto;
-	margin-right: 6px;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	height: 100%
-}
-
-[pg-component=header] .header>.head>.right-box>.login-button[data-v-7f7d392a] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	height: 100%;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	width: 52px;
-	text-decoration: none;
-	cursor: pointer
-}
-
-[pg-component=header] .header>.head>.right-box>.login-button[data-v-7f7d392a]:hover {
-	background-color: hsla(0, 0%, 100%, .07)
-}
-
-[pg-component=header] .header>.head>.right-box>.login-button>span[data-v-7f7d392a] {
-	color: #fff;
-	font-family: sans-serif;
-	font-weight: 700;
-	font-size: 13px;
-	line-height: 1em;
-	-webkit-transform: translateY(6%);
-	transform: translateY(6%);
-	text-decoration: none
-}
-
-[pg-component=header] .header>.head>.right-box>.profile[data-v-7f7d392a] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	height: 100%;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	width: 46.8px;
-	text-decoration: none;
-	cursor: pointer
-}
-
-[pg-component=header] .header>.head>.right-box>.profile>.image[data-v-7f7d392a] {
-	width: 25px;
-	height: 25px;
-	background-color: #eee;
-	background-position: 50%;
-	background-size: cover;
-	border-radius: 50%
-}
-
-[pg-component=header] .header>.head>.right-box>.more-button[data-v-7f7d392a] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	width: 52px;
-	height: 100%;
-	cursor: pointer
-}
-
-[pg-component=header] .header>.head>.right-box>.more-button[data-v-7f7d392a]:hover {
-	background-color: hsla(0, 0%, 100%, .07)
-}
-
-[pg-component=header] .header>.head>.right-box>.more-button>.icon[data-v-7f7d392a] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-webkit-box-pack: justify;
-	-ms-flex-pack: justify;
-	justify-content: space-between;
-	width: 25px;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center
-}
-
-[pg-component=header] .header>.head>.right-box>.more-button>.icon>.dot[data-v-7f7d392a] {
-	width: 5px;
-	height: 5px;
-	border-radius: 50%;
-	background-color: #fff
-}
-
-[pg-component=header] .header>.foot[data-v-7f7d392a] {
-	background-color: #000;
-	max-width: 928px;
-	margin: -10px auto 0
-}
-
-[pg-component=header] .header>.foot>.contents-box[data-v-7f7d392a] {
-	width: 100%;
-	padding-left: 16px;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs[data-v-7f7d392a] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	height: 44px
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab[data-v-7f7d392a] {
-	position: relative;
-	display: -webkit-inline-box;
-	display: -ms-inline-flexbox;
-	display: inline-flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	height: 100%;
-	cursor: pointer;
-	text-decoration: none
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab[data-v-7f7d392a]:hover {
-	background-color: hsla(0, 0%, 100%, .07)
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab[data-v-7f7d392a]:not(:first-child) {
-	margin-left: 12px
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab>.beta-tag[data-v-7f7d392a] {
-	position: absolute;
-	top: -3px;
-	left: 0;
-	background-color: #e33333;
-	border-radius: 9999px;
-	padding: 1px 8px;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab>.beta-tag>.text[data-v-7f7d392a] {
-	color: #fff;
-	line-height: 1em;
-	font-weight: 700;
-	font-size: 11px
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab>.label[data-v-7f7d392a] {
-	position: relative;
-	font-size: 17px;
-	font-weight: 700;
-	-webkit-transition: color .12s;
-	transition: color .12s
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab>.label[data-v-7f7d392a]:after {
-	content: "";
-	width: 100%;
-	height: 2px;
-	position: absolute;
-	left: 0;
-	bottom: -2px;
-	background-color: #f1c331;
-	pointer-events: none;
-	-webkit-transition: opacity .12s;
-	transition: opacity .12s
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab:not([data-selected=true])>.label[data-v-7f7d392a] {
-	color: hsla(0, 0%, 100%, .6)
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab:not([data-selected=true])>.label[data-v-7f7d392a]:after {
-	opacity: 0
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab[data-selected=true]>.label[data-v-7f7d392a] {
-	color: #fff
-}
-
-[pg-component=header] .header>.foot>.contents-box>.tabs>.tab[data-selected=true]>.label[data-v-7f7d392a]:after {
-	opacity: 1
-}
-
-[pg-component=header] .header>.after-foot-wrapper[data-v-7f7d392a] {
-	max-width: 928px;
-	margin: -8px auto 0
-}
-
-[fg-component=match-filter][data-v-0c6c33f2] {
+[fg-component=match-filter] {
 	position: relative;
 	width: 100%
 }
 
-[fg-component=match-filter]>.contents-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box {
 	padding: 0 16px;
 	width: 100%;
 	height: 42px;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	background-color: #0188CB
+	background-color: #0188CB;
 }
 
-[fg-component=match-filter]>.contents-box[data-v-0c6c33f2], [fg-component=match-filter]>.contents-box>.left-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box, [fg-component=match-filter]>.contents-box>.left-box
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -300,11 +46,12 @@ normal;
 	align-items: center
 }
 
-[fg-component=match-filter]>.contents-box>.left-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box {
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.location-box
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -315,45 +62,43 @@ normal;
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.logo[data-v-0c6c33f2] {
-	display: block;
-	width: auto;
-	height: 14px
-}
-
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value
+	{
 	display: block;
 	position: relative;
 	margin-left: 7px
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value[fg-fix-point-bug=true][data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value[fg-fix-point-bug=true]
+	{
 	-webkit-transform: translateY(-1px);
 	transform: translateY(-1px)
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value[data-v-0c6c33f2]:after {
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value:after
+	{
 	content: "";
 	position: absolute;
 	bottom: -2px;
 	left: 0;
 	width: 100%;
 	height: 1px;
-	background-color: hsla(0, 0%, 100%, .5)
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value>.text[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value>.text
+	{
 	display: block;
 	white-space: pre;
 	position: relative;
-	font-family: NotoSansKR, sans-serif;
-	font-weight: 500;
+	font-family: 'GmarketSansMedium';
+	font-weight: 300;
 	font-size: 13px;
 	color: #fff;
 	line-height: 1em
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -365,57 +110,63 @@ normal;
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.logo[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.logo
+	{
 	display: block;
 	width: auto;
 	height: 14px
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value
+	{
 	display: block;
 	position: relative;
 	margin-left: 10px
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value[fg-fix-point-bug=true][data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value[fg-fix-point-bug=true]
+	{
 	-webkit-transform: translateY(-1px);
 	transform: translateY(-1px)
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value[data-v-0c6c33f2]:after {
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value:after
+	{
 	content: "";
 	position: absolute;
 	bottom: -2px;
 	left: 0;
 	width: 100%;
 	height: 1px;
-	background-color: hsla(0, 0%, 100%, .5)
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value>.text[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value>.text
+	{
 	display: block;
 	white-space: pre;
 	position: relative;
-	font-family: NotoSansKR, sans-serif;
-	font-weight: 500;
+	font-family: 'GmarketSansMedium';
+	font-weight: 300;
 	font-size: 13px;
 	color: #fff;
 	line-height: 1em
 }
 
-[fg-component=match-filter]>.contents-box>.right-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.right-box {
 	margin-left: auto;
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -428,26 +179,33 @@ normal;
 	padding-right: 6px
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button>.text[data-v-0c6c33f2] {
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button>.text
+	{
 	white-space: pre;
 	display: block;
 	line-height: 1em;
-	font-family: NotoSansKR, sans-serif;
+	font-family: 'GmarketSansMedium';
 	font-weight: 500;
 	font-size: 12px;
 	color: #fff
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-selected="1"]>.text[data-v-0c6c33f2] {
-	font-weight: 700;
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-selected="1"]>.text
+	{
+	font-weight: 500;
 	color: #f1c331
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-v-0c6c33f2]:last-child {
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button:last-child
+	{
 	margin-right: -6px
 }
 
-[fg-component=match-list-item][data-v-62a050a0] {
+[fg-component=match-list-item]:hover {
+	text-decoration:none;
+}
+
+[fg-component=match-list-item] {
 	display: block;
 	width: 100%;
 	clear: both;
@@ -457,7 +215,11 @@ normal;
 	background-color: #fff
 }
 
-[fg-component=match-list-item]>.contents-box[data-v-62a050a0] {
+[fg-component=match-list-item]:last-child {
+	border:none;
+}
+
+[fg-component=match-list-item]>.contents-box {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -465,15 +227,18 @@ normal;
 	-ms-flex-align: center;
 	align-items: center;
 	width: calc(100% - 32px);
-	margin: 0 auto;
-	padding: 13.3333333333px 0 10.6666666667px
+	margin: 15px auto;
+	padding: 13.3333333333px 20px 10.6666666667px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.head[data-v-62a050a0] {
-	display: block
+[fg-component=match-list-item]>.contents-box>.left-section>.head
+	{
+	display: flex;
+	margin-bottom:5px;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag
+	{
 	display: -webkit-inline-box;
 	display: -ms-inline-flexbox;
 	display: inline-flex;
@@ -484,13 +249,23 @@ normal;
 	-ms-flex-pack: center;
 	justify-content: center;
 	border: 1px solid rgba(0, 0, 0, .75);
-	border-radius: 6px;
+	border-radius: 4px;
 	height: 21px;
-	padding: 0 6px
+	padding: 1px 7px;
+	margin-right:6px;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
+.rate .tag {
+	border: 1px solid blue !important;
+}
+
+.rate .tag .text{
+	color:blue !important;
+}
+
+[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag>.text
+	{
+	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 11px;
 	font-weight: 500;
@@ -501,14 +276,16 @@ normal;
 	text-overflow: ellipsis
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.left-section>.body
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	margin-top: 6.4px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -518,8 +295,9 @@ normal;
 	height: 19px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text
+	{
+	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 15px;
 	font-weight: 700;
@@ -529,12 +307,14 @@ normal;
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text[data-v-62a050a0] {
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text
+		{
 		font-size: 13.5px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -544,77 +324,88 @@ normal;
 	height: 19px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
-	color: #000;
-	font-size: 12px;
-	font-weight: 500;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis
-}
-
-@media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text[data-v-62a050a0] {
-		font-size: 10.8px
-	}
-}
-
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	height: 19px
+	margin-top:4px;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title>.text
+	{
+	font-family: 'GmarketSansMedium';
 	color: #000;
-	font-size: 12px;
-	font-weight: 500;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis
-}
-
-@media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text[data-v-62a050a0] {
-		font-size: 10.8px
-	}
-}
-
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box[data-v-62a050a0] {
-	margin-left: 16px
-}
-
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.location[data-v-62a050a0] {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center
-}
-
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.location>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
-	color: #000;
-	font-size: 14px;
+	font-size: 15px;
 	font-weight: 500;
 	overflow: hidden;
 	text-overflow: ellipsis
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.location>.text[data-v-62a050a0] {
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title>.text
+		{
 		font-size: 12.6px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text
+	{
+	font-family: 'GmarketSansMedium';
+	color: #000;
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis
+}
+
+@media screen and (max-width:320px) {
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text
+		{
+		font-size: 10.8px
+	}
+}
+
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user
+	{
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	height: 19px
+}
+
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text
+	{
+	font-family: 'GmarketSansMedium';
+	color: #000;
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis
+}
+
+@media screen and (max-width:320px) {
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text
+		{
+		font-size: 10.8px
+	}
+}
+
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box
+	{
+	margin-left: 16px
+}
+
+[fg-component=match-list-item] .informations
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -625,10 +416,12 @@ normal;
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	height: 19px
+	height: 19px;
+	margin-left:20px;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information[data-v-62a050a0] {
+[fg-component=match-list-item] .informations>.information
+	{
 	position: relative;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -640,12 +433,14 @@ normal;
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information[data-v-62a050a0] {
+	[fg-component=match-list-item] .informations>.information
+		{
 		padding-left: 8.1px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information[data-v-62a050a0]:before {
+[fg-component=match-list-item] .informations>.information:before
+	{
 	content: "";
 	position: absolute;
 	left: 0;
@@ -658,18 +453,21 @@ normal;
 	background-color: #0061b3
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information[data-v-62a050a0]:not(:first-child) {
+[fg-component=match-list-item] .informations>.information:not(:first-child)
+	{
 	margin-left: 16px
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information[data-v-62a050a0]:not(:first-child) {
+	[fg-component=match-list-item] .informations>.information:not(:first-child)
+		{
 		margin-left: 14.4px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
+[fg-component=match-list-item] .informations>.information>.text
+	{
+	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 12px;
 	font-weight: 500;
@@ -680,12 +478,14 @@ normal;
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box>.informations>.information>.text[data-v-62a050a0] {
+	[fg-component=match-list-item] .informations>.information>.text
+		{
 		font-size: 10.8px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.right-section[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.right-section
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -696,7 +496,8 @@ normal;
 	align-items: center
 }
 
-[fg-component=match-list-item]>.contents-box>.right-section>.status[data-v-62a050a0] {
+[fg-component=match-list-item]>.contents-box>.right-section>.status
+	{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -716,15 +517,17 @@ normal;
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.right-section>.status[data-v-62a050a0] {
+	[fg-component=match-list-item]>.contents-box>.right-section>.status
+		{
 		height: 39.6px;
 		min-width: 66.6px;
 		padding: 0 10.8px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.right-section>.status>.text[data-v-62a050a0] {
-	font-family: NotoSansKR, sans-serif;
+[fg-component=match-list-item]>.contents-box>.right-section>.status>.text
+	{
+	font-family: 'GmarketSansMedium';
 	color: #fff;
 	text-align: center;
 	font-size: 12px;
@@ -738,7 +541,8 @@ normal;
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.right-section>.status>.text[data-v-62a050a0] {
+	[fg-component=match-list-item]>.contents-box>.right-section>.status>.text
+		{
 		font-size: 10.8px
 	}
 }
@@ -777,15 +581,61 @@ normal;
 .slick-list {
 	border-radius: 0.25rem;
 }
+
+.btn-submit {
+	font-family:'GmarketSansMedium';
+	font-weight:500;
+	font-size:15px;
+	background-color:#0188CB;
+    border-color: #0188CB;
+    box-shadow: 0 2px 6px #80bbd9;
+    color:white;
+    width:100px;
+}
+
+.btn > p {
+	margin-top:0;
+	margin-bottom:0;
+}
+
+.btn-submit:hover {
+	background-color:#004669 !important;
+    border-color: #004669 !important;
+    color: white;
+    text-decoration:none;
+}
+
+.btn-secondary {
+	font-family:'GmarketSansMedium';
+	font-weight:500;
+	font-size:15px;
+	box-shadow: 0 2px 6px #e1e5e8;
+    background-color: #cdd3d8;
+    border-color: #cdd3d8;
+    color: #fff;
+    width:100px;
+}
+
+.card {
+	margin-top:60px !important;
+}
+
+@media (min-width: 1200px) {
+	.container {
+	    max-width: 980px !important;
+	}
+}
+
 </style>
+
 <!-- General CSS Files -->
-<link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
 
 <!-- Template CSS -->
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 
 <!-- CSS Libraries -->
 <!-- 슬릭 플러그인을 위한 CDN주소 -->
@@ -810,272 +660,11 @@ normal;
 <body class="layout-3">
 	<div id="app">
 		<div class="main-wrapper container">
-			<div class="navbar-bg"></div>
-			<nav class="navbar navbar-expand-lg main-navbar">
-				<a href="index.html" class="navbar-brand sidebar-gone-hide">Stisla</a>
-				<a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar">
-					<i class="fas fa-bars"></i>
-				</a>
-				<div class="nav-collapse">
-					<a class="sidebar-gone-show nav-collapse-toggle nav-link" href="#">
-						<i class="fas fa-ellipsis-v"></i>
-					</a>
-					<ul class="navbar-nav">
-						<li class="nav-item active">
-							<a href="#" class="nav-link">Application</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">Report Something</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">Server Status</a>
-						</li>
-					</ul>
-				</div>
-				<form class="form-inline ml-auto">
-					<ul class="navbar-nav">
-						<li>
-							<a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none">
-								<i class="fas fa-search"></i>
-							</a>
-						</li>
-					</ul>
-					<div class="search-element">
-						<input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
-						<button class="btn" type="submit">
-							<i class="fas fa-search"></i>
-						</button>
-						<div class="search-backdrop"></div>
-						<div class="search-result">
-							<div class="search-header">Histories</div>
-							<div class="search-item">
-								<a href="#">How to hack NASA using CSS</a>
-								<a href="#" class="search-close">
-									<i class="fas fa-times"></i>
-								</a>
-							</div>
-							<div class="search-item">
-								<a href="#">Kodinger.com</a>
-								<a href="#" class="search-close">
-									<i class="fas fa-times"></i>
-								</a>
-							</div>
-							<div class="search-item">
-								<a href="#">#Stisla</a>
-								<a href="#" class="search-close">
-									<i class="fas fa-times"></i>
-								</a>
-							</div>
-							<div class="search-header">Result</div>
-							<div class="search-item">
-								<a href="#">
-									<img class="mr-3 rounded" width="30" src="assets/img/products/product-3-50.png" alt="product">
-									oPhone S9 Limited Edition
-								</a>
-							</div>
-							<div class="search-item">
-								<a href="#">
-									<img class="mr-3 rounded" width="30" src="assets/img/products/product-2-50.png" alt="product">
-									Drone X2 New Gen-7
-								</a>
-							</div>
-							<div class="search-item">
-								<a href="#">
-									<img class="mr-3 rounded" width="30" src="assets/img/products/product-1-50.png" alt="product">
-									Headphone Blitz
-								</a>
-							</div>
-							<div class="search-header">Projects</div>
-							<div class="search-item">
-								<a href="#">
-									<div class="search-icon bg-danger text-white mr-3">
-										<i class="fas fa-code"></i>
-									</div>
-									Stisla Admin Template
-								</a>
-							</div>
-							<div class="search-item">
-								<a href="#">
-									<div class="search-icon bg-primary text-white mr-3">
-										<i class="fas fa-laptop"></i>
-									</div>
-									Create a new Homepage Design
-								</a>
-							</div>
-						</div>
-					</div>
-				</form>
-				<ul class="navbar-nav navbar-right">
-					<li class="dropdown dropdown-list-toggle">
-						<a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep">
-							<i class="far fa-envelope"></i>
-						</a>
-						<div class="dropdown-menu dropdown-list dropdown-menu-right">
-							<div class="dropdown-header">
-								Messages
-								<div class="float-right">
-									<a href="#">Mark All As Read</a>
-								</div>
-							</div>
-							<div class="dropdown-list-content dropdown-list-message">
-								<a href="#" class="dropdown-item dropdown-item-unread">
-									<div class="dropdown-item-avatar">
-										<img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle">
-										<div class="is-online"></div>
-									</div>
-									<div class="dropdown-item-desc">
-										<b>Kusnaedi</b>
-										<p>Hello, Bro!</p>
-										<div class="time">10 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item dropdown-item-unread">
-									<div class="dropdown-item-avatar">
-										<img alt="image" src="assets/img/avatar/avatar-2.png" class="rounded-circle">
-									</div>
-									<div class="dropdown-item-desc">
-										<b>Dedik Sugiharto</b>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-										<div class="time">12 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item dropdown-item-unread">
-									<div class="dropdown-item-avatar">
-										<img alt="image" src="assets/img/avatar/avatar-3.png" class="rounded-circle">
-										<div class="is-online"></div>
-									</div>
-									<div class="dropdown-item-desc">
-										<b>Agung Ardiansyah</b>
-										<p>Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-										<div class="time">12 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item">
-									<div class="dropdown-item-avatar">
-										<img alt="image" src="assets/img/avatar/avatar-4.png" class="rounded-circle">
-									</div>
-									<div class="dropdown-item-desc">
-										<b>Ardian Rahardiansyah</b>
-										<p>Duis aute irure dolor in reprehenderit in voluptate velit ess</p>
-										<div class="time">16 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item">
-									<div class="dropdown-item-avatar">
-										<img alt="image" src="assets/img/avatar/avatar-5.png" class="rounded-circle">
-									</div>
-									<div class="dropdown-item-desc">
-										<b>Alfa Zulkarnain</b>
-										<p>Exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-										<div class="time">Yesterday</div>
-									</div>
-								</a>
-							</div>
-							<div class="dropdown-footer text-center">
-								<a href="#">
-									View All <i class="fas fa-chevron-right"></i>
-								</a>
-							</div>
-						</div>
-					</li>
-					<li class="dropdown dropdown-list-toggle">
-						<a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
-							<i class="far fa-bell"></i>
-						</a>
-						<div class="dropdown-menu dropdown-list dropdown-menu-right">
-							<div class="dropdown-header">
-								Notifications
-								<div class="float-right">
-									<a href="#">Mark All As Read</a>
-								</div>
-							</div>
-							<div class="dropdown-list-content dropdown-list-icons">
-								<a href="#" class="dropdown-item dropdown-item-unread">
-									<div class="dropdown-item-icon bg-primary text-white">
-										<i class="fas fa-code"></i>
-									</div>
-									<div class="dropdown-item-desc">
-										Template update is available now!
-										<div class="time text-primary">2 Min Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item">
-									<div class="dropdown-item-icon bg-info text-white">
-										<i class="far fa-user"></i>
-									</div>
-									<div class="dropdown-item-desc">
-										<b>You</b> and <b>Dedik Sugiharto</b> are now friends
-										<div class="time">10 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item">
-									<div class="dropdown-item-icon bg-success text-white">
-										<i class="fas fa-check"></i>
-									</div>
-									<div class="dropdown-item-desc">
-										<b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-										<div class="time">12 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item">
-									<div class="dropdown-item-icon bg-danger text-white">
-										<i class="fas fa-exclamation-triangle"></i>
-									</div>
-									<div class="dropdown-item-desc">
-										Low disk space. Let's clean it!
-										<div class="time">17 Hours Ago</div>
-									</div>
-								</a>
-								<a href="#" class="dropdown-item">
-									<div class="dropdown-item-icon bg-info text-white">
-										<i class="fas fa-bell"></i>
-									</div>
-									<div class="dropdown-item-desc">
-										Welcome to Stisla template!
-										<div class="time">Yesterday</div>
-									</div>
-								</a>
-							</div>
-							<div class="dropdown-footer text-center">
-								<a href="#">
-									View All <i class="fas fa-chevron-right"></i>
-								</a>
-							</div>
-						</div>
-					</li>
-					<li class="dropdown">
-						<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-							<img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-							<div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
-						</a>
-						<div class="dropdown-menu dropdown-menu-right">
-							<div class="dropdown-title">Logged in 5 min ago</div>
-							<a href="features-profile.html" class="dropdown-item has-icon">
-								<i class="far fa-user"></i> Profile
-							</a>
-							<a href="features-activities.html" class="dropdown-item has-icon">
-								<i class="fas fa-bolt"></i> Activities
-							</a>
-							<a href="features-settings.html" class="dropdown-item has-icon">
-								<i class="fas fa-cog"></i> Settings
-							</a>
-							<div class="dropdown-divider"></div>
-							<a href="#" class="dropdown-item has-icon text-danger">
-								<i class="fas fa-sign-out-alt"></i> Logout
-							</a>
-						</div>
-					</li>
-				</ul>
-			</nav>
-
-
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
 				<section class="section">
-					<div class="section-header">
-						<div class="section-header-breadcrumb"></div>
-					</div>
 
 					<div class="section-body">
 						<div class="slider-wrap silck-container">
@@ -1090,183 +679,87 @@ normal;
 							</div>
 						</div>
 						<div class="card">
-							<div class="card-header">
-								<div data-v-0c6c33f2="" data-v-30785387="" fg-component="match-filter">
-									<div data-v-0c6c33f2="" class="contents-box">
-										<div data-v-0c6c33f2="" class="left-box">
-											<div data-v-0c6c33f2="" class="location-box">
+							<div fg-component="match-filter">
+									<div  class="contents-box">
+										<div  class="left-box">
+											<div  class="location-box">
 												<i class="fas fa-map-marker-alt fa-4x custom-icon"></i>
-												<div data-v-0c6c33f2="" class="value">
-													<div data-v-0c6c33f2="" class="text" data-toggle="modal" data-target="#exampleModal">지역 선택</div>
+												<div  class="value">
+													<div  class="text" data-toggle="modal" data-target="#exampleModal">지역 선택</div>
 												</div>
 											</div>
-											<div data-v-0c6c33f2="" class="calendar-box">
-												<!--<img data-v-0c6c33f2=""
-													src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmMWMzMzEiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjQgMnYyMmgtMjR2LTIyaDN2MWMwIDEuMTAzLjg5NyAyIDIgMnMyLS44OTcgMi0ydi0xaDEwdjFjMCAxLjEwMy44OTcgMiAyIDJzMi0uODk3IDItMnYtMWgzem0tMiA2aC0yMHYxNGgyMHYtMTR6bS0yLTdjMC0uNTUyLS40NDctMS0xLTFzLTEgLjQ0OC0xIDF2MmMwIC41NTIuNDQ3IDEgMSAxczEtLjQ0OCAxLTF2LTJ6bS0xNCAyYzAgLjU1Mi0uNDQ3IDEtMSAxcy0xLS40NDgtMS0xdi0yYzAtLjU1Mi40NDctMSAxLTFzMSAuNDQ4IDEgMXYyem02LjY4NyAxMy40ODJjMC0uODAyLS40MTgtMS40MjktMS4xMDktMS42OTUuNTI4LS4yNjQuODM2LS44MDcuODM2LTEuNTAzIDAtMS4zNDYtMS4zMTItMi4xNDktMi41ODEtMi4xNDktMS40NzcgMC0yLjU5MS45MjUtMi42NTkgMi43NjNoMS42NDVjLS4wMTQtLjc2MS4yNzEtMS4zMTUgMS4wMjUtMS4zMTUuNDQ5IDAgLjkzMy4yNzIuOTMzLjg2OSAwIC43NTQtLjgxNi44NjItMS41NjcuNzk3djEuMjhjMS4wNjcgMCAxLjcwNC4wNjcgMS43MDQuOTg1IDAgLjcyNC0uNTQ4IDEuMDQ4LTEuMDkxIDEuMDQ4LS44MjIgMC0xLjE1OS0uNjE0LTEuMTg4LTEuNDUyaC0xLjYzNGMtLjAzMiAxLjg5MiAxLjExNCAyLjg5IDIuODQyIDIuODkgMS41NDMgMCAyLjg0NC0uOTQzIDIuODQ0LTIuNTE4em00LjMxMyAyLjUxOHYtNy43MThoLTEuMzkyYy0uMTczIDEuMTU0LS45OTUgMS40OTEtMi4xNzEgMS40NTl2MS4zNDZoMS44NTJ2NC45MTNoMS43MTF6Ii8+PC9zdmc+"
-													class="logo">-->
+											<div  class="calendar-box">
 												<i class="fas fa-calendar-alt custom-icon"></i>
-												<div data-v-0c6c33f2="" class="value">
-													<div data-v-0c6c33f2="" class="text" id="demo" name="demo">전체 기간</div>
+												<div  class="value">
+													<div  class="text" id="demo" name="demo">전체 기간</div>
 												</div>
 											</div>
 										</div>
-										<div data-v-0c6c33f2="" class="right-box">
-											<div data-v-0c6c33f2="" class="sort-box">
-												<div data-v-0c6c33f2="" data-selected="1" class="sort-button">
-													<div data-v-0c6c33f2="" class="text">시합날짜순</div>
+										<div  class="right-box">
+											<div  class="sort-box">
+												<div  data-selected="1" class="sort-button">
+													<div  class="text">시합날짜순</div>
 												</div>
-												<div data-v-0c6c33f2="" data-selected="0" class="sort-button">
-													<div data-v-0c6c33f2="" class="text">등록순</div>
+												<div  data-selected="0" class="sort-button">
+													<div  class="text">등록순</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
 							<c:forEach var="board" items="${boardList}">
-								<div class="card-body" id="bNum">
-									<a data-v-62a050a0="" data-v-30785387="" href="/matches/7417" class="" fg-component="match-list-item">
-										<div data-v-62a050a0="" class="contents-box">
-											<div data-v-62a050a0="" class="left-section">
-												<div data-v-62a050a0="" class="head">
-													<div data-v-62a050a0="" class="tags">
-														<div data-v-62a050a0="" class="tag">
-															<span data-v-62a050a0="" class="text">${board.bLocal}</span>
+									<a href="/matches/7417" class="" fg-component="match-list-item">
+										<div class="contents-box">
+											<div  class="left-section">
+												<div  class="head">
+													<div  class="tags">
+														<div  class="tag">
+															<span  class="text">${board.bLocal}</span>
 														</div>
 													</div>
+													<!--<div  class="tags rate">
+														<div  class="tag">
+															<span  class="text">${board.bRate}</span>
+														</div>
+													</div>-->
 												</div>
-												<div data-v-62a050a0="" class="body">
-													<div data-v-62a050a0="" class="left-box">
-														<div data-v-62a050a0="" class="date">
-															<span data-v-62a050a0="" class="text">${board.bDate}</span>
+												<div  class="body">
+													<div  class="left-box">
+														<div  class="date">
+															<span  class="text"><fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" /></span>
 														</div>
-														<div data-v-62a050a0="" class="time">
-															<span data-v-62a050a0="" class="text">${board.bDate}</span>
+														<div  class="title">
+															<span  class="text">${board.bTitle}</span>
+															<div  class="informations">
+																<div  class="information">
+																	<span  class="text">${board.bCnt}명</span>
+																</div>
+																<div  class="information">
+																	<span  class="text">${board.bRate}</span>
+																</div>
 														</div>
-														<div data-v-62a050a0="" class="user">
-															<span data-v-62a050a0="" class="text">${board.mNum}</span>
-														</div>
-													</div>
-													<div data-v-62a050a0="" class="right-box">
-														<div data-v-62a050a0="" class="location">
-															<span data-v-62a050a0="" class="text">${board.bTitle}</span>
-														</div>
-														<div data-v-62a050a0="" class="informations">
-															<div data-v-62a050a0="" class="information">
-																<span data-v-62a050a0="" class="text">${board.bCnt}</span>
-															</div>
-															<div data-v-62a050a0="" class="information">
-																<span data-v-62a050a0="" class="text">${board.bRate}</span>
-															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div data-v-62a050a0="" class="right-section">
-												<div data-v-62a050a0="" class="" style="background-color: #0188CB;">
-													<span data-v-62a050a0="" class="btn btn-secondary">모집중</span>
-												</div>
+											<div  class="right-section">
+												<c:if test="${board.bAction == 0}">
+													<div class="btn btn-submit">
+														모집중
+														<p>${board.aCnt}/${board.bCnt}</p>
+													</div>
+												</c:if>
+												<c:if test="${board.bAction == 1}">
+													<div class="btn btn-secondary">
+														모집완료
+														<p>${board.aCnt}/${board.bCnt}</p>
+													</div>
+												</c:if>
 											</div>
-
 										</div>
 									</a>
-								</div>
 							</c:forEach>
-							<div class="card-body" id="bNum">
-								<a data-v-62a050a0="" data-v-30785387="" href="#" class="" fg-component="match-list-item">
-									<div data-v-62a050a0="" class="contents-box">
-										<div data-v-62a050a0="" class="left-section">
-											<div data-v-62a050a0="" class="head">
-												<div data-v-62a050a0="" class="tags">
-													<div data-v-62a050a0="" class="tag">
-														<span data-v-62a050a0="" class="text">고양/파주</span>
-													</div>
-												</div>
-											</div>
-											<div data-v-62a050a0="" class="body">
-												<div data-v-62a050a0="" class="left-box">
-													<div data-v-62a050a0="" class="date">
-														<span data-v-62a050a0="" class="text">23.02.17.(금)</span>
-													</div>
-													<div data-v-62a050a0="" class="time">
-														<span data-v-62a050a0="" class="text">20:00~22:00</span>
-													</div>
-													<div data-v-62a050a0="" class="user">
-														<span data-v-62a050a0="" class="text">홍 길동</span>
-													</div>
-												</div>
-												<div data-v-62a050a0="" class="right-box">
-													<div data-v-62a050a0="" class="location">
-														<span data-v-62a050a0="" class="text">레드버튼</span>
-													</div>
-													<div data-v-62a050a0="" class="informations">
-														<div data-v-62a050a0="" class="information">
-															<span data-v-62a050a0="" class="text">6명</span>
-														</div>
-														<div data-v-62a050a0="" class="information">
-															<span data-v-62a050a0="" class="text">고수</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div data-v-62a050a0="" class="right-section">
-											<div data-v-62a050a0="" class="btn btn-primary" style="background-color: #0188CB;">
-												<span data-v-62a050a0="" class="text">모집중</span>
-											</div>
-										</div>
-
-									</div>
-								</a>
-							</div>
-							<div class="card-body" id="bNum">
-								<a data-v-62a050a0="" data-v-30785387="" href="#" class="" fg-component="match-list-item">
-									<div data-v-62a050a0="" class="contents-box">
-										<div data-v-62a050a0="" class="left-section">
-											<div data-v-62a050a0="" class="head">
-												<div data-v-62a050a0="" class="tags">
-													<div data-v-62a050a0="" class="tag">
-														<span data-v-62a050a0="" class="text">고양/파주</span>
-													</div>
-												</div>
-											</div>
-											<div data-v-62a050a0="" class="body">
-												<div data-v-62a050a0="" class="left-box">
-													<div data-v-62a050a0="" class="date">
-														<span data-v-62a050a0="" class="text">23.02.17.(금)</span>
-													</div>
-													<div data-v-62a050a0="" class="time">
-														<span data-v-62a050a0="" class="text">20:00~22:00</span>
-													</div>
-													<div data-v-62a050a0="" class="user">
-														<span data-v-62a050a0="" class="text">홍 길동</span>
-													</div>
-												</div>
-												<div data-v-62a050a0="" class="right-box">
-													<div data-v-62a050a0="" class="location">
-														<span data-v-62a050a0="" class="text">레드버튼</span>
-													</div>
-													<div data-v-62a050a0="" class="informations">
-														<div data-v-62a050a0="" class="information">
-															<span data-v-62a050a0="" class="text">6명</span>
-														</div>
-														<div data-v-62a050a0="" class="information">
-															<span data-v-62a050a0="" class="text">고수</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div data-v-62a050a0="" class="right-section">
-											<div data-v-62a050a0="" class="" style="background-color: #cdd3d8">
-												<span data-v-62a050a0="" class="btn btn-secondary">모집 완료</span>
-											</div>
-										</div>
-									</div>
-
-								</a>
-							</div>
 						</div>
 					</div>
 				</section>
@@ -1334,13 +827,13 @@ normal;
 	</div>
 
 	<!-- General JS Scripts -->
-	<script src="assets/modules/jquery.min.js"></script>
-	<script src="assets/modules/popper.js"></script>
-	<script src="assets/modules/tooltip.js"></script>
-	<script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="assets/modules/moment.min.js"></script>
-	<script src="assets/js/stisla.js"></script>
+	<script src="../assets/modules/jquery.min.js"></script>
+	<script src="../assets/modules/popper.js"></script>
+	<script src="../assets/modules/tooltip.js"></script>
+	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../assets/modules/moment.min.js"></script>
+	<script src="../assets/js/stisla.js"></script>
 
 
 
@@ -1394,8 +887,6 @@ normal;
 					"monthNames" : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
 					"firstDay" : 1
 				},
-				"startDate" : "2020-10-21",
-				"endDate" : "2020-10-23",
 				"drops" : "down"
 			}, function(start, end, label) {
 				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
@@ -1408,8 +899,8 @@ normal;
 	<!-- Template JS File -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/custom.js"></script>
+	<script src="../assets/js/scripts.js"></script>
+	<script src="../assets/js/custom.js"></script>
 
 </body>
 </html>
