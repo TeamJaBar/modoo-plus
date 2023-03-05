@@ -93,6 +93,7 @@
 													</tr>
 												</thead>
 												<tbody>
+													<!-- 작성글 없을때 -->
 													<c:if test="${fn:length(bDatas) == 0 }">
 														<tr class="text-center">
 															<td>
@@ -110,6 +111,7 @@
 															<td></td>
 														</tr>
 													</c:if>
+													<!-- 작성글 없을때 -->
 
 													<!-- 나의 작성 글 el식 적용 -->
 													<c:if test="${fn:length(bDatas) != 0 }">
@@ -335,9 +337,11 @@
 									</div>
 								</div>
 								<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-								<div class="media-cta">
-									<a href="entryDelete.do?mNum=${v.mNum}" class="btn btn-outline-primary">퇴출하기</a>
-								</div>
+								<c:if test="${v.mNum == mNum}">
+									<div class="media-cta">
+										<a href="entryDelete.do?aNum=${v.aNum}" class="btn btn-outline-primary">퇴출하기</a>
+									</div>
+								</c:if>
 							</li>
 						</c:forEach>
 					</ul>

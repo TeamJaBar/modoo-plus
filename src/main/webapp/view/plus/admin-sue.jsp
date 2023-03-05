@@ -134,7 +134,9 @@
 																<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
 																<div class="d-inline-block ml-1">${v.mId}</div>
 															</td>
-															<td>${v.bWdate}</td>
+															<td>
+																<fmt:formatDate value="${v.bWdate}" pattern="yy-MM-dd HH:mm" />
+															</td>
 															<td>
 																<c:choose>
 																	<c:when test="${v.bStatus == 0}">
