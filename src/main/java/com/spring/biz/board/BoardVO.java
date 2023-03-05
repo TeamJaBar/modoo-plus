@@ -26,8 +26,23 @@ public class BoardVO {
 	private String bMimg;//JAVA 저장 객체: 프로필 이미지
 	private int aCnt; //JAVA 저장 객체 : 신청자 수
 	private int sortBy; //JAVA 저장 객체 : 정렬 기준 - bDate(1) or bWdate(2)
+	private int aNum; //JAVA 저장 객체 : applicant 테이블 PK
+	private String aChk; //JAVA 저장 객체 : 평가 확인 여부
 	
 	
+	
+	public String getaChk() {
+		return aChk;
+	}
+	public void setaChk(String aChk) {
+		this.aChk = aChk;
+	}
+	public int getaNum() {
+		return aNum;
+	}
+	public void setaNum(int aNum) {
+		this.aNum = aNum;
+	}
 	public Date getsSearchDate() {
 		return sSearchDate;
 	}
