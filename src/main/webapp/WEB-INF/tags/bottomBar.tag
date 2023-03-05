@@ -27,7 +27,7 @@
 				<a class="complete" href="insertApplicant.do?bNum=${bDatas.bNum}&mNum=${member.mNum}" style="width: 100%">매치 신청하기</a>
 			</c:if>
 			<c:if test="${member.mNum == aDatas.mNum}">
-				<a class="complete" href="deleteApplicantEntry.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
+				<a class="complete" href="myEntryDelete.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
 			</c:if>
 		</c:if>
 		<!-- 모집완료 -->
@@ -40,5 +40,5 @@
 </c:if>
 <!-- 관리자 접속 시 -->
 <c:if test="${member.mNum == 'admin'}">
-	<a class="delete" href="deleteBoardAd.do?bNum=${bDatas.bNum}" style="width: 100%">삭제하기</a>
+	<a class="delete" href="deleteBoard.do?bNum=${bDatas.bNum}" style="width: 100%">삭제하기</a>
 </c:if>
