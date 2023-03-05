@@ -136,18 +136,18 @@
 																	<div class="dropdown d-inline mr-2">
 																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																			<c:if test="${v.bAction==0}">
-																		모집 완료
+																		모집중
 																		</c:if>
 																			<c:if test="${v.bAction==1}">
-																		모집중
+																		모집완료
 																		</c:if>
 																			<c:if test="${v.bAction==2}">
 																		지난 모임
 																		</c:if>
 																		</button>
 																		<div class="dropdown-menu">
-																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=1">모집 중</a>
-																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=0">모집완료</a>
+																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=0">모집 중</a>
+																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=1">모집완료</a>
 																		</div>
 																		<!-- ajax로 구현하기 -->
 																	</div>
