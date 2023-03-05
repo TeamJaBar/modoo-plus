@@ -41,7 +41,7 @@
 									<button onclick="location.href='pw-find-01.jsp'" id="btnFindPw" class="btn_member_blue hov-btn4">비밀번호 찾기</button>
 								</li>
 								<li>
-									<button onclick="location.href='login.jsp'" id="btnLogin" class="btn_member_white hov-btn4">로그인하기</button>
+									<button onclick="location.href='login.do'" id="btnLogin" class="btn_member_white hov-btn4">로그인하기</button>
 								</li>
 							</ul>
 						</div>

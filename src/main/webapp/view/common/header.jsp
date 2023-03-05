@@ -33,6 +33,7 @@
 <link rel="stylesheet" type="text/css" href="../css/util.css">
 <link rel="stylesheet" type="text/css" href="../css/main.css">
 <!--===============================================================================================-->
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 </head>
 <body class="animsition">
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -244,7 +245,7 @@
 				</a>
 			</div>
 			<c:if test="${mId == null}">
-				<a href="login.jsp" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+				<a href="login.do" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 			</c:if>
@@ -253,6 +254,9 @@
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 			</c:if>
+			<a href="boardList.do?sortBy=1" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+				 <i class="fas fa-dice"></i>
+			</a>
 		</div>
 		</nav>
 	</div>
@@ -296,9 +300,9 @@
 				<div class="right-top-bar flex-w h-full">
 					<c:if test="${mNum == null}">
 						<a href="about.jsp" class="flex-c-m p-lr-10 trans-04">ABOUT US</a>
-						<a href="login.jsp" class="flex-c-m p-lr-10 trans-04">LOGIN</a>
+						<a href="login.do" class="flex-c-m p-lr-10 trans-04">LOGIN</a>
 						<a href="join.jsp" class="flex-c-m p-lr-10 trans-04">JOIN</a>
-						<a href="login.jsp" class="flex-c-m p-lr-10 trans-04">MYPAGE</a>
+						<a href="login.do" class="flex-c-m p-lr-10 trans-04">MYPAGE</a>
 					</c:if>
 					<c:if test="${mId == 'admin'}">
 						<a href="about.jsp" class="flex-c-m p-lr-10 trans-04">ABOUT US</a>

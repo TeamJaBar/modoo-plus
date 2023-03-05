@@ -7,13 +7,13 @@
 				<a href="about.jsp">ABOUT US</a>
 			</li>
 			<li>
-				<a href="login.jsp">LOGIN</a>
+				<a href="login.do">LOGIN</a>
 			</li>
 			<li>
 				<a href="join.jsp">JOIN</a>
 			</li>
 			<li>
-				<a href="login.jsp">MYPAGE</a>
+				<a href="login.do">MYPAGE</a>
 			</li>
 		</c:when>
 		<c:when test="${mId == 'admin'}">

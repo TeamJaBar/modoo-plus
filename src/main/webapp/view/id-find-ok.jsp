@@ -51,7 +51,7 @@
 						<div class="btn_login_box" style="display: flex; justify-content: center;">
 							<ul>
 								<li><button id="btnJoinMember" class="btn_member_blue hov-btn4" onclick="location.href='pw-find-01.jsp'">비밀번호 찾기</button></li>
-								<li><button id="btnFindId" class="btn_member_white hov-btn4" onclick="location.href='login.jsp'">로그인하기</button></li>
+								<li><button id="btnFindId" class="btn_member_white hov-btn4" onclick="location.href='login.do'">로그인하기</button></li>
 							</ul>
 						</div>
 						<!-- //btn_login_box -->

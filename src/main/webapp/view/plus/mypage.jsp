@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <!--
 	Editorial by HTML5 UP
@@ -92,6 +93,7 @@
 													</tr>
 												</thead>
 												<tbody>
+													<!-- 작성글 없을때 -->
 													<c:if test="${fn:length(bDatas) == 0 }">
 														<tr class="text-center">
 															<td>
@@ -109,46 +111,10 @@
 															<td></td>
 														</tr>
 													</c:if>
-													<!-- 샘플 -->
-													<tr class="text-center">
-														<td>
-															<div class="sort-handler">
-																<i class="fas fa-th"></i>
-															</div>
-														</td>
-														<td>
-															<a href="boardDetail.do?bNum=${v.bNum}">제목</a>
-														</td>
-														<td>경기도래요</td>
-														<td>2023-3-15</td>
-														<td>
-															<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
-															<a href="#" data-toggle="modal" data-target="#exampleModal">3 / 5</a>
-														</td>
-														<td>
-															<div class="dropdown d-inline mr-2">
-																<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">모집 완료</button>
-																<div class="dropdown-menu">
-																	<a class="dropdown-item" href="boardUpdate.do?bAction=1">모집 중</a>
-																	<a class="dropdown-item" href="boardUpdate.do?bAction=0">모집완료</a>
-
-																</div>
-															</div>
-														</td>
-														<td>
-															<a href="#" class="btn btn-icon btn-primary" id="modal-5">
-																<i class="far fa-edit" id="modal-5"></i>
-															</a>
-															<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do'">
-																<i class="fas fa-times"></i>
-																<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기" -->
-															</button>
-														</td>
-													</tr>
-													<!-- 샘플 -->
+													<!-- 작성글 없을때 -->
 
 													<!-- 나의 작성 글 el식 적용 -->
-													<c:if test="${fn:length(bDatas) =! 0 }">
+													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v">
 															<input type="hidden" name="bNum" value="${v.bNum}" />
 															<tr class="text-center">
@@ -158,30 +124,32 @@
 																	</div>
 																</td>
 																<td>
-																	<a href="boardDetail.do">${v.bTitle}</a>
+																	<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
 																</td>
 																<td>${v.bAddress}</td>
-																<td>${v.bDate}</td>
+																<td>
+																	<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
+																</td>
 																<td>
 																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
-																	<a href="#" data-toggle="modal" data-target="#exampleModal"> ${fn:length(aDatas)} / ${v.bCnt}</a>
+																	<a href="#" data-toggle="modal" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
 																</td>
 																<td>
 																	<div class="dropdown d-inline mr-2">
 																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																			<c:if test="${v.bAction==0}">
-																		모집 완료
+																		모집중
 																		</c:if>
 																			<c:if test="${v.bAction==1}">
-																		모집중
+																		모집완료
 																		</c:if>
 																			<c:if test="${v.bAction==2}">
 																		지난 모임
 																		</c:if>
 																		</button>
 																		<div class="dropdown-menu">
-																			<a class="dropdown-item" href="boardUpdate.do?bAction=1">모집 중</a>
-																			<a class="dropdown-item" href="boardUpdate.do?bAction=0">모집완료</a>
+																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=0">모집 중</a>
+																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=1">모집완료</a>
 																		</div>
 																		<!-- ajax로 구현하기 -->
 																	</div>
@@ -190,7 +158,7 @@
 																	<a href="#" class="btn btn-icon btn-primary" id="modal-5">
 																		<i class="far fa-edit" id="modal-5"></i>
 																	</a>
-																	<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do'">
+																	<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do?bNum=${v.bNum}'">
 																		<i class="fas fa-times"></i>
 																		<!-- 처리 yes 누르면 data-confirm-yes="delete()" -->
 																	</button>
@@ -349,7 +317,8 @@
 				<div class="modal-body">
 					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
 
-						<!--일반 참여자 el식 적용-->
+						<!--일반 참여자 el식 적용
+						bNum을 넘겨서 list 받아와서 띄워주기만 하면 됌.-->
 						<c:forEach items="${aDatas}" var="v">
 							<li class="media">
 								<img alt="image" class="mr-3 rounded-circle" width="50" src="../../assets/img/avatar/${v.mImg}">
@@ -368,9 +337,11 @@
 									</div>
 								</div>
 								<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-								<div class="media-cta">
-									<a href="entryDelete.do?mNum=${v.mNum}" class="btn btn-outline-primary">퇴출하기</a>
-								</div>
+								<c:if test="${v.mNum == mNum}">
+									<div class="media-cta">
+										<a href="entryDelete.do?aNum=${v.aNum}" class="btn btn-outline-primary">퇴출하기</a>
+									</div>
+								</c:if>
 							</li>
 						</c:forEach>
 					</ul>

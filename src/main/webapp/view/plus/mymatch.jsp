@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,49 +75,61 @@
 														<th>날짜</th>
 														<th>신청 / 평가</th>
 													</tr>
-													<!-- 샘플 -->
-													<tr class="text-center">
-														<td>
-															<div class="sort-handler">
-																<i class="fas fa-th"></i>
-															</div>
-														</td>
-														<td>제목 입력</td>
-														<td>장소 입력</td>
-														<td>3 / 5</td>
-														<td>22-3-12</td>
-														<td>
-															<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
-														</td>
-													</tr>
-													<!-- 샘플 -->
-
-													<c:forEach items="${aDatas}" var="v" begin="1">
-														<c:set var="i" value="0" />
+													<!-- 매치 없을때 -->
+													<c:if test="${fn:length(bDatas) == 0 }">
 														<tr class="text-center">
 															<td>
 																<div class="sort-handler">
 																	<i class="fas fa-th"></i>
 																</div>
 															</td>
-															<td>${v.bTitle}</td>
-															<td>${v.bAddress}</td>
-															<td>${fn:length(aDatas)}/${v.bCnt}</td>
-															<td>${v.bDate}</td>
-															<c:choose>
-																<c:when test="${aDatas.bAction == 2}">
-																	<td>
-																		<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">평가하기</button>
-																	</td>
-																</c:when>
-																<c:otherwise>
-																	<td>
-																		<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
-																	</td>
-																</c:otherwise>
-															</c:choose>
+															<td></td>
+															<td>게시글이 없습니다.</td>
+															<td></td>
+															<td></td>
+															<td>
+																<button class="btn btn-primary" type="button" onclick="location.href='boardList.do'">매치하러 가기</button>
+															</td>
+															<td></td>
 														</tr>
-													</c:forEach>
+													</c:if>
+													<!-- 매치 없을때 -->
+
+													<c:if test="${fn:length(bDatas) != 0 }">
+														<c:forEach items="${bDatas}" var="v" begin="1">
+															<c:set var="i" value="0" />
+															<tr class="text-center">
+																<td>
+																	<div class="sort-handler">
+																		<i class="fas fa-th"></i>
+																	</div>
+																</td>
+																<td>${v.bTitle}</td>
+																<td>${v.bAddress}</td>
+																<td>${v.aCnt}/${v.bCnt}</td>
+																<td>
+																	<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
+																</td>
+																<c:choose>
+																	<c:when test="${v.bAction == 2}">
+																		<td>
+																			<c:if test="${aDatas.aChk != 1}">
+																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																			</c:if>
+																			<c:if test="${aDatas.aChk == 1}">
+																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" disabled="disabled">평가완료</button>
+																			</c:if>
+																		</td>
+																	</c:when>
+																	<c:otherwise>
+																		<td>
+																			<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
+																		</td>
+																	</c:otherwise>
+																</c:choose>
+															</tr>
+														</c:forEach>
+													</c:if>
 												</tbody>
 											</table>
 										</div>
@@ -176,22 +189,24 @@
 						<table class="table table-striped">
 							<tbody>
 								<tr>
-									<th>check</th>
-									<th>Profile</th>
-									<th>Name</th>
+									<th>선택</th>
+									<th>프로필</th>
+									<th>아이디</th>
 								</tr>
 
 								<!-- 모달창 el식 적용 -->
 								<c:forEach items="${aDatas}" var="v">
-									<tr>
-										<td>
-											<input type="radio" name="mvp" value="${v.mNum}" />
-										</td>
-										<td>
-											<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="tooltip" title="" data-original-title="${v.mId}">
-										</td>
-										<td>${v.mName}</td>
-									</tr>
+									<c:if test="${v.mNum != mNum}">
+										<tr>
+											<td>
+												<input type="radio" name="mNum" value="${v.mNum}" />
+											</td>
+											<td>
+												<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="tooltip" title="" data-original-title="${v.mId}">
+											</td>
+											<td>${v.mId}</td>
+										</tr>
+									</c:if>
 								</c:forEach>
 								<!-- 모달창 el식 적용 끝 -->
 

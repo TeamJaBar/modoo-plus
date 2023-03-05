@@ -5,7 +5,7 @@
 <c:choose>
 	<c:when test="${mId == null}">
 		<div class="block2-txt-child2 flex-r p-t-3">
-			<a href="login.jsp" class="dis-block pos-relative">
+			<a href="login.do" class="dis-block pos-relative">
 				<img class="icon-heart1 dis-block trans-04" src="/ModooShop/images/icons/icon-heart-01.png" alt="찜 아이콘 활성화">
 			</a>
 		</div>

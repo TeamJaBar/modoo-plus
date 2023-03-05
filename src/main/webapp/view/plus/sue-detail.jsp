@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,9 +68,9 @@
 										<p>신고 사유 : ${sue.scName}</p>
 									</div>
 									<div class="card-footer bg-whitesmoke">
-										게시 : ${sue.bwDate}
+										<fmt:formatDate value="게시 : ${sue.bwDate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
-										신고 : ${sue.sDate}
+										<fmt:formatDate value="신고 : ${sue.sDate}" pattern="yy-MM-dd HH:mm" />
 										<!-- <button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button> -->
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}'">
 											신고취소</button>
@@ -104,25 +105,26 @@
 									</div>
 									<div class="card-body">
 										<p>신고 사유 : ${sue.scName}</p>
-										<p>처리 결과 : 
-										<c:choose>
-										<c:when test="${sue.mStatus == 1}">계정 정지상태</c:when>
-										<c:otherwise>점수감점</c:otherwise>
-										</c:choose>
+										<p>
+											처리 결과 :
+											<c:choose>
+												<c:when test="${sue.mStatus == 1}">계정 정지상태</c:when>
+												<c:otherwise>점수감점</c:otherwise>
+											</c:choose>
 											<!-- 처리결과 어떤 처리를 했는지 나타내고 싶음 -->
 										</p>
 									</div>
 									<div class="card-footer bg-whitesmoke">
-										게시 : ${sue.bwDate}
+										<fmt:formatDate value="게시 : ${sue.bwDate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
-										신고 : ${sue.sDate}
+										<fmt:formatDate value="신고 : ${sue.sDate}" pattern="yy-MM-dd HH:mm" />
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}'">
 											신고취소</button>
 										<c:if test="${sue.mStatus == 1}">
-										<div class="btn-group mb-2" style="float: right;">
-										<button name="updateSue" style="float: right;" class="btn btn-icon btn-primary" data-confirm="정지 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='adSueMem.do?mNum=${sue.mNum}&mStatus=0'">
-											정지풀기</button>
-										</div>
+											<div class="btn-group mb-2" style="float: right;">
+												<button name="updateSue" style="float: right;" class="btn btn-icon btn-primary" data-confirm="정지 취소 | 정말로 취소하실껀가요?"
+													data-confirm-yes="location.href='adSueMem.do?mNum=${sue.mNum}&mStatus=0'">정지풀기</button>
+											</div>
 										</c:if>
 									</div>
 								</div>

@@ -141,10 +141,11 @@ public class ProductDAO {
 		arList.add(pvo.getHighNum() == 0 ? data0.getHighNum() : pvo.getHighNum());
 
 		if (pvo.getCateNum() != 0) {
-			searchBar += " AND CATENUM=? ";
+			searchBar += " AND CATENUM BETWEEN ? AND (?+99)";
+			arList.add(pvo.getCateNum());
 			arList.add(pvo.getCateNum());
 		}
-		if (pvo.getpName() != null) {
+		if (!pvo.getpName().equals("")) {
 			searchBar += " AND PNAME LIKE CONCAT('%', ?, '%') ";
 			arList.add(pvo.getpName());
 		}
