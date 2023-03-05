@@ -8,19 +8,19 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
-<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="icon" href="../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; Admin &rsaquo; 글관리</title>
 
 <!-- General CSS Files -->
-<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
 <!-- CSS Libraries -->
-<link rel="stylesheet" href="../../assets/modules/jquery-selectric/selectric.css">
+<link rel="stylesheet" href="../assets/modules/jquery-selectric/selectric.css">
 
 <!-- Template CSS -->
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -33,7 +33,7 @@
 	gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA -->
-<link rel="stylesheet" href="../../assets/css/admin-board.css">
+<link rel="stylesheet" href="../assets/css/admin-board.css">
 </head>
 
 <body>
@@ -56,24 +56,24 @@
 							<div class="col-12">
 								<div class="card mb-0">
 									<div class="card-body">
-										<ul class="nav nav-pills">
+										<ul class="nav nav-pills" id="navi">
 											<li class="nav-item">
-												<a class="nav-link active" href="#">
+												<a class="nav-link active" id="all" href="changeList(all); return false">
 													전체 <span class="badge badge-white">${cnt[0] + cnt[1] + cnt[2]}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">
+												<a class="nav-link" id="0" href="#" href="changeList(0); return false">
 													모집 중 <span class="badge badge-primary">${cnt[1]}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">
+												<a class="nav-link" id="1" href="#" href="changeList(1); return false">
 													모집 완료 <span class="badge badge-primary">${cnt[0]}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">
+												<a class="nav-link" id="2" href="#" href="changeList(2); return false">
 													지난 모임 <span class="badge badge-primary">${cnt[2]}</span>
 												</a>
 											</li>
@@ -108,7 +108,7 @@
 													<th width="10%">상태</th>
 													<th width="8%">실행</th>
 												</tr>
-												<c:forEach var="board" items="${bDatas}" varStatus="i" begin=1 end=10 step=1>
+												<c:forEach var="board" items="${bDatas}" varStatus="i" begin="1" end="10" step="1">
 													<tr id="${board.bNum}">
 														<c:set var="sysDate">
 															<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm" />
@@ -153,33 +153,7 @@
 										<!-- 페이지네이션 10개씩 -->
 										<div class="float-right">
 											<nav>
-												<ul class="pagination">
-													<li class="page-item disabled">
-														<a class="page-link" href="#" aria-label="Previous">
-															<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
-														</a>
-													</li>
-													<li class="page-item active">
-														<a class="page-link" href="#">1</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#">2</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#">3</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#">4</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#">5</a>
-													</li>
-													<li class="page-item">
-														<a class="page-link" href="#" aria-label="Next">
-															<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
-														</a>
-													</li>
-												</ul>
+												<ul class="pagination" id="paging"></ul>
 											</nav>
 										</div>
 										<!-- 선택 글 삭제 -->
@@ -233,13 +207,13 @@
 			console.log('arDel: ' + arDel);
 
 			if (arDel.length < 1) {
-				alert("선택한 상품이 없습니다.");
+				alert("선택한 게시글이 없습니다.");
 				return;
 			} else {
 				if (confirm("정말 삭제하시겠습니까?")) {
 					$.ajax({
 						type : 'POST',
-						url : 'boardDelete',
+						url : 'deleteBoard',
 						traditional : true,
 						data : {
 							arDel : arDel
@@ -258,7 +232,116 @@
 			}
 		}
 
-		//
+		// 페이지네이션
+		let datas = ${bDatas};
+
+		const totalCount = datas.length;
+		//총 페이지
+		const totalPage = Math.ceil(totalCount / 10.0);
+
+		document.addEventListener('DOMContentLoaded', () => {
+		    // 페이지네이션 세팅
+		    setPageHtml();
+		    // 데이터 세팅
+		    setList();
+		})
+
+		function setPageHtml(){
+
+		    let pageHtml =
+		       `<li class="page-item">
+		            <a href="#;" class="page-link" onClick="changePage('first');return false;">First</a>
+		        </li>
+		        <li class="page-item">
+		            <a href="#" class="page-link" onClick="changePage('prev');return false;">Prev</a>
+		        </li>
+		        <li class="page-item active">
+		            <a href="#;" class="page-link" onClick="changePage(1);return false;">1</a>
+		        </li>`;
+
+		    for(let i = 2; i <= totalPage; i ++){
+		        pageHtml +=
+		            `<li class="page-item">
+		               <a href="#;" class="page-link" onClick="changePage(${i});return false;">${i}</a>
+		             </li>`;
+		    }
+
+		    pageHtml +=
+		       `<li class="page-item">
+		            <a href="#;" class="page-link" onClick="changePage('next');return false;">Next</a>
+		        </li>
+		        <li class="page-item">
+		            <a href="#;" class="page-link" onClick="changePage('last');return false;">Last</a>
+		        </li>`;
+
+		    document.getElementById("paging").innerHTML = pageHtml;
+
+		}
+
+		function setList(page){
+
+		    // 페이지 당 표시 될 튜플 수
+		    let pageCount = 10;
+		    page = page == null ? 1 : page;
+
+		    // 표시될 첫 게시글
+		    let startPage = (page - 1) * pageCount + 1;
+		    // 표시될 마지막 게시글
+		    let endPage = startPage + pageCount - 1;
+		    // if(마지막 게시글 > 총 게시글) 총 게시글을 마지막 게시글로
+		    endPage = endPage > totalCount ? totalCount : endPage;
+
+		    // 변경된 페이지 표시
+		    document.querySelectorAll("#paging li").forEach( (item) => {
+		        let str = item.querySelector("#paging li a").innerText;
+		        if(str.includes(page)) {
+		            item.classList.add("active");
+		        }else{
+		            item.classList.remove("active");
+		        }
+		    });
+
+		}
+
+		/**
+		 * 페이지 클릭 이벤트
+		 * @param page
+		 * @returns
+		 */
+		function changePage(page){
+			console.log("page ==> " + page);
+
+		    // 현재 페이지
+		    let nowPage = parseInt(document.querySelector("#paging .active a").innerText);
+		    console.log("nowPage --> " + nowPage);
+
+		    if(page === "first"){
+		        page = "1";
+		    }else if(page === "prev"){
+		        page = (nowPage - 1) < 1 ? nowPage : (nowPage - 1);
+		    }else if(page === "next"){
+		        page = (nowPage + 1) > totalPage ? totalPage : (nowPage + 1);
+		    }else if(page === "last"){
+		        page = totalPage;
+		    }
+
+		    if(nowPage != page)
+		        setList(page);
+		}
+		
+		// 상단 바 
+		// 클릭 이벤트
+		function changeList(num){
+		    // 변경된 페이지 표시
+		    document.querySelectorAll("#navi li").forEach( (item) => {
+		        let str = item.querySelector("#navi li a").prop("id");
+		        if(str.includes(num)) {
+		            item.classList.add("active");
+		        }else{
+		            item.classList.remove("active");
+		        }
+		    });
+		}
 	</script>
 	<style>
 .main-content {
@@ -279,23 +362,23 @@ body {
 }
 </style>
 	<!-- General JS Scripts -->
-	<script src="../../assets/modules/jquery.min.js"></script>
-	<script src="../../assets/modules/popper.js"></script>
-	<script src="../../assets/modules/tooltip.js"></script>
-	<script src="../../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="../../assets/modules/moment.min.js"></script>
-	<script src="../../assets/js/stisla.js"></script>
+	<script src="../assets/modules/jquery.min.js"></script>
+	<script src="../assets/modules/popper.js"></script>
+	<script src="../assets/modules/tooltip.js"></script>
+	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../assets/modules/moment.min.js"></script>
+	<script src="../assets/js/stisla.js"></script>
 
 	<!-- JS Libraies -->
-	<script src="../../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
 	<!-- Page Specific JS File -->
-	<script src="../../assets/js/page/features-posts.js"></script>
+	<script src="../assets/js/page/features-posts.js"></script>
 
 	<!-- Template JS File -->
-	<script src="../../assets/js/scripts.js"></script>
-	<script src="../../assets/js/custom.js"></script>
+	<script src="../assets/js/scripts.js"></script>
+	<script src="../assets/js/custom.js"></script>
 </body>
 
 </html>

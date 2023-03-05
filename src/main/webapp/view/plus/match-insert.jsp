@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
-<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="icon" href="../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 매칭 작성 페이지</title>
 <style type="text/css">
 .hidden {
@@ -208,20 +208,20 @@ select option[disabled] {
 </style>
 
 <!-- General CSS Files -->
-<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
 <!-- CSS Libraries -->
-<link rel="stylesheet" href="../../assets/modules/bootstrap-daterangepicker/daterangepicker.css">
-<link rel="stylesheet" href="../../assets/modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
-<link rel="stylesheet" href="../../assets/modules/select2/dist/css/select2.min.css">
-<link rel="stylesheet" href="../../assets/modules/jquery-selectric/selectric.css">
-<link rel="stylesheet" href="../../assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
-<link rel="stylesheet" href="../../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap-daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+<link rel="stylesheet" href="../assets/modules/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="../assets/modules/jquery-selectric/selectric.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
 
 <!-- Template CSS -->
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -250,7 +250,7 @@ select option[disabled] {
 						<h1>${title}</h1>
 					</div>
 					<div class="section-body">
-						<h2 class="section-title">매칭 ${title} 페이지</h2>
+						<h2 class="section-title">매칭 ${param.title} 페이지</h2>
 						<div class="row mt-4">
 							<div class="col-12">
 								<div class="card">
@@ -258,8 +258,8 @@ select option[disabled] {
 										<h4>매칭 게시글</h4>
 									</div>
 									<div class="card-body">
-										<form action="${title eq '게시글 작성' ? 'insertBoard.do' : 'boardUpdate.do'}" method="post">
-											<c:if test="${title eq '게시글 수정'}">
+										<form action="${param.title eq '게시글 작성' ? 'insertBoard.do' : 'boardUpdate.do'}" method="post">
+											<c:if test="${param.title eq '게시글 수정'}">
 												<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 											</c:if>
 											<input type="hidden" name="mNum" value="${mNum}" />
@@ -334,7 +334,7 @@ select option[disabled] {
 														toolbar : [ 'heading', '|', 'bold', 'italic', 'CKFinder' ],
 														language : "ko",
 														ckckfinder : {
-															uploadUrl : '../../assets/img'
+															uploadUrl : '../assets/img'
 														}
 													});
 												</script>
@@ -694,30 +694,30 @@ body {
 }
 </style>
 	<!-- General JS Scripts -->
-	<script src="../../assets/modules/jquery.min.js"></script>
-	<script src="../../assets/modules/popper.js"></script>
-	<script src="../../assets/modules/tooltip.js"></script>
-	<script src="../../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="../../assets/modules/moment.min.js"></script>
-	<script src="../../assets/js/stisla.js"></script>
+	<script src="../assets/modules/jquery.min.js"></script>
+	<script src="../assets/modules/popper.js"></script>
+	<script src="../assets/modules/tooltip.js"></script>
+	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../assets/modules/moment.min.js"></script>
+	<script src="../assets/js/stisla.js"></script>
 
 	<!-- JS Libraies -->
-	<script src="../../assets/modules/cleave-js/dist/cleave.min.js"></script>
-	<script src="../../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
-	<script src="../../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-	<script src="../../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script src="../../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-	<script src="../../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-	<script src="../../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-	<script src="../../assets/modules/select2/dist/js/select2.full.min.js"></script>
-	<script src="../../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+	<script src="../assets/modules/cleave-js/dist/cleave.min.js"></script>
+	<script src="../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
+	<script src="../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script src="../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script src="../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
+	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 	<!-- Page Specific JS File -->
-	<script src="../../assets/js/page/forms-advanced-forms.js"></script>
+	<script src="../assets/js/page/forms-advanced-forms.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 	<!-- Template JS File -->
-	<script src="../../assets/js/scripts.js"></script>
-	<script src="../../assets/js/custom.js"></script>
+	<script src="../assets/js/scripts.js"></script>
+	<script src="../assets/js/custom.js"></script>
 </body>
 </html>
