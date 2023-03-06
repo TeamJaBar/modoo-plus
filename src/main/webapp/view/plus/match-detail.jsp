@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 
-<!-- bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, scDatas : 신고 카테고리 정보, sDatas : 현재 멤버에 대한 현재글 신고 정보-->
+<!-- bDatas : 보드 정보, aDatas : 현재 매치 참가자 정보, cDatas : 현재 매치 댓글 정보, scDatas : 신고 카테고리 정보-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,12 +98,12 @@
 												<div class="date">
 													<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
 												</div>
-												<c:if test="${mNum != sDatas.mNum}">
+												<c:if test="${bDatas.sue != 1}">
 													<button class="btn-sue" id="modal-sue" data-toggle="modal">
 														<i class="fas fa-siren"></i>신고하기
 													</button>
 												</c:if>
-												<c:if test="${mNum == sDatas.mNum}">
+												<c:if test="${bDatas.sue == 1}">
 													<div class="btn-sue">
 														<i class="fas fa-siren"></i>신고완료
 													</div>
@@ -253,7 +253,7 @@
 																<div class="media-links">
 																	<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																	<div class="bullet"></div>
-																	<button class="text-danger">삭제</button>
+																	<button class="text-danger deleteBoard">삭제</button>
 																	<div class="collapse" id="collapseExample">
 																		<div class="media-links">
 																			<a class="TextCount" style="font-size: 2px;">0</a>
@@ -412,7 +412,7 @@
 	<script>
 	<!-- 댓글 삭제 -->
 	$(document).ready(function() {
-		$('.text-danger').each(function() {
+		$('.deleteBoard').each(function() {
 			let cNum = $(this).parent().parent().parent().prop("id");
 			$(this).on('click', function(e) {
 				e.preventDefault();
@@ -420,7 +420,7 @@
 				if (confirm('정말 삭제하시겠습니까?')) {
 					$.ajax({
 						type: 'POST',
-						url: 'deleteComment',
+						url: 'deleteComment.do',
 						data: {
 							cNum: cNum
 						},
@@ -444,7 +444,7 @@
 				if (confirm('퇴출하시겠습니까?')) {
 					$.ajax({
 						type: 'POST',
-						url: 'kickOut',
+						url: 'kickOut.do',
 						data: {
 							aNum: aNum
 						},
@@ -479,7 +479,7 @@
 				} else{
 					$.ajax({
 						type: 'POST',
-						url: 'insertComment',
+						url: 'insertComment.do',
 						data: {
 							mNum: mNum,
 							bNum: bNum,
@@ -515,7 +515,7 @@
 				} else{
 					$.ajax({
 						type: 'POST',
-						url: 'updateCommet',
+						url: 'updateCommet.do',
 						data: {
 							cNum: cNum,
 							cContent: cContent
