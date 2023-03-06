@@ -140,7 +140,10 @@ public class MyPageController {
 	
 	//보드 디테일
 	@RequestMapping("/boardDetail.do")
-	public String selectOneBoard(BoardVO bvo, ApplicantVO avo, CommentVO cvo, Model model) {
+	public String selectOneBoard(BoardVO bvo, ApplicantVO avo, HttpSession session, CommentVO cvo, Model model) {
+		if(session.getAttribute("mNum") != null) {
+			bvo.setmNum((Integer)session.getAttribute("mNum"));
+		}
 		model.addAttribute("bDatas", boardService.selectOne(bvo));
 		model.addAttribute("aDatas", applicantService.selectAll(avo));
 		model.addAttribute("cDatas", commentService.selectAll(cvo));
