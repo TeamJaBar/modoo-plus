@@ -11,13 +11,9 @@
 
 
 <style>
-
-
 @font-face {
 	font-family: 'GmarketSansMedium';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
-		format('woff');
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -36,8 +32,7 @@
 	background-color: #0188CB;
 }
 
-[fg-component=match-filter]>.contents-box, [fg-component=match-filter]>.contents-box>.left-box
-	{
+[fg-component=match-filter]>.contents-box, [fg-component=match-filter]>.contents-box>.left-box {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -50,8 +45,7 @@
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.location-box {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -62,21 +56,18 @@
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value {
 	display: block;
 	position: relative;
 	margin-left: 7px
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value[fg-fix-point-bug=true]
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value[fg-fix-point-bug=true] {
 	-webkit-transform: translateY(-1px);
 	transform: translateY(-1px)
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value:after
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value:after {
 	content: "";
 	position: absolute;
 	bottom: -2px;
@@ -85,8 +76,7 @@
 	height: 1px;
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value>.text
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value>.text {
 	display: block;
 	white-space: pre;
 	position: relative;
@@ -97,8 +87,7 @@
 	line-height: 1em
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -110,28 +99,24 @@
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.logo
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.logo {
 	display: block;
 	width: auto;
 	height: 14px
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value {
 	display: block;
 	position: relative;
 	margin-left: 10px
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value[fg-fix-point-bug=true]
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value[fg-fix-point-bug=true] {
 	-webkit-transform: translateY(-1px);
 	transform: translateY(-1px)
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value:after
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value:after {
 	content: "";
 	position: absolute;
 	bottom: -2px;
@@ -140,8 +125,7 @@
 	height: 1px;
 }
 
-[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value>.text
-	{
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value>.text {
 	display: block;
 	white-space: pre;
 	position: relative;
@@ -157,16 +141,14 @@
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box
-	{
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	height: 100%
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button
-	{
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -179,8 +161,7 @@
 	padding-right: 6px
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button>.text
-	{
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button>.text {
 	white-space: pre;
 	display: block;
 	line-height: 1em;
@@ -190,19 +171,17 @@
 	color: #fff
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-selected="1"]>.text
-	{
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-selected="1"]>.text {
 	font-weight: 500;
 	color: #f1c331
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button:last-child
-	{
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button:last-child {
 	margin-right: -6px
 }
 
 [fg-component=match-list-item]:hover {
-	text-decoration:none;
+	text-decoration: none;
 }
 
 [fg-component=match-list-item] {
@@ -216,7 +195,7 @@
 }
 
 [fg-component=match-list-item]:last-child {
-	border:none;
+	border: none;
 }
 
 [fg-component=match-list-item]>.contents-box {
@@ -231,14 +210,12 @@
 	padding: 13.3333333333px 20px 10.6666666667px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.head
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.head {
 	display: flex;
-	margin-bottom:5px;
+	margin-bottom: 5px;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag {
 	display: -webkit-inline-box;
 	display: -ms-inline-flexbox;
 	display: inline-flex;
@@ -252,19 +229,18 @@
 	border-radius: 4px;
 	height: 21px;
 	padding: 1px 7px;
-	margin-right:6px;
+	margin-right: 6px;
 }
 
 .rate .tag {
 	border: 1px solid blue !important;
 }
 
-.rate .tag .text{
-	color:blue !important;
+.rate .tag .text {
+	color: blue !important;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag>.text
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.head>.tags>.tag>.text {
 	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 11px;
@@ -276,16 +252,14 @@
 	text-overflow: ellipsis
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	margin-top: 6.4px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -295,8 +269,7 @@
 	height: 19px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text {
 	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 15px;
@@ -307,14 +280,12 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text
-		{
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.date>.text {
 		font-size: 13.5px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -324,19 +295,17 @@
 	height: 19px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	margin-top:4px;
+	margin-top: 4px;
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title>.text
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title>.text {
 	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 15px;
@@ -346,14 +315,12 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title>.text
-		{
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.title>.text {
 		font-size: 12.6px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text {
 	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 12px;
@@ -364,14 +331,12 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text
-		{
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.time>.text {
 		font-size: 10.8px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -381,8 +346,7 @@
 	height: 19px
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text {
 	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 12px;
@@ -393,19 +357,16 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text
-		{
+	[fg-component=match-list-item]>.contents-box>.left-section>.body>.left-box>.user>.text {
 		font-size: 10.8px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box
-	{
+[fg-component=match-list-item]>.contents-box>.left-section>.body>.right-box {
 	margin-left: 16px
 }
 
-[fg-component=match-list-item] .informations
-	{
+[fg-component=match-list-item] .informations {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -417,11 +378,10 @@
 	-ms-flex-align: center;
 	align-items: center;
 	height: 19px;
-	margin-left:20px;
+	margin-left: 20px;
 }
 
-[fg-component=match-list-item] .informations>.information
-	{
+[fg-component=match-list-item] .informations>.information {
 	position: relative;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -433,14 +393,12 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item] .informations>.information
-		{
+	[fg-component=match-list-item] .informations>.information {
 		padding-left: 8.1px
 	}
 }
 
-[fg-component=match-list-item] .informations>.information:before
-	{
+[fg-component=match-list-item] .informations>.information:before {
 	content: "";
 	position: absolute;
 	left: 0;
@@ -453,20 +411,17 @@
 	background-color: #0061b3
 }
 
-[fg-component=match-list-item] .informations>.information:not(:first-child)
-	{
+[fg-component=match-list-item] .informations>.information:not(:first-child) {
 	margin-left: 16px
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item] .informations>.information:not(:first-child)
-		{
+	[fg-component=match-list-item] .informations>.information:not(:first-child) {
 		margin-left: 14.4px
 	}
 }
 
-[fg-component=match-list-item] .informations>.information>.text
-	{
+[fg-component=match-list-item] .informations>.information>.text {
 	font-family: 'GmarketSansMedium';
 	color: #000;
 	font-size: 12px;
@@ -478,14 +433,12 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item] .informations>.information>.text
-		{
+	[fg-component=match-list-item] .informations>.information>.text {
 		font-size: 10.8px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.right-section
-	{
+[fg-component=match-list-item]>.contents-box>.right-section {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -496,8 +449,7 @@
 	align-items: center
 }
 
-[fg-component=match-list-item]>.contents-box>.right-section>.status
-	{
+[fg-component=match-list-item]>.contents-box>.right-section>.status {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -517,16 +469,14 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.right-section>.status
-		{
+	[fg-component=match-list-item]>.contents-box>.right-section>.status {
 		height: 39.6px;
 		min-width: 66.6px;
 		padding: 0 10.8px
 	}
 }
 
-[fg-component=match-list-item]>.contents-box>.right-section>.status>.text
-	{
+[fg-component=match-list-item]>.contents-box>.right-section>.status>.text {
 	font-family: 'GmarketSansMedium';
 	color: #fff;
 	text-align: center;
@@ -541,8 +491,7 @@
 }
 
 @media screen and (max-width:320px) {
-	[fg-component=match-list-item]>.contents-box>.right-section>.status>.text
-		{
+	[fg-component=match-list-item]>.contents-box>.right-section>.status>.text {
 		font-size: 10.8px
 	}
 }
@@ -583,49 +532,48 @@
 }
 
 .btn-submit {
-	font-family:'GmarketSansMedium';
-	font-weight:500;
-	font-size:15px;
-	background-color:#0188CB;
-    border-color: #0188CB;
-    box-shadow: 0 2px 6px #80bbd9;
-    color:white;
-    width:100px;
+	font-family: 'GmarketSansMedium';
+	font-weight: 500;
+	font-size: 15px;
+	background-color: #0188CB;
+	border-color: #0188CB;
+	box-shadow: 0 2px 6px #80bbd9;
+	color: white;
+	width: 100px;
 }
 
-.btn > p {
-	margin-top:0;
-	margin-bottom:0;
+.btn>p {
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 .btn-submit:hover {
-	background-color:#004669 !important;
-    border-color: #004669 !important;
-    color: white;
-    text-decoration:none;
+	background-color: #004669 !important;
+	border-color: #004669 !important;
+	color: white;
+	text-decoration: none;
 }
 
 .btn-secondary {
-	font-family:'GmarketSansMedium';
-	font-weight:500;
-	font-size:15px;
+	font-family: 'GmarketSansMedium';
+	font-weight: 500;
+	font-size: 15px;
 	box-shadow: 0 2px 6px #e1e5e8;
-    background-color: #cdd3d8;
-    border-color: #cdd3d8;
-    color: #fff;
-    width:100px;
+	background-color: #cdd3d8;
+	border-color: #cdd3d8;
+	color: #fff;
+	width: 100px;
 }
 
 .card {
-	margin-top:60px !important;
+	margin-top: 60px !important;
 }
 
-@media (min-width: 1200px) {
+@media ( min-width : 1200px) {
 	.container {
-	    max-width: 980px !important;
+		max-width: 980px !important;
 	}
 }
-
 </style>
 
 <!-- General CSS Files -->
@@ -680,85 +628,87 @@
 						</div>
 						<div class="card">
 							<div fg-component="match-filter">
-									<div  class="contents-box">
-										<div  class="left-box">
-											<div  class="location-box">
-												<i class="fas fa-map-marker-alt fa-4x custom-icon"></i>
-												<div  class="value">
-													<div  class="text" data-toggle="modal" data-target="#exampleModal">지역 선택</div>
-												</div>
-											</div>
-											<div  class="calendar-box">
-												<i class="fas fa-calendar-alt custom-icon"></i>
-												<div  class="value">
-													<div  class="text" id="demo" name="demo">전체 기간</div>
-												</div>
+								<div class="contents-box">
+									<div class="left-box">
+										<div class="location-box">
+											<i class="fas fa-map-marker-alt fa-4x custom-icon"></i>
+											<div class="value">
+												<div class="text" data-toggle="modal" data-target="#exampleModal">지역 선택</div>
 											</div>
 										</div>
-										<div  class="right-box">
-											<div  class="sort-box">
-												<div  data-selected="1" class="sort-button">
-													<div  class="text">시합날짜순</div>
-												</div>
-												<div  data-selected="0" class="sort-button">
-													<div  class="text">등록순</div>
-												</div>
+										<div class="calendar-box">
+											<i class="fas fa-calendar-alt custom-icon"></i>
+											<div class="value">
+												<div class="text" id="demo" name="demo">전체 기간</div>
+											</div>
+										</div>
+									</div>
+									<div class="right-box">
+										<div class="sort-box">
+											<div data-selected="1" class="sort-button">
+												<div class="text">날짜순</div>
+											</div>
+											<div data-selected="0" class="sort-button">
+												<div class="text">등록순</div>
 											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 
 							<c:forEach var="board" items="${boardList}">
-									<a href="/matches/7417" class="" fg-component="match-list-item">
-										<div class="contents-box">
-											<div  class="left-section">
-												<div  class="head">
-													<div  class="tags">
-														<div  class="tag">
-															<span  class="text">${board.bLocal}</span>
-														</div>
+								<a href="boardDetail.do?bNum=${board.bNum}" class="" fg-component="match-list-item">
+									<div class="contents-box">
+										<div class="left-section">
+											<div class="head">
+												<div class="tags">
+													<div class="tag">
+														<span class="text">${board.bLocal}</span>
 													</div>
-													<!--<div  class="tags rate">
+												</div>
+												<!--<div  class="tags rate">
 														<div  class="tag">
 															<span  class="text">${board.bRate}</span>
 														</div>
 													</div>-->
-												</div>
-												<div  class="body">
-													<div  class="left-box">
-														<div  class="date">
-															<span  class="text"><fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" /></span>
-														</div>
-														<div  class="title">
-															<span  class="text">${board.bTitle}</span>
-															<div  class="informations">
-																<div  class="information">
-																	<span  class="text">${board.bCnt}명</span>
-																</div>
-																<div  class="information">
-																	<span  class="text">${board.bRate}</span>
-																</div>
-														</div>
-														</div>
-													</div>
-												</div>
 											</div>
-											<div  class="right-section">
-												<c:if test="${board.bAction == 0}">
-													<div class="btn btn-submit">
-														모집중
-														<p>${board.aCnt}/${board.bCnt}</p>
+											<div class="body">
+												<div class="left-box">
+													<div class="date">
+														<span class="text">
+															<fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" />
+														</span>
 													</div>
-												</c:if>
-												<c:if test="${board.bAction == 1}">
-													<div class="btn btn-secondary">
-														모집완료
-														<p>${board.aCnt}/${board.bCnt}</p>
+													<div class="title">
+														<span class="text">${board.bTitle}</span>
+														<div class="informations">
+															<div class="information">
+																<span class="text">${board.bCnt}명</span>
+															</div>
+															<div class="information">
+																<span class="text">${board.bRate}</span>
+															</div>
+														</div>
 													</div>
-												</c:if>
+												</div>
 											</div>
 										</div>
-									</a>
+										<div class="right-section">
+											<c:if test="${board.bAction == 0}">
+												<div class="btn btn-submit">
+													모집중
+													<p>${board.aCnt}/${board.bCnt}</p>
+												</div>
+											</c:if>
+											<c:if test="${board.bAction == 1}">
+												<div class="btn btn-secondary">
+													모집완료
+													<p>${board.aCnt}/${board.bCnt}</p>
+												</div>
+											</c:if>
+										</div>
+									</div>
+								</a>
 							</c:forEach>
 						</div>
 					</div>
