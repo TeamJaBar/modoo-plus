@@ -117,6 +117,7 @@ public class MyPageController {
 	@RequestMapping("/insertApplicant.do")
 	public String insertApplicant(ApplicantVO avo, HttpServletRequest request) {
 		String referer = request.getHeader("Referer");
+		avo.setmNum((Integer)request.getSession().getAttribute("mNum"));
 		applicantService.insert(avo);
 		return "redirect:"+referer;
 	}
