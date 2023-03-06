@@ -18,6 +18,10 @@ import com.spring.biz.board.ApplicantService;
 import com.spring.biz.board.ApplicantVO;
 import com.spring.biz.board.BoardService;
 import com.spring.biz.board.BoardVO;
+import com.spring.biz.board.CommentService;
+import com.spring.biz.board.CommentVO;
+import com.spring.biz.board.PageService;
+import com.spring.biz.board.PageVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 
@@ -31,14 +35,33 @@ public class MyPageController {
 	MemberService memberService;
 	@Autowired
 	ApplicantService applicantService;
+	@Autowired
+	PageService pageService;
+	@Autowired
+	CommentService commentService;
+	
+	private static final int DEFAULT_PAGENUM = 1;
+	private static final int DEFAULT_AMOUNT = 10;
+	
 	
 	@RequestMapping("/mypage.do")
-	public String selectAllMyBoard(BoardVO bvo, HttpSession session, Model model) {
+	public String selectAllMyBoard(BoardVO bvo, PageVO pvo, HttpSession session, Model model) {
+		bvo.setAmount(DEFAULT_AMOUNT);
+		// 첫 페이지
+		if (bvo.getPageNum() == 0) {
+			bvo.setPageNum(DEFAULT_PAGENUM);
+		}
+
 		if(session.getAttribute("mNum") != null) {
 			bvo.setmNum((Integer)session.getAttribute("mNum"));			
 		}
-		System.out.println("mNum : " + bvo.getmNum());
-		model.addAttribute("bDatas", boardService.selectAllManage(bvo));
+		
+		int total = pageService.getMyTotal(bvo); // 전체게시글수
+		pvo = new PageVO(bvo.getPageNum(), total);
+
+		// 3. 페이지네이션을 화면에 전달
+		model.addAttribute("pageVO", pvo);
+		model.addAttribute("bDatas", pageService.selectAllMyBoard(bvo));
 		return "/view/plus/mypage.jsp";
 	}
 	
@@ -60,11 +83,23 @@ public class MyPageController {
 	}
 	
 	@RequestMapping("/myBoard.do")
-	public String selectAllMyMatch(BoardVO bvo, HttpSession session, Model model) {
+	public String selectAllMyMatch(BoardVO bvo, PageVO pvo, HttpSession session, Model model) {
+		bvo.setAmount(DEFAULT_AMOUNT);
+		// 첫 페이지
+		if (bvo.getPageNum() == 0) {
+			bvo.setPageNum(DEFAULT_PAGENUM);
+		}
+
 		if(session.getAttribute("mNum") != null) {
 			bvo.setmNum((Integer)session.getAttribute("mNum"));			
 		}
-		model.addAttribute("bDatas", boardService.selectAllMatch(bvo));
+		
+		int total = pageService.getMyMatchTotal(bvo); // 전체게시글수
+		pvo = new PageVO(bvo.getPageNum(), total);
+
+		// 3. 페이지네이션을 화면에 전달
+		model.addAttribute("pageVO", pvo);
+		model.addAttribute("bDatas", pageService.selectAllMatch(bvo));
 		return "/view/plus/mymatch.jsp";
 	}
 	
@@ -92,7 +127,7 @@ public class MyPageController {
 		int mvp = 50;
 		mvo.setScore(mvp);
 		memberService.update(mvo);
-		//applicantService.update(avo);
+		applicantService.update(avo);
 		return "redirect:"+referer;
 	}
 	
@@ -105,10 +140,10 @@ public class MyPageController {
 	
 	//보드 디테일
 	@RequestMapping("/boardDetail.do")
-	public String selectOneBoard(BoardVO bvo, ApplicantVO avo, Model model) {
+	public String selectOneBoard(BoardVO bvo, ApplicantVO avo, CommentVO cvo, Model model) {
 		model.addAttribute("bDatas", boardService.selectOne(bvo));
 		model.addAttribute("aDatas", applicantService.selectAll(avo));
-		//댓글
+		model.addAttribute("cDatas", commentService.selectAll(cvo));
 		//신고 카테고리
 		//신고 여부
 		return "/view/plus/match-detail.jsp";
@@ -129,12 +164,10 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/boardUpdate.do", method=RequestMethod.POST)
-	public String updateBoard(BoardVO bvo, Model model, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd HH:MM") Date bDate) {
-		
-		//boardService.updateBoard(bvo);
-		return "redirect:boardList.do?sortBy=1";
+	public String updateBoard(BoardVO bvo, HttpServletRequest request, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date bDate) {
+		String referer = request.getHeader("Referer");
+		bvo.setbDate(bDate);
+		boardService.updateBoard(bvo);
+		return "redirect:"+referer;
 	}
-
-	
-
 }

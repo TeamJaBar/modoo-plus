@@ -21,8 +21,8 @@ public class ApplicantServiceImpl implements ApplicantService{
 	}
 
 	@Override
-	public ApplicantVO selectOne(ApplicantVO vo) {
-		return applicantDAO.selectOne(vo);
+	public boolean update(ApplicantVO vo) {
+		return applicantDAO.update(vo);
 	}
 
 	@Override

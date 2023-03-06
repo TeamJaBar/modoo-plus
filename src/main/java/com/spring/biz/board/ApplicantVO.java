@@ -4,7 +4,7 @@ public class ApplicantVO {
 	private int aNum; //PK
 	private int bNum; 
 	private int mNum;
-	private String achk;
+	private String aChk;
 	//JAVA에서만 저장용으로 사용되는 데이터
 	private String mId; //아이디
 	private String mName; //이름
@@ -26,11 +26,11 @@ public class ApplicantVO {
 	public void setmNum(int mNum) {
 		this.mNum = mNum;
 	}
-	public String getAchk() {
-		return achk;
+	public String getaChk() {
+		return aChk;
 	}
-	public void setAchk(String achk) {
-		this.achk = achk;
+	public void setaChk(String aChk) {
+		this.aChk = aChk;
 	}
 	public String getmId() {
 		return mId;

@@ -9,13 +9,14 @@ public class CommentVO {
 	private String cContent;//댓글 내용
 	private Date cWdate;//작성 일자
 	private Date cCdate;//수정 일자
-	private String mName;//JAVA 저장 객체: 작성자 이름
+	private String mId;//JAVA 저장 객체: 작성자 아이디
 	
-	public String getmName() {
-		return mName;
+	
+	public String getmId() {
+		return mId;
 	}
-	public void setmName(String mName) {
-		this.mName = mName;
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 	public int getcNum() {
 		return cNum;
