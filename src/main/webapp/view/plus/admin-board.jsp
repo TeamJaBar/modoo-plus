@@ -41,7 +41,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${mId}" name="${mName}" />
+			<modoo:header/>
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -52,29 +52,29 @@
 					<div class="section-body">
 						<h2 class="section-title">게시글 관리</h2>
 						<div class="row">
-							<!-- 상단바 cnt[] : 각 요소(모집완료[0], 모집중[1], 지난게임[2])의 갯수 배열 -->
+							<!-- 상단바 cnt[] : 각 요소(모집완료[1], 모집중[0], 지난게임[2])의 갯수 배열 -->
 							<div class="col-12">
 								<div class="card mb-0">
 									<div class="card-body">
 										<ul class="nav nav-pills" id="navi">
 											<li class="nav-item">
-												<a class="nav-link active" id="all" href="changeList(all); return false">
-													전체 <span class="badge badge-white">${cnt[0] + cnt[1] + cnt[2]}</span>
+												<a href="#;" class="nav-link active" id="4" onclick="changeList('4'); return false;">
+													전체 <span class="badge badge-white">${(cnt[0]+cnt[1]+cnt[2]) == 0 ? 0 : (cnt[0]+cnt[1]+cnt[2])}</span>
+												</a>
+											</li>
+											<li class="nav-item ">
+												<a href="#;" class="nav-link " id="0" onclick="changeList('0'); return false;">
+													모집 중 <span class="badge badge-primary">${cnt[0] == 0 ? 0 : cnt[0]}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" id="0" href="#" href="changeList(0); return false">
-													모집 중 <span class="badge badge-primary">${cnt[1]}</span>
+												<a href="#;" class="nav-link" id="1" onclick="changeList('1'); return false;">
+													모집 완료 <span class="badge badge-primary">${cnt[1] == 0 ? 0 : cnt[1]}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" id="1" href="#" href="changeList(1); return false">
-													모집 완료 <span class="badge badge-primary">${cnt[0]}</span>
-												</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" id="2" href="#" href="changeList(2); return false">
-													지난 모임 <span class="badge badge-primary">${cnt[2]}</span>
+												<a href="#;" class="nav-link" id="2" onclick="changeList('2'); return false;">
+													지난 모임 <span class="badge badge-primary">${cnt[2] == 0 ? 0 : cnt[2]}</span>
 												</a>
 											</li>
 										</ul>
@@ -108,46 +108,8 @@
 													<th width="10%">상태</th>
 													<th width="8%">실행</th>
 												</tr>
-												<c:forEach var="board" items="${bDatas}" varStatus="i" begin="1" end="10" step="1">
-													<tr id="${board.bNum}">
-														<c:set var="sysDate">
-															<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm" />
-														</c:set>
-														<td style="text-align: center;">
-															<div class="custom-checkbox custom-control">
-																<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-${i.index}" name="chk">
-																<label for="checkbox-${i.index}" class="custom-control-label">&nbsp;</label>
-															</div>
-														</td>
-														<td class="bNum" name="bNum">${board.bNum}</td>
-														<td class="bTitle" name="bTitle">${board.bTitle}</td>
-														<td>
-															<div>${board.mId}</div>
-														</td>
-														<td class="bDate" name="bDate">${board.bDate}</td>
-														<td>
-															<c:if test="${board.bAction==0}">
-																<div class="badge badge-warning btn-status">모집 완료</div>
-															</c:if>
-															<c:if test="${board.bAction==1}">
-																<div class="badge badge-primary btn-status">모집 중</div>
-															</c:if>
-															<c:if test="${board.bDate < sysDate}">
-																<div class="badge badge-danger btn-status">지난 모임</div>
-															</c:if>
-														</td>
-														<td>
-															<!-- 게시글로 이동 -->
-															<a href="boardDetail.do?bNum=${board.bNum}" class="btn btn-icon btn-primary">
-																<i class="fas fa-check"></i>
-															</a>
-															<!-- 게시글 삭제 -->
-															<button class="btn btn-icon btn-danger" onclick="">
-																<i class="fas fa-times"></i>
-															</button>
-														</td>
-													</tr>
-												</c:forEach>
+												<tbody id="html_list">
+												</tbody>
 											</table>
 										</div>
 										<!-- 페이지네이션 10개씩 -->
@@ -187,8 +149,21 @@
 			$(this).on('click', function(e) {
 				e.preventDefault();
 				if (confirm('정말 삭제하시겠습니까?')) {
-					alert('삭제되었습니다.');
-					location.href = 'deleteAdBoard.do?bNum=' + bNum;
+					$.ajax({
+						type : 'POST',
+						url : 'BoardDelete.do',
+						traditional : true,
+						data : {
+							bNum : bNum
+						},
+						success : function(result) {
+							if (result == 1) {
+								// location.href + ' 선택자' : 경로와 선택자 사이에 공백 필수!
+								$('.section-body').load(location.href + ' .section-body > *');
+								alert("삭제되었습니다.");
+							}
+						}
+					});
 				}
 			});
 		});
@@ -196,15 +171,15 @@
 		// 선택 삭제
 		function del() {
 			console.log('삭제');
-			var arDel = new Array();
+			var arbNum = new Array();
 
 			$("input[name='chk']:checked").each(function() {
 				var item = $(this).val();
 				console.log(item);
-				arDel.push(item);
+				arbNum.push(item);
 			})
 
-			console.log('arDel: ' + arDel);
+			console.log('arbNum: ' + arbNum);
 
 			if (arDel.length < 1) {
 				alert("선택한 게시글이 없습니다.");
@@ -213,33 +188,37 @@
 				if (confirm("정말 삭제하시겠습니까?")) {
 					$.ajax({
 						type : 'POST',
-						url : 'deleteBoard',
+						url : 'arBoardDelete.do',
 						traditional : true,
 						data : {
-							arDel : arDel
+							arbNum : arbNum
 						},
 						success : function(result) {
 							if (result == 1) {
 								// location.href + ' 선택자' : 경로와 선택자 사이에 공백 필수!
-								$('.table-responsive').load(location.href + ' .table-responsive > *');
+								$('.section-body').load(location.href + ' .section-body > *');
 								alert("삭제되었습니다.");
 							}
 						}
 					});
-				} else {
-					alert("취소되었습니다.");
 				}
 			}
 		}
 
+		// 전체 데이터 세팅
+		 let temp = new Array;
+		 datasetting();
+		 
 		// 페이지네이션
-		let datas = ${bDatas};
-
-		const totalCount = datas.length;
+		var totalCount = datas.length;
 		//총 페이지
-		const totalPage = Math.ceil(totalCount / 10.0);
+		var totalPage = Math.ceil(totalCount / 10.0);
 
 		document.addEventListener('DOMContentLoaded', () => {
+			 if(totalCount==0){
+	        	  emptyData();
+	        	  return;
+	          }
 		    // 페이지네이션 세팅
 		    setPageHtml();
 		    // 데이터 세팅
@@ -247,7 +226,6 @@
 		})
 
 		function setPageHtml(){
-
 		    let pageHtml =
 		       `<li class="page-item">
 		            <a href="#;" class="page-link" onClick="changePage('first');return false;">First</a>
@@ -291,6 +269,8 @@
 		    // if(마지막 게시글 > 총 게시글) 총 게시글을 마지막 게시글로
 		    endPage = endPage > totalCount ? totalCount : endPage;
 
+		    showList(startPage, endPage);
+		    
 		    // 변경된 페이지 표시
 		    document.querySelectorAll("#paging li").forEach( (item) => {
 		        let str = item.querySelector("#paging li a").innerText;
@@ -302,6 +282,65 @@
 		    });
 
 		}
+		
+	      /**
+	       * 해당 페이지 데이터 세팅
+	       * @param startPage
+	       * @param endPage
+	       */
+	      function showList(startPage, endPage){
+
+	          let html = "";
+
+	          for(let i = (startPage - 1) ; i < endPage; i++) {
+
+	              let bDatas = temp;
+
+	              html += `<c:forEach var="board" items="${bDatas}" varStatus="i" begin="1" end="10" step="1">
+								<tr id="${board.bNum}">
+								<c:set var="sysDate">
+								<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm" />
+								</c:set>
+								<td style="text-align: center;">
+								<div class="custom-checkbox custom-control">
+								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-${i.index}" name="chk">
+								<label for="checkbox-${i.index}" class="custom-control-label">&nbsp;</label>
+								</div>
+								</td>
+								<td class="bNum" name="bNum">${board.bNum}</td>
+								<td class="bTitle" name="bTitle">${board.bTitle}</td>
+								<td>
+								<div>${board.mId}</div>
+								</td>
+								<td class="bDate" name="bDate">${board.bDate}</td>
+								<td>
+								<c:if test="${board.bAction==0}">
+								<div class="badge badge-warning btn-status">모집 완료</div>
+								</c:if>
+								<c:if test="${board.bAction==1}">
+								<div class="badge badge-primary btn-status">모집 중</div>
+								</c:if>
+								<c:if test="${board.bDate < sysDate}">
+								<div class="badge badge-danger btn-status">지난 모임</div>
+								</c:if>
+								</td>
+								<td>
+								<!-- 게시글로 이동 -->
+								<a href="boardDetail.do?bNum=${board.bNum}" class="btn btn-icon btn-primary">
+								<i class="fas fa-check"></i>
+								</a>
+								<!-- 게시글 삭제 -->
+								<button class="btn btn-icon btn-danger" onclick="">
+								<i class="fas fa-times"></i>
+								</button>
+								</td>
+								</tr>
+								</c:forEach>`;
+
+	          }
+
+	          document.getElementById("html_list").innerHTML = html;
+	      }
 
 		/**
 		 * 페이지 클릭 이벤트
@@ -329,19 +368,81 @@
 		        setList(page);
 		}
 		
-		// 상단 바 
-		// 클릭 이벤트
+		// 상단 바클릭 이벤트
 		function changeList(num){
-		    // 변경된 페이지 표시
-		    document.querySelectorAll("#navi li").forEach( (item) => {
-		        let str = item.querySelector("#navi li a").prop("id");
-		        if(str.includes(num)) {
-		            item.classList.add("active");
-		        }else{
-		            item.classList.remove("active");
-		        }
-		    });
+			log("num ==> " + num);
+
+		    // 현재 페이지
+		    //let nowPage = document.querySelector("#navi .active a").innerText;
+		    let nowPage = $("#navi .active").prop("id");
+		    log("nowPage --> " + nowPage);
+
+			if(nowPage != num){
+				// 변경된 페이지 표시
+			    document.querySelectorAll("#navi li").forEach( (item) => {
+			        let str = item.querySelector("#navi li a").id;
+			        
+			        if(str.includes(num)) {
+			        	item.querySelector("#navi li a").classList.add("active");
+			        }else{
+			        	item.querySelector("#navi li a").classList.remove("active");
+			        }
+			    });
+			    }
+			datasetting();
+	        totalCount = temp.length;
+	        if(totalCount==0){
+	        	 emptyData();
+	        	 return;
+	         }
+	        //총 페이지
+	        totalPage = Math.ceil(totalCount / 10.0);
+
+	        // 페이지네이션 세팅
+	        setPageHtml();
+	       	// 데이터 세팅
+	        setList();
 		}
+		
+		function datasetting(){
+	    	  temp.splice(0);
+	    	  let datas = ${bDatas};
+	          
+	         let now = $("#navi .active").prop("id");
+	         
+	         if(now == 4){
+	        	 datas.forEach((i) => {
+	                  temp.push(i);
+	            })
+	                  console.log(temp);
+	         } else if(now == 0){
+	        	 datas.forEach((i) => {
+	               if(${i.bAction == 0}){
+	                  temp.push(i);
+	               }
+	            })
+	            console.log(temp);
+	         } else if(now == 1){
+	        	 datas.forEach((i) => {
+	               if(${i.bAction == 1}){
+	                  temp.push(i);
+	               }
+	            })
+	            console.log(temp);
+	         } else if(now == 2){
+	        	 datas.forEach((i) => {
+	               if(${i.bAction == 2}){
+	                  temp.push(i);
+	               }
+	            })
+	            console.log(temp);
+	         }
+	      }
+		
+		   function emptyData(){
+		    	  let html = `<th colspan="3" style="text-align: center; height : 100px;"><h1>데이터가 없습니다</h1></th>`;
+		          document.getElementById("html_list").innerHTML = html;
+		      }
 	</script>
 	<style>
 .main-content {
