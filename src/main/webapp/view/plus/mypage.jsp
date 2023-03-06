@@ -39,6 +39,21 @@
 	gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA -->
+
+<style>
+	.empty {
+		padding-top:30px !important;
+		padding-bottom:30px !important;
+	}
+	
+	.empty > p {
+		font-size:15px;
+	}
+	
+	.calendar {
+		margin : 0 auto;
+	}
+</style>
 </head>
 
 <body>
@@ -57,9 +72,8 @@
 
 					<div class="section-body">
 						<h2 class="section-title">나의 보드</h2>
-
 						<div class="row">
-							<div class="col-12 col-sm-6 col-lg-4">
+							<div class="col-8 calendar">
 								<div class="card">
 									<div class="card-header">
 										<h4>Calendar</h4>
@@ -96,40 +110,11 @@
 													<!-- 작성글 없을때 -->
 													<c:if test="${fn:length(bDatas) == 0 }">
 														<tr class="text-center">
-															<td>
-																<div class="sort-handler">
-																	<i class="fas fa-th"></i>
-																</div>
-															</td>
-															<td></td>
-															<td>게시글이 없습니다.</td>
-															<td></td>
-															<td></td>
-															<td>
+															<td class="empty" colspan="8">
+																<p>
+																	게시글이 없습니다.
+																</p>
 																<button class="btn btn-primary" type="button" onclick="location.href='createBoard.do'">글쓰러 가기</button>
-															</td>
-															<td>
-																<div class="dropdown d-inline mr-2" id="b_box">
-																	<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																		<c:if test="${v.bAction==0}">
-																		모집중
-																		</c:if>
-																		<c:if test="${v.bAction==1}">
-																		모집완료
-																		</c:if>
-																		<c:if test="${v.bAction==2}">
-																		지난 모임
-																		</c:if>
-																	</button>
-																	<div class="dropdown-menu">
-																		<!--<a class="dropdown-item" id="matchIng" href="updateBoardAction.do?bNum=${v.bNum}&bAction=0">모집 중</a>-->
-																		<!--<a class="dropdown-item" id="matchEnd" href="updateBoardAction.do?bNum=${v.bNum}&bAction=1">모집완료</a> -->
-
-																		<button class="dropdown-item" id="matchIng">모집 중</button>
-																		<button class="dropdown-item" id="matchEnd">모집완료</button>
-																	</div>
-																	<!-- ajax로 구현하기 -->
-																</div>
 															</td>
 														</tr>
 													</c:if>
@@ -173,8 +158,8 @@
 																			<!--<a class="dropdown-item" id="matchIng" href="updateBoardAction.do?bNum=${v.bNum}&bAction=0">모집 중</a>-->
 																			<!--<a class="dropdown-item" id="matchEnd" href="updateBoardAction.do?bNum=${v.bNum}&bAction=1">모집완료</a> -->
 
-																			<button class="dropdown-item" id="matchIng">모집 중</button>
-																			<button class="dropdown-item" id="matchEnd">모집완료</button>
+																			<a class="dropdown-item" id="matchIng">모집 중</a>
+																			<a class="dropdown-item" id="matchEnd">모집완료</a>
 																		</div>
 																		<!-- ajax로 구현하기 -->
 																	</div>
