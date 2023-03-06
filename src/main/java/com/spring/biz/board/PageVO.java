@@ -1,12 +1,12 @@
 package com.spring.biz.board;
 
 public class PageVO {
+	private static final int AMOUNT = 10; // 화면에 그려질 데이터
 	private int startPage; // 게시글 화면에 보여질 첫번째 번호
 	private int endPage; // 게시글 화면에 보여질 마지막 번호
 	private boolean prev, next; // 이전버튼, 다음버튼 활성화여부
 	
 	private int pageNum; // 현재 조회하는 페이지번호
-	private int amount = 10; // 화면에 그려질 데이터
 	private int total; // 전체게시글 수
 	
 	private int resTotal;
@@ -15,9 +15,8 @@ public class PageVO {
 		
 	}
 	
-	public PageVO(int pageNum, int amount, int total) {
+	public PageVO(int pageNum, int total) {
 		this.pageNum = pageNum;
-		this.amount = amount;
 		this.total = total;
 		// 1. endPage결정
 //		 ex) 조회하는 페이지 1 -> 끝번호 10
@@ -34,7 +33,7 @@ public class PageVO {
 //		 만약 게시글이 52개라면 -> 진짜 끝번호 6
 //		 만약 게시글이 105개라면 -> 진짜 끝번호 11
 //		 공식 = (int)Math.ceil(전체게시글수 / 화면에보여질데이터개수)
-		int realEnd = (int)Math.ceil(this.total / (double)this.amount);
+		int realEnd = (int)Math.ceil(this.total / (double)AMOUNT);
 		
 //		 마지막페이지 도달했을 때 보여져야 하는 끝번호가 달라집니다.
 //		 ex) 131개 게시물
@@ -55,7 +54,39 @@ public class PageVO {
 		
 		// 확인
 		System.out.println("시작페이지:" + this.startPage + ", 끝페이지:" + this.endPage);
-		
+	}
+
+	
+	public int getStartPage() {
+		return startPage;
+	}
+
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+
+	public int getEndPage() {
+		return endPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 	public boolean isPrev() {

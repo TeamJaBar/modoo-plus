@@ -28,9 +28,22 @@ public class BoardVO {
 	private int sortBy; //JAVA 저장 객체 : 정렬 기준 - bDate(1) or bWdate(2)
 	private int aNum; //JAVA 저장 객체 : applicant 테이블 PK
 	private String aChk; //JAVA 저장 객체 : 평가 확인 여부
+	private int pageNum;
+	private int amount;
 	
 	
-	
+	public int getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	public String getaChk() {
 		return aChk;
 	}
