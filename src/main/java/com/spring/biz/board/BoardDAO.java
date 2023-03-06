@@ -204,6 +204,7 @@ class BoardSelectAllMapper implements RowMapper<BoardVO> {
 		data.setbDate(rs.getTimestamp("BDATE"));
 		data.setbLocal(rs.getString("BLOCAL"));
 		data.setbAction(rs.getString("BACTION"));
+		data.setaCnt(rs.getInt("ACNT"));
 		return data;
 	}
 }
