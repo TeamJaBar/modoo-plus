@@ -573,6 +573,33 @@
 	.container {
 		max-width: 980px !important;
 	}
+	
+#fixed_btn_insert {
+	position: fixed;
+	margin: 0 auto;
+	right: 0;
+	left: 0;
+	width: 120px;
+	padding: 8px 20px;
+	border-radius: 50px;
+	text-align: center;
+	background-color: #0188CB !important;
+	font-family: 'GmarketSansMedium';
+}
+
+#fixed_btn_insert:hover {
+	background-color: white !important;
+	border: 1px solid #0188CB !important;
+}
+
+#fixed_btn_insert a {
+	color: white !important;
+	text-decoration: none !important;
+}
+
+#fixed_btn_insert a:hover {
+	color: #0188CB !important;
+}
 }
 </style>
 
@@ -714,15 +741,11 @@
 					</div>
 				</section>
 			</div>
-			<footer class="main-footer">
-				<div class="footer-left">
-					Copyright &copy; 2018
-					<div class="bullet"></div>
-					Design By
-					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
-				</div>
-				<div class="footer-right"></div>
-			</footer>
+			<div id="fixed_btn_insert">
+				<a href="#">
+					<i class="far fa-edit"></i> 새 매치
+				</a>
+			</div>
 		</div>
 	</div>
 	<!-- Modal screen -->
