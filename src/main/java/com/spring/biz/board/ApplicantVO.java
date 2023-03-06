@@ -6,13 +6,13 @@ public class ApplicantVO {
 	private int mNum;
 	private String achk;
 	//JAVA에서만 저장용으로 사용되는 데이터
+	private String mId; //아이디
 	private String mName; //이름
 	private String mImg; //프로필 사진
+	private int score; //점수
+	
 	public int getaNum() {
 		return aNum;
-	}
-	public void setaNum(int aNum) {
-		this.aNum = aNum;
 	}
 	public int getbNum() {
 		return bNum;
@@ -32,6 +32,12 @@ public class ApplicantVO {
 	public void setAchk(String achk) {
 		this.achk = achk;
 	}
+	public String getmId() {
+		return mId;
+	}
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
 	public String getmName() {
 		return mName;
 	}
@@ -44,6 +50,16 @@ public class ApplicantVO {
 	public void setmImg(String mImg) {
 		this.mImg = mImg;
 	}
+	public void setaNum(int aNum) {
+		this.aNum = aNum;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
+
 
 	
 	
