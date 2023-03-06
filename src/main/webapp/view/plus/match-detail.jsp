@@ -59,7 +59,7 @@
 		<div class="main-wrapper container">
 
 			<!--  header -->
-			<modoo:header id="${mId}" name="${mName}" />
+			<modoo:header/>
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -67,7 +67,7 @@
 					<div class="section-header">
 						<h1>매칭 상세페이지</h1>
 					</div>
-					<c:if test="bDatas.bStatus==1">
+					<c:if test="${bDatas.bStatus==1}">
 						<div class="card-body">
 							<div class="alert alert-primary alert-has-icon p-4">
 								<div class="alert-icon">
@@ -83,7 +83,7 @@
 							</div>
 						</div>
 					</c:if>
-					<c:if test="bDatas.bStatus==0">
+					<c:if test="${bDatas.bStatus==0}">
 						<div class="section-body">
 							<h2 class="section-title">매칭 게시글</h2>
 							<div class="card">
@@ -328,7 +328,7 @@
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 		<input type="hidden" name="mNum" value="${mNum}" />
 		<div class="radio-container">
-			<c:forEach items="${scDatas}" var="cate" varStatus="i" begin=1 end="${fn:length(scDatas)}" step=1>
+			<c:forEach items="${scDatas}" var="cate" varStatus="i" begin="1" end="${fn:length(scDatas)}" step="1">
 				<div class="custom-control custom-radio">
 					<input type="radio" value="${cate.scNum}" id="sc${i.index}" name="scNum" class="custom-control-input">
 					<label class="custom-control-label" for="sc${i.index}">${cate.scName}</label>
