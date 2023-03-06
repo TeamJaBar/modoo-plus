@@ -91,7 +91,7 @@ public class AccountController {
 			response.addCookie(cookie);
 			sweet.setTitle("가입된 정보가 없습니다.");
 			sweet.setMsg("아이디 혹은 비밀번호를 확인하세요.");
-			sweet.setUrl("login.do");
+			sweet.setUrl("login.jsp");
 			model.addAttribute("sweet", sweet);
 			return "alert.jsp";
 		} else {
