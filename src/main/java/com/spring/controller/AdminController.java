@@ -1,5 +1,8 @@
 package com.spring.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.biz.board.BoardService;
+import com.spring.biz.board.BoardVO;
+import com.spring.biz.board.PageService;
+import com.spring.biz.board.PageVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 import com.spring.biz.member.OrderService;
 import com.spring.biz.member.OrderVO;
 import com.spring.biz.product.ProductService;
 import com.spring.biz.product.ProductVO;
+import com.spring.biz.sue.SueService;
+import com.spring.biz.sue.SueVO;
 
 @Controller
 @RequestMapping(value = { "/view", "/view/admin" })
@@ -24,6 +33,9 @@ public class AdminController {
 	private MemberService memberService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private BoardService boardService;
+
 
 	// 관리자 메인 페이지로 이동
 	@RequestMapping(value = { "/admin-main.do" })
@@ -98,4 +110,23 @@ public class AdminController {
 		productService.delete(pvo);
 		return "redirect:prSelectAll.do";
 	}
+
+	/* 게시글 */
+	// 게시글 관리 페이지 이동
+	@RequestMapping(value = "/adPlusMain.do")
+	public String selsctAllBoard(BoardVO bvo, Model model) {
+		model.addAttribute("bDatas", boardService.selectAllManage(bvo));
+		return "/view/plus/admin-board.jsp";
+	}
+
+	// 게시글 삭제
+	@RequestMapping(value = "/deleteAdBoard.do")
+	public String deleteBoard(BoardVO bvo) {
+		boardService.deleteBoard(bvo);
+		return "redirect:/view/plus/adPlusMain.do";
+	}
+
+	/* 매칭 */
+	// 매칭 내역 삭제
+
 }
