@@ -1,7 +1,6 @@
 package com.spring.biz.sue;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.spring.biz.sue.SueVO;
-
-
 
 @Repository("sueDAO")
 public class SueDAO {
@@ -49,7 +44,7 @@ public class SueDAO {
 	public List<SueVO> selectCount(SueVO vo) {
 		return jdbcTemplate.query(SUE_COUNT, new SueRowMapper());
 	}
-	
+
 	public List<SueVO> selectAll(SueVO vo) {
 		List<SueVO> datas = new ArrayList<SueVO>();
 		try {
@@ -60,7 +55,6 @@ public class SueDAO {
 		return datas;
 	}
 
-	
 	public boolean selectOne(SueVO vo) {
 		try {
 			jdbcTemplate.query(SELECTONE_SUE, new SelectOneRowMapper());
@@ -71,10 +65,7 @@ public class SueDAO {
 		return true;
 	}
 
-
 }
-
-
 
 class SueRowMapper implements RowMapper<SueVO> {
 	@Override
@@ -110,10 +101,8 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setBwDate(rs.getString("BWDATE"));
 		data.setsDate(rs.getDate("SDATE"));
 		data.setsResult(rs.getString("SRESULT"));
-		
+
 		return data;
 	}
 
 }
-
-
