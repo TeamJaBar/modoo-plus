@@ -29,6 +29,8 @@ public class BoardDAO {
 			+ "SELECT * FROM (SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE ASC) AS B";
 	// 지역 선택
 	private final String SQL_SELECTALL_AREA = "SELCT * FROM BOARD WHERE BLOCAL=? ORDER BY BDATE ASC";
+	//지역 선택시 중복X
+	private final String SQL_SELECTALL_DISTINCT="SELECT DISTINCT BLOCAL FROM BOARD";
 	// 날짜 선택
 	private final String SQL_SELECTALL_DATE = "select * from (SELECT * FROM (SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC) AS A"
 			+ " UNION ALL "
@@ -36,7 +38,7 @@ public class BoardDAO {
 			+ "WHERE BDATE between SYSDATE and SYSDATE-?;";
 	// 헤더 부분 검색(제목만 가능)
 	private final String SQL_SELECTALL_SEARCH = "SELECT * FROM BOARD WHERE BTITLE LIKE CONCAT('%',?,'%')";
-	
+
 	// 글 관리 페이지 상태별 게시글 개수
 	private final String SQL_SELECTALL_ADMIN_CNT = "SELECT COUNT(*) AS CNT FROM BOARD WHERE BACTION = ?";
 	//private final String SQL_SELECTALL_ADMIN_CNT = "SELECT BACTION, COUNT(*) AS CNT FROM BOARD GROUP BY BACTION ORDER BY BACTION ASC";
@@ -53,12 +55,12 @@ public class BoardDAO {
 	/*private final String SQL_SELECTALL_MYMATCH_CNT = "SELECT BACTION, COUNT(*) AS CNT FROM BOARD B JOIN APPLICANT A ON B.BNUM=A.BNUM WHERE A.MNUM=? GROUP BY BACTION ORDER BY BACTION";*/
 	// 마이 페이지 내가 신청한 매칭 - 페이지 상태별 필터링
 	private final String SQL_SELECTALL_MYMATCH_STATUS = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, (SELECT A.ANUM, A.ACHK, B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?) D WHERE C.BNUM = D.BNUM AND BACTION=? ORDER BY C.BNUM ASC";
-			
+
 	// 마이 페이지 내가 신청한 매칭 목록(프로필 목록)
 	//private final String SQL_SELECTALL_IMG = "SELECT MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=?";
 
 	// 매칭 상세 페이지
-	private final String SELECTONE_MATCH = "SELECT BNUM, BTITLE, MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION FROM BOARD B WHERE BNUM=?";
+	private final String SELECTONE_MATCH = "SELECT BNUM, BTITLE, MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B WHERE BNUM=?";
 	// 매칭 상세 페이지(신청자)-applicant 이동
 	//private final String SELECTALL_APPLICANT = "SELECT A.MNUM, MID, SCORE, MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=? ORDER BY M.MNUM ASC";
 
@@ -98,7 +100,20 @@ public class BoardDAO {
 		}
 		return true;
 	}
-	
+	public List<BoardVO> selectAllLocal(BoardVO bvo){
+		List<BoardVO> datas=new ArrayList<BoardVO>();
+		try {
+			jdbcTemplate.query(SQL_SELECTALL_DISTINCT, (rs,rowNum) -> {
+				BoardVO tmpData = new BoardVO();
+				tmpData.setbLocal(rs.getString("BLOCAL"));
+				return tmpData;
+			});
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return datas;
+	}
+
 	public List<BoardVO> selectAllMain(BoardVO bvo){
 		List<BoardVO> datas = new ArrayList<BoardVO>();
 		String query=null;
@@ -131,8 +146,8 @@ public class BoardDAO {
 		}
 		return datas;
 	}
-	
-	
+
+
 	public List<BoardVO> selectAllManage(BoardVO bvo) { //글 관리
 		List<BoardVO> datas=new ArrayList<BoardVO>();
 		try {
@@ -218,7 +233,7 @@ public class BoardDAO {
 		}
 		return datas;
 	}
-	
+
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
 			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getbNum());
@@ -252,13 +267,15 @@ class BoardRowMapper implements RowMapper<BoardVO> {
 		data.setbNum(rs.getInt("BNUM"));
 		data.setbTitle(rs.getString("BTITLE"));
 		data.setmNum(rs.getInt("MNUM"));
-		data.setbContent(rs.getString("BRATE"));
+		data.setbRate(rs.getString("BRATE"));
+		data.setbContent(rs.getString("BCONTENT"));
 		data.setbCnt(rs.getInt("BCNT"));
 		data.setbDate(rs.getTimestamp("BDATE"));
 		data.setbLatitude(rs.getString("BLATITUDE"));
 		data.setbLongitude(rs.getString("BLONGITUDE"));
 		data.setbAddress(rs.getString("BADDRESS"));
 		data.setbAction(rs.getString("BACTION"));
+		data.setbStatus(rs.getString("BSTATUS"));
 		return data;
 	}
 
