@@ -698,7 +698,7 @@
 										<div  class="right-box">
 											<div  class="sort-box">
 												<div  data-selected="1" class="sort-button">
-													<div  class="text">시합날짜순</div>
+													<div  class="text">날짜순</div>
 												</div>
 												<div  data-selected="0" class="sort-button">
 													<div  class="text">등록순</div>
