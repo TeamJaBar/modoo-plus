@@ -1,8 +1,5 @@
 package com.spring.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.spring.biz.board.BoardService;
 import com.spring.biz.board.BoardVO;
 import com.spring.biz.board.PageService;
-import com.spring.biz.board.PageVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 import com.spring.biz.member.OrderService;
@@ -35,6 +31,10 @@ public class AdminController {
 	private ProductService productService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private SueService sueService;
+	@Autowired
+	private PageService pageService;
 
 
 	// 관리자 메인 페이지로 이동
@@ -129,4 +129,32 @@ public class AdminController {
 	/* 매칭 */
 	// 매칭 내역 삭제
 
+	/* 신고 */
+	// 신고글 관리 페이지 이동
+	@RequestMapping(value = "/adMoveSue.do")
+	public String selsctAllSue(SueVO svo, Model model) {
+		model.addAttribute("sueCount", sueService.selectAllCount(svo));
+		model.addAttribute("sue", sueService.selectAllSue(svo));
+		return "/view/plus/admin-sue.jsp";
+	}
+
+	// 신고 상세 페이지 이동
+	@RequestMapping(value = "/selectSue.do")
+	public String selsctOneSue(SueVO svo, Model model, HttpSession session) {
+		svo.setmNum((Integer)session.getAttribute("mNum"));
+		model.addAttribute("sue", sueService.selectOneSue(svo));
+		return "/view/plus/sue-detail.jsp";
+	}
+
+	// 신고 처리
+	@RequestMapping(value = "/adSueMem.do")
+	public String glglgl(SueVO svo, Model model) {
+		// 사용자 정지
+		// sue 처리 완료
+		sueService.updateSue(svo);
+		// 신고 board 차단
+		// 다른 글 차단
+		return "redirect:/view/plus/adMoveSue.do";
+	}
+	
 }
