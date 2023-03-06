@@ -13,20 +13,23 @@
 			<span class="sr-only">Toggle Dropdown</span>
 		</button>
 		<div class="dropdown-menu">
-			<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
-			<div class="dropdown-divider"></div>
-			<!-- 추후 추가하고 싶은 내용 : 로그인하지 않은 회원이 누르면 
-              	 alert창(로그인이 필요한 페이지 입니다) 띄우고 로그인 페이지로 이동 -->
-			<a class="dropdown-item" href="mypage.do">내가 작성한 글</a>
-			<a class="dropdown-item" href="myBoard.do">내가 매칭한 목록</a>
-			<!-- 여기까지 -->
+			<c:choose>
+			<%-- 추후 추가하고 싶은 내용 : 로그인하지 않은 회원이 누르면 
+              	 alert창(로그인이 필요한 페이지 입니다) 띄우고 로그인 페이지로 이동 --%>
+				<c:when test="${mId == 'admin'}">
+					<a class="dropdown-item" href="ad-plus-main.do">글 관리</a>
+					<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
+				</c:when>
+				<c:otherwise>
+					<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="mypage.do">내가 작성한 글</a>
+					<a class="dropdown-item" href="myBoard.do">내가 매칭한 목록</a>
+				</c:otherwise>
+			<%-- 여기까지 --%>
+			</c:choose>
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do">모두의 보드</a>
-			<c:if test="${mId == 'admin'}">
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item" href="ad-plus-main.do">글 관리</a>
-				<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
-			</c:if>
 		</div>
 	</div>
 	<!-- 검색창 -->
@@ -119,7 +122,7 @@
 
 		<c:choose>
 			<c:when test="${empty mId}">
-				<button type="button" class="btn btn-header" onclick="location.href='login.do'">로그인</button>
+				<button type="button" class="btn btn-header" onclick="location.href='adMoveSue.do'">로그인</button>
 			</c:when>
 			<c:otherwise>
 				<li class="dropdown">

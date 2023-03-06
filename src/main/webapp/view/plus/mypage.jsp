@@ -148,8 +148,8 @@
 																		</c:if>
 																		</button>
 																		<div class="dropdown-menu">
-																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=0">모집 중</a>
-																			<a class="dropdown-item" href="boardUpdate.do?bNum=${v.bNum}&bAction=1">모집완료</a>
+																			<a class="dropdown-item" href="updateBoardAction.do?bNum=${v.bNum}&bAction=0">모집 중</a>
+																			<a class="dropdown-item" href="updateBoardAction.do?bNum=${v.bNum}&bAction=1">모집완료</a>
 																		</div>
 																		<!-- ajax로 구현하기 -->
 																	</div>
@@ -158,7 +158,7 @@
 																	<a href="#" class="btn btn-icon btn-primary" id="modal-5">
 																		<i class="far fa-edit" id="modal-5"></i>
 																	</a>
-																	<button name="boardDelete" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do?bNum=${v.bNum}'">
+																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='deleteBoard.do?bNum=${v.bNum}'">
 																		<i class="fas fa-times"></i>
 																		<!-- 처리 yes 누르면 data-confirm-yes="delete()" -->
 																	</button>
@@ -337,9 +337,9 @@
 									</div>
 								</div>
 								<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-								<c:if test="${v.mNum == mNum}">
+								<c:if test="${bDatas.mNum == mNum}">
 									<div class="media-cta">
-										<a href="entryDelete.do?aNum=${v.aNum}" class="btn btn-outline-primary">퇴출하기</a>
+										<button id="kickOut" class="btn btn-outline-primary">퇴출하기</button>
 									</div>
 								</c:if>
 							</li>
@@ -349,7 +349,32 @@
 			</div>
 		</div>
 	</div>
-
+	<script type="text/javascript">
+	<!-- 퇴출하기 -->
+		$(document).ready(function() {
+			$('#kickOut').each(function() {
+				let aNum = $(this).parent().parent().parent().prop("id");
+				$(this).on('click', function(e) {
+					e.preventDefault();
+					console.log(aNum);
+					if (confirm('퇴출하시겠습니까?')) {
+						$.ajax({
+							type : 'POST',
+							url : 'kickOut.do',
+							data : {
+								aNum : aNum
+							},
+							success : function(result) {
+								if (result == 1) {
+									$('#a_box').load(location.href + ' #a_box>*');
+								}
+							}
+						});
+					}
+				})
+			})
+		})
+	</script>
 	<style>
 .main-content {
 	padding-left: 15%;
