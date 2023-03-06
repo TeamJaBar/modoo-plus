@@ -16,11 +16,11 @@ public class CommentDAO {
 	//매칭 댓글 INSERT,UPDATE,DELETE,SELECTALL
 	private final String SQL_INSERT="INSERT INTO COMMENT (MNUM, CCONTENT, CWDATE) VALUES(?, ?, SYSDATE())";
 	//INSERT 한거 보여주는 SELECTALL
-	private final String SQL_I_SELECTALL="SELECT CCONTENT, CWDATE, MNAME FROM COMMENT C LEFT JOIN `member` M ON C.MNUM = M.MNUM WHERE CNUM=?";
+	private final String SQL_SELECTONE="SELECT CCONTENT, CWDATE, MNAME FROM COMMENT C LEFT JOIN MEMBER M ON C.MNUM = M.MNUM WHERE CNUM=?";
 	private final String SQL_UPDATE="UPDATE COMMENT SET CCONTENT=?, CCDATE=SYSDATE()  WHERE CNUM=?";
 	private final String SQL_DELETE="DELETE FROM COMMENT WHERE CNUM=?";
-	//전체 댓글 출력
-	private final String SQL_SELECTALL="SELECT CCONTENT, CWDATE, MNAME FROM COMMENT C LEFT JOIN `member` M ON C.MNUM = M.MNUM ORDER BY CWDATE ASC";
+	//전체 댓글 출력(수정)
+	private final String SQL_SELECTALL="SELECT C.CNUM, CCONTENT, CWDATE, MNAME,CCDATE FROM COMMENT C LEFT JOIN MEMBER M ON C.MNUM = M.MNUM LEFT JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= ? ORDER BY CWDATE ASC";
 
 	public boolean insertComment(CommentVO cvo) {
 		try {
@@ -34,7 +34,7 @@ public class CommentDAO {
 
 	public List<CommentVO> selectAll_Comment(CommentVO cvo) {
 		Object[] args= {cvo.getcNum()};
-		return jdbcTemplate.query(SQL_I_SELECTALL, args, new CommentRowMapper());
+		return jdbcTemplate.query(SQL_SELECTONE, args, new CommentRowMapper());
 	}
 
 	public boolean updateComment(CommentVO cvo) {
