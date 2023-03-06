@@ -16,11 +16,10 @@ public class CommentDAO {
 	//매칭 댓글 INSERT,UPDATE,DELETE,SELECTALL
 	private final String SQL_INSERT="INSERT INTO COMMENT (MNUM, CCONTENT, CWDATE) VALUES(?, ?, SYSDATE())";
 	//INSERT 한거 보여주는 SELECTALL
-	private final String SQL_SELECTONE="SELECT CCONTENT, CWDATE, MNAME FROM COMMENT C LEFT JOIN MEMBER M ON C.MNUM = M.MNUM WHERE CNUM=?";
 	private final String SQL_UPDATE="UPDATE COMMENT SET CCONTENT=?, CCDATE=SYSDATE()  WHERE CNUM=?";
 	private final String SQL_DELETE="DELETE FROM COMMENT WHERE CNUM=?";
 	//전체 댓글 출력(수정)
-	private final String SQL_SELECTALL="SELECT C.CNUM, CCONTENT, CWDATE, MNAME,CCDATE FROM COMMENT C LEFT JOIN MEMBER M ON C.MNUM = M.MNUM LEFT JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= ? ORDER BY CWDATE ASC";
+	private final String SQL_SELECTALL="SELECT C.CNUM, CCONTENT, CWDATE, MID, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= ? ORDER BY CWDATE ASC";
 
 	public boolean insertComment(CommentVO cvo) {
 		try {
@@ -30,11 +29,6 @@ public class CommentDAO {
 			return false;
 		}
 		return true;
-	}
-
-	public List<CommentVO> selectAll_Comment(CommentVO cvo) {
-		Object[] args= {cvo.getcNum()};
-		return jdbcTemplate.query(SQL_SELECTONE, args, new CommentRowMapper());
 	}
 
 	public boolean updateComment(CommentVO cvo) {
@@ -56,6 +50,7 @@ public class CommentDAO {
 		}
 		return true;
 	}
+	
 	public List<CommentVO> selectAll(CommentVO cvo){
 		try {
 			return jdbcTemplate.query(SQL_SELECTALL, new CommentRowMapper(),cvo.getcCdate());
@@ -71,8 +66,10 @@ public class CommentDAO {
 		public CommentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			CommentVO datas=new CommentVO();
 			datas.setcContent(rs.getString("CCOMMENT"));
-			datas.setcWdate(rs.getDate("CWDATE"));
-			datas.setmName(rs.getString("MNAME"));
+			datas.setcWdate(rs.getTimestamp("CWDATE"));
+			datas.setcWdate(rs.getTimestamp("CWDATE"));
+			datas.setmId(rs.getString("MID"));
+			datas.setcCdate(rs.getTimestamp("CCDATE"));
 			datas.setcNum(rs.getInt("CNUM"));
 			return datas;
 		}
