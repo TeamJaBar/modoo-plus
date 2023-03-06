@@ -299,7 +299,7 @@
 							</div>
 							<!-- 하단 바 -->
 							<div class="fixed-bottom">
-								<modoo:bottomBar bDatas="${bDatas}" mNum="${mNum}" aDatas="${aDatas}" />
+								<modoo:bottomBar/>
 								<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
@@ -339,7 +339,7 @@
 
 
 
-	<script>
+	<script type="text/javascript">
 		<!-- NaverMap API -->
 		$(function() {
 			initMap();
@@ -356,9 +356,9 @@
 		 
 		 var marker = new naver.maps.Marker({
 			map:map,
-			position: new naver.maps.LatLng(${bDatas.bLatitude}, ${bDatas.bLongitude}),
+			position: new naver.maps.LatLng('${bDatas.bLatitude}', '${bDatas.bLongitude}'),
 			icon: {
-				content: '<img src="<c:url value="/../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
+				content: '<img src="<c:url value="../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
 				size: new naver.maps.Size(32,32),
 				anchor: new naver.maps.Point(16, 32)
 			}
@@ -369,13 +369,13 @@
 		<!-- 카카오 공유-->
 		function fn_share(sns) {
 			var thisUrl = document.URL;
-			var snsTitle = ${bDatas.bTitle};
+			var snsTitle = '${bDatas.bTitle}';
 			 
 			if(sns == 'kakaotalk') {			    
 			    // 카카오링크 버튼 생성
 			    Kakao.Share.sendDefault({
 			        objectType: 'location',
-			        address : ${bDatas.bAddress}, //주소
+			        address : '${bDatas.bAddress}', //주소
 			        content: {
 				        title: snsTitle, // 제목
 				        imageUrl: thisUrl, // 콘텐츠 URL
@@ -395,21 +395,19 @@
 			    });
 			}
 		}
-	</script>
-	<script type="text/javascript">
-	<!-- 주소복사 -->
-	function clip(){
-
-		var url = '';
-		var textarea = document.createElement("textarea");
-		document.body.appendChild(textarea);
-		url = window.document.location.href;
-		textarea.value = url;
-		textarea.select();
-		document.execCommand("copy");
-		document.body.removeChild(textarea);
-		alert("주소가 복사되었습니다.")
-	}
+		
+		<!-- 주소복사 -->
+		function clip(){
+			var url = '';
+			var textarea = document.createElement("textarea");
+			document.body.appendChild(textarea);
+			url = window.document.location.href;
+			textarea.value = url;
+			textarea.select();
+			document.execCommand("copy");
+			document.body.removeChild(textarea);
+			alert("주소가 복사되었습니다.")
+		}
 	</script>
 	<script>
 	<!-- 댓글 삭제 -->
