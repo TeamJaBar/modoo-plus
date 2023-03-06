@@ -30,8 +30,16 @@ public class BoardVO {
 	private String aChk; //JAVA 저장 객체 : 평가 확인 여부
 	private int pageNum;
 	private int amount;
+	private int sue; //JAVA 저장 객체 : 신고여부
 	
 	
+	
+	public int getSue() {
+		return sue;
+	}
+	public void setSue(int sue) {
+		this.sue = sue;
+	}
 	public int getPageNum() {
 		return pageNum;
 	}
