@@ -37,11 +37,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> selectAllMatch(BoardVO bvo) {
-		return boardDAO.selectAllMatch(bvo);
-	}
-
-	@Override
 	public BoardVO selectOne(BoardVO bvo) {
 		return boardDAO.selectOne(bvo);
 	}

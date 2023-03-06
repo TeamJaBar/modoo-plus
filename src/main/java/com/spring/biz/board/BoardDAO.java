@@ -22,11 +22,11 @@ public class BoardDAO {
 	// 등록순
 	private final String SQL_SELECTALL_REGISTER = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BWDATE ASC) A"
-			+ "WHERE C.BNUM=A.BNUM"
+			+ " WHERE C.BNUM=A.BNUM"
 			+ " UNION ALL "
 			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BWDATE ASC) B"
-			+ "WHERE C.BNUM=B.BNUM";
+			+ " WHERE C.BNUM=B.BNUM";
 	// 시합 날짜순
 	private final String SQL_SELECTALL_MATCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC) A"
@@ -39,16 +39,16 @@ public class BoardDAO {
 	private final String SQL_SELECTALL_DISTINCT="SELECT DISTINCT BLOCAL FROM BOARD";
 	// 지역 선택
 	private final String SQL_SELECTALL_AREA = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BLOCAL=? ORDER BY BDATE ASC) A"
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BLOCAL=? ORDER BY BDATE ASC) A "
 			+ "WHERE C.BNUM=A.BNUM";
 	// 날짜 선택
 	private final String SQL_SELECTALL_DATE = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC) A"
-			+ "WHERE C.BNUM=A.BNUM"
+			+ " WHERE C.BNUM=A.BNUM"
 			+ " UNION ALL "
 			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE asc) AS B"
-			+ "WHERE C.BNUM=B.BNUM AND BDATE between SYSDATE-? and SYSDATE-?";
+			+ " WHERE C.BNUM=B.BNUM AND BDATE between SYSDATE-? and SYSDATE-?";
 	// 헤더 부분 검색(제목만 가능)
 	private final String SQL_SELECTALL_SEARCH = "SELECT * FROM BOARD WHERE BTITLE LIKE CONCAT('%',?,'%')";
 
@@ -59,18 +59,6 @@ public class BoardDAO {
 	private final String SQL_SELECTALL_ADMIN = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM ORDER BY BDATE ASC"; //LIMIT 0+?, 9
 	// 글 관리 페이지 글 목록 - 상태별 필터링
 	private final String SQL_SELECTALL_ADMIN_STATUS = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM WHERE BACTION=? ORDER BY BDATE ASC";
-	// 마이 페이지 내가 작성한 글 목록
-	private final String SQL_SELECTALL_MYBOARD = "SELECT B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM WHERE B.MNUM=? GROUP BY B.BNUM ORDER BY A.BNUM ASC";
-	// 마이 페이지 내가 신청한 매칭 목록
-	private final String SQL_SELECTALL_MYMATCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, (SELECT A.ANUM, A.ACHK, B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?) D WHERE C.BNUM = D.BNUM ORDER BY C.BNUM ASC";
-	// 마이 페이지 내가 신청한 매칭 페이지 상태별 게시글 개수
-	private final String SQL_SELECTALL_MYMATCH_CNT = "SELECT COUNT(*) AS CNT FROM BOARD B JOIN APPLICANT A ON B.BNUM=A.BNUM WHERE A.MNUM=? AND BACTION=?";
-	/*private final String SQL_SELECTALL_MYMATCH_CNT = "SELECT BACTION, COUNT(*) AS CNT FROM BOARD B JOIN APPLICANT A ON B.BNUM=A.BNUM WHERE A.MNUM=? GROUP BY BACTION ORDER BY BACTION";*/
-	// 마이 페이지 내가 신청한 매칭 - 페이지 상태별 필터링
-	private final String SQL_SELECTALL_MYMATCH_STATUS = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, (SELECT A.ANUM, A.ACHK, B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?) D WHERE C.BNUM = D.BNUM AND BACTION=? ORDER BY C.BNUM ASC";
-
-	// 마이 페이지 내가 신청한 매칭 목록(프로필 목록)
-	//private final String SQL_SELECTALL_IMG = "SELECT MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=?";
 
 	// 매칭 상세 페이지
 	private final String SELECTONE_MATCH = "SELECT BNUM, BTITLE, MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B WHERE BNUM=?";
@@ -170,18 +158,6 @@ public class BoardDAO {
 					tmpData.setbCnt(rs.getInt("CNT"));
 					return tmpData;
 				}, bvo.getbAction());
-			} else if(bvo.getmNum() != 0) {//마이페이지 - 내가 작성한 글 목록
-				datas = jdbcTemplate.query(SQL_SELECTALL_MYBOARD, (rs, rowNum)->{
-					BoardVO tmpData= new BoardVO();
-					tmpData.setbNum(rs.getInt("BNUM"));
-					tmpData.setbTitle(rs.getString("BTITLE"));
-					tmpData.setbAddress(rs.getString("BADDRESS"));
-					tmpData.setbDate(rs.getTimestamp("BDATE"));
-					tmpData.setaCnt(rs.getInt("ACNT"));
-					tmpData.setbCnt(rs.getInt("BCNT"));
-					tmpData.setbAction(rs.getString("BACTION"));
-					return tmpData;
-				}, bvo.getmNum());
 			} else {
 				Object[] obj=null;
 				String query;
@@ -206,47 +182,7 @@ public class BoardDAO {
 		}
 		return datas;
 	}
-
-	public List<BoardVO> selectAllMatch(BoardVO bvo){
-		List<BoardVO> datas=new ArrayList<BoardVO>();
-		try {
-			if(bvo.getbAction()!=null) { //마이페이지 - 내가 신청한 매칭 목록 (모집 상태별 개수)
-				datas = jdbcTemplate.query(SQL_SELECTALL_MYMATCH_CNT, (rs,rowNum)-> {
-					BoardVO tmpData = new BoardVO();
-					tmpData.setbCnt(rs.getInt("CNT"));
-					return tmpData;
-				}, bvo.getbAction());
-			} else {
-				Object[] args;
-				String query;
-				if(bvo.getSearchContent()!=null) { //마이페이지 - 내가 신청한 매칭 목록 (모집 상태별 필터링)
-					query = SQL_SELECTALL_MYMATCH_STATUS;
-					args = new Object[] {bvo.getmNum(), bvo.getSearchContent()};
-				} else { // 마이페이지 - 내가 신청한 매칭 목록
-					query = SQL_SELECTALL_MYMATCH;
-					args = new Object[] {bvo.getmNum()};
-				}
-				datas= jdbcTemplate.query(query, args, (rs, rowNum)->{
-					BoardVO tmpData= new BoardVO();
-					tmpData.setaNum(rs.getInt("ANUM"));
-					tmpData.setaChk(rs.getString("ACHK"));
-					tmpData.setbNum(rs.getInt("BNUM"));
-					tmpData.setbTitle(rs.getString("BTITLE"));
-					tmpData.setbAddress(rs.getString("BADDRESS"));
-					tmpData.setbDate(rs.getTimestamp("BDATE"));
-					tmpData.setaCnt(rs.getInt("ACNT"));
-					tmpData.setbCnt(rs.getInt("BCNT"));
-					tmpData.setbAction(rs.getString("BACTION"));
-					return tmpData;
-				});
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return datas;
-	}
-
+	
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
 			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getbNum());
