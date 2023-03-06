@@ -241,16 +241,16 @@ select option[disabled] {
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header id="${mId}" name="${mName}" />
+			<modoo:header/>
 
 			<!-- Main Content -->
 			<div class="main-content">
 				<section class="section">
 					<div class="section-header">
-						<h1>${title}</h1>
+						<h1>${param.type == 'update' ? '게시글 수정' : '게시글 작성'}</h1>
 					</div>
 					<div class="section-body">
-						<h2 class="section-title">매칭 ${param.title} 페이지</h2>
+						<h2 class="section-title">${param.type == 'update' ? '매칭 게시글 수정 페이지' : '매칭 게시글 작성 페이지'}</h2>
 						<div class="row mt-4">
 							<div class="col-12">
 								<div class="card">
@@ -258,17 +258,16 @@ select option[disabled] {
 										<h4>매칭 게시글</h4>
 									</div>
 									<div class="card-body">
-										<form action="${param.title eq '게시글 작성' ? 'insertBoard.do' : 'boardUpdate.do'}" method="post">
-											<c:if test="${param.title eq '게시글 수정'}">
+										<form action="${param.type == 'update' ? 'boardUpdate.do' : 'insertBoard.do'}" method="post" onsubmit="return submitBoard();">
+											<c:if test="${param.type == 'update'}">
 												<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 											</c:if>
 											<input type="hidden" name="mNum" value="${mNum}" />
 											<input type="hidden" name="bLatitude" id="bLatitude" value="${bDatas.bLatitude}" />
 											<input type="hidden" name="bLongitude" id="bLongitude" value="${bDatas.bLongitude}" />
 											<div class="form-group">
-												<div class="alert alert-info hidden blankMsg">빈칸없이 입력해주세요.</div>
 												<label>제목</label>
-												<input type="text" class="form-contro title" name="bTitle" value="${bDatas.bTitle}" />
+												<input type="text" class="form-control title" name="bTitle" value="${bDatas.bTitle}" />
 											</div>
 											<div class="alert alert-info hidden char">글자수는 50자까지 입력 가능합니다.</div>
 											<div class="form-group">
@@ -287,16 +286,16 @@ select option[disabled] {
 											<div class="form-group">
 												<label>게임 시간</label>
 												<div class="input-group">
-													<input type="datetime-local" class="form-control date" name="bDate" value="${bDatas.bDate}" />
+													<input type="datetime-local" id="date-local" class="form-control date" name="date" value="${bDatas.bDate}" />
 												</div>
 											</div>
 											<div class="alert alert-info hidden datetime">현재 시간의 1시간 이후 보다 이전의 날짜는 설정할 수 없습니다.</div>
 											<div class="form-group">
 												<label>게임 위치</label>
 												<div class="input-group">
-													<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly="" />
+													<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly />
 													<div class="input-group-append">
-														<button class="btn btn-primary" data-toggle="modal" data-target="#mapModal">지도 검색</button>
+														<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mapModal">지도 검색</button>
 													</div>
 												</div>
 											</div>
@@ -305,19 +304,19 @@ select option[disabled] {
 												<div class="input-group">
 													<div class="selectgroup w-100">
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="초고수" class="selectgroup-input" checked="${bDatas.bRate eq '초고수' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="초고수" class="selectgroup-input" ${bDatas.bRate eq '초고수' ? 'checked' : ''} />
 															<span class="selectgroup-button">초고수</span>
 														</label>
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="고수" class="selectgroup-input" checked="${bDatas.bRate eq '고수' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="고수" class="selectgroup-input" ${bDatas.bRate eq '고수' ? 'checked' : ''} />
 															<span class="selectgroup-button">고수</span>
 														</label>
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="초보" class="selectgroup-input" checked="${bDatas.bRate eq '초보' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="초보" class="selectgroup-input" ${bDatas.bRate eq '초보' ? 'checked' : ''} />
 															<span class="selectgroup-button">초보</span>
 														</label>
 														<label class="selectgroup-item">
-															<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" checked="${bDatas.bRate eq '왕초보' ? 'true' : 'false'}" />
+															<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" ${bDatas.bRate eq '왕초보' ? 'checked' : ''} />
 															<span class="selectgroup-button">왕초보</span>
 														</label>
 													</div>
@@ -325,7 +324,7 @@ select option[disabled] {
 											</div>
 											<div class="form-group">
 												<label>내용</label>
-												<textarea class="form-control" id="editor" name="cContent">${bDatas.cContent}</textarea>
+												<textarea class="form-control" id="editor" name="bContent">${bDatas.bContent}</textarea>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 												<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
@@ -339,9 +338,10 @@ select option[disabled] {
 													});
 												</script>
 											</div>
+											<div class="alert alert-info hidden blankMsg">빈칸없이 입력해주세요.</div>
 											<div class="card-footer text-right">
 												<button type="button" class="btn btn-secondary" onclick="history.go(-1)">취소</button>
-												<button type="submit" class="btn btn-primary" onclick="return submit()">작성 완료</button>
+												<button type="submit" class="btn btn-primary">작성 완료</button>
 											</div>
 										</form>
 									</div>
@@ -597,83 +597,6 @@ select option[disabled] {
 			document.getElementById("bLongitude").value = markers[index].n.Ma;
 		}
 	</script>
-	<script type="text/javascript">
-		//타이틀 유효성검사
-		$(".title").keyup(function(e) {
-			let title = $(this).val();
-			// console.log($(this).val());
-
-			// 글자수 제한
-			if (title.length > 50) {
-				// 50자 부터는 타이핑 되지 않도록
-				$(this).val($(this).val().substring(0, 50));
-				// 50자 넘으면 알림창 뜨도록
-				$(this).parent().siblings('.char').removeClass('hidden');
-			}
-			;
-		});
-
-		//모집인원 유효성검사
-		$(".bCnt").keyup(function(e) {
-			var regExp = /^[0-9]*$/;
-			let cnt = $(this).val();
-			console.log($(this).val() == 1);
-
-			// 인원 제한
-			if (!regExp.test(cnt)) {
-				// 숫자 이외의 값 입력시 0으로 변환
-				$(this).val(0);
-				// 숫자 이외의 값 넣으면 알림창 뜨도록
-				$(this).parent().parent().parent().siblings('.max').addClass('hidden');
-				$(this).parent().parent().parent().siblings('.num').removeClass('hidden');
-			} else if (cnt > 20) {
-				// 10자리 이상 부터는 타이핑 되지 않도록
-				$(this).val($(this).val().substring(0, 2));
-				// 20 이상 넘을시 20으로 자동 변환
-				$(this).val(20);
-				// 50자 넘으면 알림창 뜨도록
-				$(this).parent().parent().parent().siblings('.num').addClass('hidden');
-				$(this).parent().parent().parent().siblings('.max').removeClass('hidden');
-			}
-			;
-		});
-
-		//모임 기간 유효성검사
-		var now_utc = new Date();
-		var oneHoursLater = new Date(now_utc.setHours(now_utc.getHours() + 1));
-		var timeOff = new Date().getTimezoneOffset() * 60000;
-		var today = new Date(oneHoursLater - timeOff).toISOString().substring(0, 16);
-		//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
-		document.getElementById("DateLocal").setAttribute("min", today);
-
-		var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
-		var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
-		//최대 2달 이후까지 선택할수 있게 설정
-		document.getElementById("DateLocal").setAttribute("max", monthLater);
-
-		//현재 시간의 1시간 이후 시간보다 이전 시간 선택시 알림창 뜨도록
-		function setMinValue() {
-			if (document.getElementById("DateLocal").value < today) {
-				$(".datetime").removeClass('hidden');
-				document.getElementById("DateLocal").value = today;
-			}
-		}
-
-		//버튼입력 시 유효성검사
-		function submit() {
-			var title = ${".title"}.val();
-			var cnt = ${".bCnt"}.val();
-			var datetime = ${".date"}.val();
-			var address = ${"#address"}.val();
-			
-			if(title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null){
-				${blankMsg}.removeClass('hidden');
-				return false;
-			} else {
-				return true;
-			}
-		}
-	</script>
 
 	<style>
 .main-content {
@@ -694,6 +617,7 @@ body {
 }
 </style>
 	<!-- General JS Scripts -->
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	<script src="../assets/modules/jquery.min.js"></script>
 	<script src="../assets/modules/popper.js"></script>
 	<script src="../assets/modules/tooltip.js"></script>
@@ -714,7 +638,91 @@ body {
 	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 	<!-- Page Specific JS File -->
 	<script src="../assets/js/page/forms-advanced-forms.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		//타이틀 유효성검사
+		$(".title").keyup(function(e) {
+			let title = $(this).val();
+			// console.log($(this).val());
+
+			// 글자수 제한
+			if (title.length > 50) {
+				// 50자 부터는 타이핑 되지 않도록
+				$(this).val($(this).val().substring(0, 50));
+				// 50자 넘으면 알림창 뜨도록
+				$(this).parent().siblings('.char').removeClass('hidden');
+			} else {
+				$(this).parent().siblings('.char').addClass('hidden');
+			}
+		});
+
+		//모집인원 유효성검사
+		$(".bCnt").keyup(function(e) {
+			var regExp = /^[0-9]*$/;
+			let cnt = $(this).val();
+			console.log(cnt);
+
+			// 인원 제한
+			if (!regExp.test(cnt)) {
+				// 숫자 이외의 값 입력시 0으로 변환
+				$(this).val(0);
+				// 숫자 이외의 값 넣으면 알림창 뜨도록
+				$(this).parent().parent().parent().siblings('.max').addClass('hidden');
+				$(this).parent().parent().parent().siblings('.num').removeClass('hidden');
+			} else if (cnt > 20) {
+				// 10자리 이상 부터는 타이핑 되지 않도록
+				$(this).val($(this).val().substring(0, 2));
+				// 20 이상 넘을시 20으로 자동 변환
+				$(this).val(20);
+				// 50자 넘으면 알림창 뜨도록
+				$(this).parent().parent().parent().siblings('.num').addClass('hidden');
+				$(this).parent().parent().parent().siblings('.max').removeClass('hidden');
+			} else {
+				$(this).parent().parent().parent().siblings('.num').addClass('hidden');
+				$(this).parent().parent().parent().siblings('.max').addClass('hidden');
+			}
+		});
+
+		//모임 기간 유효성검사
+		var now_utc = new Date();
+		var oneHoursLater = new Date(now_utc.setHours(now_utc.getHours() + 1));
+		var timeOff = new Date().getTimezoneOffset() * 60000;
+		var today = new Date(oneHoursLater - timeOff).toISOString().substring(0, 16);
+		//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
+		$("#date-local").attr("min", today);
+
+		var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
+		var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
+		//최대 2달 이후까지 선택할수 있게 설정
+		$("#date-local").attr("max", monthLater);
+
+		//현재 시간의 1시간 이후 시간보다 이전 시간 선택시 알림창 뜨도록
+		$('#date-local').focusout(function () {
+			if ($("#date-local").val() < today) {
+				$(".datetime").removeClass('hidden');
+				$("#date-local").val(today);
+			} else {
+				$(".datetime").addClass('hidden');
+			}
+		})
+	});
+	
+	//버튼입력 시 유효성검사
+	function submitBoard() {
+		var title = $(".title").val();
+		var cnt = $(".bCnt").val();
+		var datetime = $(".date").val();
+		var address = $("#address").val();
+		
+		if(title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null){
+			$('.blankMsg').removeClass('hidden');
+			return false;
+		} else {
+			$('.blankMsg').addClass('hidden');
+			return true;
+		}
+	}
+	</script>
 
 	<!-- Template JS File -->
 	<script src="../assets/js/scripts.js"></script>
