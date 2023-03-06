@@ -6,7 +6,7 @@
 	<!-- 해더 드롭다운 -->
 	<div class="btn-group">
 		<button type="button" class="btn btn-header" onclick="location.href='main.html'">
-			<img class="mr-3 rounded" src="../../assets/img/favicon.png">
+			<img class="mr-3 rounded" src="../assets/img/favicon.png">
 			모두의 매칭
 		</button>
 		<button type="button" class="btn btn-header dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
@@ -122,12 +122,12 @@
 
 		<c:choose>
 			<c:when test="${empty mId}">
-				<button type="button" class="btn btn-header" onclick="location.href='adMoveSue.do'">로그인</button>
+				<button type="button" class="btn btn-header" onclick="location.href='login.do'">로그인</button>
 			</c:when>
 			<c:otherwise>
 				<li class="dropdown">
 					<a href="mypage.do" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-						<img alt="image" src="../../assets/img/avatar/${mImg}" class="rounded-circle mr-1">
+						<img alt="image" src="../assets/img/avatar/${mImg}" class="rounded-circle mr-1">
 						<div class="d-sm-none d-lg-inline-block">${mId}</div>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
@@ -137,7 +137,7 @@
 						</a>
 						<c:if test="${mId == 'admin'}">
 							<a href="ad-plus-main.do" class="dropdown-item has-icon">
-								<img alt="image" src="../../assets/img/favicon.png" class="rounded-circle mr-1">
+								<img alt="image" src="../assets/img/favicon.png" class="rounded-circle mr-1">
 								관리자 페이지
 							</a>
 						</c:if>
