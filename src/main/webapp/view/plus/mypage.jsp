@@ -133,7 +133,6 @@
 															</td>
 														</tr>
 													</c:if>
-													<!-- 작성글 없을때 -->
 
 													<!-- 나의 작성 글 el식 적용 -->
 													<c:if test="${fn:length(bDatas) != 0 }">
@@ -144,6 +143,7 @@
 																	<div class="sort-handler">
 																		<i class="fas fa-th"></i>
 																	</div>
+																	${v.bNum}
 																</td>
 																<td>
 																	<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
@@ -201,7 +201,7 @@
 												<ul class="pagination mb-0">
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
-															<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
+															<a class="page-link" href="mypage.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
 																<span aria-hidden="true">&laquo;</span>
 																<span class="sr-only">Previous</span>
 															</a>
@@ -210,7 +210,7 @@
 													<!-- 1. 페이지번호 처리 -->
 													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 														<li class="page-item active">
-															<a class="page-link" href="list.board?pageNum=${num}&amount=${pageVO.amount}">${num}</a>
+															<a class="page-link" href="mypage.do?pageNum=${num}">${num}</a>
 														</li>
 													</c:forEach>
 													<!-- <li class="page-item">
@@ -218,7 +218,7 @@
 													</li> -->
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
-															<a class="page-link" href="list.board?pageNum=${pageVO.endPage + 1}&amount=${pageVO.amount}" aria-label="Next">
+															<a class="page-link" href="mypage.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
 																<span aria-hidden="true">&raquo;</span>
 																<span class="sr-only">Next</span>
 															</a>

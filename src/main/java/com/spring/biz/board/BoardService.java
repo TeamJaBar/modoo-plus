@@ -12,8 +12,6 @@ public interface BoardService {
 	public List<BoardVO> selectAllMain(BoardVO bvo);
 	
 	public List<BoardVO> selectAllManage(BoardVO bvo);
-	
-	public List<BoardVO> selectAllMatch(BoardVO bvo);
 
 	public BoardVO selectOne(BoardVO bvo);
 
