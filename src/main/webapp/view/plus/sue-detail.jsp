@@ -9,18 +9,18 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
-<link rel="icon" href="../../assets/img/favicon.png">
+<link rel="icon" href="../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 신고 게시판 &rsaquo; 상세페이지</title>
 
 <!-- General CSS Files -->
-<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
 <!-- CSS Libraries -->
 
 <!-- Template CSS -->
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -71,7 +71,7 @@
 										<fmt:formatDate value="게시 : ${sue.bwDate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
 										<fmt:formatDate value="신고 : ${sue.sDate}" pattern="yy-MM-dd HH:mm" />
-										<!-- <button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button> -->
+										<%-- <button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button> --%>
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}&sResult=1'">
 											신고취소</button>
 										<div class="btn-group mb-2" style="float: right;">
@@ -161,20 +161,20 @@ body {
 }
 </style>
 	<!-- General JS Scripts -->
-	<script src="../../assets/modules/jquery.min.js"></script>
-	<script src="../../assets/modules/popper.js"></script>
-	<script src="../../assets/modules/tooltip.js"></script>
-	<script src="../../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="../../assets/modules/moment.min.js"></script>
-	<script src="../../assets/js/stisla.js"></script>
+	<script src="../assets/modules/jquery.min.js"></script>
+	<script src="../assets/modules/popper.js"></script>
+	<script src="../assets/modules/tooltip.js"></script>
+	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../assets/modules/moment.min.js"></script>
+	<script src="../assets/js/stisla.js"></script>
 
 	<!-- JS Libraies -->
 
 	<!-- Page Specific JS File -->
 
 	<!-- Template JS File -->
-	<script src="../../assets/js/scripts.js"></script>
-	<script src="../../assets/js/custom.js"></script>
+	<script src="../assets/js/scripts.js"></script>
+	<script src="../assets/js/custom.js"></script>
 </body>
 </html>
