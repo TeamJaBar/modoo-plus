@@ -64,9 +64,6 @@
 			<!-- Main Content -->
 			<div class="main-content">
 				<section class="section">
-					<div class="section-header">
-						<h1>매칭 상세페이지</h1>
-					</div>
 					<c:if test="${bDatas.bStatus==1}">
 						<div class="card-body">
 							<div class="alert alert-primary alert-has-icon p-4">
@@ -85,7 +82,6 @@
 					</c:if>
 					<c:if test="${bDatas.bStatus==0}">
 						<div class="section-body">
-							<h2 class="section-title">매칭 게시글</h2>
 							<div class="card">
 								<div class="navermap-container" style="width: 100%;">
 									<div id="map" style="width: 100%; height: 350px;"></div>
