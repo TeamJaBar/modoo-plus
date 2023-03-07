@@ -62,9 +62,11 @@ public class BoardDAO {
 
 	// 매칭 상세 페이지
 	private final String SELECTONE_MATCH = "SELECT CASE WHEN S.MNUM IS NULL THEN 0 ELSE 1 END SUE, B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM WHERE B.BNUM=?";
+	// 매칭 여부
+	private final String SELECTONE_MATCH_USE = "SELECT EXISTS (SELECT * FROM APPLICANT WHERE BNUM =? AND MNUM =?) CNT";
 	// 매칭 상세 페이지(신청자)-applicant 이동
 	//private final String SELECTALL_APPLICANT = "SELECT A.MNUM, MID, SCORE, MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=? ORDER BY M.MNUM ASC";
-
+	
 	public boolean insertBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 insert()");
@@ -190,7 +192,17 @@ public class BoardDAO {
 			return null;
 		}
 	}
+	
+	public BoardVO selectOneMatchingUse(BoardVO bvo) {
+		try {
+			return jdbcTemplate.queryForObject(SELECTONE_MATCH_USE, new BoardRowMapper(), bvo.getmNum(), bvo.getbNum());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 }
+
 
 class BoardSelectAllMapper implements RowMapper<BoardVO> {
 	@Override
