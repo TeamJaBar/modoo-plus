@@ -87,6 +87,10 @@
 	line-height: 1em
 }
 
+[fg-component=match-filter]>.contents-box>.left-box>.location-box>.value:hover>.text {
+	color: #f1c331
+}
+
 [fg-component=match-filter]>.contents-box>.left-box>.calendar-box {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -136,6 +140,10 @@
 	line-height: 1em
 }
 
+[fg-component=match-filter]>.contents-box>.left-box>.calendar-box>.value:hover>.text {
+	color: #f1c331
+}
+
 [fg-component=match-filter]>.contents-box>.right-box {
 	margin-left: auto;
 	height: 100%
@@ -171,7 +179,7 @@
 	color: #fff
 }
 
-[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button[data-selected="1"]>.text {
+[fg-component=match-filter]>.contents-box>.right-box>.sort-box>.sort-button:hover>.text {
 	font-weight: 500;
 	color: #f1c331
 }
@@ -509,12 +517,12 @@
 }
 
 /*.banner-item {
-	width:100%;
+   width:100%;
 }
 
 .banner-item img {
-	height:300px;
-	object-fit: cover;
+   height:300px;
+   object-fit: cover;
 }*/
 .slick-slider {
 	width: 100%;
@@ -573,33 +581,31 @@
 	.container {
 		max-width: 980px !important;
 	}
-	
-#fixed_btn_insert {
-	position: fixed;
-	margin: 0 auto;
+}
+
+#fixed_btn_container {
+	position: absolute;
 	right: 0;
 	left: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.fixed_btn_insert {
 	width: 120px;
 	padding: 8px 20px;
 	border-radius: 50px;
 	text-align: center;
 	background-color: #0188CB !important;
 	font-family: 'GmarketSansMedium';
+	color: white !important;
 }
 
-#fixed_btn_insert:hover {
+.fixed_btn_insert:hover {
+	color: #0188CB !important;
 	background-color: white !important;
 	border: 1px solid #0188CB !important;
-}
-
-#fixed_btn_insert a {
-	color: white !important;
-	text-decoration: none !important;
-}
-
-#fixed_btn_insert a:hover {
-	color: #0188CB !important;
-}
+	text-decoration: none;
 }
 </style>
 
