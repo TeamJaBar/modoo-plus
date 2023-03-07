@@ -8,14 +8,14 @@
 		<!-- 글작성자 접속 시 -->
 		<c:if test="${mNum == bDatas.mNum}">
 			<a class="correct" href="boardUpdate.do?bNum=${bDatas.bNum}">수정</a>
-			<a class="delete" href="deleteBoard.do?bNum=${bDatas.bNum}">삭제</a>
+			<a class="delete" href="boardDelete.do?bNum=${bDatas.bNum}">삭제</a>
 			<!-- 모집 중 -->
 			<c:if test="${bDatas.bAction == 0}">
-				<a class="complete" href="updateBoardAction.do?bNum=${bDatas.bNum}&bAction=0">매치 완료하기</a>
+				<a class="complete" href="updateBoardAction.do?bNum=${bDatas.bNum}&bAction=1">매치 완료하기</a>
 			</c:if>
 			<!-- 모집완료 -->
 			<c:if test="${bDatas.bAction == 1}">
-				<a class="complete" href="updateBoardAction.do?bNum=${bDatas.bNum}&bAction=1">매치 완료 취소하기</a>
+				<a class="complete" href="updateBoardAction.do?bNum=${bDatas.bNum}&bAction=0">매치 완료 취소하기</a>
 			</c:if>
 		</c:if>
 		<!-- 일반유저 접속 시 -->
@@ -32,7 +32,7 @@
 			<!-- 모집완료 -->
 			<c:if test="${bDatas.bAction == 1}">
 				<c:if test="${mNum == aDatas.mNum}">
-					<a class="complete" href="deleteApplicantEntry.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
+					<a class="complete" href="myEntryDelete.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
 				</c:if>
 			</c:if>
 		</c:if>
