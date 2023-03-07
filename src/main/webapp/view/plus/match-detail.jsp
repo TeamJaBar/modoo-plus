@@ -144,8 +144,8 @@
 														<td>${bDatas.bCnt}</td>
 														<td>${bDatas.bRate}</td>
 														<td>
-															<c:if test="${bDatas.bAction==0}">모집완료</c:if>
-															<c:if test="${bDatas.bAction==1}">모집 중</c:if>
+															<c:if test="${bDatas.bAction==0}">모집 중</c:if>
+															<c:if test="${bDatas.bAction==1}">모집완료</c:if>
 															<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
 														</td>
 													</tr>

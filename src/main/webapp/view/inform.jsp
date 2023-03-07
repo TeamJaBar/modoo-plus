@@ -19,22 +19,15 @@
 						<!-- <h2>회원가입</h2> -->
 						<ol>
 							<li>
-								<span>01</span>
-								&nbsp;약관동의
-								<span>
-									<img src="/ModooShop/images/icons/icon_join_step_off.png">
+								<span>01</span> &nbsp;약관동의 <span> <img src="/ModooShop/images/icons/icon_join_step_off.png">
 								</span>
 							</li>
 							<li class="page_on">
-								<span>02</span>
-								정보입력
-								<span>
-									<img src="/ModooShop/images/icons/icon_join_step_on.png">
+								<span>02</span> 정보입력 <span> <img src="/ModooShop/images/icons/icon_join_step_on.png">
 								</span>
 							</li>
 							<li>
-								<span>03</span>
-								&nbsp;가입완료
+								<span>03</span> &nbsp;가입완료
 							</li>
 						</ol>
 					</div>
@@ -165,7 +158,8 @@
 													</div>
 													<!-- //base_info_box -->
 													<div id="wrapPost" style="display: none; border: 1px solid; max-width: 500px; height: 300px; margin: 5px 0; position: relative">
-														<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1" onclick="foldDaumPostcode()" alt="접기 버튼">
+														<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
+															onclick="foldDaumPostcode()" alt="접기 버튼">
 													</div>
 													<div class="address_input detailed_address">
 														<div class="member_warning">
@@ -174,6 +168,19 @@
 														<div class="member_warning js_address_sub">
 															<input type="text" name="detailAddr" id="sample3_detailAddress" placeholder="상세주소" value="" required>
 														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<th>
+													<span class="important">프로필 이미지</span>
+												</th>
+												<td>
+													<div class="member_warning">
+														<input type="file" id="imageSelector" name="mImg" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
+														<label for="imageSelector">
+															<img class="thumb" src="/ModooShop/assets/img/Upload-Icon.png" style="max-width: 200px; height: 100px; display: block;" />
+														</label>
 													</div>
 												</td>
 											</tr>
@@ -566,6 +573,54 @@ var phoneCheck = false;
 			return false;	
 		}
 	}
+	
+	// 이미지 섬네일 추가
+	document.addEventListener('DOMContentLoaded', function(){
+	    //이미지 객체 타입으로 이미지 확장자 밸리데이션
+	    var validateType = function(img){
+	    	if(typeof img == "undefined" || img == null || img == ""){
+	    		img = -1;
+	    	}
+	        return (['image/jpeg','image/jpg','image/png'].indexOf(img.type) > -1);
+	    }
+
+	    var validateName = function(fname){
+	        let extensions = ['jpeg','jpg','png'];
+	        let fparts = fname.split('.');
+	        let fext = '';
+	    
+	        if(fparts.length > 1){
+	            fext = fparts[fparts.length-1];
+	        }
+	    
+	        let validated = false;
+	        
+	        if(fext != ''){
+	            extensions.forEach(function(ext){
+	                if(ext == fext){
+	                    validated = true;
+	                }
+	            });
+	        }
+	    
+	        return validated;
+	    }
+
+	    // 파일 선택 필드에 이벤트 리스너 등록
+	    document.getElementById('imageSelector').addEventListener('change', function(e){
+	        let elem = e.target;
+	        if(validateType(elem.files[0])){
+	            let preview = document.querySelector('.thumb');
+	            preview.src = URL.createObjectURL(elem.files[0]); //파일 객체에서 이미지 데이터 가져옴.
+	            preview.onload = function() {
+	                URL.revokeObjectURL(preview.src); //URL 객체 해제
+	            }
+	        }else{
+	        	elem.value = "";
+	        	document.querySelector('.thumb').src = "/ModooShop/assets/img/Upload-Icon.png";
+	        }
+	    });
+	});
 </script>
 <!--===============================================================================================-->
 <script src="..//vendor/animsition/js/animsition.min.js"></script>
