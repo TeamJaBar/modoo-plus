@@ -9,18 +9,18 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
-<link rel="icon" href="../assets/img/favicon.png">
+<link rel="icon" href="../../assets/img/favicon.png">
 <title>보드매칭 &rsaquo; 신고 게시판</title>
 
 <!-- General CSS Files -->
-<link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../../assets/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/modules/fontawesome/css/all.min.css">
 
 <!-- CSS Libraries -->
-<link rel="stylesheet" href="../assets/modules/jquery-selectric/selectric.css">
+<link rel="stylesheet" href="../../assets/modules/jquery-selectric/selectric.css">
 <!-- Template CSS -->
-<link rel="stylesheet" href="../assets/css/style.css">
-<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -57,37 +57,40 @@
 								<div class="card mb-0">
 									<div class="card-body">
 										<ul class="nav nav-pills">
-											<li class="nav-item">
-												<a class="nav-link active" href="admin-sue.do?aCnt=${sueCount.aCnt}">
+											<li class="nav-item" id="aCnt">
+												<a class="nav-link active" href="#;">
+													<%-- href="admin-sue.do?aCnt=${sueCount.aCnt}" --%>
 													전체
 													<c:if test="${fn:length(sueCount.aCnt) == 0 }">
-														<span class="badge badge-white"> 0 </span>
+														<span class="badge badge-primary" id="a"> 0 </span>
 													</c:if>
 													<c:if test="${fn:length(sueCount.aCnt) != 0 }">
-														<span class="badge badge-white"> ${sueCount.aCnt} </span>
+														<span class="badge badge-primary" id="a"> ${sueCount.aCnt} </span>
 													</c:if>
 												</a>
 											</li>
 											<!-- 해야할 것 ajax 사용해서 비동기로 목록 출력 -->
-											<li class="nav-item">
-												<a class="nav-link" href="admin-sue.do?nCnt=${sueCount.nCnt}">
+											<li class="nav-item" id="nCnt">
+												<a class="nav-link" href="#;">
+													<!-- href="admin-sue.do?nCnt=${sueCount.nCnt}" -->
 													미처리
 													<c:if test="${fn:length(sueCount.nCnt) == 0 }">
-														<span class="badge badge-primary"> 0 </span>
+														<span class="badge badge-primary" id="n"> 0 </span>
 													</c:if>
 													<c:if test="${fn:length(sueCount.nCnt) != 0 }">
-														<span class="badge badge-primary"> ${sueCount.nCnt} </span>
+														<span class="badge badge-primary" id="n"> ${sueCount.nCnt} </span>
 													</c:if>
 												</a>
 											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="admin-sue.do?cCnt=${sueCount.cCnt}">
+											<li class="nav-item" id="cCnt">
+												<a class="nav-link" href="#;">
+													<!-- href="admin-sue.do?cCnt=${sueCount.cCnt}" -->
 													처리완료
 													<c:if test="${fn:length(sueCount.cCnt) == 0 }">
-														<span class="badge badge-primary"> 0 </span>
+														<span class="badge badge-primary" id="c"> 0 </span>
 													</c:if>
 													<c:if test="${fn:length(sueCount.cCnt) != 0 }">
-														<span class="badge badge-primary"> ${sueCount.cCnt} </span>
+														<span class="badge badge-primary" id="c"> ${sueCount.cCnt} </span>
 													</c:if>
 												</a>
 											</li>
@@ -102,8 +105,7 @@
 									<div class="card-header">
 										<h4>신고 게시글 목록</h4>
 									</div>
-									<div class="card-body">
-
+									<div class="card-body" id="a_box">
 										<div class="table-responsive">
 											<table class="table table-striped">
 												<tr>
@@ -131,7 +133,7 @@
 																<a href="sue-detail.do?bNum=${v.bNum}">${v.bTitle}</a>
 															</td>
 															<td>
-																<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
+																<img alt="image" src="../../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
 																<div class="d-inline-block ml-1">${v.mId}</div>
 															</td>
 															<td>
@@ -153,6 +155,7 @@
 												<!-- 신고 게시글 목록 끝-->
 											</table>
 										</div>
+										<input type="hidden" name="pageNum" id="pageNum" value="${param.pageNum}">
 										<div class="card-footer text-center">
 											<nav class="d-inline-block">
 												<ul class="pagination mb-0">
@@ -213,22 +216,105 @@ body {
 }
 </style>
 	<!-- General JS Scripts -->
-	<script src="../assets/modules/jquery.min.js"></script>
-	<script src="../assets/modules/popper.js"></script>
-	<script src="../assets/modules/tooltip.js"></script>
-	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="../assets/modules/moment.min.js"></script>
-	<script src="../assets/js/stisla.js"></script>
+	<script src="../../assets/modules/jquery.min.js"></script>
+	<script src="../../assets/modules/popper.js"></script>
+	<script src="../../assets/modules/tooltip.js"></script>
+	<script src="../../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../../assets/modules/moment.min.js"></script>
+	<script src="../../assets/js/stisla.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+	/* 버튼 눌렀을 때, 색상변경 */
+	$('.nav-item .nav-link').on("click",function(){
+	    $(".nav-item .nav-link.active").removeClass('active');
+	    $(this).addClass("active");
+	});
+	<!-- 전체글 -->
+	$(document).ready(function() {
+		$('#aCnt').each(function() {
+			var pageNum = '${param.pageNum}';
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(pageNum);
+					$.ajax({
+						type : 'POST',
+						url : 'adMoveSue.do',
+						data : {
+							pageNum : pageNum
+						},
+						success : function(result) {
+							if (result == 1) {
+								$('#a_box').load(location.href + ' #a_box>*');
+							}
+						}
+					});
+			})
+		})
+	})
+	
+	<!-- 미처리글 -->
+	$(document).ready(function() {
+		$('#nCnt').each(function() {
+			var sResult = 0;
+			var pageNum = '${param.pageNum}';
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(sResult);
+				console.log(pageNum);
+					$.ajax({
+						type : 'POST',
+						url : 'adMoveSue.do',
+						data : {
+							sResult : sResult,
+							pageNum : pageNum
+						},
+						success : function(result) {
+							if (result == 1) {
+								$('#a_box').load(location.href + ' #a_box>*');
+							}
+						}
+					});
+			})
+		})
+	})
+	
+	<!-- 처리완료 글 -->
+	$(document).ready(function() {
+		$('#cCnt').each(function() {
+			var sResult = 1;
+			var pageNum = '${param.pageNum}';
+			$(this).on('click', function(e) {
+				e.preventDefault();
+				console.log(sResult);
+				console.log(pageNum);
+					$.ajax({
+						type : 'POST',
+						url : 'adMoveSue.do',
+						data : {
+							sResult : sResult,
+							pageNum : pageNum
+						},
+						success : function(result) {
+							if (result == 1) {
+								$('#a_box').load(location.href + ' #a_box>*');
+							}
+						}
+					});
+			})
+		})
+	})
+	</script>
 
 	<!-- JS Libraies -->
-	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+	<script src="../../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
 	<!-- Page Specific JS File -->
-	<script src="../assets/js/page/features-posts.js"></script>
+	<script src="../../assets/js/page/features-posts.js"></script>
 
 	<!-- Template JS File -->
-	<script src="../assets/js/scripts.js"></script>
-	<script src="../assets/js/custom.js"></script>
+	<script src="../../assets/js/scripts.js"></script>
+	<script src="../../assets/js/custom.js"></script>
 </body>
 </html>
