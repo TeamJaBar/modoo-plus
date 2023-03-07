@@ -61,7 +61,7 @@
 									<!-- el식 적용 -->
 									<div class="card-body p-0">
 										<div class="table-responsive">
-											<table class="table table-striped">
+											<table class="table table-striped" id="a_box">
 												<tbody>
 													<tr class="text-center">
 														<th>
@@ -77,7 +77,7 @@
 													</tr>
 													<!-- 매치 없을때 -->
 													<c:if test="${fn:length(bDatas) == 0 }">
-														<tr class="text-center">
+														<tr class="text-center" id="a_box">
 															<td>
 																<div class="sort-handler">
 																	<i class="fas fa-th"></i>
@@ -86,18 +86,18 @@
 															<td></td>
 															<td>게시글이 없습니다.</td>
 															<td></td>
-															<td></td>
 															<td>
 																<button class="btn btn-primary" type="button" onclick="location.href='boardList.do'">매치하러 가기</button>
 															</td>
-															<td></td>
 														</tr>
 													</c:if>
 													<!-- 매치 없을때 -->
 
+													<!-- 매치있을때 -->
+													<c:set var="mNum" value="${mNum}" />
 													<c:if test="${fn:length(bDatas) != 0 }">
-														<c:forEach items="${bDatas}" var="v" begin="1">
-															<c:set var="i" value="0" />
+														<c:forEach items="${bDatas}" var="v" varStatus="i">
+															<input type="hidden" name="aNum" id="aNum" value="${aDatas.aNum}" />
 															<tr class="text-center">
 																<td>
 																	<div class="sort-handler">
@@ -114,7 +114,7 @@
 																	<c:when test="${v.bAction == 2}">
 																		<td>
 																			<c:if test="${aDatas.aChk != 1}">
-																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																				<button class="btn btn-primary" id="modal-btn" data-toggle="modal" data-target="#exampleModal">평가하기</button>
 																			</c:if>
 																			<c:if test="${aDatas.aChk == 1}">
 																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" disabled="disabled">평가완료</button>
@@ -123,7 +123,10 @@
 																	</c:when>
 																	<c:otherwise>
 																		<td>
-																			<button name="myEntryDelete" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?" data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>
+																			<%-- ajax 식으로 하기 전 
+																			<button name="myEntryDelete" id="cancleBtn-${i.index}" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?"
+																				data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>--%>
+																			<button name="myEntryDelete" id="cancleBtn" class="btn btn-icon btn-danger">취소하기</button>
 																		</td>
 																	</c:otherwise>
 																</c:choose>
@@ -138,7 +141,7 @@
 												<ul class="pagination mb-0">
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
-															<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
+															<a class="page-link" href="mymatch.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
 																<span aria-hidden="true">&laquo;</span>
 																<span class="sr-only">Previous</span>
 															</a>
@@ -147,7 +150,7 @@
 													<!-- 1. 페이지번호 처리 -->
 													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 														<li class="page-item active">
-															<a class="page-link" href="list.board?pageNum=${num}&amount=${pageVO.amount}">${num}</a>
+															<a class="page-link" href="mymatch.do?pageNum=${num}">${num}</a>
 														</li>
 													</c:forEach>
 													<!-- <li class="page-item">
@@ -155,7 +158,7 @@
 													</li> -->
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
-															<a class="page-link" href="list.board?pageNum=${pageVO.endPage + 1}&amount=${pageVO.amount}" aria-label="Next">
+															<a class="page-link" href="mymatch.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
 																<span aria-hidden="true">&raquo;</span>
 																<span class="sr-only">Next</span>
 															</a>
@@ -184,7 +187,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action="userRating.do">
+				<form id="form">
 					<div class="modal-body">
 						<table class="table table-striped">
 							<tbody>
@@ -193,23 +196,23 @@
 									<th>프로필</th>
 									<th>아이디</th>
 								</tr>
-
 								<!-- 모달창 el식 적용 -->
-								<c:forEach items="${aDatas}" var="v">
+								<c:forEach items="${aDatas}" var="v" varStatus="i" step="1">
 									<c:if test="${v.mNum != mNum}">
 										<tr>
 											<td>
-												<input type="radio" name="mNum" value="${v.mNum}" />
+												<input type="radio" name="mNum" value="${v.mNum}" id="mNum-${i.index}" />
 											</td>
 											<td>
 												<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="tooltip" title="" data-original-title="${v.mId}">
 											</td>
-											<td>${v.mId}</td>
+											<td>
+												<input type="text" name="mId" value="${v.mId}" id="mId" />
+											</td>
 										</tr>
 									</c:if>
 								</c:forEach>
 								<!-- 모달창 el식 적용 끝 -->
-
 							</tbody>
 						</table>
 					</div>
@@ -221,7 +224,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- General JS Scripts -->
 	<script src="../assets/modules/jquery.min.js"></script>
 	<script src="../assets/modules/popper.js"></script>
@@ -230,6 +232,73 @@
 	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
 	<script src="../assets/modules/moment.min.js"></script>
 	<script src="../assets/js/stisla.js"></script>
+	<script type="text/javascript">
+		// 평가하기 모달창
+		$(document).ready(function() {
+			$('#modal-btn').each(function() {
+				let mNum = $("#mNum").val;
+				$(this).on('click', function(e) {
+					e.preventDefault();
+					location.href = 'showApplicant.do?mNum=' + mNum;
+				});
+			});
+		})
+		/*
+		 function cancleBtn(aNum){
+		 var answer=confirm("취소 하시겠습니까?");
+		 if(answer){
+		 var url = 'myEntryDelete.do?aNum=' + aNum.value;
+		 window.open(url, "_self",  '');
+		 }  
+		 }*/
+		// 취소하기버튼
+		$(document).ready(function() {
+			$('#cancleBtn').each(function() {
+				let aNum = $("#aNum").val;
+				$(this).on('click', function(e) {
+					e.preventDefault();
+					console.log(aNum);
+					if (confirm('취소 하시겠습니까?')) {
+						$.ajax({
+							type : 'POST',
+							url : 'myEntryDelete.do',
+							data : {
+								aNum : aNum
+							},
+							success : function(result) {
+								if (result == 1) {
+									$('#a_box').load(location.href + ' #a_box>*');
+								}
+							}
+						});
+					}
+				})
+			})
+		})
+
+		/*  */
+		/* $(document).ready(function() {
+			$("#cancleBtn").click(function () {
+			var radio_id = []; //id 값을 넣을 배열 
+			var radio_id_val = {};//object
+			var radio = $("input[type=radio]"); // 모든 라디오 접근 
+			$.each(radio, function (key, value) {
+			radio_id.push($(value).attr('id')); // id 값만을 추출 
+			});
+				radio_id = $.unique(radio_id.sort()).sort(); //중복요소제거
+			var input_radio; // 라디오 id로 접근하기 위해서 
+			for (var i = 0; i < radio_id.length; i++) {
+				input_radio = $("input[id=" + radio_id[i] + "]"); // id값으로 확인 
+				$.each(input_radio, function (key, value) {
+		    		if ($(this)[0].checked === true) { //체크가 되어 있는지 아닌지확인 
+		        		radio_id_val[radio_id[i]] = $(this)[0].value; // 라디오 id 값과 value 값을 매칭 
+		    	}
+			});
+		}
+		console.log(radio_id_val); //{grade: "1학년", school: "초등학교", sex: "남"}
+		});
+		}) */
+	</script>
 
 	<style>
 .main-content {

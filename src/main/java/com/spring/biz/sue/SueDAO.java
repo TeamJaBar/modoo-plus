@@ -1,7 +1,6 @@
 package com.spring.biz.sue;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,13 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.spring.biz.sue.SueVO;
-
-
 
 @Repository("sueDAO")
 public class SueDAO {
@@ -27,18 +23,19 @@ public class SueDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	// 신고하기
-	final String SUE_INSERT = "INSERT INTO SUE (BNUM, MNUM, SCNUM, SDATE, SRESULT) VALUES(?, ?, ?, SYSDATE(), ?)";
+	final String INSERT_SUE = "INSERT INTO SUE (BNUM, MNUM, SCNUM, SDATE) VALUES(?, ?, ?, SYSDATE())";
+	// 신고 취소
+	final String UPDATE_SUE = "UPDATE SUE SET SRESULT=1 WHERE SNUM=?";
 	// 신고글 총합
-	final String SUE_COUNT = "SELECT COUNT(B.BNUM) AS ACNT, COUNT(CASE WHEN BSTATUS='0' THEN 1 END) AS NCNT, COUNT(CASE WHEN BSTATUS='1' THEN 1 END) AS CCNT FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM";
+	final String COUNT_SUE = "SELECT COUNT(B.BNUM) AS ACNT, COUNT(CASE WHEN BSTATUS='0' THEN 1 END) AS NCNT, COUNT(CASE WHEN BSTATUS='1' THEN 1 END) AS CCNT FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM";
 	// 신고글 목록
 	final String SELECTALL_SUE = "SELECT B.BNUM, B.BTITLE, M.MNAME, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM DESC";
 	// 신고글 내용
-	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE,M.MNAME,B.BCONTENT,SC.SCNAME,B.BWDATE,S.SDATE,S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM and S.SCNUM = SC.SCNUM and M.MNUM = B.MNUM";
-	// 신고하기
+	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE, M.MNAME, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
 
-	public boolean insert(SueVO vo) {
+	public boolean insertSue(SueVO vo) {
 		try {
-			jdbcTemplate.update(SUE_INSERT, vo.getbNum(), vo.getmNum(), vo.getScNum(), null, vo.getsResult());
+			jdbcTemplate.update(INSERT_SUE, vo.getbNum(), vo.getmNum(), vo.getScNum());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -46,11 +43,21 @@ public class SueDAO {
 		return true;
 	}
 
-	public List<SueVO> selectCount(SueVO vo) {
-		return jdbcTemplate.query(SUE_COUNT, new SueRowMapper());
+	public boolean updateSue(SueVO vo) {
+		try {
+			jdbcTemplate.update(UPDATE_SUE, vo.getsNum());
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
-	
-	public List<SueVO> selectAll(SueVO vo) {
+
+	public List<SueVO> selectCount(SueVO vo) {
+		return jdbcTemplate.query(COUNT_SUE, new SueRowMapper());
+	}
+
+	public List<SueVO> selectAllSue(SueVO vo) {
 		List<SueVO> datas = new ArrayList<SueVO>();
 		try {
 			datas = jdbcTemplate.query(SELECTALL_SUE, new SueRowMapper());
@@ -60,21 +67,15 @@ public class SueDAO {
 		return datas;
 	}
 
-	
-	public boolean selectOne(SueVO vo) {
+	public SueVO selectOneSue(SueVO vo) {
 		try {
-			jdbcTemplate.query(SELECTONE_SUE, new SelectOneRowMapper());
+			return jdbcTemplate.queryForObject(SELECTONE_SUE, new SelectOneRowMapper(), vo.getbNum());
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
-		return true;
+		return null;
 	}
-
-
 }
-
-
 
 class SueRowMapper implements RowMapper<SueVO> {
 	@Override
@@ -95,7 +96,6 @@ class SueRowMapper implements RowMapper<SueVO> {
 		data.setScName(rs.getString("SCNAME"));
 		return data;
 	}
-
 }
 
 class SelectOneRowMapper implements RowMapper<SueVO> {
@@ -110,10 +110,7 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setBwDate(rs.getString("BWDATE"));
 		data.setsDate(rs.getDate("SDATE"));
 		data.setsResult(rs.getString("SRESULT"));
-		
 		return data;
 	}
 
 }
-
-

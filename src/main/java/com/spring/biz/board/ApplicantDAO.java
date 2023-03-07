@@ -23,7 +23,7 @@ public class ApplicantDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	//매칭 신청
-	private final String INSERT="INSERT INTO APPLICANT(BNUM, MNUM, ACHK) VALUES(?, ?, '0')";
+	private final String INSERT="INSERT INTO APPLICANT (BNUM, MNUM) VALUES(?, ?)";
 	//마이 페이지 내가 신청한 매칭 신청 취소 
 	private final String DELETE="DELETE FROM BOARD WHERE ANUM=?";
 	//해당 매치 모든 신청자 목록

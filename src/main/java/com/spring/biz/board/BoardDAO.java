@@ -61,7 +61,7 @@ public class BoardDAO {
 	private final String SQL_SELECTALL_ADMIN_STATUS = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM WHERE BACTION=? ORDER BY BDATE ASC";
 
 	// 매칭 상세 페이지
-	private final String SELECTONE_MATCH = "SELECT BNUM, BTITLE, MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B WHERE BNUM=?";
+	private final String SELECTONE_MATCH = "SELECT CASE WHEN S.MNUM IS NULL THEN 0 ELSE 1 END SUE, B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM WHERE B.BNUM=?";
 	// 매칭 상세 페이지(신청자)-applicant 이동
 	//private final String SELECTALL_APPLICANT = "SELECT A.MNUM, MID, SCORE, MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=? ORDER BY M.MNUM ASC";
 
@@ -185,7 +185,7 @@ public class BoardDAO {
 	
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
-			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getbNum());
+			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getbNum());
 		} catch (Exception e) {
 			return null;
 		}
@@ -226,6 +226,7 @@ class BoardRowMapper implements RowMapper<BoardVO> {
 		data.setbAddress(rs.getString("BADDRESS"));
 		data.setbAction(rs.getString("BACTION"));
 		data.setbStatus(rs.getString("BSTATUS"));
+		data.setSue(rs.getInt("SUE"));
 		return data;
 	}
 
