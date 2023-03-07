@@ -40,4 +40,41 @@ public class BoardServiceImpl implements BoardService{
 	public BoardVO selectOne(BoardVO bvo) {
 		return boardDAO.selectOne(bvo);
 	}
+	
+	@Override
+	public String getbLocal(String addr) {
+		String bLocal = "";
+		String[] arList = addr.split("\\s");
+		
+		for (int i = 0; i < arList.length; i++) {
+			System.out.println("arList" + i + " : " + arList[i]);
+		}
+		boolean isRequired = true;
+
+		for (int i = 0; i < arList.length; i++) {
+			if (i > 0 && arList[i].contains("구")) {
+				for (int j = 0; j < i + 1; j++) {
+					System.out.println("arList" + j + " : " + arList[j]);
+					bLocal += arList[j] + " ";
+				}
+				isRequired = false;
+				break;
+			}
+		}
+
+		if (isRequired) {
+			for (int i = 0; i < arList.length; i++) {
+				if (i > 0 && arList[i].contains("읍")) {
+					for (int j = 0; j < i + 1; j++) {
+						bLocal += arList[j] + " ";
+					}
+					isRequired = false;
+					break;
+				}
+			}
+		}
+
+		bLocal = bLocal.substring(0, bLocal.length() - 1);
+		return bLocal;
+	}
 }

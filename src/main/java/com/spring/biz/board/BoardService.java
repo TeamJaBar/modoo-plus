@@ -14,5 +14,7 @@ public interface BoardService {
 	public List<BoardVO> selectAllManage(BoardVO bvo);
 
 	public BoardVO selectOne(BoardVO bvo);
+	
+	public String getbLocal(String addr);
 
 }

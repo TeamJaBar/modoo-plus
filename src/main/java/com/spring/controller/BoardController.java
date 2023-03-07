@@ -53,41 +53,7 @@ public class BoardController {
 		System.out.println(bvo);
 
 		// bLocal 설정
-		String bLocal = "";
-		String addr = bvo.getbAddress();
-		String[] arList = addr.split("\\s");
-		for (int i = 0; i < arList.length; i++) {
-			System.out.println("arList" + i + " : " + arList[i]);
-		}
-		boolean isRequired = true;
-
-		for (int i = 0; i < arList.length; i++) {
-			if (i > 0 && arList[i].contains("구")) {
-				for (int j = 0; j < i + 1; j++) {
-					System.out.println("arList" + j + " : " + arList[j]);
-					bLocal += arList[j] + " ";
-				}
-				isRequired = false;
-				break;
-			}
-		}
-
-		if (isRequired) {
-			for (int i = 0; i < arList.length; i++) {
-				if (i > 0 && arList[i].contains("읍")) {
-					for (int j = 0; j < i + 1; j++) {
-						bLocal += arList[j] + " ";
-					}
-					isRequired = false;
-					break;
-				}
-			}
-		}
-
-		bLocal = bLocal.substring(0, bLocal.length() - 1);
-		System.out.println(bLocal);
-
-		bvo.setbLocal(bLocal);
+		bvo.setbLocal(boardService.getbLocal(bvo.getbAddress()));
 
 		// bDate 설정
 		System.out.println(bDate);
