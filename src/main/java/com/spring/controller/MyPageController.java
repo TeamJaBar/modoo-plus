@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -79,6 +80,9 @@ public class MyPageController {
 		//내가 작성한 글 삭제
 		String referer = request.getHeader("Referer");
 		boardService.deleteBoard(bvo);
+		if(referer.contains("boardDetail")) {
+			return "redirect:boardList.do?sortBy=1";
+		}
 		return "redirect:"+referer;
 	}
 	
@@ -172,5 +176,11 @@ public class MyPageController {
 		bvo.setbDate(bDate);
 		boardService.updateBoard(bvo);
 		return "redirect:"+referer;
+	}
+	
+	@RequestMapping(value = "/showApplicant.do", method=RequestMethod.POST)
+	public List<ApplicantVO> selectAllApplicant(ApplicantVO avo, HttpSession session) {
+		avo.setmNum((Integer)session.getAttribute("mNum"));
+		return applicantService.selectAll(avo);
 	}
 }
