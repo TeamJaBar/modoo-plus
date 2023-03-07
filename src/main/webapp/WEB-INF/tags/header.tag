@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg main-navbar">
 	<!-- 해더 드롭다운 -->
 	<div class="btn-group">
-		<button type="button" class="btn btn-header" onclick="location.href='main.html'">
+		<button type="button" class="btn btn-header" onclick="location.href='boardList.do?sortBy=1'">
 			<img class="mr-3 rounded" src="../assets/img/favicon.png">
 			모두의 매칭
 		</button>
@@ -13,23 +13,29 @@
 			<span class="sr-only">Toggle Dropdown</span>
 		</button>
 		<div class="dropdown-menu">
-			<c:choose>
-			<%-- 추후 추가하고 싶은 내용 : 로그인하지 않은 회원이 누르면 
-              	 alert창(로그인이 필요한 페이지 입니다) 띄우고 로그인 페이지로 이동 --%>
-				<c:when test="${mId == 'admin'}">
-					<a class="dropdown-item" href="ad-plus-main.do">글 관리</a>
-					<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
-				</c:when>
-				<c:otherwise>
-					<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="mypage.do">내가 작성한 글</a>
-					<a class="dropdown-item" href="myBoard.do">내가 매칭한 목록</a>
-				</c:otherwise>
-			<%-- 여기까지 --%>
-			</c:choose>
+			<%--<c:if test="${not empty mId}">--%>
+				<c:choose>
+					<c:when test="${mId == 'admin'}">
+						<a class="dropdown-item" href="adPlusMain.do">글 관리</a>
+						<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
+					</c:when>
+					<c:otherwise>
+						<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="mypage.do?sortBy=1">내가 작성한 글</a>
+						<a class="dropdown-item" href="myBoard.do?sortBy=1">내가 매칭한 목록</a>
+					</c:otherwise>
+				</c:choose>
+			<%--</c:if>--%>
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do">모두의 보드</a>
+			<div class="dropdown-divider"></div>
+			<!--<c:if test="${param.lang == ko}">-->
+			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=en">ENGLISH</a>
+			<!--</c:if>
+			<c:if test="${param.lang == en}">-->
+			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=ko">한국어</a>
+			<!--<</c:if>-->
 		</div>
 	</div>
 	<!-- 검색창 -->
@@ -136,7 +142,7 @@
 							<i class="far fa-user"></i> 마이 페이지
 						</a>
 						<c:if test="${mId == 'admin'}">
-							<a href="ad-plus-main.do" class="dropdown-item has-icon">
+							<a href="adPlusMain.do" class="dropdown-item has-icon">
 								<img alt="image" src="../assets/img/favicon.png" class="rounded-circle mr-1">
 								관리자 페이지
 							</a>
