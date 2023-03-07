@@ -16,4 +16,13 @@
 	</bean>
 	<context:component-scan base-package="com.spring.biz" />
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<!-- mybatis -->
+	<!-- Factor 패턴을 사용 + dataSource 연결 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="configLocation" value="classpath:sql-map-config.xml" />
+      <property name="dataSource" ref="dataSource" />
+   </bean>
+   <bean class="org.mybatis.spring.SqlSessionTemplate">
+      <constructor-arg ref="sqlSession" />
+   </bean>
 </beans>
