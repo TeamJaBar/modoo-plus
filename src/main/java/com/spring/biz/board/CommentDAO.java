@@ -7,14 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-//@Repository("commentDAO")
+@Repository("commentDAO")
 public class CommentDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	//매칭 댓글 INSERT,UPDATE,DELETE,SELECTALL
 	private final String SQL_INSERT="INSERT INTO COMMENT (MNUM, CCONTENT, CWDATE) VALUES(?, ?, SYSDATE())";
-	//INSERT 한거 보여주는 SELECTALL
 	private final String SQL_UPDATE="UPDATE COMMENT SET CCONTENT=?, CCDATE=SYSDATE()  WHERE CNUM=?";
 	private final String SQL_DELETE="DELETE FROM COMMENT WHERE CNUM=?";
 	//전체 댓글 출력(수정)
@@ -52,7 +52,7 @@ public class CommentDAO {
 	
 	public List<CommentVO> selectAll(CommentVO cvo){
 		try {
-			return jdbcTemplate.query(SQL_SELECTALL, new CommentRowMapper(),cvo.getcCdate());
+			return jdbcTemplate.query(SQL_SELECTALL, new CommentRowMapper(),cvo.getbNum());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class CommentDAO {
 		@Override
 		public CommentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			CommentVO datas=new CommentVO();
-			datas.setcContent(rs.getString("CCOMMENT"));
+			datas.setcContent(rs.getString("CCONTENT"));
 			datas.setcWdate(rs.getTimestamp("CWDATE"));
 			datas.setcWdate(rs.getTimestamp("CWDATE"));
 			datas.setmId(rs.getString("MID"));
