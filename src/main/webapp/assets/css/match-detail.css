@@ -140,6 +140,18 @@
     border-color: #0188CB;
     box-shadow: 0 2px 6px #80bbd9;
     color:white;
+    cursor:pointer;
+    padding: 0.55rem 1.5rem;
+    line-height: 24px;
+    letter-spacing: .5px;
+    border-radius: 0.3rem;
+    text-align:center;
+    border:1px solid transparent;
+}
+
+.match-comment .form-group .btn-submit:focus{ 	
+    border: none;
+    outline:none;
 }
 
 .match-comment .form-group .btn-submit:hover {
@@ -345,5 +357,13 @@
 .navbar {
 	height:80px !important;
 	padding:0 100px 0 100px !important;
+}
+
+.deleteBoard {
+	cursor:pointer;
+}
+
+.deleteBoard:hover {
+	text-decoration:underline !important;
 }
 

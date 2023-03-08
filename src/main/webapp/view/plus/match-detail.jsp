@@ -222,8 +222,8 @@
 											<div class="form-group">
 												<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
 												<input type="hidden" name="mNum" id="mNum" value="${mNum}" />
-												<textarea class="form-control cContent" name="cContent" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
-												<button class="btn btn-lg btn-submit" id="insertCommet">
+												<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+												<button class="btn-submit" id="insertCommet">
 													<i class="fas fa-comments"></i>
 												</button>
 											</div>
@@ -238,10 +238,10 @@
 															<div class="media-body">
 																<div class="comment-head">
 																	<div class="media-title mb-1">${com.mId}</div>
-																	<c:if test="${com.ccDate == null}">
-																		<div class="text-time">${com.cwDate}</div>
+																	<c:if test="${com.cCdate == null}">
+																		<div class="text-time">${com.cWdate}</div>
 																	</c:if>
-																	<c:if test="${com.ccDate != null}">
+																	<c:if test="${com.cCdate != null}">
 																		<div class="text-time">수정됨</div>
 																	</c:if>
 																</div>
@@ -249,7 +249,7 @@
 																<div class="media-links">
 																	<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																	<div class="bullet"></div>
-																	<button class="text-danger deleteBoard">삭제</button>
+																	<a class="text-danger deleteBoard">삭제</a>
 																	<div class="collapse" id="collapseExample">
 																		<div class="media-links">
 																			<a class="TextCount" style="font-size: 2px;">0</a>
@@ -276,10 +276,10 @@
 															<div class="media-body">
 																<div class="comment-head">
 																	<div class="media-title mb-1">${com.mId}</div>
-																	<c:if test="${com.ccDate == null}">
-																		<div class="text-time">${com.cwDate}</div>
+																	<c:if test="${com.cCdate == null}">
+																		<div class="text-time">${com.cWdate}</div>
 																	</c:if>
-																	<c:if test="${com.ccDate != null}">
+																	<c:if test="${com.cCdate != null}">
 																		<div class="text-time">수정됨</div>
 																	</c:if>
 																</div>
@@ -456,40 +456,40 @@
 	})
 	<!-- 댓글 작성하기 -->
 		$(document).ready(function() {
-		$('#insertCommet').each(function() {
-			let mNum = $(this).siblings( '#mNum' ).val;
-			let bNum = $(this).siblings( '#bNum' ).val;
-			let cContent = $(this).siblings( '.cContent' ).val;
-			$(this).on('click', function(e) {
-				e.preventDefault();
-				console.log(aNum, bNum, cContent);
-
-				if(cContent == '' ||cContent == null){
-			        $(this).parent().siblings('gap').addClass('hidden');
-			        $(this).parent().siblings('space').removeClass('hidden');
-			        $(this).parent().siblings('.char').addClass('hidden');
-				} else if(cContent == " "){
-			        $(this).parent().siblings('gap').removeClass('hidden');
-			        $(this).parent().siblings('space').addClass('hidden');
-			        $(this).parent().siblings('.char').addClass('hidden');
-				} else{
-					$.ajax({
-						type: 'POST',
-						url: 'insertComment.do',
-						data: {
-							mNum: mNum,
-							bNum: bNum,
-							cContent: cContent
-						},
-						success: function(result) {
-							if (result == 1) {
-								$('#c_box').load(location.href + ' #c_box>*');
+			$('#insertCommet').on('click', function(e) {
+					e.preventDefault();
+					let mNum = '${mNum}';
+					let bNum = '${param.bNum}';
+					let cContent = $(this).siblings( '.cContent' ).val();
+					console.log('cContet: ' + cContent);
+	
+					if(cContent == '' ||cContent == null){
+				        $(this).parent().siblings('gap').addClass('hidden');
+				        $(this).parent().siblings('space').removeClass('hidden');
+				        $(this).parent().siblings('.char').addClass('hidden');
+					} else if(cContent == " "){
+				        $(this).parent().siblings('gap').removeClass('hidden');
+				        $(this).parent().siblings('space').addClass('hidden');
+				        $(this).parent().siblings('.char').addClass('hidden');
+					} else{
+						$.ajax({
+							type: 'POST',
+							url: 'insertComment.do',
+							data: {
+								mNum: mNum,
+								bNum: bNum,
+								cContent: cContent
+							},
+							success: function(result) {
+								if (result == 1) {
+									$('#c_box').load(location.href + ' #c_box>*');
+								} else if(result == -1) {
+									console.log("실패");
+								} 
 							}
-						}
-					});
-				}
+						});
+					}
 			})
-		})
 	})
 	
 		<!-- 댓글 수정하기 -->

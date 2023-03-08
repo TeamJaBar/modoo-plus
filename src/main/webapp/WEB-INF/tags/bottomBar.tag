@@ -22,15 +22,15 @@
 		<c:if test="${mNum != bDatas.mNum}">
 			<!-- 모집 중 -->
 			<c:if test="${bDatas.bAction == 0}">
-				<c:if test="${mNum != aDatas.mNum}">
+				<c:if test="${bDatas.apply == 0}">
 					<a class="complete" href="insertApplicant.do?bNum=${bDatas.bNum}&mNum=${mNum}" style="width: 100%">매치 신청하기</a>
 				</c:if>
-				<c:if test="${mNum == aDatas.mNum}">
+				<c:if test="${bDatas.apply == 1}">
 					<a class="complete" href="myEntryDelete.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
 				</c:if>
 			</c:if>
 			<!-- 모집완료 -->
-			<c:if test="${bDatas.bAction == 1}">
+			<c:if test="${bDatas.apply == 1}">
 				<c:if test="${mNum == aDatas.mNum}">
 					<a class="complete" href="myEntryDelete.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
 				</c:if>
