@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
 <!-- CSS Libraries -->
+<link rel="stylesheet" href="../assets/modules/fullcalendar/fullcalendar.min.css">
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -52,6 +53,18 @@
 					<div class="section-body">
 						<h2 class="section-title">매칭 목록</h2>
 						<div class="row">
+							<div class="col-8 calendar">
+								<div class="card">
+									<div class="card-header">
+										<h4>Calendar</h4>
+									</div>
+									<div class="card-body">
+										<div class="fc-overflow">
+											<div id="myEvent"></div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
@@ -142,8 +155,7 @@
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
 															<a class="page-link" href="mymatch.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span>
-																<span class="sr-only">Previous</span>
+																<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
 															</a>
 														</li>
 													</c:if>
@@ -159,8 +171,7 @@
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
 															<a class="page-link" href="mymatch.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span>
-																<span class="sr-only">Next</span>
+																<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
 															</a>
 														</li>
 													</c:if>
@@ -301,6 +312,10 @@
 	</script>
 
 	<style>
+.calendar {
+	margin: 0 auto;
+}
+
 .main-content {
 	padding-left: 15%;
 	padding-right: 15%;
@@ -319,8 +334,22 @@ body {
 }
 </style>
 	<!-- JS Libraies -->
+	<script src="../assets/modules/fullcalendar/fullcalendar.min.js"></script>
+	<script src="../assets/modules/prism/prism.js"></script>
+	<script src="../assets/modules/cleave-js/dist/cleave.min.js"></script>
+	<script src="../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
+	<script src="../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script src="../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script src="../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
+	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
 	<!-- Page Specific JS File -->
+	<script src="../assets/js/page/modules-calendar.js"></script>
+	<script src="../assets/js/page/bootstrap-modal.js"></script>
+	<script src="../assets/js/page/forms-advanced-forms.js"></script>
 
 	<!-- Template JS File -->
 	<script src="../assets/js/scripts.js"></script>
