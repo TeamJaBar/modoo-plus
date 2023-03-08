@@ -359,3 +359,11 @@
 	padding:0 100px 0 100px !important;
 }
 
+.deleteBoard {
+	cursor:pointer;
+}
+
+.deleteBoard:hover {
+	text-decoration:underline !important;
+}
+
