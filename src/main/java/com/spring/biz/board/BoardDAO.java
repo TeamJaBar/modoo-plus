@@ -61,7 +61,10 @@ public class BoardDAO {
 	private final String SQL_SELECTALL_ADMIN_STATUS = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM WHERE BACTION=? ORDER BY BDATE ASC";
 
 	// 매칭 상세 페이지
-	private final String SELECTONE_MATCH = "SELECT CASE WHEN S.MNUM IS NULL THEN 0 ELSE 1 END SUE, B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM WHERE B.BNUM=?";
+	private final String SELECTONE_MATCH = "SELECT CASE WHEN S.MNUM IS NULL THEN 0 ELSE 1 END SUE, CASE WHEN A.MNUM IS NULL THEN 0 ELSE 1 END APPLY,"
+			+ "B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B"
+			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
+			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
 	// 매칭 여부
 	private final String SELECTONE_MATCH_USE = "SELECT EXISTS (SELECT * FROM APPLICANT WHERE BNUM =? AND MNUM =?) CNT";
 	// 매칭 상세 페이지(신청자)-applicant 이동
@@ -187,7 +190,7 @@ public class BoardDAO {
 	
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
-			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getbNum());
+			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getmNum(), bvo.getbNum());
 		} catch (Exception e) {
 			return null;
 		}
@@ -239,7 +242,7 @@ class BoardRowMapper implements RowMapper<BoardVO> {
 		data.setbAction(rs.getString("BACTION"));
 		data.setbStatus(rs.getString("BSTATUS"));
 		data.setSue(rs.getInt("SUE"));
-		data.setCnt(rs.getInt("CNT"));
+		data.setApply(rs.getInt("APPLY"));
 		return data;
 	}
 
