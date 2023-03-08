@@ -33,6 +33,32 @@
 	gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA -->
+<style>
+.empty {
+	padding-top: 30px !important;
+}
+
+.empty>p {
+	font-size: 15px;
+}
+
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+</style>
 </head>
 
 <body>
@@ -118,7 +144,10 @@
 												<!-- 신고 게시글 목록 -->
 												<c:if test="${fn:length(sue) == 0}">
 													<tr class="text-center">
-														<td colspan="5">접수된 신고가 없습니다.</td>
+														<td class="empty" colspan="8">
+															<p>접수된 신고가 없습니다.</p>
+															<button class="btn btn-primary" type="button" onclick="location.href='adPlusMain.do'">글 관리</button>
+														</td>
 													</tr>
 												</c:if>
 												<c:if test="${fn:length(sue) != 0}">
@@ -151,18 +180,6 @@
 												<!-- 신고 게시글 목록 끝-->
 											</table>
 										</div>
-										<input type="hidden" name="pageNum" id="pageNum" value="${param.pageNum}">
-										<c:if test="${fn:length(sue) == 0}">
-											<div class="card-footer text-center">
-												<nav class="d-inline-block">
-													<ul class="pagination mb-0">
-														<li class="page-item disabled">
-															<button class="btn btn-primary" type="button" onclick="location.href='adPlusMain.do'">글 관리</button>
-														</li>
-													</ul>
-												</nav>
-											</div>
-										</c:if>
 										<c:if test="${fn:length(sue) != 0}">
 											<div class="card-footer text-center">
 												<nav class="d-inline-block">
@@ -205,24 +222,7 @@
 			</div>
 		</div>
 	</div>
-	<style>
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
-}
 
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-</style>
 	<!-- General JS Scripts -->
 	<script src="../assets/modules/jquery.min.js"></script>
 	<script src="../assets/modules/popper.js"></script>
