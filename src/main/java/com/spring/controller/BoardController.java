@@ -86,20 +86,20 @@ public class BoardController {
 
 	// 댓글 수정
 	@RequestMapping(value = "/updateComment.do")
-	public String updateComment(CommentVO cvo) {
+	public @ResponseBody String updateComment(CommentVO cvo) {
 		if (commentService.updateComment(cvo)) {
-			return "redirect:boardDetail.do";
+			return "1";
 		}
-		return null;
+		return "-1";
 	}
 
 	// 댓글 삭제
 	@RequestMapping(value = "/deleteComment.do")
-	public String deleteComment(CommentVO cvo) {
+	public @ResponseBody String deleteComment(CommentVO cvo) {
 		if (commentService.deleteComment(cvo)) {
-			return "redirect:boardDetail.do";
+			return "1";
 		}
-		return null;
+		return "-1";
 	}
 
 	/* 신고 */
