@@ -59,7 +59,7 @@
 		<div class="main-wrapper container">
 
 			<!--  header -->
-			<modoo:header/>
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -216,20 +216,30 @@
 										<div id="c_box" class="match-comment">
 											<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
 											<div class="media-links">
-												<a class="TextCount" style="font-size: 2px;">0</a>
+												<a class="textCount" style="font-size: 2px;">0</a>
 												<a class="TextTotal" style="font-size: 2px;">/400</a>
 											</div>
-											<div class="form-group">
-												<input type="hidden" name="bNum" id="bNum" value="${bDatas.bNum}" />
-												<input type="hidden" name="mNum" id="mNum" value="${mNum}" />
-												<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
-												<button class="btn-submit" id="insertCommet">
-													<i class="fas fa-comments"></i>
-												</button>
-											</div>
-											<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
-											<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
-											<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
+											<c:if test="${mNum == null}">
+												<div class="form-group">
+													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)" readonly></textarea>
+													<button class="btn-submit" id="insertCommet" disabled>
+														<i class="fas fa-comments"></i>
+													</button>
+												</div>
+											</c:if>
+											<c:if test="${mNum != null}">
+												<div class="form-group">
+													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+													<button class="btn-submit" id="insertCommet">
+														<i class="fas fa-comments"></i>
+													</button>
+												</div>
+												<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+												<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+												<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
+											</c:if>
+
+
 											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
 												<c:forEach var="com" items="${cDatas}">
 													<!-- 현재 로그인한 사람이 작성한 댓글 -->
@@ -247,17 +257,17 @@
 																</div>
 																<div class="media-description text-muted">${com.cContent}</div>
 																<div class="media-links">
-																	<a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
+																	<a data-toggle="collapse" href="#collapseExample${com.cNum}" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																	<div class="bullet"></div>
 																	<a class="text-danger deleteBoard">삭제</a>
-																	<div class="collapse" id="collapseExample">
+																	<div class="collapse" id="collapseExample${com.cNum}">
 																		<div class="media-links">
-																			<a class="TextCount" style="font-size: 2px;">0</a>
+																			<a class="textCount" style="font-size: 2px;">${fn:length(com.cContent)}</a>
 																			<a class="TextTotal" style="font-size: 2px;">/400</a>
 																		</div>
 																		<div class="form-group">
 																			<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
-																			<textarea class="form-control" name="cContent" id="${com.cNum}" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
+																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
 																			<button class="btn btn-lg btn-submit" id="updateCommet">
 																				<i class="fas fa-comments"></i>
 																			</button>
@@ -295,7 +305,7 @@
 							</div>
 							<!-- 하단 바 -->
 							<div class="fixed-bottom">
-								<modoo:bottomBar/>
+								<modoo:bottomBar />
 								<!--<a class="btn btn-info btn-action mb-3" data-toggle="tooltip"
 								title="" data-original-title="매칭 신청"><i
 								class="fas fa-user-plus"></i></a> -->
@@ -531,12 +541,13 @@
 		function validation(a){
 			$('#'+a).keyup(function (e) {
 				let content = $(this).val();
-				console.log($(this).parent().siblings());
+				console.log(content);
+				console.log($(this).text());
 			    // 글자수 세기
 			    if (content.length == 0 || content == '') {
-			    	$(this).parent().siblings('.media-links').children('.textCount').text('0자');
+			    	$(this).parent().siblings('.media-links').children('.textCount').text('0');
 			    } else {
-			    	$(this).parent().siblings('.media-links').children('.textCount').text(content.length + '자');
+			    	$(this).parent().siblings('.media-links').children('.textCount').text(content.length);
 			    }
 			    
 			    // 글자수 제한
