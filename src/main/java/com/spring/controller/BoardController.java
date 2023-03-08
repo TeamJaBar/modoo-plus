@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.biz.board.ApplicantService;
 import com.spring.biz.board.ApplicantVO;
@@ -76,11 +77,11 @@ public class BoardController {
 	/* 댓글 */
 	// 댓글 작성
 	@RequestMapping(value = "/insertComment.do")
-	public String insertComment(CommentVO cvo) {
+	public @ResponseBody String insertComment(CommentVO cvo) {
 		if (commentService.insertComment(cvo)) {
-			return "redirect:boardDetail.do";
+			return "1";
 		}
-		return null;
+		return "-1";
 	}
 
 	// 댓글 수정
