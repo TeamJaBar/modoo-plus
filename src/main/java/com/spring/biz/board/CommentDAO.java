@@ -14,16 +14,16 @@ public class CommentDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	//매칭 댓글 INSERT,UPDATE,DELETE,SELECTALL
-	private final String SQL_INSERT="INSERT INTO COMMENT (MNUM, CCONTENT, CWDATE) VALUES(?, ?, SYSDATE())";
+	private final String SQL_INSERT="INSERT INTO COMMENT (BNUM, MNUM, CCONTENT, CWDATE) VALUES(?, ?, ?, SYSDATE())";
 	private final String SQL_UPDATE="UPDATE COMMENT SET CCONTENT=?, CCDATE=SYSDATE()  WHERE CNUM=?";
 	private final String SQL_DELETE="DELETE FROM COMMENT WHERE CNUM=?";
 	//전체 댓글 출력(수정)
-	private final String SQL_SELECTALL="SELECT C.CNUM, CCONTENT, CWDATE, MID, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= ? ORDER BY CWDATE ASC";
+	private final String SQL_SELECTALL="SELECT C.CNUM, CCONTENT, CWDATE, MID, C.MNUM, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= ? ORDER BY CWDATE ASC";
 
 	public boolean insertComment(CommentVO cvo) {
 		try {
 			System.out.println("CommentDAO의 insert()");
-			jdbcTemplate.update(SQL_INSERT,cvo.getmNum(),cvo.getcContent(),cvo.getcWdate());
+			jdbcTemplate.update(SQL_INSERT,cvo.getbNum(), cvo.getmNum(), cvo.getcContent());
 		}catch(Exception e) {
 			return false;
 		}
@@ -70,6 +70,7 @@ public class CommentDAO {
 			datas.setmId(rs.getString("MID"));
 			datas.setcCdate(rs.getTimestamp("CCDATE"));
 			datas.setcNum(rs.getInt("CNUM"));
+			datas.setmNum(rs.getInt("MNUM"));
 			return datas;
 		}
 
