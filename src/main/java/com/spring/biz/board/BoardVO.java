@@ -31,6 +31,7 @@ public class BoardVO {
 	private int pageNum;
 	private int amount;
 	private int sue; //JAVA 저장 객체 : 신고여부
+	private int cnt; //JAVA 저장 객체 : 신청여부
 	
 	
 	
@@ -203,15 +204,20 @@ public class BoardVO {
 		this.bAction = bAction;
 	}
 	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 	@Override
 	public String toString() {
-		return "BoardVO [bNum=" + bNum + ", mNum=" + mNum + ", bTitle=" + bTitle + ", bContent=" + bContent + ", bRate="
-				+ bRate + ", bCnt=" + bCnt + ", bDate=" + bDate + ", bWdate=" + bWdate + ", bCdate=" + bCdate
-				+ ", bStatus=" + bStatus + ", bLatitude=" + bLatitude + ", bLongitude=" + bLongitude + ", bLocal="
-				+ bLocal + ", bAddress=" + bAddress + ", bAction=" + bAction + ", aSerchDate=" + sSearchDate
-				+ ", bSerchDate=" + eSearchDate + ", searchContent=" + searchContent + ", bMname=" + bMname
-				+ ", bMscore=" + bMscore + ", bMimg=" + bMimg + ", aCnt=" + aCnt + ", sortBy=" + sortBy + "]";
+		return "BoardVO [bNum=" + bNum + ", mNum=" + mNum + ", bTitle=" + bTitle + ", bContent=" + bContent + ", bRate=" + bRate + ", bCnt=" + bCnt + ", bDate=" + bDate + ", bWdate=" + bWdate
+				+ ", bCdate=" + bCdate + ", bStatus=" + bStatus + ", bLatitude=" + bLatitude + ", bLongitude=" + bLongitude + ", bLocal=" + bLocal + ", bAddress=" + bAddress + ", bAction=" + bAction
+				+ ", sSearchDate=" + sSearchDate + ", eSearchDate=" + eSearchDate + ", searchContent=" + searchContent + ", bMname=" + bMname + ", bMscore=" + bMscore + ", bMimg=" + bMimg + ", aCnt="
+				+ aCnt + ", sortBy=" + sortBy + ", aNum=" + aNum + ", aChk=" + aChk + ", pageNum=" + pageNum + ", amount=" + amount + ", sue=" + sue + ", cnt=" + cnt + "]";
 	}
+
 	
 	
 }
