@@ -239,6 +239,7 @@ class BoardRowMapper implements RowMapper<BoardVO> {
 		data.setbAction(rs.getString("BACTION"));
 		data.setbStatus(rs.getString("BSTATUS"));
 		data.setSue(rs.getInt("SUE"));
+		data.setCnt(rs.getInt("CNT"));
 		return data;
 	}
 
