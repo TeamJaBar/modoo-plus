@@ -34,6 +34,28 @@
 </script>
 <!-- /END GA -->
 <link rel="stylesheet" href="../assets/css/admin-board.css">
+<style>
+.hidden {
+	display: none;
+}
+
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+</style>
 </head>
 
 <body>
@@ -41,7 +63,7 @@
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header/>
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
@@ -120,7 +142,7 @@
 										</div>
 										<!-- 선택 글 삭제 -->
 										<div class="float-left">
-											<button class="btn btn-primary" onclick="del()">선택한 글 삭제하기</button>
+											<button class="btn btn-primary" id="selectDel" onclick="del()">선택한 글 삭제하기</button>
 										</div>
 									</div>
 								</div>
@@ -383,10 +405,14 @@
 			        let str = item.querySelector("#navi li a").id;
 			        
 			        if(str.includes(num)) {
-			        	item.querySelector("#navi li a").classList.add("active");
-			        }else{
-			        	item.querySelector("#navi li a").classList.remove("active");
-			        }
+	                    item.querySelector("#navi li a").classList.add("active");
+	                    item.querySelector("#navi li a span").classList.remove("badge-primary");
+	                    item.querySelector("#navi li a span").classList.add("badge-white");
+	                 }else{
+	                    item.querySelector("#navi li a").classList.remove("active");
+	                    item.querySelector("#navi li a span").classList.add("badge-primary");
+	                    item.querySelector("#navi li a span").classList.remove("badge-white");
+	                 }
 			    });
 			    }
 			datasetting();
@@ -439,29 +465,13 @@
 	         }
 	      }
 		
-		   function emptyData(){
-		    	  let html = `<th colspan="3" style="text-align: center; height : 100px;"><h1>데이터가 없습니다</h1></th>`;
-		          document.getElementById("html_list").innerHTML = html;
-		      }
+		  function emptyData(){
+	    	  let html = `<tr "text-center"><td colspan="6" style="height : 100px;"><div style="padding-top : 20px;">게시글이 없습니다.</div></td></tr>`;
+	          document.getElementById("html_list").innerHTML = html;
+	          document.getElementById("selectDel").classList.add("hidden");
+	      }
 	</script>
-	<style>
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
-}
 
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-</style>
 	<!-- General JS Scripts -->
 	<script src="../assets/modules/jquery.min.js"></script>
 	<script src="../assets/modules/popper.js"></script>
