@@ -110,7 +110,7 @@
 													<c:set var="mNum" value="${mNum}" />
 													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v" varStatus="i">
-															<input type="hidden" name="aNum" id="aNum" value="${aDatas.aNum}" />
+															<input type="hidden" name="aNum" id="aNum" value="${v.aNum}" />
 															<tr class="text-center">
 																<td>
 																	<div class="sort-handler">
@@ -126,25 +126,25 @@
 																<c:choose>
 																	<c:when test="${v.bAction == 2}">
 																		<td>
-																			<c:if test="${aDatas.aChk != 1}">
-																				<button class="btn btn-primary" id="modal-btn" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																			<c:if test="${v.aChk != 1}">
+																				<button class="btn btn-primary" id="modal-btn" value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
 																			</c:if>
-																			<c:if test="${aDatas.aChk == 1}">
+																			<c:if test="${v.aChk == 1}">
 																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" disabled="disabled">평가완료</button>
 																			</c:if>
 																		</td>
 																	</c:when>
 																	<c:otherwise>
 																		<td>
-																			<%-- ajax 식으로 하기 전 
-																			<button name="myEntryDelete" id="cancleBtn-${i.index}" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?"
-																				data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>--%>
 																			<button name="myEntryDelete" id="cancleBtn" class="btn btn-icon btn-danger">취소하기</button>
 																		</td>
 																	</c:otherwise>
 																</c:choose>
 															</tr>
 														</c:forEach>
+														<%-- ajax 식으로 하기 전 
+																			<button name="myEntryDelete" id="cancleBtn-${i.index}" class="btn btn-icon btn-danger" data-confirm="취소?|정말로 취소하실껀가요?"
+																				data-confirm-yes="location.href='myEntryDelete.do?aNum=${v.aNum}'">취소하기</button>--%>
 													</c:if>
 												</tbody>
 											</table>
@@ -154,15 +154,16 @@
 												<ul class="pagination mb-0">
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
-															<a class="page-link" href="mymatch.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
+															<a class="page-link" href="myBoard.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
+																<span aria-hidden="true">&laquo;</span>
+																<span class="sr-only">Previous</span>
 															</a>
 														</li>
 													</c:if>
 													<!-- 1. 페이지번호 처리 -->
 													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 														<li class="page-item active">
-															<a class="page-link" href="mymatch.do?pageNum=${num}">${num}</a>
+															<a class="page-link" href="myBoard.do?pageNum=${num}">${num}</a>
 														</li>
 													</c:forEach>
 													<!-- <li class="page-item">
@@ -170,8 +171,9 @@
 													</li> -->
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
-															<a class="page-link" href="mymatch.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+															<a class="page-link" href="myBoard.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
+																<span aria-hidden="true">&raquo;</span>
+																<span class="sr-only">Next</span>
 															</a>
 														</li>
 													</c:if>
@@ -201,29 +203,12 @@
 				<form id="form">
 					<div class="modal-body">
 						<table class="table table-striped">
-							<tbody>
+							<tbody id="modal-box">
 								<tr>
 									<th>선택</th>
 									<th>프로필</th>
 									<th>아이디</th>
 								</tr>
-								<!-- 모달창 el식 적용 -->
-								<c:forEach items="${aDatas}" var="v" varStatus="i" step="1">
-									<c:if test="${v.mNum != mNum}">
-										<tr>
-											<td>
-												<input type="radio" name="mNum" value="${v.mNum}" id="mNum-${i.index}" />
-											</td>
-											<td>
-												<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="tooltip" title="" data-original-title="${v.mId}">
-											</td>
-											<td>
-												<input type="text" name="mId" value="${v.mId}" id="mId" />
-											</td>
-										</tr>
-									</c:if>
-								</c:forEach>
-								<!-- 모달창 el식 적용 끝 -->
 							</tbody>
 						</table>
 					</div>
@@ -247,23 +232,44 @@
 		// 평가하기 모달창
 		$(document).ready(function() {
 			$('#modal-btn').each(function() {
-				let mNum = $("#mNum").val;
+				var mNum = ${mNum};
+				console.log('aaa' + mNum);
 				$(this).on('click', function(e) {
+					var bNum = $(this).val();
+					console.log("확인[" + bNum + "]");
 					e.preventDefault();
-					location.href = 'showApplicant.do?mNum=' + mNum;
+					$.ajax({
+						type : 'POST',
+						url : 'showApplicant.do',
+						data : {
+							bNum : bNum
+						},
+						success : function(result) {
+							console.log(result);
+							console.log("왔다");
+							var $list = $("#modal-box");
+							$.each(result, function(index, value) {
+								var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
+								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
+										"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
+								var $text = $("<input>").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("readonly", "true");
+								var $td1 = $("<td>").append($radio);
+								var $td2 = $("<td>").append($img);
+								var $td3 = $("<td>").append($text);
+								var $tr = $("<tr>");
+								$tr.append($td1).append($td2).append($td3);
+								$list.append($tr);
+							}); 
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							// 실패했을 때 실행될 콜백 함수
+							console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
+						}
+					});
 				});
 			});
-		})
-		/*
-		 function cancleBtn(aNum){
-		 var answer=confirm("취소 하시겠습니까?");
-		 if(answer){
-		 var url = 'myEntryDelete.do?aNum=' + aNum.value;
-		 window.open(url, "_self",  '');
-		 }  
-		 }*/
-		// 취소하기버튼
-		$(document).ready(function() {
+
+			// 취소하기버튼
 			$('#cancleBtn').each(function() {
 				let aNum = $("#aNum").val;
 				$(this).on('click', function(e) {
@@ -278,14 +284,24 @@
 							},
 							success : function(result) {
 								if (result == 1) {
-									$('#a_box').load(location.href + ' #a_box>*');
+									$('#a_box').load(location.href + ' #a_box > *');
 								}
 							}
 						});
 					}
 				})
 			})
+
 		})
+
+		/*
+		 function cancleBtn(aNum){
+		 var answer=confirm("취소 하시겠습니까?");
+		 if(answer){
+		 var url = 'myEntryDelete.do?aNum=' + aNum.value;
+		 window.open(url, "_self",  '');
+		 }  
+		 }*/
 
 		/*  */
 		/* $(document).ready(function() {
