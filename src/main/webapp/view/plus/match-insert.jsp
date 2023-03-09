@@ -258,7 +258,7 @@ select option[disabled] {
 										<h4>매칭 게시글</h4>
 									</div>
 									<div class="card-body">
-										<form action="${param.type == 'update' ? 'boardUpdate.do' : 'insertBoard.do'}" method="post" onsubmit="return submitBoard();">
+										<form action="${param.type == 'update' ? 'updateBoard.do' : 'insertBoard.do'}" method="post" onsubmit="return submitBoard();">
 											<c:if test="${param.type == 'update'}">
 												<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 											</c:if>
