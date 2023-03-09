@@ -127,17 +127,17 @@
 												<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
 											</li>
 										</ul>
-										<div class="tab-content tab-bordered">
+										<div class="tab-content tab-bordered"  id="a_box">
 											<!--매치 정보-->
 											<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
 												<table>
 													<tr>
-														<td>인원</td>
-														<td>실력</td>
-														<td>상태</td>
+														<td>모집 인원</td>
+														<td>모집 실력</td>
+														<td>모집 상태</td>
 													</tr>
 													<tr>
-														<td>${bDatas.bCnt}</td>
+														<td>${fn:length(aDatas)} / ${bDatas.bCnt}</td>
 														<td>${bDatas.bRate}</td>
 														<td>
 															<c:if test="${bDatas.bAction==0}">모집 중</c:if>
@@ -149,7 +149,7 @@
 											</div>
 											<!--참가 신청자 정보-->
 											<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
-												<ul id="a_box" class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+												<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
 													<c:forEach var="entry" items="${aDatas}">
 														<c:if test="${bDatas.mNum == entry.mNum}">
 															<!--방장 - 글 작성자-->
@@ -194,12 +194,12 @@
 																	</div>
 																</div>
 																<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-																<c:if test="${bDatas.mNum == mNum}">
+																<c:if test="${bDatas.mNum == mNum || 'admin' eq mId}">
 																	<div class="media-cta">
-																		<button class="btn btn-outline-primary" id="kickUser">퇴출하기</button>
+																		<button class="btn btn-outline-primary" id="kickUser" onclick="kickuser(${entry.aNum})">퇴출하기</button>
 																	</div>
 																</c:if>
-																<c:if test="${bDatas.mNum != mNum}">
+																<c:if test="${bDatas.mNum != mNum && 'admin' ne mId}">
 																	<div class="media-cta">
 																		<div class="btn btn-outline-primary">방참가자</div>
 																	</div>
@@ -214,14 +214,15 @@
 										<div class="match-content">${bDatas.bContent}</div>
 										<!-- 댓글 -->
 										<div id="c_box" class="match-comment">
+
 											<div class="comment-title">댓글 (${fn:length(cDatas)}개)</div>
 											<div class="media-links">
 												<a class="textCount" style="font-size: 2px;">0</a>
-												<a class="TextTotal" style="font-size: 2px;">/400</a>
+												<a class="TextTotal" style="font-size: 2px;">/300</a>
 											</div>
 											<c:if test="${mNum == null}">
 												<div class="form-group">
-													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)" readonly></textarea>
+													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px;" onclick="validation(this.id)" readonly></textarea>
 													<button class="btn-submit" id="insertCommet" disabled>
 														<i class="fas fa-comments"></i>
 													</button>
@@ -229,18 +230,18 @@
 											</c:if>
 											<c:if test="${mNum != null}">
 												<div class="form-group">
-													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
-													<button class="btn-submit" id="insertCommet">
+													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+													<button class="btn-submit" id="insertCommet" onclick="comCreate()">
 														<i class="fas fa-comments"></i>
 													</button>
 												</div>
-												<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+												<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
 												<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
 												<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 											</c:if>
 
 
-											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
+											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder" style="word-break: break-all;">
 												<c:forEach var="com" items="${cDatas}">
 													<!-- 현재 로그인한 사람이 작성한 댓글 -->
 													<c:if test="${mNum == com.mNum}">
@@ -259,20 +260,19 @@
 																<div class="media-links">
 																	<a data-toggle="collapse" href="#collapseExample${com.cNum}" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																	<div class="bullet"></div>
-																	<a class="text-danger deleteBoard">삭제</a>
+																	<a class="text-danger deleteBoard" onclick="comDel(${com.cNum});">삭제</a>
 																	<div class="collapse" id="collapseExample${com.cNum}">
 																		<div class="media-links">
 																			<a class="textCount" style="font-size: 2px;">${fn:length(com.cContent)}</a>
-																			<a class="TextTotal" style="font-size: 2px;">/400</a>
+																			<a class="TextTotal" style="font-size: 2px;">/300</a>
 																		</div>
 																		<div class="form-group">
-																			<input type="hidden" name="cNum" id="cNum" value="${com.cNum}" />
-																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 400자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
-																			<button class="btn btn-lg btn-submit" id="updateCommet">
+																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
+																			<button class="btn btn-lg btn-submit" id="update${com.cNum}" onclick="comUpdate(${com.cNum})">
 																				<i class="fas fa-comments"></i>
 																			</button>
 																		</div>
-																		<div class="alert alert-info hidden char">글자수는 400자까지 입력 가능합니다.</div>
+																		<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
 																		<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
 																		<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 																	</div>
@@ -343,8 +343,6 @@
 		</div>
 	</form>
 
-
-
 	<script type="text/javascript">
 		<!-- NaverMap API -->
 		$(function() {
@@ -414,73 +412,22 @@
 			document.body.removeChild(textarea);
 			alert("주소가 복사되었습니다.")
 		}
-	</script>
-	<script>
-	<!-- 댓글 삭제 -->
-	$(document).ready(function() {
-		$('.deleteBoard').each(function() {
-			let cNum = $(this).parent().parent().parent().prop("id");
-			$(this).on('click', function(e) {
-				e.preventDefault();
-				console.log(cNum);
-				if (confirm('정말 삭제하시겠습니까?')) {
-					$.ajax({
-						type: 'POST',
-						url: 'deleteComment.do',
-						data: {
-							cNum: cNum
-						},
-						success: function(result) {
-							if (result == 1) {
-								$('#c_box').load(location.href + ' #c_box>*');
-							}
-						}
-					});
-				} 
-			})
-		})
-	})
-	<!-- 퇴출하기 -->
-		$(document).ready(function() {
-		$('#kickUser').each(function() {
-			let aNum = $(this).parent().parent().parent().prop("id");
-			$(this).on('click', function(e) {
-				e.preventDefault();
-				console.log(aNum);
-				if (confirm('퇴출하시겠습니까?')) {
-					$.ajax({
-						type: 'POST',
-						url: 'kickOut.do',
-						data: {
-							aNum: aNum
-						},
-						success: function(result) {
-							if (result == 1) {
-								$('#a_box').load(location.href + ' #a_box>*');
-							}
-						}
-					});
-				} 
-			})
-		})
-	})
-	<!-- 댓글 작성하기 -->
-		$(document).ready(function() {
-			$('#insertCommet').on('click', function(e) {
-					e.preventDefault();
+		
+		<!-- 댓글 추가 -->
+		function comCreate(){
 					let mNum = '${mNum}';
 					let bNum = '${param.bNum}';
-					let cContent = $(this).siblings( '.cContent' ).val();
+					let cContent = $('#textBox').val();
 					console.log('cContet: ' + cContent);
 	
 					if(cContent == '' ||cContent == null){
-				        $(this).parent().siblings('gap').addClass('hidden');
-				        $(this).parent().siblings('space').removeClass('hidden');
-				        $(this).parent().siblings('.char').addClass('hidden');
-					} else if(cContent == " "){
-				        $(this).parent().siblings('gap').removeClass('hidden');
-				        $(this).parent().siblings('space').addClass('hidden');
-				        $(this).parent().siblings('.char').addClass('hidden');
+				        $('#insertCommet').parent().siblings('.gap').addClass('hidden');
+				        $('#insertCommet').parent().siblings('.space').removeClass('hidden');
+				        $('#insertCommet').parent().siblings('.char').addClass('hidden');
+					} else if(cContent.trim() == ""){
+				        $('#insertCommet').parent().siblings('.gap').removeClass('hidden');
+				        $('#insertCommet').parent().siblings('.space').addClass('hidden');
+				        $('#insertCommet').parent().siblings('.char').addClass('hidden');
 					} else{
 						$.ajax({
 							type: 'POST',
@@ -499,50 +446,84 @@
 							}
 						});
 					}
-			})
-	})
-	
-		<!-- 댓글 수정하기 -->
-		$(document).ready(function() {
-		$('#updateCommet').each(function() {
-			let cNum = $(this).siblings( '#cNum' ).val;
-			let cContent = $(this).siblings( '#form-control').val;
-			$(this).on('click', function(e) {
-				e.preventDefault();
-				console.log(cNum, cContent);
-				if(cContent == '' ||cContent == null){
-			        $(this).parent().siblings('gap').addClass('hidden');
-			        $(this).parent().siblings('space').removeClass('hidden');
-			        $(this).parent().siblings('.char').addClass('hidden');
-				} else if(cContent == " "){
-			        $(this).parent().siblings('gap').removeClass('hidden');
-			        $(this).parent().siblings('space').addClass('hidden');
-			        $(this).parent().siblings('.char').addClass('hidden');
-				} else{
-					$.ajax({
-						type: 'POST',
-						url: 'updateCommet.do',
-						data: {
-							cNum: cNum,
-							cContent: cContent
-						},
-						success: function(result) {
-							if (result == 1) {
-								$('#c_box').load(location.href + ' #c_box>*');
+		}
+		
+		<!-- 댓글 수정 -->
+		function comUpdate(e){
+				let cContent = $('#c'+e).val();
+					console.log(e, cContent);
+					if(cContent == '' ||cContent == null){
+				        $('#c'+e).parent().siblings('.gap').addClass('hidden');
+				        $('#c'+e).parent().siblings('.space').removeClass('hidden');
+				        $('#c'+e).parent().siblings('.char').addClass('hidden');
+					} else if(cContent.trim() == ""){
+				        $('#c'+e).parent().siblings('.gap').removeClass('hidden');
+				        $('#c'+e).parent().siblings('.space').addClass('hidden');
+				        $('#c'+e).parent().siblings('.char').addClass('hidden');
+					} else{
+						$.ajax({
+							type: 'POST',
+							url: 'updateComment.do',
+							data: {
+								cNum: e,
+								cContent: cContent
+							},
+							success: function(result) {
+								if (result == 1) {
+									$('#c_box').load(location.href + ' #c_box>*');
+								} else {
+									console.log("실패");
+								}
 							}
-						}
-					});	
-				}
-			})
-		})
-	})
-	
-	<!-- 유효성 검사 -->
+						});	
+					}
+		}
+		
+		<!-- 댓글 삭제 -->
+		function comDel(e){
+					console.log(e);
+					if (confirm('정말 삭제하시겠습니까?')) {
+						$.ajax({
+							type: 'POST',
+							url: 'deleteComment.do',
+							data: {
+								cNum: e
+							},
+							success: function(result) {
+								if (result == 1) {
+									$('#c_box').load(location.href + ' #c_box>*');
+								}
+							}
+						});
+					} 
+		}
+		
+		<!-- 참여자 퇴출 -->
+		function kickuser(e){
+						console.log(e);
+						if (confirm('정말로 퇴출하시겠습니까?')) {
+							$.ajax({
+								type: 'POST',
+								url: 'kickOut.do',
+								data: {
+									aNum: e
+								},
+								success: function(result) {
+									if (result == 1) {
+										$('#a_box').load(location.href + ' #a_box>*');
+									} else {
+										console.log('실패');
+									}
+								}
+							});
+						} 
+		}
+		
+		<!-- 유효성 검사 -->
 		function validation(a){
 			$('#'+a).keyup(function (e) {
 				let content = $(this).val();
-				console.log(content);
-				console.log($(this).text());
+				console.log(a, content);
 			    // 글자수 세기
 			    if (content.length == 0 || content == '') {
 			    	$(this).parent().siblings('.media-links').children('.textCount').text('0');
@@ -551,12 +532,12 @@
 			    }
 			    
 			    // 글자수 제한
-			    if (content.length > 400) {
-			    	// 400자 부터는 타이핑 되지 않도록
-			        $(this).val($(this).val().substring(0, 400));
-			        // 400자 넘으면 알림창 뜨도록
-			        $(this).parent().siblings('gap').addClass('hidden');
-			        $(this).parent().siblings('space').addClass('hidden');
+			    if (content.length > 300) {
+			    	// 300자 부터는 타이핑 되지 않도록
+			        $(this).val($(this).val().substring(0, 300));
+			        // 300자 넘으면 알림창 뜨도록
+			        $(this).parent().siblings('.gap').addClass('hidden');
+			        $(this).parent().siblings('.space').addClass('hidden');
 			        $(this).parent().siblings('.char').removeClass('hidden');
 			    };
 			});
