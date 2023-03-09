@@ -66,7 +66,8 @@ public class MyPageController {
 		return "/view/plus/mypage.jsp";
 	}
 	
-	@RequestMapping("/updateBoardAction.do")
+
+	@RequestMapping(value= "/updateBoardAction.do", method=RequestMethod.GET)
 	public String updateBAction(BoardVO bvo, HttpServletRequest request) {
 		//보드 매칭상태 업데이트 (모집중 OR 모집완료)
 		String referer = request.getHeader("Referer");
@@ -75,7 +76,17 @@ public class MyPageController {
 		return "redirect:"+referer;
 	}
 	
-	@RequestMapping("/boardDelete.do")
+
+	@RequestMapping(value = "/updateBoardAction.do", method=RequestMethod.POST)
+	public String updateBActionAjax(BoardVO bvo) {
+		if(boardService.updateBoard(bvo)) {
+			return "1";
+		} else {
+			return "-1";
+		}
+	}
+	
+	@RequestMapping(value="/boardDelete.do", method=RequestMethod.GET)
 	public String deleteBoard(BoardVO bvo, HttpServletRequest request) {
 		//내가 작성한 글 삭제
 		String referer = request.getHeader("Referer");
@@ -84,6 +95,15 @@ public class MyPageController {
 			return "redirect:boardList.do?sortBy=1";
 		}
 		return "redirect:"+referer;
+	}
+	
+	@RequestMapping(value = "/boardDelete.do", method=RequestMethod.POST)
+	public @ResponseBody String  deleteOneBoard(BoardVO bvo) {
+		if(boardService.deleteBoard(bvo)) {
+			return "1";
+		} else {
+			return "-1";
+		}
 	}
 	
 	@RequestMapping("/myBoard.do")
@@ -108,12 +128,23 @@ public class MyPageController {
 	}
 	
 	//내가 신청한 매칭 목록 - 매칭 신청 취소
-	@RequestMapping("/myEntryDelete.do")
-	public String deleteMatch(ApplicantVO avo, HttpServletRequest request, Model model) {
+	@RequestMapping(value="/myEntryDelete.do", method=RequestMethod.GET)
+	public String deleteMatch(ApplicantVO avo, HttpServletRequest request) {
 		String referer = request.getHeader("Referer");
 		applicantService.delete(avo);
 		return "redirect:"+referer;
 	}
+	
+	//내가 신청한 매칭 목록 - 매칭 신청 취소
+	@RequestMapping(value="/myEntryDelete.do", method=RequestMethod.POST)
+	public @ResponseBody String deleteMatchAjax(ApplicantVO avo) {
+		if(applicantService.delete(avo)) {
+			return "1";
+		}
+		return "-1";
+		
+	}
+
 	
 	//내가 작성한 글 - 매칭 강퇴
 	@RequestMapping("/kickOut.do")
@@ -141,6 +172,7 @@ public class MyPageController {
 		model.addAttribute("boardList", boardService.selectAllMain(bvo));
 		return "/view/plus/board-list.jsp";
 	}
+
 	
 	//보드 디테일
 	@RequestMapping("/boardDetail.do")
@@ -164,13 +196,13 @@ public class MyPageController {
 		return "redirect:"+referer;
 	}
 	
-	@RequestMapping(value="/boardUpdate.do", method=RequestMethod.GET)
+	@RequestMapping(value="/updateBoard.do", method=RequestMethod.GET)
 	public String updateView(BoardVO bvo, Model model) {
 		model.addAttribute("bDatas", boardService.selectOne(bvo));
 		return "/view/plus/match-insert.jsp";
 	}
 	
-	@RequestMapping(value = "/boardUpdate.do", method=RequestMethod.POST)
+	@RequestMapping(value = "/updateBoard.do", method=RequestMethod.POST)
 	public String updateBoard(BoardVO bvo, HttpServletRequest request, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date bDate) {
 		String referer = request.getHeader("Referer");
 		bvo.setbDate(bDate);

@@ -36,7 +36,7 @@ public class BoardDAO {
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE ASC) B"
 			+ "WHERE C.BNUM=B.BNUM";
 	//지역 선택시 중복X
-	private final String SQL_SELECTALL_DISTINCT="SELECT DISTINCT BLOCAL FROM BOARD";
+	private final String SQL_SELECTALL_DISTINCT="SELECT DISTINCT BLOCAL FROM BOARD ORDER BY BLOCAL";
 	// 지역 선택
 	private final String SQL_SELECTALL_AREA = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BLOCAL=? ORDER BY BDATE ASC) A "
@@ -66,7 +66,7 @@ public class BoardDAO {
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
 	// 매칭 여부
-	private final String SELECTONE_MATCH_USE = "SELECT EXISTS (SELECT * FROM APPLICANT WHERE BNUM =? AND MNUM =?) CNT";
+	//private final String SELECTONE_MATCH_USE = "SELECT EXISTS (SELECT * FROM APPLICANT WHERE BNUM =? AND MNUM =?) CNT";
 	// 매칭 상세 페이지(신청자)-applicant 이동
 	//private final String SELECTALL_APPLICANT = "SELECT A.MNUM, MID, SCORE, MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=? ORDER BY M.MNUM ASC";
 	
@@ -106,10 +106,11 @@ public class BoardDAO {
 		}
 		return true;
 	}
+	
 	public List<BoardVO> selectAllLocal(BoardVO bvo){
 		List<BoardVO> datas=new ArrayList<BoardVO>();
 		try {
-			jdbcTemplate.query(SQL_SELECTALL_DISTINCT, (rs,rowNum) -> {
+			datas = jdbcTemplate.query(SQL_SELECTALL_DISTINCT, (rs,rowNum) -> {
 				BoardVO tmpData = new BoardVO();
 				tmpData.setbLocal(rs.getString("BLOCAL"));
 				return tmpData;
@@ -191,14 +192,6 @@ public class BoardDAO {
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
 			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getmNum(), bvo.getbNum());
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
-	public BoardVO selectOneMatchingUse(BoardVO bvo) {
-		try {
-			return jdbcTemplate.queryForObject(SELECTONE_MATCH_USE, new BoardRowMapper(), bvo.getmNum(), bvo.getbNum());
 		} catch (Exception e) {
 			return null;
 		}

@@ -7,7 +7,7 @@
 	<c:if test="${bDatas.bAction != 2}">
 		<!-- 글작성자 접속 시 -->
 		<c:if test="${mNum == bDatas.mNum}">
-			<a class="correct" href="boardUpdate.do?bNum=${bDatas.bNum}">수정</a>
+			<a class="correct" href="updateBoard.do?bNum=${bDatas.bNum}">수정</a>
 			<a class="delete" href="boardDelete.do?bNum=${bDatas.bNum}">삭제</a>
 			<!-- 모집 중 -->
 			<c:if test="${bDatas.bAction == 0}">
@@ -26,13 +26,13 @@
 					<a class="complete" href="insertApplicant.do?bNum=${bDatas.bNum}&mNum=${mNum}" style="width: 100%">매치 신청하기</a>
 				</c:if>
 				<c:if test="${bDatas.apply == 1}">
-					<a class="complete" href="myEntryDelete.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
+					<a class="complete" href="myEntryDelete.do" style="width: 100%">매치 신청 취소하기</a>
 				</c:if>
 			</c:if>
 			<!-- 모집완료 -->
 			<c:if test="${bDatas.apply == 1}">
 				<c:if test="${mNum == aDatas.mNum}">
-					<a class="complete" href="myEntryDelete.do?aNum=${aDatas.aNum}" style="width: 100%">매치 신청 취소하기</a>
+					<a class="complete" href="myEntryDelete.do" style="width: 100%">매치 신청 취소하기</a>
 				</c:if>
 			</c:if>
 		</c:if>

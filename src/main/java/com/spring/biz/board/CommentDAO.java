@@ -15,7 +15,7 @@ public class CommentDAO {
 	private JdbcTemplate jdbcTemplate;
 	//매칭 댓글 INSERT,UPDATE,DELETE,SELECTALL
 	private final String SQL_INSERT="INSERT INTO COMMENT (BNUM, MNUM, CCONTENT, CWDATE) VALUES(?, ?, ?, SYSDATE())";
-	private final String SQL_UPDATE="UPDATE COMMENT SET CCONTENT=?, CCDATE=SYSDATE()  WHERE CNUM=?";
+	private final String SQL_UPDATE="UPDATE COMMENT SET CCONTENT=?, CCDATE=SYSDATE() WHERE CNUM=?";
 	private final String SQL_DELETE="DELETE FROM COMMENT WHERE CNUM=?";
 	//전체 댓글 출력(수정)
 	private final String SQL_SELECTALL="SELECT C.CNUM, CCONTENT, CWDATE, MID, C.MNUM, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= ? ORDER BY CWDATE ASC";
@@ -33,7 +33,7 @@ public class CommentDAO {
 	public boolean updateComment(CommentVO cvo) {
 		try {
 			System.out.println("CommentDAO의 update()");
-			jdbcTemplate.update(SQL_UPDATE, cvo.getcContent(),cvo.getcCdate(),cvo.getcNum());
+			jdbcTemplate.update(SQL_UPDATE, cvo.getcContent(), cvo.getcNum());
 		}catch(Exception e) {
 			return false;
 		}
