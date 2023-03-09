@@ -65,10 +65,8 @@ public class BoardDAO {
 			+ "B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
-	// 매칭 여부
-	//private final String SELECTONE_MATCH_USE = "SELECT EXISTS (SELECT * FROM APPLICANT WHERE BNUM =? AND MNUM =?) CNT";
-	// 매칭 상세 페이지(신청자)-applicant 이동
-	//private final String SELECTALL_APPLICANT = "SELECT A.MNUM, MID, SCORE, MIMG FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=? ORDER BY M.MNUM ASC";
+	
+	private final String SQL_SELECTALL_MYMATCH = "SELECT B.BNUM, BDATE, BTITLE FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?";
 	
 	public boolean insertBoard(BoardVO bvo) {
 		try {
@@ -164,6 +162,14 @@ public class BoardDAO {
 					tmpData.setbCnt(rs.getInt("CNT"));
 					return tmpData;
 				}, bvo.getbAction());
+			} else if(bvo.getmNum() != 0) {
+				datas = jdbcTemplate.query(SQL_SELECTALL_MYMATCH, (rs, rowNum) -> {
+					BoardVO tmpData = new BoardVO();
+					tmpData.setbNum(rs.getInt("BNUM"));
+					tmpData.setbDate(rs.getDate("BDATE"));
+					tmpData.setbTitle(rs.getString("BTITLE"));
+					return tmpData;
+				}, bvo.getmNum());
 			} else {
 				Object[] obj=null;
 				String query;
