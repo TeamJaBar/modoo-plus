@@ -25,7 +25,7 @@ public class ApplicantDAO {
 	//매칭 신청
 	private final String INSERT="INSERT INTO APPLICANT (BNUM, MNUM) VALUES(?, ?)";
 	//마이 페이지 내가 신청한 매칭 신청 취소 
-	private final String DELETE="DELETE FROM BOARD WHERE ANUM=?";
+	private final String DELETE="DELETE FROM APPLICANT WHERE ANUM=?";
 	//해당 매치 모든 신청자 목록
 	private final String SELECTALL_APPLICANT = "SELECT ANUM, A.MNUM, M.MID, SCORE, MIMG, ACHK FROM MEMBER M, BOARD B, APPLICANT A WHERE A.BNUM = B.BNUM AND A.MNUM=M.MNUM AND B.BNUM=? ORDER BY A.ANUM ASC";
 	//나를 제외한 해당 매치 신청자 목록
