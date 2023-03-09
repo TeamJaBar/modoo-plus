@@ -111,6 +111,7 @@
 													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v" varStatus="i">
 															<input type="hidden" name="aNum" id="aNum" value="${v.aNum}" />
+															<c:set var="aNum" value="${v.aNum}"/>
 															<tr class="text-center">
 																<td>
 																	<div class="sort-handler">
@@ -177,7 +178,6 @@
 															</a>
 														</li>
 													</c:if>
-
 												</ul>
 											</nav>
 										</div>
@@ -200,7 +200,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form id="form">
+				<form action="userRating.do?aNum=<c:out value="${aNum}"/>">
 					<div class="modal-body">
 						<table class="table table-striped">
 							<tbody id="modal-box">
@@ -233,10 +233,10 @@
 		$(document).ready(function() {
 			$('#modal-btn').each(function() {
 				var mNum = ${mNum};
-				console.log('aaa' + mNum);
+				console.log('mNum =' + mNum);
 				$(this).on('click', function(e) {
 					var bNum = $(this).val();
-					console.log("확인[" + bNum + "]");
+					console.log("bNum [" + bNum + "]");
 					e.preventDefault();
 					$.ajax({
 						type : 'POST',
@@ -249,6 +249,7 @@
 							console.log("왔다");
 							var $list = $("#modal-box");
 							$.each(result, function(index, value) {
+								var $aNum = $("<input>").attr("type", "hidden").attr("name", "aNum").attr("value", value.aNum);
 								var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
 								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
 										"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
@@ -257,7 +258,7 @@
 								var $td2 = $("<td>").append($img);
 								var $td3 = $("<td>").append($text);
 								var $tr = $("<tr>");
-								$tr.append($td1).append($td2).append($td3);
+								$tr.append($td1).append($td2).append($td3).append($aNum);
 								$list.append($tr);
 							}); 
 						},
