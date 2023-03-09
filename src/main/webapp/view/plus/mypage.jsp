@@ -129,7 +129,6 @@ body {
 																	<div class="sort-handler">
 																		<i class="fas fa-th"></i>
 																	</div>
-																	${v.bNum}
 																</td>
 																<td>
 																	<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
