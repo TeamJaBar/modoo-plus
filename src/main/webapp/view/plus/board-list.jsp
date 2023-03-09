@@ -748,7 +748,7 @@
 				</section>
 			</div>
 			<div id="fixed_btn_insert">
-				<a href="#">
+				<a href="createBoard.do">
 					<i class="far fa-edit"></i> 새 매치
 				</a>
 			</div>
@@ -761,44 +761,16 @@
 				<div class="modal-header"></div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="d-block">서울</label>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked="">
-							<label class="form-check-label" for="exampleRadios1"> Radio 1 </label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked="">
-							<label class="form-check-label" for="exampleRadios2"> Radio 2 </label>
-						</div>
+						<c:forEach var="address" items="${LocalList}">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked="">
+								<label class="form-check-label" for="exampleRadios1">${board.bLocal}</label>
+							</div>
+						</c:forEach>
 					</div>
 					<div class="card-footer text-right">
-						<nav class="d-inline-block">
-							<ul class="pagination mb-0">
-								<li class="page-item disabled">
-									<a class="page-link" href="#" tabindex="-1">
-										<i class="fas fa-chevron-left"></i>
-									</a>
-								</li>
-								<li class="page-item active">
-									<a class="page-link" href="#">
-										1
-										<span class="sr-only">(current)</span>
-									</a>
-								</li>
-								<li class="page-item">
-									<a class="page-link" href="#">2</a>
-								</li>
-								<li class="page-item">
-									<a class="page-link" href="#">3</a>
-								</li>
-								<li class="page-item">
-									<a class="page-link" href="#">
-										<i class="fas fa-chevron-right"></i>
-									</a>
-								</li>
-							</ul>
-						</nav>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-icon btn-danger" data-dismiss="modal">취소</button>
+						<a href="#" class="btn btn-icon btn-success">완료</a>
 					</div>
 				</div>
 			</div>
@@ -821,6 +793,8 @@
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 	<script>
+	<!-- 날짜순 -->
+	
 	<!-- 슬릭 플러그인을 위한 script -->
 		$(document).ready(function() {
 			$('.slider-wrap').slick({

@@ -39,20 +39,36 @@
 	gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA -->
-
 <style>
-	.empty {
-		padding-top:30px !important;
-		padding-bottom:30px !important;
-	}
-	
-	.empty > p {
-		font-size:15px;
-	}
-	
-	.calendar {
-		margin : 0 auto;
-	}
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+
+.modal-content {
+	width: 680px;
+	max-width: none;
+}
+
+.empty {
+	padding-top: 30px !important;
+}
+
+.empty>p {
+	font-size: 15px;
+}
 </style>
 </head>
 
@@ -72,16 +88,16 @@
 
 					<div class="section-body">
 						<h2 class="section-title">나의 보드</h2>
-						<div class="row">
+						<div class="row mt-4">
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
 										<h4>나의 작성 글</h4>
 									</div>
-									<div class="card-body p-0">
+									<div class="card-body">
 										<div class="table-responsive">
 											<table class="table table-striped" id="sortable-table">
-												<thead>
+												<tbody>
 													<tr class="text-center">
 														<th class="text-center">
 															<i class="fas fa-th"></i>
@@ -93,15 +109,12 @@
 														<th>상태</th>
 														<th>수정/삭제</th>
 													</tr>
-												</thead>
-												<tbody>
+
 													<!-- 작성글 없을때 -->
 													<c:if test="${fn:length(bDatas) == 0 }">
 														<tr class="text-center">
 															<td class="empty" colspan="8">
-																<p>
-																	게시글이 없습니다.
-																</p>
+																<p>게시글이 없습니다.</p>
 																<button class="btn btn-primary" type="button" onclick="location.href='createBoard.do'">글쓰러 가기</button>
 															</td>
 														</tr>
@@ -169,41 +182,43 @@
 												</tbody>
 											</table>
 										</div>
-										<div class="card-footer text-center">
-											<nav class="d-inline-block">
-												<ul class="pagination mb-0">
-													<c:if test="${pageVO.prev}">
-														<li class="page-item disabled">
-															<a class="page-link" href="mypage.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span>
-																<span class="sr-only">Previous</span>
-															</a>
-														</li>
-													</c:if>
-													<!-- 1. 페이지번호 처리 -->
-													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
-														<li class="page-item active">
-															<a class="page-link" href="mypage.do?pageNum=${num}">${num}</a>
-														</li>
-													</c:forEach>
-													<!-- <li class="page-item">
+										<input type="hidden" name="pageNum" id="pageNum" value="${param.pageNum}">
+										<c:if test="${fn:length(bDatas) != 0}">
+											<div class="card-footer text-center">
+												<nav class="d-inline-block">
+													<ul class="pagination mb-0">
+														<c:if test="${pageVO.prev}">
+															<li class="page-item disabled">
+																<a class="page-link" href="mypage.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
+																	<span aria-hidden="true">&laquo;</span>
+																	<span class="sr-only">Previous</span>
+																</a>
+															</li>
+														</c:if>
+														<!-- 1. 페이지번호 처리 -->
+														<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+															<li class="page-item active">
+																<a class="page-link" href="mypage.do?pageNum=${num}">${num}</a>
+															</li>
+														</c:forEach>
+														<!-- <li class="page-item">
 														<a class="page-link" href="#">2</a>
 													</li> -->
-													<c:if test="${pageVO.next}">
-														<li class="page-item">
-															<a class="page-link" href="mypage.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span>
-																<span class="sr-only">Next</span>
-															</a>
-														</li>
-													</c:if>
-												</ul>
-											</nav>
-										</div>
+														<c:if test="${pageVO.next}">
+															<li class="page-item">
+																<a class="page-link" href="mypage.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
+																	<span aria-hidden="true">&raquo;</span>
+																	<span class="sr-only">Next</span>
+																</a>
+															</li>
+														</c:if>
+													</ul>
+												</nav>
+											</div>
+										</c:if>
 									</div>
 								</div>
 							</div>
-
 						</div>
 					</div>
 				</section>
@@ -348,32 +363,6 @@
 		</div>
 	</div>
 
-	<style>
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
-}
-
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-
-.modal-content {
-	width: 680px;
-	max-width: none;
-}
-</style>
-
-
-
 	<!-- General JS Scripts -->
 	<script src="../assets/modules/jquery.min.js"></script>
 	<script src="../assets/modules/popper.js"></script>
@@ -382,12 +371,13 @@ body {
 	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
 	<script src="../assets/modules/moment.min.js"></script>
 	<script src="../assets/js/stisla.js"></script>
-	
-		<script type="text/javascript">
+
+	<script type="text/javascript">
 	<!-- 퇴출하기 -->
 		$(document).ready(function() {
 			$('#kickOut').each(function() {
 				let aNum = $(this).parent().parent().parent().prop("id");
+				var pageNum = '${param.pageNum}';
 				$(this).on('click', function(e) {
 					e.preventDefault();
 					console.log(aNum);
@@ -397,6 +387,7 @@ body {
 							url : 'kickOut.do',
 							data : {
 								aNum : aNum
+								pageNum : pageNum
 							},
 							success : function(result) {
 								if (result == 1) {
@@ -412,6 +403,7 @@ body {
 		$(document).ready(function() {
 			$('#matchIng').each(function() {
 				let bNum = $(this).parent().parent().parent().prop("id");
+				var pageNum = '${param.pageNum}';
 				$(this).on('click', function(e) {
 					e.preventDefault();
 					console.log(bNum);
@@ -422,6 +414,7 @@ body {
 							data : {
 								bNum : bNum,
 								bAction : 0
+								pageNum : pageNum
 							},
 							success : function(result) {
 								if (result == 1) {
@@ -437,6 +430,7 @@ body {
 		$(document).ready(function() {
 			$('#matchEnd').each(function() {
 				let bNum = $(this).parent().parent().parent().prop("id");
+				var pageNum = '${param.pageNum}';
 				$(this).on('click', function(e) {
 					e.preventDefault();
 					console.log(aNum);
@@ -447,6 +441,7 @@ body {
 							data : {
 								bNum : bNum,
 								bAction : 1
+								pageNum : pageNum
 							},
 							success : function(result) {
 								if (result == 1) {
