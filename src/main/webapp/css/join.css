@@ -444,3 +444,32 @@ input[type="button"] {
 .form_element label.check_s.on {
 	background: url('/ModooShop/images/icons/check_on_small.png') no-repeat 1px top;
 }
+
+.box {
+	background: #BDBDBD; 
+	width:70px; 
+	height:70px; 
+	border-radius:70%;
+	overflow:hidden; 
+	margin:0 auto;
+	margin-top:13px;
+}
+
+.img-add-btn {
+	line-height: 20px;
+    position: relative;
+    left: 25px;
+    bottom: 21px;
+    color: white;
+    background-color: #0188CB;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 100%;
+    margin: 0 auto;
+}
+
+.img-add-btn > i {
+    padding-top: 4px;
+    padding-left: 0.5px;
+}

@@ -4,6 +4,7 @@
 <head>
 <title>정보입력</title>
 <link rel="stylesheet" type="text/css" href="/ModooShop/css/join.css">
+<link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 <%@include file="common/header.jsp"%>
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('/ModooShop/images/bg-img-01.png');">
@@ -34,7 +35,7 @@
 					<!-- //member_tit -->
 					<div class="member_cont">
 						<!-- action="join.do" -->
-						<form action="join.do" method="post" id="formJoin" name="formJoin" onsubmit="return joinSubmit();">
+						<form action="join.do" method="post" id="formJoin" name="formJoin" onsubmit="return joinSubmit();"  enctype="multipart/form-data">
 							<!-- 회원가입/정보 기본정보 -->
 							<div class="base_info_box">
 								<h3>기본정보</h3>
@@ -172,15 +173,19 @@
 												</td>
 											</tr>
 											<tr>
-												<th>
-													<span class="important">프로필 이미지</span>
-												</th>
+												<th>프로필 이미지</th>
 												<td>
 													<div class="member_warning">
 														<input type="file" id="imageSelector" name="mImg" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
-														<label for="imageSelector">
-															<img class="thumb" src="/ModooShop/assets/img/Upload-Icon.png" style="max-width: 200px; height: 100px; display: block;" />
-														</label>
+																<label for="imageSelector" style="margin:0 auto;">
+																	<div class="box">
+																			<img class="thumb" src="../assets/img/avatar/default.png" style="width:100%; hiehgt:100%; object-fit:cover;" />
+																	</div>
+																	<div class="img-add-btn">
+																		<i class="fas fa-plus"></i>
+																	</div>
+																</label>
+															</div>
 													</div>
 												</td>
 											</tr>
@@ -615,9 +620,9 @@ var phoneCheck = false;
 	            preview.onload = function() {
 	                URL.revokeObjectURL(preview.src); //URL 객체 해제
 	            }
-	        }else{
+	        } else{
 	        	elem.value = "";
-	        	document.querySelector('.thumb').src = "/ModooShop/assets/img/Upload-Icon.png";
+	        	document.querySelector('.thumb').src = "/ModooShop/assets/img/avatar/default.png";
 	        }
 	    });
 	});
