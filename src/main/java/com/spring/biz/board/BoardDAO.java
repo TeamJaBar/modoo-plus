@@ -62,9 +62,9 @@ public class BoardDAO {
 
 	// 매칭 상세 페이지
 	private final String SELECTONE_MATCH = "SELECT CASE WHEN S.MNUM IS NULL THEN 0 ELSE 1 END SUE, CASE WHEN A.MNUM IS NULL THEN 0 ELSE 1 END APPLY,"
-			+ "B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS FROM BOARD B"
+			+ "B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS,ANUM FROM BOARD B"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
-			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
+			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM,ANUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
 	// 매칭 여부
 	//private final String SELECTONE_MATCH_USE = "SELECT EXISTS (SELECT * FROM APPLICANT WHERE BNUM =? AND MNUM =?) CNT";
 	// 매칭 상세 페이지(신청자)-applicant 이동
@@ -234,6 +234,7 @@ class BoardRowMapper implements RowMapper<BoardVO> {
 		data.setbAddress(rs.getString("BADDRESS"));
 		data.setbAction(rs.getString("BACTION"));
 		data.setbStatus(rs.getString("BSTATUS"));
+		data.setaNum(rs.getInt("ANUM"));
 		data.setSue(rs.getInt("SUE"));
 		data.setApply(rs.getInt("APPLY"));
 		return data;
