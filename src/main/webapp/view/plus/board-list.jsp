@@ -596,16 +596,26 @@
 	padding: 8px 20px;
 	border-radius: 50px;
 	text-align: center;
-	background-color: #0188CB !important;
+	background-color: #0188CB;
+	border: 1px solid #0188CB;
 	font-family: 'GmarketSansMedium';
-	color: white !important;
+	color: white;
+	position: fixed;
+	bottom: 30px;
+	right: 300px;
+	z-index: 9999;
 }
 
 .fixed_btn_insert:hover {
-	color: #0188CB !important;
-	background-color: white !important;
-	border: 1px solid #0188CB !important;
+	color: #0188CB;
+	background-color: white;
+	border: 1px solid #0188CB;
 	text-decoration: none;
+}
+
+.fixed_btn_insert:focus {
+	border: none;
+	outline: none;
 }
 </style>
 
@@ -676,12 +686,12 @@
 											</div>
 										</div>
 									</div>
-									<div class="right-box">
+									<div class="right-box" id="sortList">
 										<div class="sort-box">
-											<div data-selected="1" class="sort-button">
+											<div data-selected="2" class="sort-button">
 												<div class="text">날짜순</div>
 											</div>
-											<div data-selected="0" class="sort-button">
+											<div data-selected="1" class="sort-button">
 												<div class="text">등록순</div>
 											</div>
 										</div>
@@ -690,7 +700,7 @@
 							</div>
 
 							<c:forEach var="board" items="${boardList}">
-								<a href="boardDetail.do?bNum=${board.bNum}" class="" fg-component="match-list-item">
+								<a id="board-list" href="boardDetail.do?bNum=${board.bNum}" class="" fg-component="match-list-item">
 									<div class="contents-box">
 										<div class="left-section">
 											<div class="head">
@@ -747,10 +757,10 @@
 					</div>
 				</section>
 			</div>
-			<div id="fixed_btn_insert">
-				<a href="createBoard.do">
+			<div id="fixed_btn_container">
+				<button class="fixed_btn_insert" onclick="location.href='createBoard.do'">
 					<i class="far fa-edit"></i> 새 매치
-				</a>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -761,16 +771,16 @@
 				<div class="modal-header"></div>
 				<div class="modal-body">
 					<div class="form-group">
-						<c:forEach var="address" items="${LocalList}">
+						<c:forEach var="address" items="${localList}">
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked="">
-								<label class="form-check-label" for="exampleRadios1">${board.bLocal}</label>
+								<input class="form-check-input" type="radio" value="${address.bLocal}" name=" exampleRadios" id="exampleRadios1" checked="">
+								<label class="form-check-label" for="exampleRadios1">${address.bLocal}</label>
 							</div>
 						</c:forEach>
 					</div>
 					<div class="card-footer text-right">
 						<button type="button" class="btn btn-icon btn-danger" data-dismiss="modal">취소</button>
-						<a href="#" class="btn btn-icon btn-success">완료</a>
+						<button type="button" class="btn btn-icon btn-success" id="sort-button">확인</button>
 					</div>
 				</div>
 			</div>
@@ -793,7 +803,8 @@
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 	<script>
-	<!-- 날짜순 -->
+	<!-- 라디오 장소 검색 -->
+					
 	
 	<!-- 슬릭 플러그인을 위한 script -->
 		$(document).ready(function() {
@@ -845,6 +856,29 @@
 				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 			});
 		})<!-- 슬릭 플러그인을 위한 script -->
+		<!-- 날짜 / 등록순 -->
+	
+	
+	
+	</script>
+	<script type="text/javascript">
+	 $(document).ready(function() {
+		  $('.sort-button').click(function() {
+	    	  var sortBy = $(this).data('selected');
+	    	  console.log(sortBy);
+		      $.ajax({
+		        type: "POST",
+		        url: "sortBoard.do",
+		        data : {
+		        	sortBy : sortBy
+		        	},
+		        success: function(data) {
+		          // 새로운 정렬된 목록으로 페이지를 업데이트
+		          $('#board-list').html(data);
+		        }
+		      });
+		  });
+		});
 	</script>
 
 	<!-- Page Specific JS File -->
