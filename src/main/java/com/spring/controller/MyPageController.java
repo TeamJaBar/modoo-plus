@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.spring.biz.board.ApplicantService;
 import com.spring.biz.board.ApplicantVO;
 import com.spring.biz.board.BoardService;
@@ -98,7 +99,7 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/boardDelete.do", method=RequestMethod.POST)
-	public @ResponseBody String  deleteOneBoard(BoardVO bvo) {
+	public @ResponseBody String deleteOneBoard(BoardVO bvo) {
 		if(boardService.deleteBoard(bvo)) {
 			return "1";
 		} else {
@@ -120,10 +121,12 @@ public class MyPageController {
 		
 		int total = pageService.getMyMatchTotal(bvo); // 전체게시글수
 		pvo = new PageVO(bvo.getPageNum(), total);
+		String calendar = new Gson().toJson(boardService.selectAllManage(bvo));
 
 		// 3. 페이지네이션을 화면에 전달
 		model.addAttribute("pageVO", pvo);
 		model.addAttribute("bDatas", pageService.selectAllMatch(bvo));
+		model.addAttribute("calendar", calendar);
 		return "/view/plus/mymatch.jsp";
 	}
 	
@@ -167,10 +170,9 @@ public class MyPageController {
 	}
 	
 	//검색
-	@RequestMapping({"/searchBoard.do", "/sortBoard.do"})
-	public String updateScore(BoardVO bvo, Model model) {
-		model.addAttribute("boardList", boardService.selectAllMain(bvo));
-		return "/view/plus/board-list.jsp";
+	@RequestMapping(value={"/searchBoard.do", "/sortBoard.do"})
+	public @ResponseBody List<BoardVO> updateScore(BoardVO bvo, Model model) {
+		return boardService.selectAllMain(bvo);
 	}
 
 	
@@ -211,7 +213,7 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/showApplicant.do", method=RequestMethod.POST)
-	public List<ApplicantVO> selectAllApplicant(ApplicantVO avo, HttpSession session) {
+	public @ResponseBody List<ApplicantVO> selectAllApplicant(ApplicantVO avo, HttpSession session) {
 		avo.setmNum((Integer)session.getAttribute("mNum"));
 		return applicantService.selectAll(avo);
 	}
