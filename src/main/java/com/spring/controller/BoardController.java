@@ -39,6 +39,7 @@ public class BoardController {
 	@RequestMapping("/boardList.do")
 	public String selectAllMyBoard(BoardVO bvo, Model model) {
 		model.addAttribute("boardList", boardService.selectAllMain(bvo));
+		model.addAttribute("localList", boardService.selectAllLocal(bvo));
 		return "/view/plus/board-list.jsp";
 	}
 

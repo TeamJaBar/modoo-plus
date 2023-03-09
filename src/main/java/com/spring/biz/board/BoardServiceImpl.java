@@ -35,6 +35,11 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardVO> selectAllManage(BoardVO bvo) {
 		return boardDAO.selectAllManage(bvo);
 	}
+	
+	@Override
+	public List<BoardVO> selectAllLocal(BoardVO bvo) {
+		return boardDAO.selectAllLocal(bvo);
+	}
 
 	@Override
 	public BoardVO selectOne(BoardVO bvo) {
