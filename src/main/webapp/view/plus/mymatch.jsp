@@ -36,6 +36,27 @@
 <!-- /END GA -->
 
 <style>
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+.calendar {
+	margin: 0 auto;
+}
+
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
 #modal-box > tr > td > input[type="text"] {
 	border:none;
 	background:transparent;
@@ -60,24 +81,8 @@
   border: 0.3em #0188CB solid ;
 }
 
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-.calendar {
-	margin: 0 auto;
-}
-
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
+#modal-box > tr > td > input[type="text"]:focus {
+	outline: none;
 }
 </style>
 </head>
