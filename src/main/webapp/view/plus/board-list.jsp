@@ -602,7 +602,8 @@
 	color: white;
 	position: fixed;
 	bottom: 30px;
-	right: 300px;
+	left: 50%;
+	transform: translateX(-50%);
 	z-index: 9999;
 }
 
