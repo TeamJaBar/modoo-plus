@@ -15,10 +15,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("sueDAO")
 public class SueDAO {
-	List<SueVO> sue;
-	Connection conn;
-	PreparedStatement pstmt;
-
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -32,32 +28,46 @@ public class SueDAO {
 	final String SELECTALL_SUE = "SELECT S.SNUM, B.BNUM, B.BTITLE, M.MNAME, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM DESC";
 	// 신고글 내용
 	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE, M.MNAME, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
-
-	public boolean insertSue(SueVO vo) {
+	//신고하기 카테고리
+	final String SELECTALL_SUECA = "SELECT * FROM SUECATEGORY";
+	public boolean insertSue(SueVO svo) {
 		try {
-			jdbcTemplate.update(INSERT_SUE, vo.getbNum(), vo.getmNum(), vo.getScNum());
+			jdbcTemplate.update(INSERT_SUE, svo.getbNum(), svo.getmNum(), svo.getScNum(), svo.getsDate());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-
-	public boolean updateSue(SueVO vo) {
+	
+	public boolean updateSue(SueVO svo) {
 		try {
-			jdbcTemplate.update(UPDATE_SUE, vo.getsNum());
+			jdbcTemplate.update(UPDATE_SUE, svo.getsNum());
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-
-	public List<SueVO> selectCount(SueVO vo) {
+	public List<SueCategoryVO> selectAllSueCa(SueCategoryVO svo){
+		List<SueCategoryVO> datas=new ArrayList<SueCategoryVO>();
+		try {
+			datas = jdbcTemplate.query(SELECTALL_SUECA, (rs,rowNum) -> {
+				SueCategoryVO tmpData=new SueCategoryVO();
+				tmpData.setScNum(rs.getInt("SCNUM"));
+				tmpData.setsCname(rs.getString("SCNAME"));
+				return tmpData;
+			});
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return datas;
+	}
+	public List<SueVO> selectCount(SueVO svo) {
 		return jdbcTemplate.query(COUNT_SUE, new SueRowMapper());
 	}
 
-	public List<SueVO> selectAllSue(SueVO vo) {
+	public List<SueVO> selectAllSue(SueVO svo) {
 		List<SueVO> datas = new ArrayList<SueVO>();
 		try {
 			datas = jdbcTemplate.query(SELECTALL_SUE, new SueRowMapper());
@@ -67,9 +77,9 @@ public class SueDAO {
 		return datas;
 	}
 
-	public SueVO selectOneSue(SueVO vo) {
+	public SueVO selectOneSue(SueVO svo) {
 		try {
-			return jdbcTemplate.queryForObject(SELECTONE_SUE, new SelectOneRowMapper(), vo.getbNum());
+			return jdbcTemplate.queryForObject(SELECTONE_SUE, new SelectOneRowMapper(), svo.getbNum());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,7 +103,7 @@ class SueRowMapper implements RowMapper<SueVO> {
 		data.setBwDate(rs.getString("BWDATE"));
 		data.setbStatus(rs.getString("BSTATUS"));
 		data.setbContent(rs.getString("BCONTENT"));
-		data.setScName(rs.getString("SCNAME"));
+		data.setsCname(rs.getString("SCNAME"));
 		return data;
 	}
 }
@@ -106,7 +116,7 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setbTitle(rs.getString("BTITLE"));
 		data.setmName(rs.getString("MNAME"));
 		data.setbContent(rs.getString("BCONTENT"));
-		data.setScName(rs.getString("SCNAME"));
+		data.setsCname(rs.getString("SCNAME"));
 		data.setBwDate(rs.getString("BWDATE"));
 		data.setsDate(rs.getDate("SDATE"));
 		data.setsResult(rs.getString("SRESULT"));
