@@ -34,6 +34,57 @@
 	gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA -->
+
+<style>
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+.calendar {
+	margin: 0 auto;
+}
+
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
+#modal-box > tr > td > input[type="text"] {
+	border:none;
+	background:transparent;
+}
+
+#modal-box > tr > td > input[type="radio"] {
+  vertical-align: middle;
+  appearance: none;
+  border: max(2px, 0.1em) solid #BCBCBC;
+  border-radius: 50%;
+  width: 1.0em;
+  height: 1.0em;
+  transition: border 0.2s ease-in-out;
+}
+
+#modal-box > tr > td > input[type="radio"]:hover {
+  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+  cursor: pointer;
+}
+
+#modal-box > tr > td > input[type="radio"]:checked {
+  border: 0.3em #0188CB solid ;
+}
+
+#modal-box > tr > td > input[type="text"]:focus {
+	outline: none;
+}
+</style>
 </head>
 
 <body>
@@ -328,28 +379,6 @@
 		}) */
 	</script>
 
-	<style>
-.calendar {
-	margin: 0 auto;
-}
-
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
-}
-
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-</style>
 	<!-- JS Libraies -->
 	<script src="../assets/modules/fullcalendar/fullcalendar.min.js"></script>
 	<script src="../assets/modules/prism/prism.js"></script>
