@@ -14,7 +14,7 @@
 	</delete>
 	
 	<select id="selectAll" parameterType="comment" resultMap="commentResultSet">
-		SELECT CNUM, B.BNUM, CCONTENT, CWDATE, MID, C.MNUM, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM=? ORDER BY CWDATE asc;
+		SELECT CNUM, B.BNUM, CCONTENT, CWDATE, MID, C.MNUM, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM=#{bNum} ORDER BY CWDATE ASC
 	</select>
 	
 	
@@ -24,6 +24,7 @@
     	<result property="cContent" column="CCONTENT"/>   
     	<result property="cWdate" column="CWDATE"/>   
     	<result property="mId" column="MID"/> 
+    	<result property="mNum" column="MNUM"/>
     	<result property="cCdate" column="CCDATE"/>
     	</resultMap>
 </mapper>
