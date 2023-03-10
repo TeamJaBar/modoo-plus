@@ -161,8 +161,7 @@ body {
 													<c:set var="mNum" value="${mNum}" />
 													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v" varStatus="i">
-															<input type="hidden" name="aNum" id="aNum" value="${v.aNum}" />
-															<c:set var="aNum" value="${v.aNum}"/>
+															<input type="hidden" name="aNum" id="aNum${v.bNum}" value="${v.aNum}" />
 															<tr class="text-center">
 																<td>
 																	<div class="sort-handler">
@@ -179,16 +178,16 @@ body {
 																	<c:when test="${v.bAction == 2}">
 																		<td>
 																			<c:if test="${v.aChk != 1}">
-																				<button class="btn btn-primary" id="modal-btn" value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																				<button class="btn btn-primary modal-btn"  value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
 																			</c:if>
 																			<c:if test="${v.aChk == 1}">
-																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" disabled="disabled">평가완료</button>
+																				<button class="btn btn-primary" disabled="disabled">평가완료</button>
 																			</c:if>
 																		</td>
 																	</c:when>
 																	<c:otherwise>
 																		<td>
-																			<button name="myEntryDelete" id="cancleBtn" class="btn btn-icon btn-danger">취소하기</button>
+																			<button name="myEntryDelete" id="cancleBtn" value="${v.aNum}" class="btn btn-icon btn-danger">취소하기</button>
 																		</td>
 																	</c:otherwise>
 																</c:choose>
@@ -251,7 +250,7 @@ body {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action="userRating.do?aNum=<c:out value="${aNum}"/>">
+				<form action="userRating.do">
 					<div class="modal-body">
 						<table class="table table-striped">
 							<tbody id="modal-box">
@@ -280,39 +279,55 @@ body {
 	<script src="../assets/modules/moment.min.js"></script>
 	<script src="../assets/js/stisla.js"></script>
 	<script type="text/javascript">
-		// 평가하기 모달창
-		$(document).ready(function() {
-			$('#modal-btn').each(function() {
-				var mNum = ${mNum};
-				console.log('mNum =' + mNum);
-				$(this).on('click', function(e) {
-					var bNum = $(this).val();
-					console.log("bNum [" + bNum + "]");
-					e.preventDefault();
-					$.ajax({
-						type : 'POST',
-						url : 'showApplicant.do',
-						data : {
-							bNum : bNum
-						},
-						success : function(result) {
-							console.log(result);
-							console.log("왔다");
-							var $list = $("#modal-box");
-							$.each(result, function(index, value) {
-								var $aNum = $("<input>").attr("type", "hidden").attr("name", "aNum").attr("value", value.aNum);
-								var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
-								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
-										"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
-								var $text = $("<input>").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("readonly", "true");
-								var $td1 = $("<td>").append($radio);
-								var $td2 = $("<td>").append($img);
-								var $td3 = $("<td>").append($text);
-								var $tr = $("<tr>");
-								$tr.append($td1).append($td2).append($td3).append($aNum);
-								$list.append($tr);
-							}); 
-						},
+	// 평가하기 모달창
+				$(document).ready(function() {
+				  $('#exampleModal').on('show.bs.modal', function() {
+				    $('#modal-box').empty(); // 모달창 초기화
+				  });
+	  
+				  $('.modal-btn').each(function() {
+				    $(this).on('click', function(e) {
+				      var bNum = $(this).val();
+				      var id = "aNum"+bNum;
+				      var aNum = $('#'+id).val();
+				      console.log("bNum [" + bNum + "]");
+				      console.log("aNum : " + aNum);
+				      e.preventDefault();
+				      $.ajax({
+				        type : 'POST',
+				        url : 'showApplicant.do',
+				        data : {
+				          bNum : bNum
+				        },
+				        success : function(result) {
+				          console.log(result);
+				          console.log("왔다");
+				          var $list = $("#modal-box");
+				          
+				          // 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
+				          if (result.length > 0) {
+				            var $tr_header = $("<tr>");
+				            var $th1 = $("<th>").text("선택");
+				            var $th2 = $("<th>").text("프로필");
+				            var $th3 = $("<th>").text("아이디");
+				            $tr_header.append($th1).append($th2).append($th3);
+				            $list.append($tr_header);
+				          }
+				          
+				          $.each(result, function(index, value) {
+				            var $aNum = $("<input>").attr("type", "hidden").attr("name", "aNum").attr("value", aNum);
+				            var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
+				            var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
+				                "data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
+				            var $text = $("<input>").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("disabled", "true");
+				            var $td1 = $("<td>").append($radio);
+				            var $td2 = $("<td>").append($img);
+				            var $td3 = $("<td>").append($text);
+				            var $tr = $("<tr>");
+				            $tr.append($td1).append($td2).append($td3).append($aNum);
+				            $list.append($tr);
+				          }); 
+				        },
 						error : function(jqXHR, textStatus, errorThrown) {
 							// 실패했을 때 실행될 콜백 함수
 							console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
@@ -323,8 +338,8 @@ body {
 
 			// 취소하기버튼
 			$('#cancleBtn').each(function() {
-				let aNum = $("#aNum").val;
 				$(this).on('click', function(e) {
+					var aNum = $(this).val();
 					e.preventDefault();
 					console.log(aNum);
 					if (confirm('취소 하시겠습니까?')) {
@@ -346,37 +361,6 @@ body {
 
 		})
 
-		/*
-		 function cancleBtn(aNum){
-		 var answer=confirm("취소 하시겠습니까?");
-		 if(answer){
-		 var url = 'myEntryDelete.do?aNum=' + aNum.value;
-		 window.open(url, "_self",  '');
-		 }  
-		 }*/
-
-		/*  */
-		/* $(document).ready(function() {
-			$("#cancleBtn").click(function () {
-			var radio_id = []; //id 값을 넣을 배열 
-			var radio_id_val = {};//object
-			var radio = $("input[type=radio]"); // 모든 라디오 접근 
-			$.each(radio, function (key, value) {
-			radio_id.push($(value).attr('id')); // id 값만을 추출 
-			});
-				radio_id = $.unique(radio_id.sort()).sort(); //중복요소제거
-			var input_radio; // 라디오 id로 접근하기 위해서 
-			for (var i = 0; i < radio_id.length; i++) {
-				input_radio = $("input[id=" + radio_id[i] + "]"); // id값으로 확인 
-				$.each(input_radio, function (key, value) {
-		    		if ($(this)[0].checked === true) { //체크가 되어 있는지 아닌지확인 
-		        		radio_id_val[radio_id[i]] = $(this)[0].value; // 라디오 id 값과 value 값을 매칭 
-		    	}
-			});
-		}
-		console.log(radio_id_val); //{grade: "1학년", school: "초등학교", sex: "남"}
-		});
-		}) */
 	</script>
 
 	<!-- JS Libraies -->

@@ -184,4 +184,13 @@ public class MemberVO {
 		this.mode = mode;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberVO [mNum=" + mNum + ", mId=" + mId + ", mPw=" + mPw + ", mName=" + mName + ", mEmail=" + mEmail + ", mTel=" + mTel + ", zipCode=" + zipCode + ", userAddr=" + userAddr
+				+ ", detailAddr=" + detailAddr + ", mPoint=" + mPoint + ", mDate=" + mDate + ", kakao=" + kakao + ", score=" + score + ", mstatus=" + mstatus + ", mImg=" + mImg + ", tempDate="
+				+ tempDate + ", tempCnt=" + tempCnt + ", findPw=" + findPw + ", saveId=" + saveId + ", mode=" + mode + "]";
+	}
+	
+	
+
 }
