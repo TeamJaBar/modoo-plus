@@ -15,6 +15,10 @@ public class SueCategoryVO {
 	public void setsCname(String sCname) {
 		this.sCname = sCname;
 	}
+	@Override
+	public String toString() {
+		return "SueCategoryVO [scNum=" + scNum + ", sCname=" + sCname + "]";
+	}
 	
 	
 }
