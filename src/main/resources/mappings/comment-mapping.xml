@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CommentDAO">
 	<insert id="insertComment">
-		INSERT INTO COMMENT (MNUM, CCONTENT, CWDATE) VALUES(#{mNum}, #{cContent}, SYSDATE())
+		INSERT INTO COMMENT (MNUM, BNUM, CCONTENT, CWDATE) VALUES(#{mNum}, #{bNum}, #{cContent}, SYSDATE())
 	</insert>
 	
 	<update id="updateComment">
@@ -13,7 +13,17 @@
 		DELETE FROM COMMENT WHERE CNUM=#{cNum}
 	</delete>
 	
-	<select id="selectAll">
-		SELECT C.CNUM, CCONTENT, CWDATE, MID, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM= #{bNum} ORDER BY CWDATE ASC
+	<select id="selectAll" parameterType="comment" resultMap="commentResultSet">
+		SELECT CNUM, B.BNUM, CCONTENT, CWDATE, MID, C.MNUM, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM=? ORDER BY CWDATE asc;
 	</select>
+	
+	
+	<resultMap type="comment" id="commentResultSet">
+    	<id property="cNum" column="CNUM"/>
+    	<result property="bNum" column="BNUM"/>
+    	<result property="cContent" column="CCONTENT"/>   
+    	<result property="cWdate" column="CWDATE"/>   
+    	<result property="mId" column="MID"/> 
+    	<result property="cCdate" column="CCDATE"/>
+    	</resultMap>
 </mapper>
