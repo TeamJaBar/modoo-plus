@@ -9,9 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-@Repository("commentDAO")
+//@Repository("commentDAO")
 public class CommentDAO {
-	@Autowired
+//	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	//매칭 댓글 INSERT,UPDATE,DELETE,SELECTALL
 	private final String SQL_INSERT="INSERT INTO COMMENT (BNUM, MNUM, CCONTENT, CWDATE) VALUES(?, ?, ?, SYSDATE())";
@@ -66,7 +66,7 @@ public class CommentDAO {
 			CommentVO datas=new CommentVO();
 			datas.setcContent(rs.getString("CCONTENT"));
 			datas.setcWdate(rs.getTimestamp("CWDATE"));
-			datas.setcWdate(rs.getTimestamp("CWDATE"));
+//			datas.setcWdate(rs.getTimestamp("CWDATE"));
 			datas.setmId(rs.getString("MID"));
 			datas.setcCdate(rs.getTimestamp("CCDATE"));
 			datas.setcNum(rs.getInt("CNUM"));
