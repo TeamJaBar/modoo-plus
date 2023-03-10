@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,22 +82,22 @@ body {
 										<ul class="nav nav-pills" id="navi">
 											<li class="nav-item">
 												<a href="#;" class="nav-link active" id="4" onclick="changeList('4'); return false;">
-													전체 <span class="badge badge-white">${(cnt[0]+cnt[1]+cnt[2]) == 0 ? 0 : (cnt[0]+cnt[1]+cnt[2])}</span>
+													전체 <span class="badge badge-white" id="allMeeting"></span>
 												</a>
 											</li>
 											<li class="nav-item ">
 												<a href="#;" class="nav-link " id="0" onclick="changeList('0'); return false;">
-													모집 중 <span class="badge badge-primary">${cnt[0] == 0 ? 0 : cnt[0]}</span>
+													모집 중 <span class="badge badge-primary" id="Recruiting"></span>
 												</a>
 											</li>
 											<li class="nav-item">
 												<a href="#;" class="nav-link" id="1" onclick="changeList('1'); return false;">
-													모집 완료 <span class="badge badge-primary">${cnt[1] == 0 ? 0 : cnt[1]}</span>
+													모집 완료 <span class="badge badge-primary" id="RecruitingCom"></span>
 												</a>
 											</li>
 											<li class="nav-item">
 												<a href="#;" class="nav-link" id="2" onclick="changeList('2'); return false;">
-													지난 모임 <span class="badge badge-primary">${cnt[2] == 0 ? 0 : cnt[2]}</span>
+													지난 모임 <span class="badge badge-primary" id="lastMeeting"></span>
 												</a>
 											</li>
 										</ul>
@@ -123,10 +124,9 @@ body {
 															<label for="checkbox-all" class="custom-control-label">&nbsp;</label>
 														</div>
 													</th>
-													<th width="7%">글번호</th>
 													<th width="30%">제목</th>
-													<th width="10%">작성자</th>
-													<th width="15%">모임날짜</th>
+													<th width="15%">작성자</th>
+													<th width="17%">모임날짜</th>
 													<th width="10%">상태</th>
 													<th width="8%">실행</th>
 												</tr>
@@ -153,7 +153,7 @@ body {
 			</div>
 			<footer class="main-footer">
 				<div class="footer-left">
-					Copyright &copy; 2018
+					${fn:length(bDatas)}
 					<div class="bullet"></div>
 					Design By
 					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
@@ -165,6 +165,27 @@ body {
 
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	<script>
+	// 상단 네비게이션 데이터 세팅
+		 $(document).ready(function() {
+			 let i = 0;
+			 let j = 0;
+			 let k = 0;
+			 let datas = '${bDatas}';
+			 datas.forEach(function(e){
+				 if($(this.bAction) == 0){
+					 i++;
+				 } else if($(this.bAction) == 1){
+					 j++;
+				 } else if($(this.bAction) == 2){
+					 k++;
+				 }
+			 });
+			 document.getElementById("allMeeting").innerHTML = ((i+j+k) == 0 ? 0 : (i+j+k));
+			 document.getElementById("Recruiting").innerHTML = (i == 0 ? 0 : i);
+			 document.getElementById("RecruitingCom").innerHTML = (j == 0 ? 0 : j);
+			 document.getElementById("lastMeeting").innerHTML = (k == 0 ? 0 : k);
+		}) 
+	
 		// 단일 삭제
 		$('.btn-danger').each(function() {
 			let bNum = $(this).parent().parent().prop("id");
@@ -229,6 +250,7 @@ body {
 
 		// 전체 데이터 세팅
 		 let temp = new Array;
+		console.log();
 		 datasetting();
 		 
 		// 페이지네이션
@@ -318,18 +340,18 @@ body {
 
 	              let bDatas = temp;
 
-	              html += `<c:forEach var="board" items="${bDatas}" varStatus="i" begin="1" end="10" step="1">
+	              html += `<c:forEach var="board" items="${bDatas}">
+	              				<c:set var="i" value="${i+1}"/>
 								<tr id="${board.bNum}">
 								<c:set var="sysDate">
 								<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm" />
 								</c:set>
 								<td style="text-align: center;">
 								<div class="custom-checkbox custom-control">
-								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-${i.index}" name="chk">
-								<label for="checkbox-${i.index}" class="custom-control-label">&nbsp;</label>
+								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-${i}" name="chk">
+								<label for="checkbox-${i}" class="custom-control-label">&nbsp;</label>
 								</div>
 								</td>
-								<td class="bNum" name="bNum">${board.bNum}</td>
 								<td class="bTitle" name="bTitle">${board.bTitle}</td>
 								<td>
 								<div>${board.mId}</div>
