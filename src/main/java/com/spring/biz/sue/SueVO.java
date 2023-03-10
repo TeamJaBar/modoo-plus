@@ -4,11 +4,11 @@ import java.sql.Date;
 
 public class SueVO {
 	private int sNum; // 신고번호(PK)
-	private int bNum;
-	private int mNum;
-	private int scNum;
-	private Date sDate;
-	private String sResult;
+	private int bNum;//보드 (FK)
+	private int mNum;//멤버 (FK)
+	private int scNum;//신고 카테고리(FK)
+	private Date sDate;//신고 일자
+	private String sResult;//신고 처리 결과
 	// JAVA에서만 저장용으로 사용되는 데이터
 	private String bTitle; // 제목
 	private String mName; // 이름
@@ -16,7 +16,7 @@ public class SueVO {
 	private String bwDate; // 작성일자
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
-	private String scName; // 신고 분류명
+	private String sCname;// 신고 카테고리 분류명
 
 	public int getsNum() {
 		return sNum;
@@ -114,12 +114,13 @@ public class SueVO {
 		this.bContent = bContent;
 	}
 
-	public String getScName() {
-		return scName;
+	public String getsCname() {
+		return sCname;
 	}
 
-	public void setScName(String scName) {
-		this.scName = scName;
+	public void setsCname(String sCname) {
+		this.sCname = sCname;
 	}
+
 
 }
