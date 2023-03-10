@@ -166,7 +166,7 @@ public class BoardDAO {
 				datas = jdbcTemplate.query(SQL_SELECTALL_MYMATCH, (rs, rowNum) -> {
 					BoardVO tmpData = new BoardVO();
 					tmpData.setbNum(rs.getInt("BNUM"));
-					tmpData.setbDate(rs.getDate("BDATE"));
+					tmpData.setbDate(rs.getTimestamp("BDATE"));
 					tmpData.setbTitle(rs.getString("BTITLE"));
 					return tmpData;
 				}, bvo.getmNum());
