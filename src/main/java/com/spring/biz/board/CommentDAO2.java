@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-//@Repository("commentDAO")
+@Repository("commentDAO")
 public class CommentDAO2 {
    @Autowired
    private SqlSessionTemplate mybatis;
