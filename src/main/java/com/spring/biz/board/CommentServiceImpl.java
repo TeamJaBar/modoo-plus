@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl implements CommentService{
 
 	@Autowired
-	CommentDAO commentDAO;
+	CommentDAO2 commentDAO;
 	
 	@Override
 	public boolean insertComment(CommentVO cvo) {
