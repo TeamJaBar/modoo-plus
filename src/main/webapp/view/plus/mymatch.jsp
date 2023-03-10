@@ -43,6 +43,24 @@
 	font-style: normal;
 }
 
+.fc-day-grid-event {
+	background-color: #0188CB;
+	text-align: left;
+}
+
+.fc-day-grid-event .fc-time  {
+	color: white;
+}
+
+.fc-title  {
+	color: white;
+}
+
+.fc-center {
+	display : flex;
+	justify-content: space-between;
+}
+
 body {
 	font-family: 'GmarketSansMedium';
 }
@@ -61,6 +79,7 @@ body {
 	border: none;
 	background: transparent;
 }
+
 #modal-box2>tr>td>input[type="text"] {
 	border: none;
 	background: transparent;
@@ -92,6 +111,39 @@ body {
 </head>
 
 <body>
+	<script>
+		var json = '${calendar}';
+		var data = JSON.parse(json);
+		var num = JSON.parse(json).length;
+		console.log(num);
+		var calendar = new Array();
+
+		for (var i = 0; i < num; i++) {
+			console.log(i);
+			var obj = data[i];
+			console.log(obj);
+			obj.title = obj.bTitle;
+			obj.start = obj.bDate;
+			delete obj.bTitle;
+			delete obj.bTitle;
+			delete obj.bDate;
+			delete obj.aCnt;
+			delete obj.aNum;
+			delete obj.amount;
+			delete obj.apply;
+			delete obj.bCnt;
+			delete obj.bMscore;
+			delete obj.mNum;
+			delete obj.pageNum;
+			delete obj.sortBy;
+			delete obj.sue;
+			calendar.push(obj);
+		}
+
+		console.log(dates);
+		const str = JSON.stringify(dates);
+		console.log(str);
+	</script>
 	<div id="app">
 		<div class="main-wrapper main-wrapper-1">
 
@@ -108,11 +160,8 @@ body {
 					<div class="section-body">
 						<h2 class="section-title">매칭 목록</h2>
 						<div class="row">
-							<div class="col-8 calendar">
+							<div class="col-12 calendar">
 								<div class="card">
-									<div class="card-header">
-										<h4>Calendar</h4>
-									</div>
 									<div class="card-body">
 										<div class="fc-overflow">
 											<div id="myEvent"></div>
@@ -215,8 +264,7 @@ body {
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
 															<a class="page-link" href="myBoard.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span>
-																<span class="sr-only">Previous</span>
+																<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
 															</a>
 														</li>
 													</c:if>
@@ -232,8 +280,7 @@ body {
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
 															<a class="page-link" href="myBoard.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span>
-																<span class="sr-only">Next</span>
+																<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
 															</a>
 														</li>
 													</c:if>
@@ -356,7 +403,8 @@ body {
 														var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
 														var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
 																"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
-														var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("disabled", "true");
+														var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr(
+																"disabled", "true");
 														var $td1 = $("<td>").append($radio);
 														var $td2 = $("<td>").append($img);
 														var $td3 = $("<td>").append($text);
@@ -397,7 +445,10 @@ body {
 					})
 
 				})
-				$(document).on('click','.modal-btn2', function(e) {
+		$(document).on(
+				'click',
+				'.modal-btn2',
+				function(e) {
 					$('#exampleModal2').on('show.bs.modal', function() {
 						$('#modal-box2').empty(); // 모달창 초기화
 					});
@@ -425,8 +476,8 @@ body {
 							}
 
 							$.each(result, function(index, value) {
-								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
-										"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
+								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35)
+										.attr("data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
 								var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("disabled", "true");
 								var $td2 = $("<td>").append($img);
 								var $td3 = $("<td>").append($text);
@@ -439,9 +490,8 @@ body {
 							// 실패했을 때 실행될 콜백 함수
 							console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
 						}
-				});
+					});
 				})
-				
 	</script>
 
 	<!-- JS Libraies -->
@@ -456,6 +506,7 @@ body {
 	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
 	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+	<script src="../assets/modules/fullcalendar/locale/ko.js"></script>
 
 	<!-- Page Specific JS File -->
 	<script src="../assets/js/page/modules-calendar.js"></script>
