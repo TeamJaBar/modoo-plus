@@ -21,7 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.biz.common.ImageUploadUtil;
 import com.spring.biz.common.SweetAlertDTO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
@@ -47,12 +49,19 @@ public class AccountController {
 
 	// 회원가입
 	@RequestMapping(value = "/join.do")
-	public String join(MemberVO mvo, Model model) {
+	public String join(MemberVO mvo, Model model, HttpServletRequest request) {
 		if (mvo.getKakao() != null) {
 			mvo.setKakao("kakao");
 		} else {
 			mvo.setKakao("일반");
 		}
+		
+		MultipartFile uploadProfile = mvo.getUploadFile();
+		String mImg = "default.png";
+		if(!uploadProfile.isEmpty()) {
+			mImg = ImageUploadUtil.getImgFileName(request, uploadProfile, "profile");
+		}
+		mvo.setmImg(mImg);
 
 		if (memberService.insert(mvo)) {
 			model.addAttribute("mName", mvo.getmName());
@@ -99,6 +108,7 @@ public class AccountController {
 			session.setAttribute("mNum", mvo.getmNum());
 			session.setAttribute("mId", mvo.getmId());
 			session.setAttribute("mName", mvo.getmName());
+			session.setAttribute("mImg", mvo.getmImg());
 			session.removeAttribute("redirectURI");
 		}
 		return "redirect:"+ redirectURI;
