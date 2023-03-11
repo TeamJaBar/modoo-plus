@@ -469,6 +469,10 @@ input[type="button"] {
     margin: 0 auto;
 }
 
+.img-add-btn:hover{
+	background-color:#004669;
+}
+
 .img-add-btn > i {
     padding-top: 4px;
     padding-left: 0.5px;
