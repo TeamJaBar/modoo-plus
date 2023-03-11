@@ -256,13 +256,13 @@
 						<tr>
 							<td>정가</td>
 							<td colspan="2"><del>
-									<span> <fmt:formatNumber value="${product.fixPrice}" type="number" />
+									<span id="fixPrice"> <fmt:formatNumber value="${product.fixPrice}" type="number" />
 									</span> 원
 								</del></td>
 						</tr>
 						<tr>
 							<td>판매가</td>
-							<td colspan="2" class="item_price"><span id="price"> <fmt:formatNumber value="${product.selPrice}" type="number" />
+							<td colspan="2" class="item_price"><span id="price" class="selPrice"> <fmt:formatNumber value="${product.selPrice}" type="number" />
 							</span> 원</td>
 						</tr>
 						<tr>
@@ -290,7 +290,7 @@
 								</div>
 							</td>
 							<td>결제 예정금액</td>
-							<td><span id="totalPrice"> <fmt:formatNumber value="${product.selPrice+2500}" type="number" />
+							<td><span id="totalPrice" class="totalPrice"> <fmt:formatNumber value="${product.selPrice+2500}" type="number" />
 							</span> 원</td>
 						</tr>
 					</table>

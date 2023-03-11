@@ -92,12 +92,12 @@
 						</div>
 						<div id="priceFilter" class="filter-col2 p-r-15 p-b-27 m-t-10">
 							<div class="mtext-102 cl2 p-b-15">Price</div>
-							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="price" data-value="21"> All </a>
-							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="price" data-value="22"> 0 ~ 10,000 &#8361; </a>
-							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="price" data-value="23"> 10,000 ~ 20,000 &#8361; </a>
-							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="price" data-value="24"> 20,000 ~ 30,000 &#8361; </a>
-							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="price" data-value="25"> 30,000 ~ 40,000 &#8361; </a>
-							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="price" data-value="26"> 40,000 &#8361; ~ </a>
+							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="byPrice" data-value="21"> All </a>
+							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="byPrice" data-value="22"> 0 ~ 10,000 &#8361; </a>
+							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="byPrice" data-value="23"> 10,000 ~ 20,000 &#8361; </a>
+							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="byPrice" data-value="24"> 20,000 ~ 30,000 &#8361; </a>
+							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="byPrice" data-value="25"> 30,000 ~ 40,000 &#8361; </a>
+							<a href="#" class="hov-tag1 stext-118 cl6 size-304 bor7 p-lr-15 p-tb-3 trans-04 m-b-8 m-r-8" id="byPrice" data-value="26"> 40,000 &#8361; ~ </a>
 						</div>
 						<div class="filter-col4 p-b-27 m-t-10">
 							<div class="mtext-102 cl2 p-b-15">Tags</div>
