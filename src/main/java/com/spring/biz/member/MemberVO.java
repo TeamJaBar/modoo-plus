@@ -2,6 +2,8 @@ package com.spring.biz.member;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberVO {
 	private int mNum; // 유저번호(PK)
 	private String mId; // ID
@@ -17,7 +19,8 @@ public class MemberVO {
 	private String kakao; // 카카오로그인
 	private int score; // 회원 점수
 	private String mstatus; // 회원 상태
-	private String mImg; // 프로필 이미지
+	private String mImg; // 프로필 이미지 file name
+	private MultipartFile uploadFile; //JAVA에서만 저장용으로 사용하는 데이터 
 	private String tempDate; // JAVA에서만 저장용으로 사용하는 데이터 : 가입일
 	private int tempCnt; // JAVA에서만 저장용으로 사용하는 데이터 : 신규회원수
 	private String findPw; // JAVA에서만 저장용으로 사용하는 데이터 : 암호화 이메일 임시 저장
@@ -182,6 +185,14 @@ public class MemberVO {
 
 	public void setMode(String mode) {
 		this.mode = mode;
+	}
+
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
 	}
 
 	@Override

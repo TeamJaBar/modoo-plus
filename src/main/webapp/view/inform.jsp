@@ -176,7 +176,7 @@
 												<th>프로필 이미지</th>
 												<td>
 													<div class="member_warning">
-														<input type="file" id="imageSelector" name="mImg" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
+														<input type="file" id="imageSelector" name="uploadFile" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
 																<label for="imageSelector" style="margin:0 auto;">
 																	<div class="box">
 																			<img class="thumb" src="../assets/img/avatar/default.png" style="width:100%; hiehgt:100%; object-fit:cover;" />
