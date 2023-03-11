@@ -119,6 +119,9 @@
 											<c:set var="totalPoint" value="0" />
 											<c:set var="deliveryFee" value="2500" />
 											<c:forEach var="product" items="${prodList}" varStatus="status">
+												<c:if test="${status.index == 0}">
+													<c:set var="productName" value="${product.pName}"/>
+												</c:if>
 												<c:set var="sumPrice" value="${sumPrice + product.selPrice * product.pCnt}" />
 												<c:set var="totalPrice" value="${totalPrice + product.selPrice * product.pCnt}" />
 												<c:set var="totalCnt" value="${totalCnt + product.pCnt}" />
@@ -271,7 +274,7 @@
 														<span class="important">주문하시는 분</span>
 													</th>
 													<td>
-														<input type="text" name="mName" data-pattern="gdEngKor" maxlength="20" value="${member.mName}" required>
+														<input type="text" id="mName" name="name" data-pattern="gdEngKor" maxlength="20" value="${member.mName}" required>
 													</td>
 												</tr>
 												<tr>
@@ -291,7 +294,7 @@
 														<span class="important">휴대폰 번호</span>
 													</th>
 													<td>
-														<input type="text" id="mobileNum" name="mTel" maxlength="20" value="${member.mTel}" required>
+														<input type="text" id="mobileNum" name="tel" maxlength="20" value="${member.mTel}" required>
 													</td>
 												</tr>
 												<tr>
@@ -299,31 +302,7 @@
 														<span class="important">이메일</span>
 													</th>
 													<td class="member_email">
-														<input type="text" name="mEmail" id="mEmail" value="${member.mEmail}" disabled>
-														<!-- <select id="emailDomain" class="chosen-select">
-															<option value="self" selected>직접입력</option>
-															<option value="naver.com">naver.com</option>
-															<option value="hanmail.net">hanmail.net</option>
-															<option value="daum.net">daum.net</option>
-															<option value="nate.com">nate.com</option>
-															<option value="hotmail.com">hotmail.com</option>
-															<option value="gmail.com">gmail.com</option>
-															<option value="icloud.com">icloud.com</option>
-													</select> -->
-														<!-- <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
-															title="" id="emailDomain_chosen" style="width: 120px;">
-															<a class="chosen-single">
-																<span>직접입력</span>
-																<div><b></b></div>
-															</a>
-															<div class="chosen-drop">
-																<div class="chosen-search">
-																	<input class="chosen-search-input" type="text"
-																		autocomplete="off" readonly="">
-																</div>
-																<ul class="chosen-results"></ul>
-															</div>
-														</div> -->
+														<input type="text" name="oEmail" id="email" value="${member.mEmail}" disabled>
 													</td>
 												</tr>
 											</tbody>
@@ -351,10 +330,6 @@
 																	<input type="radio" name="shipping" id="shippingBasic" value="1">
 																	<label for="shippingBasic" class="choice_s">기본 배송지</label>
 																</li>
-																<!-- 	<li><input type="radio" name="shipping"
-																	id="shippingRecently"> <label
-																	for="shippingRecently" class="choice_s">최근 배송지</label>
-																</li> -->
 																<li>
 																	<input type="radio" name="shipping" id="shippingNew" value="2">
 																	<label for="shippingNew" class="choice_s on">직접 입력</label>
@@ -375,7 +350,7 @@
 														<span class="important">받으실분</span>
 													</th>
 													<td>
-														<input type="text" id="receiverName" name="receiverName" data-pattern="gdEngKor" maxlength="20" value="${member.mName}" required>
+														<input type="text" id="receiverName" name="oShipName" data-pattern="gdEngKor" maxlength="20" value="${member.mName}" required>
 													</td>
 												</tr>
 												<tr>
@@ -384,7 +359,7 @@
 													</th>
 													<td class="member_address">
 														<div class="address_postcode find_address">
-															<input type="text" name="zipCode" id="sample3_postcode" placeholder="우편번호" value="${member.zipCode}" required>
+															<input type="text" name="oZipCode" id="sample3_postcode" placeholder="우편번호" value="${member.zipCode}" required>
 															<input type="button" id="find_address" onclick="sample3_execDaumPostcode()" value="우편번호 찾기" required>
 														</div>
 														<!-- //base_info_box -->
@@ -394,10 +369,10 @@
 														</div>
 														<div class="address_input detailed_address">
 															<div class="member_warning">
-																<input type="text" name="userAddr" id="sample3_address" placeholder="주소" value="${member.userAddr}" required>
+																<input type="text" name="oUserAddr" id="sample3_address" placeholder="주소" value="${member.userAddr}" required>
 															</div>
 															<div class="member_warning js_address_sub">
-																<input type="text" name="detailAddr" id="sample3_detailAddress" placeholder="상세주소" value="${member.detailAddr}" required style="display: block">
+																<input type="text" name="oDetailAddr" id="sample3_detailAddress" placeholder="상세주소" value="${member.detailAddr}" required style="display: block">
 																<!-- <input type="text" id="sample3_extraAddress"
 																	placeholder="참고항목" style="display: block"> -->
 															</div>
@@ -468,17 +443,12 @@
 														</script>
 													</td>
 												</tr>
-												<!-- <tr>
-													<th scope="row">전화번호</th>
-													<td><input type="text" id="receiverPhone"
-														name="receiverPhone"></td>
-												</tr> -->
 												<tr>
 													<th scope="row">
 														<span class="important">휴대폰 번호</span>
 													</th>
 													<td>
-														<input type="text" id="receiverCellPhone" name="receiverCellPhone" value="${member.mTel}">
+														<input type="text" id="receiverCellPhone" name="oTel" value="${member.mTel}">
 													</td>
 												</tr>
 												<tr>
@@ -529,8 +499,7 @@
 													<th scope="row">상품 합계 금액</th>
 													<td>
 														<strong id="totalGoodsPrice" class="order_payment_sum">
-															<fmt:formatNumber value="${totalPrice}" type="number" />
-															원
+															<fmt:formatNumber value="${totalPrice}" type="number" /> 원
 														</strong>
 													</td>
 												</tr>
@@ -539,34 +508,21 @@
 													<td>
 														<span id="totalDeliveryCharge">
 															<fmt:formatNumber value="${deliveryFee}" type="number" />
-														</span>
-														원
+														</span>원
 														<!-- <span class="multi_shipping_text"></span> -->
 													</td>
 												</tr>
-												<!-- <tr id="rowDeliverAreaCharge" class="dn">
-														<th scope="row">지역별 배송비</th>
-														<td>
-															<span id="deliveryAreaCharge">0</span>원
-															<input type="hidden" name="totalDeliveryCharge"
-																value="2500">
-															<input type="hidden" name="deliveryAreaCharge" value="0">
-														</td>
-													</tr> -->
 												<tr>
 													<th scope="row">적립</th>
 													<td>
 														<ul class="order_benefit_list">
-															<!-- <li class="order_benefit_sale"><em id="saleDefault">
-																	할인 : <strong>(-) <b
-																		class="total-member-dc-price">0</b>원
-																</strong> <span>( 상품 0원 , 회원 <span class="member-dc-price">0원 )</span>
-															</em></li> -->
 															<li class="order_benefit_mileage js_mileage">
 																<em id="mileageDefault">
 																	적립 적립금 :
 																	<strong>
 																		(+) <b class="total-member-mileage"><fmt:formatNumber value="${totalPoint}" type="number" /></b>원
+																		<fmt:parseNumber var= "totalPointInt" integerOnly= "true" value="${totalPoint}" />
+																		<input type="hidden" name="mPoint" value="${totalPointInt}"/>
 																	</strong>
 																</em>
 															</li>
@@ -577,16 +533,14 @@
 													<th scope="row">적립금 사용</th>
 													<td>
 														<div class="order_money_use">
-															<input type="text" name="useMileage" id="useMileageSelect" value="0">
+															<input type="text" name="oPoint" id="useMileageSelect" value="0">
 															원
 															<input type="button" id="useMileagePoint" onclick="gd_mileage_use_point()" value="적립금 적용하기">
 															<div class="form_element">
 																<input type="checkbox" id="useMileageAll" onclick="gd_mileage_use_all()">
 																<label for="useMileageAll" class="check_s">전액 사용하기</label>
 																<span class="money_use_sum">
-																	(보유 적립금 :
-																	<fmt:formatNumber value="${member.mPoint}" type="number" />
-																	원)
+																	(보유 적립금 : <fmt:formatNumber value="${member.mPoint}" type="number" /> 원)
 																</span>
 															</div>
 															<em class="money_use_txt js-mileageInfoArea">
@@ -597,29 +551,13 @@
 														</div>
 													</td>
 												</tr>
-												<!-- <tr>
-													<th scope="row">예치금 사용</th>
-													<td>
-														<div class="order_money_use">
-															<b><input type="text" name="useDeposit"
-																onblur="gd_deposit_use_check();"> 원</b>
-															<div class="form_element">
-																<input type="checkbox" id="useDepositAll"
-																	onclick="deposit_use_all();"> <label
-																	for="useDepositAll" class="check_s">전액 사용하기</label> <span
-																	class="money_use_sum">(보유 예치금 : 0 원)</span>
-															</div>
-														</div>
-													</td>
-												</tr> -->
 												<tr id="purchase">
 													<th scope="row">최종 결제 금액</th>
 													<td>
 														<input type="hidden" name="settlePrice" value="${totalPrice + deliveryFee}" required>
 														<strong id="totalSettlePrice" class="order_payment_sum">
 															<fmt:formatNumber value="${totalPrice + deliveryFee}" type="number" />
-														</strong>
-														원
+														</strong>원
 													</td>
 												</tr>
 											</tbody>
@@ -641,11 +579,11 @@
 														<div class="form_element">
 															<ul class="payment_progress_select">
 																<li id="settlekindType_pk">
-																	<input type="radio" id="settleKind_pk" name="settleKind" value="pk" checked>
+																	<input type="radio" id="settleKind_pk" name="settleKind" value="카카오" checked>
 																	<label for="settleKind_pk" class="choice_s">카카오페이</label>
 																</li>
 																<li id="settlekindType_pc">
-																	<input type="radio" id="settleKind_pc" name="settleKind" value="pc">
+																	<input type="radio" id="settleKind_pc" name="settleKind" value="카드">
 																	<label for="settleKind_pc" class="choice_s">신용카드</label>
 																</li>
 																<!-- <li id="settlekindType_pb">
@@ -707,7 +645,7 @@
 										<div class="btn_center_box">
 											<!-- <button class="btn_order_buy order-buy">결제하기</button> -->
 											<!-- <input type="submit" class="btn_order_buy order-buy" value="결제하기"> -->
-											<button class="btn_order_buy order-buy" onclick="payment()">결제하기</button>
+											<button type="button" class="btn_order_buy order-buy" onclick="payment()">결제하기</button>
 										</div>
 									</div>
 									<!-- //payment_final -->
@@ -793,25 +731,53 @@ $("input[name='shipping']").change(function () {
 });
 
 function gd_mileage_use_point() {
+	
 	var useMileagePoint = $('#useMileageSelect').val();
 	var useMileage = parseInt(useMileagePoint); // 사용 적용한 적립금
-
+	console.log("입력한 사용 적립금 :" + useMileage);
+	
+	if(useMileage > '${member.mPoint}' || useMileage < 0) {
+		alert('사용가능한 적립금을 확인해주세요.');
+		$('#useMileageSelect').val(0);
+		return;
+	}
+	
 	var totalPricePoint = '${totalPrice}';
 	var totalPrice = parseInt(totalPricePoint); // 합계금액
+	console.log("합계금액 :" +totalPrice);
 
-	var sumTotalPrice = totalPrice - useMileage; // 합계금액 - 적립금 = 최종 금액
-	$('#totalSettlePrice').innerHTML = sumTotalPrice; //최종금액 HTML 태그에 넣기
+	var sumTotalPrice = totalPrice - useMileage + 2500; // 합계금액 - 적립금 = 최종 금액
+	console.log("최종금액 :" +sumTotalPrice);
+	$('#totalSettlePrice').text(sumTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); //최종금액 HTML 태그에 넣기
+	$('#totalSettlePriceView').text(sumTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 }
 
 function gd_mileage_use_all() {
-	var useMileagePoint = '${member.mPoint}';
-	var useMileage = parseInt(useMileagePoint); // 사용 적용한 적립금
-
+	
 	var totalPricePoint = '${totalPrice}';
 	var totalPrice = parseInt(totalPricePoint); // 합계금액
+	var sumTotalPrice = totalPrice+2500; // 합계금액 - 적립금 = 최종 금액
+	
+	if(!($('#useMileageAll').is(':checked'))) {
+		$('#useMileageSelect').val(0);
+		$('#totalSettlePrice').text(sumTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); //최종금액 HTML 태그에 넣기
+		$('#totalSettlePriceView').text(sumTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+		return;
+	}
+	
+	var useMileagePoint = '${member.mPoint}';
+	var useMileage = parseInt(useMileagePoint); // 사용 적용한 적립금
+	
+	if(useMileage > '${member.mPoint}' || useMileage < 0) {
+		alert('사용가능한 적립금을 확인해주세요.');
+		$('#useMileageSelect').val(0);
+		return;
+	}
 
-	var sumTotalPrice = totalPrice - useMileage; // 합계금액 - 적립금 = 최종 금액
-	$('#totalSettlePrice').innerHTML = sumTotalPrice; //최종금액 HTML 태그에 넣기
+	sumTotalPrice = sumTotalPrice - useMileage;
+	$('#useMileageSelect').val(useMileage);
+	$('#totalSettlePrice').text(sumTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); //최종금액 HTML 태그에 넣기
+	$('#totalSettlePriceView').text(sumTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 }
 </script>
 <!-- jQuery -->
@@ -819,77 +785,65 @@ function gd_mileage_use_all() {
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript">
-	//문서가 준비되면 제일 먼저 실행
-	$(document).ready(
-		function () {
-			var data;
-			$("#settleKind_pc").click(function () {
-				console.log("a");
-				data = '카드';
-				payment(data); //버튼 클릭하면 호출 
-				console.log("b");
-			});
-			$("#settleKind_pk").click(function () {
-				console.log("c");
-				data = '카카오';
-				payment(data); //버튼 클릭하면 호출
-				console.log("d");
-			});
-			/* $("#iamportPayment3").click(function() {
-				data = '휴대폰';
-				payment(data); //버튼 클릭하면 호출 
-			});
-			$("#iamportPayment4").click(function() {
-				data = '자동결제';
-				payment(data); //버튼 클릭하면 호출 
-			}); */
+	function createOrderNum(){
+		//주문번호 생성
+		const date = new Date();
+		const year = String(date.getFullYear()).substring(2,4);
+		const month = String(date.getMonth() + 1).padStart(2, "0");
+		const day = String(date.getDate()).padStart(2, "0");
+		
+		let orderNum = year + month + day;
+		for(let i=0;i<3;i++) {
+			orderNum += Math.floor(Math.random() * 8);	
 		}
-	)
+		return orderNum;
+	}
 	
 	//버튼 클릭하면 실행
-	function payment(data) {
-		console.log("e " + data);
-		var pay = data;
+	function payment() {
+		
+		var pay = $('input:radio[name=settleKind]:checked').val();
+		
 		if (pay == '카카오') {
 			pay = 'kakaopay.TC0ONETIME';
 		} else if (pay == '카드') {
-			console.log('dd');
-			pay = 'kcp.T0000';
+			pay = 'nice.nictest00m';
+		}
+		
+		console.log(pay);
+		
+		if(!($('#termAgree_orderCheck').is(':checked'))) {
+			alert("구매동의 체크를 해주세요");
+			return;
+		}
+		
+		var productName = '${productName}'
+		
+		if(${fn:length(prodList)} > 1) {
+			productName += ' 외 ' + (${fn:length(prodList)}-1) + ' 건';
 		}
 	
-		IMP.init('imp00247054');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
-		console.log(pay);
+		IMP.init('imp56551018');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
 		IMP.request_pay({// param
 			pg: pay, //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
 			pay_method: "card", //지불 방법
-			merchant_uid: "iamport_test_id12446", //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
-			name: "${product[0].pName} 외 ${fn:length(product)-1}건", //결제창에 노출될 상품명
-			amount: "10000", //금액
+			merchant_uid: createOrderNum(), //가맹점 주문번호
+			name: productName, //결제창에 노출될 상품명
+			amount: $('#totalSettlePrice').text(), //금액
 			buyer_email: $('#mEmail').val(),
 			buyer_name: $('#mName').val(),
-			buyer_tel: $('#mTel').val()
-	
+			buyer_tel: $('#mobileNum').val()
 		}, function (rsp) { // callback
 			if (rsp.success) {
-				sessionStorage.setItem("imp_uid", rsp.imp_uid);
-				sessionStorage.setItem("merchant_uid", rsp.merchant_uid);
-				sessionStorage.setItem("paid_amount", rsp.paid_amount);
-				sessionStorage.setItem("apply_num", rsp.apply_num);
-				sessionStorage.setItem("buyer_name", rsp.buyer_name);
-				sessionStorage.setItem("buyer_email", rsp.buyer_email);
-				sessionStorage.setItem("buyer_tel", rsp.buyer_tel);
-				console.log(sessionStorage.getItem("buyer_name"));
-				var link = 'shOrder-ok.do';
-	
-				location.href = link;
-	
+				alert("결제 성공");
+				console.log(rsp.merchant_uid);
+				var form = $("#frmOrder");
+				form.append($('<input/>', {type: 'hidden', name: 'oNum', value:rsp.merchant_uid}));
+				form.submit();
 			} else {
-				alert("실패 : 코드(" + rsp.error_code + ") / 메세지("
-					+ rsp.error_msg + ")");
+				alert("실패 : 코드(" + rsp.error_code + ") / 메세지("+ rsp.error_msg + ")");
 			}
 		});
-		var form = document.getElementById("frmOrder");
-		form.submit();
 	}
 </script>
 </body>
