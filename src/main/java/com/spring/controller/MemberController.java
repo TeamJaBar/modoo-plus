@@ -20,7 +20,6 @@ import com.spring.biz.member.DibService;
 import com.spring.biz.member.DibVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
-import com.spring.biz.member.OrderDAO;
 import com.spring.biz.member.OrderDetail;
 import com.spring.biz.member.OrderService;
 import com.spring.biz.member.OrderVO;
@@ -47,13 +46,12 @@ public class MemberController {
 	@RequestMapping(value = "/order.do")
 	public String order(MemberVO mvo, AddressVO avo, ProductVO pvo, @RequestParam(value = "chk") String[] arpNum, @RequestParam(value = "num-product") String[] arpCnt, ArrayList<ProductVO> prodList,
 			HttpSession session, Model model) {
+		
 		for (int i = 0; i < arpNum.length; i++) {
 			pvo.setpNum(Integer.parseInt(arpNum[i]));
-			pvo = productService.selectOne(pvo);
-			pvo.setpCnt(Integer.parseInt(arpCnt[i]));
-			prodList.add(pvo);
+			prodList.add(productService.selectOneCart(pvo));
+			prodList.get(i).setpCnt(Integer.parseInt(arpCnt[i]));
 		}
-		System.out.println("\t주문서 상품 로그: " + prodList);
 
 		mvo.setmNum((Integer)session.getAttribute("mNum"));
 		avo.setmNum((Integer)session.getAttribute("mNum"));
@@ -67,26 +65,35 @@ public class MemberController {
 
 	// 주문하기
 	@RequestMapping(value = "/orderOk.do")
-	public String orderOk(ProductVO pvo, OrderVO ovo, OrderVO last, OrderDetail od, @RequestParam(value = "chk") String[] arpNum, @RequestParam(value = "num-product") String[] arpCnt,
-			List<ProductVO> prodList, HttpSession session, Model model) {
+	public String orderOk(ProductVO pvo, OrderVO ovo, OrderDetail od, MemberVO mvo, ArrayList<ProductVO> prodList, @RequestParam(value = "pNum") String[] arpNum, @RequestParam(value = "pCnt") String[] arpCnt, HttpSession session) {
+		
 		for (int i = 0; i < arpNum.length; i++) {
-			pvo.setpNum(Integer.parseInt(arpNum[i]));
-			pvo = productService.selectOne(pvo);
-			pvo.setpCnt(Integer.parseInt(arpCnt[i]));
-			prodList.add(pvo);
+			ProductVO p = new ProductVO();
+			p.setpNum(Integer.parseInt(arpNum[i]));
+			p.setpCnt(Integer.parseInt(arpCnt[i]));
+			prodList.add(p);
 		}
-
+		
+		
 		int mNum = (Integer)session.getAttribute("mNum");
 		ovo.setmNum(mNum);
 		orderService.insert(ovo);
 
-		last = orderService.selectOne(ovo);
+		ovo = orderService.selectOne(ovo);
 		for (int i = 0; i < prodList.size(); i++) {
-			od.setoNum(last.getoNum());
+			od.setoNum(ovo.getoNum());
 			od.setpNum(prodList.get(i).getpNum());
 			od.setCnt(prodList.get(i).getpCnt());
 			orderService.insert(od);
 		}
+		
+		//포인트 업데이트
+		mvo.setmNum(mNum);
+		System.out.println("사용 포인트 : " + ovo.getoPoint());
+		System.out.println("적립 포인트 : " + mvo.getmPoint());
+		System.out.println(mvo);
+		mvo.setmPoint(ovo.getoPoint()*(-1) + mvo.getmPoint());
+		memberService.update(mvo);
 
 		return "redirect:order-ok.jsp";
 	}
