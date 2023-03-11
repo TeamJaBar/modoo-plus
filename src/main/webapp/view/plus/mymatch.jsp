@@ -36,7 +36,6 @@
 <!-- /END GA -->
 
 <style>
-
 @font-face {
 	font-family: 'GmarketSansMedium';
 	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -44,9 +43,28 @@
 	font-style: normal;
 }
 
+.fc-day-grid-event {
+	background-color: #0188CB;
+	text-align: left;
+}
+
+.fc-day-grid-event .fc-time  {
+	color: white;
+}
+
+.fc-title  {
+	color: white;
+}
+
+.fc-center {
+	display : flex;
+	justify-content: space-between;
+}
+
 body {
 	font-family: 'GmarketSansMedium';
 }
+
 .calendar {
 	margin: 0 auto;
 }
@@ -57,37 +75,75 @@ body {
 	min-width: 40%;
 }
 
-#modal-box > tr > td > input[type="text"] {
-	border:none;
-	background:transparent;
+#modal-box>tr>td>input[type="text"] {
+	border: none;
+	background: transparent;
 }
 
-#modal-box > tr > td > input[type="radio"] {
-  vertical-align: middle;
-  appearance: none;
-  border: max(2px, 0.1em) solid #BCBCBC;
-  border-radius: 50%;
-  width: 1.0em;
-  height: 1.0em;
-  transition: border 0.2s ease-in-out;
+#modal-box2>tr>td>input[type="text"] {
+	border: none;
+	background: transparent;
 }
 
-#modal-box > tr > td > input[type="radio"]:hover {
-  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
-  cursor: pointer;
+#modal-box>tr>td>input[type="radio"] {
+	vertical-align: middle;
+	appearance: none;
+	border: max(2px, 0.1em) solid #BCBCBC;
+	border-radius: 50%;
+	width: 1.0em;
+	height: 1.0em;
+	transition: border 0.2s ease-in-out;
 }
 
-#modal-box > tr > td > input[type="radio"]:checked {
-  border: 0.3em #0188CB solid ;
+#modal-box>tr>td>input[type="radio"]:hover {
+	box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+	cursor: pointer;
 }
 
-#modal-box > tr > td > input[type="text"]:focus {
+#modal-box>tr>td>input[type="radio"]:checked {
+	border: 0.3em #0188CB solid;
+}
+
+#modal-box>tr>td>input[type="text"]:focus {
 	outline: none;
 }
 </style>
 </head>
 
 <body>
+	<script>
+		var json = '${calendar}';
+		var data = JSON.parse(json);
+		var num = JSON.parse(json).length;
+		console.log(num);
+		var calendar = new Array();
+
+		for (var i = 0; i < num; i++) {
+			console.log(i);
+			var obj = data[i];
+			console.log(obj);
+			obj.title = obj.bTitle;
+			obj.start = obj.bDate;
+			delete obj.bTitle;
+			delete obj.bTitle;
+			delete obj.bDate;
+			delete obj.aCnt;
+			delete obj.aNum;
+			delete obj.amount;
+			delete obj.apply;
+			delete obj.bCnt;
+			delete obj.bMscore;
+			delete obj.mNum;
+			delete obj.pageNum;
+			delete obj.sortBy;
+			delete obj.sue;
+			calendar.push(obj);
+		}
+
+		console.log(dates);
+		const str = JSON.stringify(dates);
+		console.log(str);
+	</script>
 	<div id="app">
 		<div class="main-wrapper main-wrapper-1">
 
@@ -104,11 +160,8 @@ body {
 					<div class="section-body">
 						<h2 class="section-title">매칭 목록</h2>
 						<div class="row">
-							<div class="col-8 calendar">
+							<div class="col-12 calendar">
 								<div class="card">
-									<div class="card-header">
-										<h4>Calendar</h4>
-									</div>
 									<div class="card-body">
 										<div class="fc-overflow">
 											<div id="myEvent"></div>
@@ -161,17 +214,21 @@ body {
 													<c:set var="mNum" value="${mNum}" />
 													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v" varStatus="i">
-															<input type="hidden" name="aNum" id="aNum" value="${v.aNum}" />
-															<c:set var="aNum" value="${v.aNum}"/>
+															<input type="hidden" name="aNum" id="aNum${v.bNum}" value="${v.aNum}" />
 															<tr class="text-center">
 																<td>
 																	<div class="sort-handler">
 																		<i class="fas fa-th"></i>
 																	</div>
 																</td>
-																<td>${v.bTitle}</td>
+
+																<td>
+																	<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
+																</td>
 																<td>${v.bAddress}</td>
-																<td>${v.aCnt}/${v.bCnt}</td>
+																<td>
+																	<a href="#" class="modal-btn2" data-bNum="${v.bNum}" data-toggle="modal" data-target="#exampleModal2">${v.aCnt}/${v.bCnt}</a>
+																</td>
 																<td>
 																	<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
 																</td>
@@ -179,16 +236,16 @@ body {
 																	<c:when test="${v.bAction == 2}">
 																		<td>
 																			<c:if test="${v.aChk != 1}">
-																				<button class="btn btn-primary" id="modal-btn" value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																				<button class="btn btn-primary modal-btn" value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
 																			</c:if>
 																			<c:if test="${v.aChk == 1}">
-																				<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" disabled="disabled">평가완료</button>
+																				<button class="btn btn-primary" disabled="disabled">평가완료</button>
 																			</c:if>
 																		</td>
 																	</c:when>
 																	<c:otherwise>
 																		<td>
-																			<button name="myEntryDelete" id="cancleBtn" class="btn btn-icon btn-danger">취소하기</button>
+																			<button name="myEntryDelete" id="cancleBtn" value="${v.aNum}" class="btn btn-icon btn-danger">취소하기</button>
 																		</td>
 																	</c:otherwise>
 																</c:choose>
@@ -207,8 +264,7 @@ body {
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
 															<a class="page-link" href="myBoard.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span>
-																<span class="sr-only">Previous</span>
+																<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
 															</a>
 														</li>
 													</c:if>
@@ -224,8 +280,7 @@ body {
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
 															<a class="page-link" href="myBoard.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span>
-																<span class="sr-only">Next</span>
+																<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
 															</a>
 														</li>
 													</c:if>
@@ -251,7 +306,7 @@ body {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action="userRating.do?aNum=<c:out value="${aNum}"/>">
+				<form action="userRating.do">
 					<div class="modal-body">
 						<table class="table table-striped">
 							<tbody id="modal-box">
@@ -271,6 +326,30 @@ body {
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal screen2 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="exampleModal2">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">참여인원</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped">
+						<tbody id="modal-box2">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer bg-whitesmoke br">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- General JS Scripts -->
 	<script src="../assets/modules/jquery.min.js"></script>
 	<script src="../assets/modules/popper.js"></script>
@@ -281,12 +360,99 @@ body {
 	<script src="../assets/js/stisla.js"></script>
 	<script type="text/javascript">
 		// 평가하기 모달창
-		$(document).ready(function() {
-			$('#modal-btn').each(function() {
-				var mNum = ${mNum};
-				console.log('mNum =' + mNum);
-				$(this).on('click', function(e) {
-					var bNum = $(this).val();
+		$(document).ready(
+				function() {
+					$('#exampleModal').on('show.bs.modal', function() {
+						$('#modal-box').empty(); // 모달창 초기화
+					});
+
+					$('.modal-btn').each(
+							function() {
+								$(this).on(
+										'click',
+										function(e) {
+											var bNum = $(this).val();
+											var id = "aNum" + bNum;
+											var aNum = $('#' + id).val();
+											console.log("bNum [" + bNum + "]");
+											console.log("aNum : " + aNum);
+											e.preventDefault();
+											$.ajax({
+												type : 'POST',
+												url : 'showApplicant.do',
+												data : {
+													bNum : bNum
+												},
+												success : function(result) {
+													console.log(result);
+													console.log("왔다");
+													var $list = $("#modal-box");
+
+													// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
+													if (result.length > 0) {
+														var $tr_header = $("<tr>").attr("class", "text-center");
+														var $th1 = $("<th>").text("선택");
+														var $th2 = $("<th>").text("프로필");
+														var $th3 = $("<th>").text("아이디");
+														$tr_header.append($th1).append($th2).append($th3);
+														$list.append($tr_header);
+													}
+
+													$.each(result, function(index, value) {
+														var $aNum = $("<input>").attr("type", "hidden").attr("name", "aNum").attr("value", aNum);
+														var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
+														var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
+																"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
+														var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr(
+																"disabled", "true");
+														var $td1 = $("<td>").append($radio);
+														var $td2 = $("<td>").append($img);
+														var $td3 = $("<td>").append($text);
+														var $tr = $("<tr>").attr("class", "text-center");
+														$tr.append($td1).append($td2).append($td3).append($aNum);
+														$list.append($tr);
+													});
+												},
+												error : function(jqXHR, textStatus, errorThrown) {
+													// 실패했을 때 실행될 콜백 함수
+													console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
+												}
+											});
+										});
+							});
+
+					// 취소하기버튼
+					$('#cancleBtn').each(function() {
+						$(this).on('click', function(e) {
+							var aNum = $(this).val();
+							e.preventDefault();
+							console.log(aNum);
+							if (confirm('취소 하시겠습니까?')) {
+								$.ajax({
+									type : 'POST',
+									url : 'myEntryDelete.do',
+									data : {
+										aNum : aNum
+									},
+									success : function(result) {
+										if (result == 1) {
+											$('#a_box').load(location.href + ' #a_box > *');
+										}
+									}
+								});
+							}
+						})
+					})
+
+				})
+		$(document).on(
+				'click',
+				'.modal-btn2',
+				function(e) {
+					$('#exampleModal2').on('show.bs.modal', function() {
+						$('#modal-box2').empty(); // 모달창 초기화
+					});
+					var bNum = $(this).attr("data-bNum");
 					console.log("bNum [" + bNum + "]");
 					e.preventDefault();
 					$.ajax({
@@ -297,86 +463,35 @@ body {
 						},
 						success : function(result) {
 							console.log(result);
-							console.log("왔다");
-							var $list = $("#modal-box");
+							console.log("와따리");
+							var $list = $("#modal-box2");
+
+							// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
+							if (result.length > 0) {
+								var $tr_header = $("<tr>").attr("class", "text-center");
+								var $th2 = $("<th>").text("프로필");
+								var $th3 = $("<th>").text("아이디");
+								$tr_header.append($th2).append($th3);
+								$list.append($tr_header);
+							}
+
 							$.each(result, function(index, value) {
-								var $aNum = $("<input>").attr("type", "hidden").attr("name", "aNum").attr("value", value.aNum);
-								var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
-								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
-										"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
-								var $text = $("<input>").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("readonly", "true");
-								var $td1 = $("<td>").append($radio);
+								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35)
+										.attr("data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
+								var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("disabled", "true");
 								var $td2 = $("<td>").append($img);
 								var $td3 = $("<td>").append($text);
-								var $tr = $("<tr>");
-								$tr.append($td1).append($td2).append($td3).append($aNum);
+								var $tr = $("<tr>").attr("class", "text-center");
+								$tr.append($td2).append($td3);
 								$list.append($tr);
-							}); 
+							});
 						},
 						error : function(jqXHR, textStatus, errorThrown) {
 							// 실패했을 때 실행될 콜백 함수
 							console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
 						}
 					});
-				});
-			});
-
-			// 취소하기버튼
-			$('#cancleBtn').each(function() {
-				let aNum = $("#aNum").val;
-				$(this).on('click', function(e) {
-					e.preventDefault();
-					console.log(aNum);
-					if (confirm('취소 하시겠습니까?')) {
-						$.ajax({
-							type : 'POST',
-							url : 'myEntryDelete.do',
-							data : {
-								aNum : aNum
-							},
-							success : function(result) {
-								if (result == 1) {
-									$('#a_box').load(location.href + ' #a_box > *');
-								}
-							}
-						});
-					}
 				})
-			})
-
-		})
-
-		/*
-		 function cancleBtn(aNum){
-		 var answer=confirm("취소 하시겠습니까?");
-		 if(answer){
-		 var url = 'myEntryDelete.do?aNum=' + aNum.value;
-		 window.open(url, "_self",  '');
-		 }  
-		 }*/
-
-		/*  */
-		/* $(document).ready(function() {
-			$("#cancleBtn").click(function () {
-			var radio_id = []; //id 값을 넣을 배열 
-			var radio_id_val = {};//object
-			var radio = $("input[type=radio]"); // 모든 라디오 접근 
-			$.each(radio, function (key, value) {
-			radio_id.push($(value).attr('id')); // id 값만을 추출 
-			});
-				radio_id = $.unique(radio_id.sort()).sort(); //중복요소제거
-			var input_radio; // 라디오 id로 접근하기 위해서 
-			for (var i = 0; i < radio_id.length; i++) {
-				input_radio = $("input[id=" + radio_id[i] + "]"); // id값으로 확인 
-				$.each(input_radio, function (key, value) {
-		    		if ($(this)[0].checked === true) { //체크가 되어 있는지 아닌지확인 
-		        		radio_id_val[radio_id[i]] = $(this)[0].value; // 라디오 id 값과 value 값을 매칭 
-		    	}
-			});
-		}
-		console.log(radio_id_val); //{grade: "1학년", school: "초등학교", sex: "남"}
-		});
-		}) */
 	</script>
 
 	<!-- JS Libraies -->
@@ -391,6 +506,7 @@ body {
 	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
 	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+	<script src="../assets/modules/fullcalendar/locale/ko.js"></script>
 
 	<!-- Page Specific JS File -->
 	<script src="../assets/js/page/modules-calendar.js"></script>
