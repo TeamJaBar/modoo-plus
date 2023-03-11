@@ -17,13 +17,13 @@ public class OrderDAO {
 	@Autowired
 	private JdbcTemplate template;
 
-	final String INSERT_OR = "INSERT INTO MORDER (MNUM, OSHIPNAME, OZIPCODE, OUSERADDR, ODETAILADDR, OTEL, ODATE, OSTATUS, OPOINT) VALUES(?, ?, ?, ?, ?, ?, SYSDATE(), 1, ?)";
+	final String INSERT_OR = "INSERT INTO MORDER (ONUM, MNUM, OSHIPNAME, OZIPCODE, OUSERADDR, ODETAILADDR, OTEL, ODATE, OSTATUS, OPOINT) VALUES(?, ?, ?, ?, ?, ?, ?, SYSDATE(), 1, ?)";
 	final String INSERT_ORD = "INSERT INTO ORDERDETAIL (ONUM, PNUM, CNT) VALUES(?, ?, ?)";
 	// 관리자 페이지
 	final String SELECTALL_STATUS = "SELECT OSTATUS, COUNT(*) AS CNT FROM MORDER GROUP BY OSTATUS";
 	final String SELECTALL_SALES = "SELECT DATE_FORMAT(ODATE, '%y/%m/%d') AS TDATE, SUM(P.SELPRICE*O.CNT) CNT FROM MORDER M, ORDERDETAIL O, PRODUCT P WHERE M.ONUM=O.ONUM AND O.PNUM=P.PNUM GROUP BY DATE_FORMAT(ODATE, '%y/%m/%d') ORDER BY DATE_FORMAT(ODATE, '%y/%m/%d') ASC LIMIT 14";
 	// 사용자 페이지
-	final String SELECTONE_ONUM = "SELECT A.ONUM, A.MNUM FROM (SELECT ONUM, MNUM FROM MORDER WHERE MNUM=? ORDER BY ODATE DESC) A LIMIT 1";
+	final String SELECTONE_ONUM = "SELECT A.ONUM, A.MNUM, A.OPOINT FROM (SELECT ONUM, MNUM, OPOINT FROM MORDER WHERE MNUM=? ORDER BY ONUM DESC) A LIMIT 1;";
 	final String SELECTALL_ORDER = "SELECT ODate, PIMG, M.ONUM, PNAME, SELPRICE, CNT, OSTATUS "
 			+ "FROM MORDER M, ORDERDETAIL O, PRODUCT P WHERE M.ONUM=O.ONUM AND O.PNUM=P.PNUM AND M.OSTATUS BETWEEN 1 AND 3 AND MNUM=? ORDER BY ODNUM ASC"; // 주문목록
 	final String SELECTALL_CAN = "SELECT ODate, PIMG, M.ONUM, PNAME, SELPRICE, CNT, OSTATUS  "
@@ -35,7 +35,7 @@ public class OrderDAO {
 
 	public boolean insert(OrderVO ovo) {
 		try {
-			template.update(INSERT_OR, ovo.getmNum(), ovo.getoShipName(), ovo.getoZipCode(), ovo.getoUserAddr(), ovo.getoDetailAddr(), ovo.getoTel(), ovo.getoPoint());
+			template.update(INSERT_OR, ovo.getoNum(), ovo.getmNum(), ovo.getoShipName(), ovo.getoZipCode(), ovo.getoUserAddr(), ovo.getoDetailAddr(), ovo.getoTel(), ovo.getoPoint());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -60,6 +60,7 @@ public class OrderDAO {
 				OrderVO tmpData = new OrderVO();
 				tmpData.setoNum(rs.getInt("ONUM"));
 				tmpData.setmNum(rs.getInt("MNUM"));
+				tmpData.setoPoint(rs.getInt("OPOINT"));
 				return tmpData;
 			}, ovo.getmNum());
 		} catch (Exception e) {

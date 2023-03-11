@@ -62,7 +62,7 @@ public class ProductDAO {
 
 	public ProductVO selectOneCart(ProductVO pvo) {
 		try {
-			return template.queryForObject(SELECTONE, BeanPropertyRowMapper.newInstance(ProductVO.class), pvo.getpNum());
+			return template.queryForObject(SELECTONE_CART, BeanPropertyRowMapper.newInstance(ProductVO.class), pvo.getpNum());
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;

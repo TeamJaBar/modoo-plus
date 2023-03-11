@@ -39,9 +39,9 @@ public class MemberDAO {
 	// 멤버 상태
 	final String UPDATE_STATUS = "UPDATE MEMBER SET MSTATUS=? WHERE MNUM=?";
 	// 멤버 포인트
-	final String UPDATE_POINT = "UPDATE MEMBER SET MPOINT=? WHERE MNUM=?";
+	final String UPDATE_POINT = "UPDATE MEMBER SET MPOINT=MPOINT+? WHERE MNUM=?";
 	// 멤버 점수
-	final String UPDATE_SCORE = "UPDATE MEMBER SET SCORE=? WHERE MNUM=?";
+	final String UPDATE_SCORE = "UPDATE MEMBER SET SCORE=SCORE+? WHERE MNUM=?";
 
 	public boolean insert(MemberVO vo) {
 		template.update(INSERT, vo.getmId(), vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmImg());

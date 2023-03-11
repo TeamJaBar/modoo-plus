@@ -13,7 +13,7 @@
 </section>
 <!-- Shoping Cart -->
 <section class="bg0 p-t-62 p-b-60">
-	<form class="bg0 p-t-75 p-b-85" action="order.do" method="get">
+	<form class="bg0 p-t-75 p-b-85" action="order.do" method="post">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
