@@ -1,5 +1,10 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<style>
+.navbar .nav-link.nav-link-user img {
+	background-color:white;
+}
+</style>
 <!-- 테그 연결해 보기!!!!!! -->
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar">
