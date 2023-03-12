@@ -262,7 +262,6 @@ select option[disabled] {
 											<c:if test="${param.type == 'update'}">
 												<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 											</c:if>
-											<input type="hidden" name="mNum" value="${mNum}" />
 											<input type="hidden" name="bLatitude" id="bLatitude" value="${bDatas.bLatitude}" />
 											<input type="hidden" name="bLongitude" id="bLongitude" value="${bDatas.bLongitude}" />
 											<div class="form-group">
@@ -295,7 +294,7 @@ select option[disabled] {
 												<div class="input-group">
 													<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly />
 													<div class="input-group-append">
-														<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mapModal">지도 검색</button>
+														<button type="button" class="btn btn-primary" id="btn-map" data-toggle="modal" data-target="#mapModal">지도 검색</button>
 													</div>
 												</div>
 											</div>
@@ -330,10 +329,9 @@ select option[disabled] {
 												<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 												<script>
 													ClassicEditor.create(document.querySelector('#editor'), {
-														toolbar : [ 'heading', '|', 'bold', 'italic', 'CKFinder' ],
 														language : "ko",
-														ckckfinder : {
-															uploadUrl : '../assets/img'
+														ckfinder : {
+															uploadUrl : 'uploadImg.do'
 														}
 													});
 												</script>
@@ -385,7 +383,47 @@ select option[disabled] {
 		</div>
 	</div>
 
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e98e93c6644d1ff13c4d2be348fb6bd&libraries=services"></script>
+	<style>
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+</style>
+	<!-- General JS Scripts -->
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+	<script src="../assets/modules/jquery.min.js"></script>
+	<script src="../assets/modules/popper.js"></script>
+	<script src="../assets/modules/tooltip.js"></script>
+	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="../assets/modules/moment.min.js"></script>
+	<script src="../assets/js/stisla.js"></script>
+
+	<!-- JS Libraies -->
+	<script src="../assets/modules/cleave-js/dist/cleave.min.js"></script>
+	<script src="../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
+	<script src="../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script src="../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script src="../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
+	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+	<!-- Page Specific JS File -->
+	<script src="../assets/js/page/forms-advanced-forms.js"></script>
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e98e93c6644d1ff13c4d2be348fb6bd&libraries=services"></script>
 	<script>
 		// 마커를 담을 배열입니다
 		var markers = [];
@@ -399,7 +437,7 @@ select option[disabled] {
 
 		// 지도를 생성합니다    
 		var map = new kakao.maps.Map(mapContainer, mapOption);
-
+		
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -420,6 +458,7 @@ select option[disabled] {
 
 			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 			ps.keywordSearch(keyword, placesSearchCB);
+			map.relayout();
 		}
 
 		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -500,7 +539,7 @@ select option[disabled] {
 
 		// 검색결과 항목을 Element로 반환하는 함수입니다
 		function getListItem(index, places) {
-			var arr = [ index, places.place_name, places.address_name ];
+			var arr = [ index, places.place_name, places.address_name , places.y, places.x ];
 
 			var el = document.createElement('li'), itemStr = '<div class="media-body">' + '<div class="media-title">' + places.place_name + '</div>' + '<div class="text-small text-muted">'
 					+ places.address_name + '</div> </div>' + '<button class="btn btn-primary" value="' + arr + '" onclick="selectAdd(this);" data-dismiss="modal" id="adBtn">선택</button>';
@@ -586,142 +625,101 @@ select option[disabled] {
 
 		// 검색결과 선택 시 address에 추가하는 함수입니다
 		function selectAdd(args0) {
-			var value = $(args0).val();
-			var index = value.substring(0, value.indexOf(','));
-			var name = value.substring(value.indexOf(',') + 1, value.indexOf(',', value.indexOf(',') + 1));
-			var address = value.substring(value.indexOf(',', value.indexOf(',') + 1) + 1) + ' ' + name;
+			var value = $(args0).val().split(",");
 
-			document.getElementById("address").value = address;
-			document.getElementById("address").innerText = address;
-			document.getElementById("bLatitude").value = markers[index].n.La;
-			document.getElementById("bLongitude").value = markers[index].n.Ma;
+			document.getElementById("address").value = value[2]+' '+value[1];
+			document.getElementById("address").innerText = value[2]+' '+value[1];
+			document.getElementById("bLatitude").value = value[3];
+			document.getElementById("bLongitude").value = value[4];
 		}
-	</script>
-
-	<style>
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
-}
-
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-</style>
-	<!-- General JS Scripts -->
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-	<script src="../assets/modules/jquery.min.js"></script>
-	<script src="../assets/modules/popper.js"></script>
-	<script src="../assets/modules/tooltip.js"></script>
-	<script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-	<script src="../assets/modules/moment.min.js"></script>
-	<script src="../assets/js/stisla.js"></script>
-
-	<!-- JS Libraies -->
-	<script src="../assets/modules/cleave-js/dist/cleave.min.js"></script>
-	<script src="../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
-	<script src="../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-	<script src="../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script src="../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-	<script src="../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
-	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
-	<!-- Page Specific JS File -->
-	<script src="../assets/js/page/forms-advanced-forms.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function () {
-		//타이틀 유효성검사
-		$(".title").keyup(function(e) {
-			let title = $(this).val();
-			// console.log($(this).val());
-
-			// 글자수 제한
-			if (title.length > 50) {
-				// 50자 부터는 타이핑 되지 않도록
-				$(this).val($(this).val().substring(0, 50));
-				// 50자 넘으면 알림창 뜨도록
-				$(this).parent().siblings('.char').removeClass('hidden');
-			} else {
-				$(this).parent().siblings('.char').addClass('hidden');
-			}
-		});
-
-		//모집인원 유효성검사
-		$(".bCnt").keyup(function(e) {
-			var regExp = /^[0-9]*$/;
-			let cnt = $(this).val();
-			console.log(cnt);
-
-			// 인원 제한
-			if (!regExp.test(cnt)) {
-				// 숫자 이외의 값 입력시 0으로 변환
-				$(this).val(0);
-				// 숫자 이외의 값 넣으면 알림창 뜨도록
-				$(this).parent().parent().parent().siblings('.max').addClass('hidden');
-				$(this).parent().parent().parent().siblings('.num').removeClass('hidden');
-			} else if (cnt > 20) {
-				// 10자리 이상 부터는 타이핑 되지 않도록
-				$(this).val($(this).val().substring(0, 2));
-				// 20 이상 넘을시 20으로 자동 변환
-				$(this).val(20);
-				// 50자 넘으면 알림창 뜨도록
-				$(this).parent().parent().parent().siblings('.num').addClass('hidden');
-				$(this).parent().parent().parent().siblings('.max').removeClass('hidden');
-			} else {
-				$(this).parent().parent().parent().siblings('.num').addClass('hidden');
-				$(this).parent().parent().parent().siblings('.max').addClass('hidden');
-			}
-		});
-
-		//모임 기간 유효성검사
-		var now_utc = new Date();
-		var oneHoursLater = new Date(now_utc.setHours(now_utc.getHours() + 1));
-		var timeOff = new Date().getTimezoneOffset() * 60000;
-		var today = new Date(oneHoursLater - timeOff).toISOString().substring(0, 16);
-		//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
-		$("#date-local").attr("min", today);
-
-		var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
-		var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
-		//최대 2달 이후까지 선택할수 있게 설정
-		$("#date-local").attr("max", monthLater);
-
-		//현재 시간의 1시간 이후 시간보다 이전 시간 선택시 알림창 뜨도록
-		$('#date-local').focusout(function () {
-			if ($("#date-local").val() < today) {
-				$(".datetime").removeClass('hidden');
-				$("#date-local").val(today);
-			} else {
-				$(".datetime").addClass('hidden');
-			}
-		})
-	});
 	
-	//버튼입력 시 유효성검사
-	function submitBoard() {
-		var title = $(".title").val();
-		var cnt = $(".bCnt").val();
-		var datetime = $(".date").val();
-		var address = $("#address").val();
-		
-		if(title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null){
-			$('.blankMsg').removeClass('hidden');
-			return false;
-		} else {
-			$('.blankMsg').addClass('hidden');
-			return true;
+		$(document).ready(function () {
+			//타이틀 유효성검사
+			$(".title").keyup(function(e) {
+				let title = $(this).val();
+				// console.log($(this).val());
+	
+				// 글자수 제한
+				if (title.length > 50) {
+					// 50자 부터는 타이핑 되지 않도록
+					$(this).val($(this).val().substring(0, 50));
+					// 50자 넘으면 알림창 뜨도록
+					$(this).parent().siblings('.char').removeClass('hidden');
+				} else {
+					$(this).parent().siblings('.char').addClass('hidden');
+				}
+			});
+	
+			//모집인원 유효성검사
+			$(".bCnt").keyup(function(e) {
+				var regExp = /^[0-9]*$/;
+				let cnt = $(this).val();
+				console.log(cnt);
+	
+				// 인원 제한
+				if (!regExp.test(cnt)) {
+					// 숫자 이외의 값 입력시 0으로 변환
+					$(this).val(0);
+					// 숫자 이외의 값 넣으면 알림창 뜨도록
+					$(this).parent().parent().parent().siblings('.max').addClass('hidden');
+					$(this).parent().parent().parent().siblings('.num').removeClass('hidden');
+				} else if (cnt > 20) {
+					// 10자리 이상 부터는 타이핑 되지 않도록
+					$(this).val($(this).val().substring(0, 2));
+					// 20 이상 넘을시 20으로 자동 변환
+					$(this).val(20);
+					// 50자 넘으면 알림창 뜨도록
+					$(this).parent().parent().parent().siblings('.num').addClass('hidden');
+					$(this).parent().parent().parent().siblings('.max').removeClass('hidden');
+				} else {
+					$(this).parent().parent().parent().siblings('.num').addClass('hidden');
+					$(this).parent().parent().parent().siblings('.max').addClass('hidden');
+				}
+			});
+	
+			//모임 기간 유효성검사
+			var now_utc = new Date();
+			var oneHoursLater = new Date(now_utc.setHours(now_utc.getHours() + 1));
+			var timeOff = new Date().getTimezoneOffset() * 60000;
+			var today = new Date(oneHoursLater - timeOff).toISOString().substring(0, 16);
+			//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
+			$("#date-local").attr("min", today);
+	
+			var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
+			var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
+			//최대 2달 이후까지 선택할수 있게 설정
+			$("#date-local").attr("max", monthLater);
+	
+			//현재 시간의 1시간 이후 시간보다 이전 시간 선택시 알림창 뜨도록
+			$('#date-local').focusout(function () {
+				if ($("#date-local").val() < today) {
+					$(".datetime").removeClass('hidden');
+					$("#date-local").val(today);
+				} else {
+					$(".datetime").addClass('hidden');
+				}
+			});
+			
+			$('#mapModal').on('shown.bs.modal', function () {
+				  map.relayout(); // 여기서 'map'은 카카오 맵 객체를 나타냅니다.
+			});
+		});
+	
+		//버튼입력 시 유효성검사
+		function submitBoard() {
+			var title = $(".title").val();
+			var cnt = $(".bCnt").val();
+			var datetime = $(".date").val();
+			var address = $("#address").val();
+			
+			if(title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null){
+				$('.blankMsg').removeClass('hidden');
+				return false;
+			} else {
+				$('.blankMsg').addClass('hidden');
+				return true;
+			}
 		}
-	}
 	</script>
 
 	<!-- Template JS File -->

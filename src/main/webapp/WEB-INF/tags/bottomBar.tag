@@ -8,7 +8,7 @@
 		<c:if test="${bDatas.bAction != 2}">
 			<!-- 글작성자 접속 시 -->
 			<c:if test="${mNum == bDatas.mNum}">
-				<a class="correct" href="updateBoard.do?bNum=${bDatas.bNum}">수정</a>
+				<a class="correct" href="updateBoard.do?bNum=${bDatas.bNum}&type=update">수정</a>
 				<a class="delete" href="boardDelete.do?bNum=${bDatas.bNum}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 				<!-- 모집 중 -->
 				<c:if test="${bDatas.bAction == 0}">

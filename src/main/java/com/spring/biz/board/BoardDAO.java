@@ -15,8 +15,8 @@ public class BoardDAO {
 	@Autowired // 메모리에 있는 jdbcTemplate 객체 넣어주는 어노테이션
 	private JdbcTemplate jdbcTemplate;
 
-	private final String SQL_INSERT = "INSERT INTO BOARD (BTITLE, BCONTENT, BRATE, BCNT, BDATE, BWDATE, BSTATUS, BLATITUDE, BLONGITUDE, BLOCAL) VALUES(?,?,?,?,SYSDATE(),SYSDATE(),0,?,?,?)";
-	private final String SQL_UPDATE = "UPDATE BOARD SET BTITLE=?, BCONTENT=? BRATE=?, BCNT=?, BDATE=?, BCDATE=SYSDATE(), BLATITUDE=?, BLONGITUDE=? WHERE BNUM =?";
+	private final String SQL_INSERT = "INSERT INTO BOARD (BTITLE, MNUM, BCONTENT, BRATE, BCNT, BDATE, BWDATE, BSTATUS, BLATITUDE, BLONGITUDE, BLOCAL, BADDRESS) VALUES(?,?,?,?,?,?,SYSDATE(),0,?,?,?,?)";
+	private final String SQL_UPDATE = "UPDATE BOARD SET BTITLE=?, BCONTENT=?, BRATE=?, BCNT=?, BDATE=?, BLATITUDE=?, BLONGITUDE=?, BLOCAL=?, BADDRESS=?, BCDATE=SYSDATE() WHERE BNUM=?";
 	private final String SQL_UPDATE_BACTION = "UPDATE BOARD SET BACTION=? WHERE BNUM=?";
 	private final String SQL_DELETE = "DELETE FROM BOARD WHERE BNUM=?";
 	// 등록순
@@ -29,7 +29,7 @@ public class BoardDAO {
 			+ " WHERE C.BNUM=B.BNUM";
 	// 시합 날짜순
 	private final String SQL_SELECTALL_MATCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC) A"
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC) A"
 			+ "WHERE C.BNUM=A.BNUM"
 			+ " UNION ALL "
 			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
@@ -59,21 +59,23 @@ public class BoardDAO {
 	private final String SQL_SELECTALL_ADMIN = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM ORDER BY BDATE ASC"; //LIMIT 0+?, 9
 	// 글 관리 페이지 글 목록 - 상태별 필터링
 	private final String SQL_SELECTALL_ADMIN_STATUS = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM WHERE BACTION=? ORDER BY BDATE ASC";
-
+	//마이페이지 - 달력에 들어갈 데이터
+	private final String SQL_SELECTALL_MYMATCH = "SELECT B.BNUM, BDATE, BTITLE FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?";
+	
 	// 매칭 상세 페이지
 	private final String SELECTONE_MATCH = "SELECT CASE WHEN S.MNUM IS NULL THEN 0 ELSE 1 END SUE, CASE WHEN A.MNUM IS NULL THEN 0 ELSE 1 END APPLY,"
 			+ "B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS, ANUM FROM BOARD B"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM, ANUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
 	
-	private final String SQL_SELECTALL_MYMATCH = "SELECT B.BNUM, BDATE, BTITLE FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?";
+	//제일 최근 작성한 글
+	private final String SELECTONE_LATELY = "SELECT A.BNUM, A.MNUM FROM (SELECT BNUM, MNUM FROM BOARD ORDER BY BNUM DESC) A LIMIT 1";
 	
 	public boolean insertBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 insert()");
-			jdbcTemplate.update(SQL_INSERT, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(),
-					bvo.getbDate(), bvo.getbWdate(), bvo.getbStatus(), bvo.getbLatitude(), bvo.getbLongitude(),
-					bvo.getbLocal());
+			jdbcTemplate.update(SQL_INSERT, bvo.getbTitle(), bvo.getmNum() ,bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(),
+					new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress());
 		}catch(Exception e){
 			return false;
 		}
@@ -84,12 +86,11 @@ public class BoardDAO {
 		try {
 			System.out.println("BoardDAO의 update()");
 			if(bvo.getbAction()==null) {
-				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(),
-						bvo.getbDate(), bvo.getbCdate(), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbNum());
+				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress(), bvo.getbNum());
 			} else {
 				jdbcTemplate.update(SQL_UPDATE_BACTION, bvo.getbAction(), bvo.getbNum());
 			}
-		}catch(Exception e) {
+		} catch(Exception e) {
 			return false;
 		}
 		return true;
@@ -197,6 +198,14 @@ public class BoardDAO {
 	
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
+			if(bvo == null) {
+				return jdbcTemplate.queryForObject(SELECTONE_LATELY, (rs, rowNum) -> {
+					BoardVO tmpData= new BoardVO();
+					tmpData.setbNum(rs.getInt("BNUM"));
+					tmpData.setmNum(rs.getInt("MNUM"));
+					return tmpData;
+				});
+			}
 			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getmNum(), bvo.getbNum());
 		} catch (Exception e) {
 			return null;
