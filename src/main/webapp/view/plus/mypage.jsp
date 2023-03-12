@@ -123,7 +123,6 @@ body {
 													<!-- 나의 작성 글 el식 적용 -->
 													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v">
-															<input type="hidden" name="bNum" id="bNum" value="${v.bNum}" />
 															<tr class="text-center">
 																<td>
 																	<div class="sort-handler">
@@ -139,7 +138,7 @@ body {
 																</td>
 																<td>
 																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
-																	<a href="#" data-toggle="modal" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
+																	<a href="#" class="modal-btn" data-toggle="modal" data-bNum="${v.bNum}" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
 																</td>
 																<td>
 																	<div class="dropdown d-inline mr-2" id="b_box">
@@ -165,8 +164,9 @@ body {
 																	</div>
 																</td>
 																<td>
-																	<a href="#" class="btn btn-icon btn-primary" id="modal-5">
-																		<i class="far fa-edit" id="modal-5"></i>
+																	<a href="udpateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
+																		<!-- 작성 게시글 수정페이지로 이동 -->
+																		<i class="far fa-edit"></i>
 																	</a>
 																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='deleteBoard.do?bNum=${v.bNum}'">
 																		<i class="fas fa-times"></i>
@@ -222,97 +222,6 @@ body {
 					</div>
 				</section>
 			</div>
-			<form action="boardUpdate.do" class="modal-part" id="modal-login-part">
-				<div class="form-group">
-					<label>게임 지역</label>
-					<div class="input-group">
-						<select class="form-control" name="bLocal">
-							<option disabled selected>경기 지역을 선택해 주세요</option>
-							<option>서울 - 도봉/노원/강북/중랑</option>
-							<option>서울 - 성북/동대문/종로</option>
-							<option>서울 - 용산/중구</option>
-							<option>서울 - 성동/광진/강동</option>
-							<option>서울 - 송파/서초/강남</option>
-							<option>서울 - 양천/구로/영등포/강서</option>
-							<option>서울 - 금천/관악/동작</option>
-							<option>경기 - 수원/용인/화성/오산</option>
-							<option>경기 - 의정부/양주/그 외</option>
-							<option>경기 - 과천/안양/군포/의왕</option>
-							<option>경기 - 구리/남양주/하남</option>
-							<option>경기 - 인천/부천/김포</option>
-							<option>경기 - 고양/파주</option>
-							<option>경기 - 성남/광주/이천</option>
-							<option>경기 - 시흥/안산/광명</option>
-							<option>경기 - 평택/안성</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label>모집 인원</label>
-					<div class="input-group">
-						<select class="form-control" name="bCnt">
-							<option disabled selected>매치 방식을 선택해 주세요</option>
-							<option>2명</option>
-							<option>3명</option>
-							<option>4명</option>
-							<option>5명</option>
-							<option>6명</option>
-							<option>7명</option>
-							<option>8명</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label>게임 시간</label>
-					<div class="input-group">
-						<input type="datetime-local" name="bDate" class="form-control">
-					</div>
-				</div>
-				<div class="form-group">
-					<label>게임 위치</label>
-					<div class="form-group">
-						<select class="form-control" name="bAddress">
-							<option>Option 1</option>
-							<option>Option 2</option>
-							<option>Option 3</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label>실력</label>
-					<div class="input-group">
-						<div class="selectgroup w-100">
-							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="5000" class="selectgroup-input"></input>
-								<span class="selectgroup-button">초고수</span>
-							</label>
-							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="1000" class="selectgroup-input">
-								<span class="selectgroup-button">고수</span>
-							</label>
-							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="500" class="selectgroup-input">
-								<span class="selectgroup-button">초보</span>
-							</label>
-							<label class="selectgroup-item">
-								<input type="radio" name="bRate" value="200" class="selectgroup-input">
-								<span class="selectgroup-button">왕초보</span>
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label>내용</label>
-					<div class="input-group">
-						<textarea class="form-control" name="bContent" id="editor"></textarea>
-					</div>
-					<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
-					<script>
-						ClassicEditor.create(document.querySelector('#editor'));
-					</script>
-				</div>
-
-			</form>
 		</div>
 	</div>
 
@@ -327,35 +236,29 @@ body {
 					</button>
 				</div>
 				<div class="modal-body">
-					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
-
+					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder" id="modal-box">
 						<!--일반 참여자 el식 적용
 						bNum을 넘겨서 list 받아와서 띄워주기만 하면 됌.-->
-						<c:forEach items="${aDatas}" var="v">
-							<li class="media">
-								<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/${v.mImg}">
+							<%-- <li class="media">
+								<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/">
 								<div class="media-body">
-									<div class="media-title">${v.mId}</div>
+									<div class="media-title">아이디</div>
 									<div class="text-job text-muted">
-										<modoo:exp score="${v.score}" />
+										<modoo:exp score="50" />
 									</div>
 								</div>
 								<div class="media-progressbar">
 									<div class="progress-text">
-										<modoo:score score="${v.score}" />
+										50
 									</div>
 									<div class="progress" data-height="6" style="height: 6px;">
-										<div class="progress-bar bg-primary" data-width="<modoo:score score="${v.score}" />%" style="width: <modoo:score score="${v.score}" />%;"></div>
+										<div class="progress-bar bg-primary" data-width="<modoo:score score="50" />%" style="width: <modoo:score score="50" />%;"></div>
 									</div>
 								</div>
-								<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-								<c:if test="${bDatas.mNum == mNum}">
-									<div class="media-cta">
-										<button id="kickOut" class="btn btn-outline-primary">퇴출하기</button>
-									</div>
-								</c:if>
-							</li>
-						</c:forEach>
+								<div class="media-cta">
+									<button id="kickOut" class="btn btn-outline-primary" value="1">퇴출하기</button>
+								</div>
+							</li> --%>
 					</ul>
 				</div>
 			</div>
@@ -371,11 +274,112 @@ body {
 	<script src="../assets/modules/moment.min.js"></script>
 	<script src="../assets/js/stisla.js"></script>
 
+	<!-- JS Libraies -->
+	<script src="../assets/modules/fullcalendar/fullcalendar.min.js"></script>
+	<script src="../assets/modules/prism/prism.js"></script>
+	<script src="../assets/modules/cleave-js/dist/cleave.min.js"></script>
+	<script src="../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
+	<script src="../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+	<script src="../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script src="../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
+	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+
 	<script type="text/javascript">
-	<!-- 퇴출하기 -->
-		$(document).ready(function() {
+		 $(document).on(
+				'click',
+				'.modal-btn',
+				function(e) {
+					$('#exampleModal').on('show.bs.modal', function() {
+						$('#modal-box').empty(); // 모달창 초기화
+					});
+					var bNum = $(this).attr("data-bNum");
+					console.log("bNum = " + bNum);
+					e.preventDefault();
+					function updateModal(result) {
+						console.log(result);
+						var html = '';
+						function score(score){
+							var tmpScore = 0;
+							if(score<200){
+								tmpScore=(score/200)*100;
+							}
+							if(score<500 && score>199){
+								tmpScore=(score/500)*100;
+							}
+							if(score<1000 && score>499){
+								tmpScore=(score/1000)*100;
+							}
+							if(score>5000){
+								tmpScore=(score/5000)*100;
+							}
+							return tmpScore;
+						}
+						function exp(score){
+							var exp = '';
+							if(score<200){
+								exp='왕초보';
+							}
+							if(score<500 && score>199){
+								exp='초보';
+							}
+							if(score<1000 && score>499){
+								exp='고수';
+							}
+							if(score>5000){
+								exp='빡고수';
+							}
+							return exp;
+						}
+						// result가 비어있지 않을 때만 추가
+						if (result.length > 0) {
+							$.each(result, function(i, item) {
+								html += '<li class="media">' + '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
+										+ '<div class="media-title">'
+										+ item.mId
+										+ '</div>'
+										+ '<div class="text-job text-muted">'
+										+ exp(item.score)
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="media-progressbar">'
+										+ '<div class="progress-text">'
+										+ score(item.score) + ' 점'
+										+ '</div>'
+										+ '<div class="progress" data-height="6" style="height: 6px;">'
+										+ '<div class="progress-bar bg-primary" data-width="'
+										+ score(item.score)
+										+ '%" style="width: '
+										+ score(item.score)
+										+ '%;"></div>'
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="media-cta">'
+										+ '<button class="btn btn-outline-primary" id="kickOut" value="' + item.aNum + '">퇴출하기</button>' + '</div>' + '</li>';
+							});
+						} else {
+							html += '<li>참여한 회원이 없습니다.</li>';
+						}
+						$('#modal-box').html(html); // 리스트 추가
+						$('#exampleModal').modal('show'); // 모달창 보여주기
+					}
+
+					$.ajax({
+						type : 'POST',
+						url : 'showApplicant.do',
+						data : {
+							bNum : bNum
+						},
+						success : updateModal
+					});
+				}); 
+
+		/* <!-- 퇴출하기 -->
 			$('#kickOut').each(function() {
-				let aNum = $(this).parent().parent().parent().prop("id");
+				var aNum = $(this).val();
+				console.log("aNum="+ aNum);
 				var pageNum = '${param.pageNum}';
 				$(this).on('click', function(e) {
 					e.preventDefault();
@@ -396,12 +400,11 @@ body {
 						});
 					}
 				})
-			})
-		})
-			<!-- 모집중 -->
-		$(document).ready(function() {
+			}) */
+		<!--모집중 -->
+	/*	$(document).ready(function() {
 			$('#matchIng').each(function() {
-				let bNum = $(this).parent().parent().parent().prop("id");
+				var bNum = $(this).parent().parent().parent().prop("id");
 				var pageNum = '${param.pageNum}';
 				$(this).on('click', function(e) {
 					e.preventDefault();
@@ -428,7 +431,8 @@ body {
 			<!-- 모집완료 -->
 		$(document).ready(function() {
 			$('#matchEnd').each(function() {
-				let bNum = $(this).parent().parent().parent().prop("id");
+				var bNum = $(this).parent().parent().parent().prop("id");
+				console.log("bNum=" + bNum);
 				var pageNum = '${param.pageNum}';
 				$(this).on('click', function(e) {
 					e.preventDefault();
@@ -451,23 +455,8 @@ body {
 					}
 				})
 			})
-		})
-		
+		}) */
 	</script>
-
-	<!-- JS Libraies -->
-	<script src="../assets/modules/fullcalendar/fullcalendar.min.js"></script>
-	<script src="../assets/modules/prism/prism.js"></script>
-	<script src="../assets/modules/cleave-js/dist/cleave.min.js"></script>
-	<script src="../assets/modules/cleave-js/dist/addons/cleave-phone.us.js"></script>
-	<script src="../assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-	<script src="../assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script src="../assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-	<script src="../assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-	<script src="../assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-	<script src="../assets/modules/select2/dist/js/select2.full.min.js"></script>
-	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
-
 
 	<!-- Page Specific JS File -->
 	<script src="../assets/js/page/modules-calendar.js"></script>
