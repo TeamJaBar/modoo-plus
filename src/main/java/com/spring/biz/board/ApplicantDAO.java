@@ -93,6 +93,7 @@ class ApplicantRowMapper implements RowMapper<ApplicantVO> {
 		data.setmId(rs.getString("MID"));
 		data.setmImg(rs.getString("MIMG"));
 		data.setaChk(rs.getString("ACHK"));
+		data.setScore(rs.getInt("SCORE"));
 		return data;
 	}
 
