@@ -199,16 +199,21 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.GET)
-	public String updateView(BoardVO bvo, Model model) {
+	public String updateView(BoardVO bvo, Model model, HttpServletRequest request) {
+		request.getSession().setAttribute("updateReferer", request.getHeader("Referer"));
 		model.addAttribute("bDatas", boardService.selectOne(bvo));
 		return "/view/plus/match-insert.jsp";
 	}
 	
 	@RequestMapping(value = "/updateBoard.do", method=RequestMethod.POST)
-	public String updateBoard(BoardVO bvo, HttpServletRequest request, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date bDate) {
-		String referer = request.getHeader("Referer");
+	public String updateBoard(BoardVO bvo, HttpSession session, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date bDate) {
+		bvo.setbLocal(boardService.getbLocal(bvo.getbAddress()));
 		bvo.setbDate(bDate);
-		boardService.updateBoard(bvo);
+		String referer = (String)session.getAttribute("updateReferer");
+		if(boardService.updateBoard(bvo)) {
+			session.removeAttribute("updateReferer");
+			System.out.println(referer);
+		}
 		return "redirect:"+referer;
 	}
 	
