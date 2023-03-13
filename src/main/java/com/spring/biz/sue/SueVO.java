@@ -17,7 +17,7 @@ public class SueVO {
 	private Date bWdate; // 작성일자
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
-	private String sCname; // 신고 카테고리 분류명
+	private String scName; // 신고 카테고리 분류명
 	private int nCnt; // 미처리 신고글 갯수
 	private int cCnt; // 처리 신고글 갯수
 	private int aCnt; // 전체 신고글 갯수
@@ -126,12 +126,12 @@ public class SueVO {
 		this.bContent = bContent;
 	}
 
-	public String getsCname() {
-		return sCname;
+	public String getScName() {
+		return scName;
 	}
 
-	public void setsCname(String sCname) {
-		this.sCname = sCname;
+	public void setScName(String scName) {
+		this.scName = scName;
 	}
 
 	public int getnCnt() {
@@ -161,7 +161,7 @@ public class SueVO {
 	@Override
 	public String toString() {
 		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate + ", sResult=" + sResult + ", bTitle=" + bTitle + ", mId=" + mId + ", mName="
-				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", sCname=" + sCname + ", nCnt=" + nCnt + ", cCnt=" + cCnt + ", aCnt=" + aCnt
+				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName + ", nCnt=" + nCnt + ", cCnt=" + cCnt + ", aCnt=" + aCnt
 				+ "]";
 	}
 

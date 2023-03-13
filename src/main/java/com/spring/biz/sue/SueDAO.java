@@ -123,7 +123,7 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setbTitle(rs.getString("BTITLE"));
 		data.setmId(rs.getString("MID"));
 		data.setbContent(rs.getString("BCONTENT"));
-		data.setsCname(rs.getString("SCNAME"));
+		data.setScName(rs.getString("SCNAME"));
 		data.setbWdate(rs.getTimestamp("BWDATE"));
 		data.setsDate(rs.getTimestamp("SDATE"));
 		data.setsResult(rs.getString("SRESULT"));
