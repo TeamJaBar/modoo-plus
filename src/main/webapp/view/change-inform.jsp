@@ -13,7 +13,7 @@
 			<div class="content_box col-md-8 col-lg-9 p-b-80">
 				<div class="join_base_wrap">
 					<div class="member_cont">
-						<form action="update.do" method="post" id="formJoin" name="formJoin" onsubmit="return changeSubmit();">
+						<form action="update.do" method="post" id="formJoin" name="formJoin" onsubmit="return changeSubmit();" enctype="multipart/form-data">
 							<!-- 회원가입/정보 기본정보 -->
 							<div class="base_info_box">
 								<h3>기본정보</h3>
@@ -129,15 +129,20 @@
 												</td>
 											</tr>
 											<tr>
-												<th>
-													<span class="important">프로필 이미지</span>
-												</th>
+												<th>프로필 이미지</th>
 												<td>
-													<div class="member_warning">
-														<input type="file" id="imageSelector" name="mImg" value="/ModooShop/assets/img/avatar/${member.mImg}" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
-														<label for="imageSelector">
-															<img class="thumb" src="/ModooShop/assets/img/avatar/${member.mImg}" style="max-width: 200px; height: 100px; display: block;" />
-														</label>
+													<div class="member_warning profile-container">
+														<input type="file" id="imageSelector" name="uploadFile" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
+														<input type="hidden" id="mImg" name="mImg" value="${member.mImg}"/>
+															<label for="imageSelector" style="margin:0 auto;">
+																<div class="box">
+																	<img class="thumb" src="../assets/img/avatar/${member.mImg}" style="width:100%; hiehgt:100%; object-fit:cover;" />
+																</div>
+																<div class="img-add-btn">
+																	<i class="fas fa-plus"></i>
+																</div>
+															</label>
+															<button type="button" id="btn-defaultImg">기본 프로필</button>
 													</div>
 												</td>
 											</tr>
@@ -459,6 +464,11 @@ var phoneCheck = true;
 		}
 	}
 	
+	$('#btn-defaultImg').on('click', function() {
+		$('.thumb').attr("src", "/ModooShop/assets/img/avatar/default.png");
+    	$('#mImg').val("default.png");
+	});
+	
 	// 이미지 섬네일 추가
 	document.addEventListener('DOMContentLoaded', function(){
 	    //이미지 객체 타입으로 이미지 확장자 밸리데이션
@@ -500,9 +510,6 @@ var phoneCheck = true;
 	            preview.onload = function() {
 	                URL.revokeObjectURL(preview.src); //URL 객체 해제
 	            }
-	        }else{
-	        	elem.value = "";
-	        	document.querySelector('.thumb').src = "/ModooShop/assets/img/Upload-Icon.png";
 	        }
 	    });
 	});
