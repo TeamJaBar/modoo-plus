@@ -140,7 +140,7 @@ body {
 														<tr>
 															<td>${v.bNum}</td>
 															<td>
-																<a href="sue-detail.do?bNum=${v.bNum}">${v.bTitle}</a>
+																<a href="selectSue.do?bNum=${v.bNum}">${v.bTitle}</a>
 															</td>
 															<td>
 																<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
@@ -206,6 +206,15 @@ body {
 					</div>
 				</section>
 			</div>
+			<footer class="main-footer">
+				<div class="footer-left">
+					<%-- ${fn:length(bDatas)} --%>
+					<div class="bullet"></div>
+					Design By
+					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+				</div>
+				<div class="footer-right"></div>
+			</footer>
 		</div>
 	</div>
 
