@@ -67,7 +67,8 @@ public class BoardDAO {
 			+ "B.BNUM, B.BTITLE, B.MNUM, BCONTENT, BRATE, BCNT, BDATE, BLATITUDE, BLONGITUDE, BADDRESS, BACTION, BSTATUS, ANUM FROM BOARD B"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM, ANUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
-	
+	// 게시글 작성자의 신고여부
+	private final String SELECTONE_MSTATUS = "SELECT MSTATUS FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM WHERE BNUM=?";
 	// 제일 최근 작성한 글
 	private final String SELECTONE_LATELY = "SELECT LAST_INSERT_ID() AS BNUM";
 	
@@ -206,6 +207,12 @@ public class BoardDAO {
 					tmpData.setbNum(rs.getInt("BNUM"));
 					return tmpData;
 				});
+			}else if (bvo.getmNum() != 0) {
+				return jdbcTemplate.queryForObject(SELECTONE_MSTATUS, (rs, rowNum) -> {
+					BoardVO tmpData = new BoardVO();
+					tmpData.setmStatus(rs.getString("MSTATUS"));
+					return tmpData;
+				}, bvo.getbNum());
 			}
 			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getmNum(), bvo.getbNum());
 		} catch (Exception e) {
