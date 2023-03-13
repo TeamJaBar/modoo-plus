@@ -49,5 +49,12 @@ public class CommentDAO2 {
       }
       return null;
    }
-
+   public CommentVO selectOne(CommentVO cvo) {
+	   try {
+		   return mybatis.selectOne("CommantDAO.selectOne",cvo);
+	   }catch(Exception e) {
+		   e.printStackTrace();
+	   }
+	   return null;
+   }
 }
