@@ -25,7 +25,9 @@ public class PageDAO {
 	private final String SQL_SELECTALL_MYBOARD = "SELECT B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM WHERE B.MNUM=? GROUP BY B.BNUM ORDER BY B.BNUM ASC LIMIT ?,?";
 	// 마이 페이지 내가 신청한 매칭 목록
 	private final String SQL_SELECTALL_MYMATCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, (SELECT A.ANUM, A.ACHK, B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?) D WHERE C.BNUM = D.BNUM ORDER BY C.BNUM ASC LIMIT ?,?";
-
+	// 관리자 페이지 신고글 목록
+	private final String SQL_SELECTALL_SUE = "SELECT S.SNUM, S.MNUM, B.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M, BOARD B, SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM ASC LIMIT ?,?";
+	
 	// 총 신고글이 몇개인지
 	public int getSueTotal(SueVO svo) {
 		System.out.println("PageDAO : getSueTotal 실행");
@@ -79,6 +81,28 @@ public class PageDAO {
 					tmpData.setbAction(rs.getString("BACTION"));
 					return tmpData;
 				}, bvo.getmNum(), (bvo.getPageNum() - 1) * bvo.getAmount(), bvo.getAmount());
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return datas;
+	}
+	
+	public List<SueVO> selectAllSue(SueVO svo) {
+		List<SueVO> datas=new ArrayList<SueVO>();
+		try {
+				datas= jdbcTemplate.query(SQL_SELECTALL_SUE, (rs, rowNum)->{
+					SueVO tmpData= new SueVO();
+					tmpData.setsNum(rs.getInt("SNUM"));
+					tmpData.setmNum(rs.getInt("MNUM"));
+					tmpData.setbNum(rs.getInt("BNUM"));
+					tmpData.setbTitle(rs.getString("BTITLE"));
+					tmpData.setmId(rs.getString("MID"));
+					tmpData.setmImg(rs.getString("MIMG"));
+					tmpData.setbWdate(rs.getTimestamp("BWDATE"));
+					tmpData.setbStatus(rs.getString("BSTATUS"));
+					return tmpData;
+				}, (svo.getPageNum() - 1) * svo.getAmount(), svo.getAmount());
 		}catch(Exception e) {
 			e.printStackTrace();
 			return null;

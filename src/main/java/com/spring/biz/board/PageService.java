@@ -10,4 +10,5 @@ public interface PageService {
 	public int getMyMatchTotal(BoardVO bvo);
 	public List<BoardVO> selectAllMyBoard(BoardVO bvo);
 	public List<BoardVO> selectAllMatch(BoardVO bvo);
+	public List<SueVO> selectAllSue(SueVO svo);
 }
