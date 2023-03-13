@@ -477,3 +477,17 @@ input[type="button"] {
     padding-top: 4px;
     padding-left: 0.5px;
 }
+
+#btn-defaultImg {
+	width: 34%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0188CB;
+    border-image: initial;
+    border-radius: 2px;
+    margin:0 auto;
+}
+
+.profile-container {
+	text-align:center;
+}
