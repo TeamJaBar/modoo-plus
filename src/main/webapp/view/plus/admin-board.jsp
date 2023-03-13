@@ -354,7 +354,7 @@ body {
 								</td>
 								<td class="bTitle" name="bTitle">${board.bTitle}</td>
 								<td>
-								<div>${board.mId}</div>
+								<div>${board.bMname}</div>
 								</td>
 								<td class="bDate" name="bDate">${board.bDate}</td>
 								<td>
@@ -465,21 +465,21 @@ body {
 	                  console.log(temp);
 	         } else if(now == 0){
 	        	 datas.forEach((i) => {
-	               if(${i.bAction == 0}){
+	               if($(i.bAction == 0)){
 	                  temp.push(i);
 	               }
 	            })
 	            console.log(temp);
 	         } else if(now == 1){
 	        	 datas.forEach((i) => {
-	               if(${i.bAction == 1}){
+	               if($(i.bAction == 1)){
 	                  temp.push(i);
 	               }
 	            })
 	            console.log(temp);
 	         } else if(now == 2){
 	        	 datas.forEach((i) => {
-	               if(${i.bAction == 2}){
+	               if($(i.bAction == 2)){
 	                  temp.push(i);
 	               }
 	            })
