@@ -22,17 +22,21 @@ public class SueServiceImpl implements SueService {
 	}
 
 	@Override
-	public SueVO selectAllCount(SueVO svo) {
-		return sueDAO.selectCount(svo);
-	}
-
-	@Override
 	public List<SueVO> selectAllSue(SueVO svo) {
 		return sueDAO.selectAllSue(svo);
+	}
+
+	public List<SueCategoryVO> selectAllSueCa(SueCategoryVO scvo) {
+		return sueDAO.selectAllSueCa(scvo);
 	}
 
 	@Override
 	public SueVO selectOneSue(SueVO svo) {
 		return sueDAO.selectOneSue(svo);
+	}
+
+	@Override
+	public SueVO selectCount(SueVO svo) {
+		return sueDAO.selectCount(svo);
 	}
 }
