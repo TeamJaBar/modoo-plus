@@ -177,10 +177,15 @@ public class MyPageController {
 	// 보드 디테일
 	@RequestMapping("/boardDetail.do")
 	public String selectOneBoard(BoardVO bvo, ApplicantVO avo, HttpSession session, CommentVO cvo, Model model) {
+		
+		model.addAttribute("status", boardService.selectOne(bvo));
+		System.out.println("status : " +boardService.selectOne(bvo));
+		
 		if (session.getAttribute("mNum") != null) {
 			bvo.setmNum((Integer)session.getAttribute("mNum"));
 		}
-		model.addAttribute("bDatas", boardService.selectOne(bvo));
+		model.addAttribute("bDatas", boardService.selectOneDetail(bvo));
+		System.out.println("bDatas : " +boardService.selectOneDetail(bvo));
 		model.addAttribute("aDatas", applicantService.selectAll(avo));
 		model.addAttribute("cDatas", commentService.selectAll(cvo));
 		// 신고 카테고리
@@ -200,7 +205,7 @@ public class MyPageController {
 	@RequestMapping(value = "/updateBoard.do", method = RequestMethod.GET)
 	public String updateView(BoardVO bvo, Model model, HttpServletRequest request) {
 		request.getSession().setAttribute("updateReferer", request.getHeader("Referer"));
-		model.addAttribute("bDatas", boardService.selectOne(bvo));
+		model.addAttribute("bDatas", boardService.selectOneDetail(bvo));
 		return "/view/plus/match-insert.jsp";
 	}
 
