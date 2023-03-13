@@ -21,8 +21,10 @@ public class SueVO {
 	private int aCnt; // 전체 신고글 갯수
 	private int nCnt; // 미처리 신고글 갯수
 	private int cCnt; // 처리 신고글 갯수
-	private int pageNum;
+	private int pageNum; 
 	private int amount;
+	private int score;
+	private String mStatus;
 
 	public int getsNum() {
 		return sNum;
@@ -176,11 +178,29 @@ public class SueVO {
 		this.amount = amount;
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public String getmStatus() {
+		return mStatus;
+	}
+
+	public void setmStatus(String mStatus) {
+		this.mStatus = mStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate + ", sResult=" + sResult + ", bTitle=" + bTitle + ", mId=" + mId + ", mName="
 				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName + ", aCnt=" + aCnt + ", nCnt=" + nCnt + ", cCnt=" + cCnt
-				+ ", pageNum=" + pageNum + ", amount=" + amount + "]";
+				+ ", pageNum=" + pageNum + ", amount=" + amount + ", score=" + score + ", mStatus=" + mStatus + "]";
 	}
+
+
 
 }
