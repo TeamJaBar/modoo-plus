@@ -762,9 +762,11 @@
 				</section>
 			</div>
 			<div id="fixed_btn_container">
-				<button class="fixed_btn_insert" onclick="location.href='createBoard.do'" style="cursor: pointer">
-					<i class="far fa-edit"></i> 새 매치
-				</button>
+				<c:if test="${mNum != null}">
+					<button class="fixed_btn_insert" onclick="location.href='createBoard.do'" style="cursor: pointer">
+						<i class="far fa-edit"></i> 새 매치
+					</button>
+				</c:if>
 			</div>
 		</div>
 	</div>
@@ -808,7 +810,7 @@
 
 	<script>
 	<!-- 라디오 장소 검색 -->
-																																					
+																																							
 	
 	<!-- 슬릭 플러그인을 위한 script -->
 		$(document).ready(function() {
@@ -861,6 +863,7 @@
 			});
 		})
 		<!-- 슬릭 플러그인을 위한 script -->
+	
 	
 	
 	
