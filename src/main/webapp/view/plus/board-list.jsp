@@ -918,7 +918,7 @@
 			$tags.append($tag);
 			$tag.append($tagText);
 			$body.append($leftBox, $title, $informations);
-			$leftBox.append($date);
+			$leftBox.append($date, $title, $informations);
 			$date.append($dateText);
 			$title.append($titleText);
 			$informations.append($informationCnt, $informationRate);
