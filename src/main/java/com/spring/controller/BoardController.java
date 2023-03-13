@@ -137,9 +137,9 @@ public class BoardController {
 				json.addProperty("fileName", fileName);
 				json.addProperty("url", uploadPath);
 				
-				printWriter = response.getWriter();
 				response.setCharacterEncoding("utf-8");
 		        response.setContentType("text/html; charset=utf-8");
+		        printWriter = response.getWriter();
 				printWriter.println(json);
 			}
 			
