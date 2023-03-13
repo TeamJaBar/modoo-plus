@@ -26,6 +26,7 @@ import com.spring.biz.board.PageService;
 import com.spring.biz.board.PageVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
+import com.spring.biz.sue.SueService;
 
 @Controller
 @RequestMapping(value = "/view")
@@ -41,6 +42,8 @@ public class MyPageController {
 	PageService pageService;
 	@Autowired
 	CommentService commentService;
+	@Autowired
+	SueService sueService;
 
 	private static final int DEFAULT_PAGENUM = 1;
 	private static final int DEFAULT_AMOUNT = 10;
@@ -181,6 +184,7 @@ public class MyPageController {
 		model.addAttribute("aDatas", applicantService.selectAll(avo));
 		model.addAttribute("cDatas", commentService.selectAll(cvo));
 		// 신고 카테고리
+		model.addAttribute("scDatas", sueService.selectAllSueCa(null));
 		// 신고 여부
 		return "/view/plus/match-detail.jsp";
 	}
