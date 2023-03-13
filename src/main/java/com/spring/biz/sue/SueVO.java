@@ -18,9 +18,11 @@ public class SueVO {
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
 	private String scName; // 신고 카테고리 분류명
+	private int aCnt; // 전체 신고글 갯수
 	private int nCnt; // 미처리 신고글 갯수
 	private int cCnt; // 처리 신고글 갯수
-	private int aCnt; // 전체 신고글 갯수
+	private int pageNum;
+	private int amount;
 
 	public int getsNum() {
 		return sNum;
@@ -134,6 +136,14 @@ public class SueVO {
 		this.scName = scName;
 	}
 
+	public int getaCnt() {
+		return aCnt;
+	}
+
+	public void setaCnt(int aCnt) {
+		this.aCnt = aCnt;
+	}
+
 	public int getnCnt() {
 		return nCnt;
 	}
@@ -150,19 +160,27 @@ public class SueVO {
 		this.cCnt = cCnt;
 	}
 
-	public int getaCnt() {
-		return aCnt;
+	public int getPageNum() {
+		return pageNum;
 	}
 
-	public void setaCnt(int aCnt) {
-		this.aCnt = aCnt;
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	@Override
 	public String toString() {
 		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate + ", sResult=" + sResult + ", bTitle=" + bTitle + ", mId=" + mId + ", mName="
-				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName + ", nCnt=" + nCnt + ", cCnt=" + cCnt + ", aCnt=" + aCnt
-				+ "]";
+				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName + ", aCnt=" + aCnt + ", nCnt=" + nCnt + ", cCnt=" + cCnt
+				+ ", pageNum=" + pageNum + ", amount=" + amount + "]";
 	}
 
 }
