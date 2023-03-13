@@ -187,7 +187,7 @@ public class BoardDAO {
 					tmpData.setbNum(rs.getInt("BNUM"));
 					tmpData.setbTitle(rs.getString("BTITLE"));
 					tmpData.setbMname(rs.getString("MID"));
-					tmpData.setbDate(rs.getDate("BDATE"));
+					tmpData.setbDate(rs.getTimestamp("BDATE"));
 					tmpData.setbAction(rs.getString("BACTION"));
 					return tmpData;
 				});
