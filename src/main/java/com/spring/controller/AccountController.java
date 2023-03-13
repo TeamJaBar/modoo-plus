@@ -55,7 +55,6 @@ public class AccountController {
 		} else {
 			mvo.setKakao("일반");
 		}
-		
 		MultipartFile uploadProfile = mvo.getUploadFile();
 		String mImg = "default.png";
 		if(!uploadProfile.isEmpty()) {
@@ -110,6 +109,9 @@ public class AccountController {
 			session.setAttribute("mName", mvo.getmName());
 			session.setAttribute("mImg", mvo.getmImg());
 			session.removeAttribute("redirectURI");
+		}
+		if(redirectURI.contains("join")) {
+			return "redirect:main.do";
 		}
 		return "redirect:"+ redirectURI;
 	}
