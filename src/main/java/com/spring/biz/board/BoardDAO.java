@@ -48,7 +48,7 @@ public class BoardDAO {
 			+ " UNION ALL "
 			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE asc LIMIT 1000000) AS B"
-			+ " WHERE C.BNUM=B.BNUM AND BDATE between SYSDATE-? and SYSDATE-?";
+			+ " WHERE C.BNUM=B.BNUM AND BDATE BETWEEN SYSDATE-? AND SYSDATE-?";
 	// 헤더 부분 검색(제목만 가능)
 	private final String SQL_SELECTALL_SEARCH = "SELECT * FROM BOARD WHERE BTITLE LIKE CONCAT('%',?,'%')";
 
@@ -71,6 +71,8 @@ public class BoardDAO {
 	// 제일 최근 작성한 글
 	private final String SELECTONE_LATELY = "SELECT LAST_INSERT_ID() AS BNUM";
 	
+	//관리자 페이지에서 신고글 바꿔주는 쿼리문
+	private final String UPDATE_BSTATUS = "UPDATE BOARD SET BSTATAUS=? WHERE BNUM=?";
 	public boolean insertBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 insert()");
@@ -88,6 +90,8 @@ public class BoardDAO {
 			if (bvo.getbAction() == null) {
 				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(),
 						bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress(), bvo.getbNum());
+			} else if (bvo.getbStatus()!=null) {
+				jdbcTemplate.update(UPDATE_BSTATUS, bvo.getbStatus(), bvo.getbNum());
 			} else {
 				jdbcTemplate.update(SQL_UPDATE_BACTION, bvo.getbAction(), bvo.getbNum());
 			}
