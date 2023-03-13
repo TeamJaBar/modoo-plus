@@ -79,7 +79,7 @@ public class MyPageController {
 	
 
 	@RequestMapping(value = "/updateBoardAction.do", method=RequestMethod.POST)
-	public String updateBActionAjax(BoardVO bvo) {
+	public @ResponseBody String updateBActionAjax(BoardVO bvo) {
 		if(boardService.updateBoard(bvo)) {
 			return "1";
 		} else {
