@@ -605,6 +605,7 @@
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 9999;
+	transform: translateX(-50%);
 }
 
 .fixed_btn_insert:hover {
@@ -699,67 +700,69 @@
 									</div>
 								</div>
 							</div>
-
-							<c:forEach var="board" items="${boardList}">
-								<a id="board-list" href="boardDetail.do?bNum=${board.bNum}" class="" fg-component="match-list-item">
-									<div class="contents-box">
-										<div class="left-section">
-											<div class="head">
-												<div class="tags">
-													<div class="tag">
-														<span class="text">${board.bLocal}</span>
+							<div id="board-list">
+								<c:forEach var="board" items="${boardList}">
+									<a href="boardDetail.do?bNum=${board.bNum}" fg-component="match-list-item">
+										<div class="contents-box">
+											<div class="left-section">
+												<div class="head">
+													<div class="tags">
+														<div class="tag">
+															<span class="text">${board.bLocal}</span>
+														</div>
 													</div>
-												</div>
-												<!--<div  class="tags rate">
+													<!--<div  class="tags rate">
 														<div  class="tag">
 															<span  class="text">${board.bRate}</span>
 														</div>
 													</div>-->
-											</div>
-											<div class="body">
-												<div class="left-box">
-													<div class="date">
-														<span class="text">
-															<fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" />
-														</span>
-													</div>
-													<div class="title">
-														<span class="text">${board.bTitle}</span>
-														<div class="informations">
-															<div class="information">
-																<span class="text">${board.bCnt}명</span>
-															</div>
-															<div class="information">
-																<span class="text">${board.bRate}</span>
+												</div>
+												<div class="body">
+													<div class="left-box">
+														<div class="date">
+															<span class="text">
+																<fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" />
+															</span>
+														</div>
+														<div class="title">
+															<span class="text">${board.bTitle}</span>
+															<div class="informations">
+																<div class="information">
+																	<span class="text">${board.bCnt}명</span>
+																</div>
+																<div class="information">
+																	<span class="text">${board.bRate}</span>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
+											<div class="right-section">
+												<c:if test="${board.bAction == 0}">
+													<div class="btn btn-submit">
+														모집중
+														<p>${board.aCnt}/${board.bCnt}</p>
+														<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
+													</div>
+												</c:if>
+												<c:if test="${board.bAction == 1}">
+													<div class="btn btn-secondary">
+														모집완료
+														<p>${board.aCnt}/${board.bCnt}</p>
+														<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
+													</div>
+												</c:if>
+											</div>
 										</div>
-										<div class="right-section">
-											<c:if test="${board.bAction == 0}">
-												<div class="btn btn-submit">
-													모집중
-													<p>${board.aCnt}/${board.bCnt}</p>
-												</div>
-											</c:if>
-											<c:if test="${board.bAction == 1}">
-												<div class="btn btn-secondary">
-													모집완료
-													<p>${board.aCnt}/${board.bCnt}</p>
-												</div>
-											</c:if>
-										</div>
-									</div>
-								</a>
-							</c:forEach>
+									</a>
+								</c:forEach>
+							</div>
 						</div>
-					</div>
 				</section>
 			</div>
 			<div id="fixed_btn_container">
-				<button class="fixed_btn_insert" onclick="location.href='createBoard.do'">
+				<button class="fixed_btn_insert" onclick="location.href='createBoard.do'" style="cursor:pointer">
 					<i class="far fa-edit"></i> 새 매치
 				</button>
 			</div>
@@ -805,7 +808,7 @@
 
 	<script>
 	<!-- 라디오 장소 검색 -->
-					
+																																			
 	
 	<!-- 슬릭 플러그인을 위한 script -->
 		$(document).ready(function() {
@@ -856,30 +859,78 @@
 			}, function(start, end, label) {
 				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 			});
-		})<!-- 슬릭 플러그인을 위한 script -->
-		<!-- 날짜 / 등록순 -->
+		})
+		<!-- 슬릭 플러그인을 위한 script -->
+	
+	
 	
 	
 	
 	</script>
+
+
 	<script type="text/javascript">
-	 $(document).ready(function() {
-		  $('.sort-button').click(function() {
-	    	  var sortBy = $(this).data('selected');
-	    	  console.log(sortBy);
-		      $.ajax({
-		        type: "POST",
-		        url: "sortBoard.do",
-		        data : {
-		        	sortBy : sortBy
-		        	},
-		        success: function(data) {
-		          // 새로운 정렬된 목록으로 페이지를 업데이트
-		          $('#board-list').html(data);
-		        }
-		      });
-		  });
+	<!-- 날짜 / 등록순을 위한 script -->
+	$(document).ready(function() {
+		$('.sort-button').click(function() {
+		var sortBy = $(this).data('selected');
+		console.log(sortBy);
+		$.ajax({
+			type: "POST",
+			url: "sortBoard.do",
+			data : {
+			sortBy : sortBy
+			},
+		success: function(result) {
+		console.log(result);
+		var $list = $('#board-list');
+		$list.empty();
+		$.each(result, function(index, value) {
+		var $a = $('<a>').attr('href', 'boardDetail.do?bNum=' + value.bNum).attr('fg-component', 'match-list-item');
+		var $contentsBox = $('<div>').addClass('contents-box');
+		var $leftSection = $('<div>').addClass('left-section');
+		var $head = $('<div>').addClass('head');
+		var $tags = $('<div>').addClass('tags');
+		var $tag = $('<div>').addClass('tag');
+		var $tagText = $('<span>').addClass('text').text(value.bLocal);
+		var $body = $('<div>').addClass('body');
+		var $leftBox = $('<div>').addClass('left-box');
+		var $date = $('<div>').addClass('date');
+		var $dateText = $('<span>').addClass('text').text(value.bDate);
+		var $title = $('<div>').addClass('title');
+		var $titleText = $('<span>').addClass('text').text(value.bTitle);
+		var $informations = $('<div>').addClass('informations');
+		var $informationCnt = $('<div>').addClass('information');
+		var $informationCntText = $('<span>').addClass('text').text(value.bCnt + '명');
+		var $informationRate = $('<div>').addClass('information');
+		var $informationRateText = $('<span>').addClass('text').text(value.bRate);
+		var $rightSection = $('<div>').addClass('right-section');     
+		if (value.bAction === 0) {
+			var $btn = $('<div>').addClass('btn btn-submit').html('모집중<br><span>' + value.aCnt + '/' + value.bCnt + '</span>');
+			} else {
+			var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<br><span>' + value.aCnt + '/' + value.bCnt + '</span>');
+			}
+			 // DOM 조작 코드 작성
+			$a.append($contentsBox);
+			$contentsBox.append($leftSection, $rightSection);
+			$leftSection.append($head, $body);
+			$head.append($tags);
+			$tags.append($tag);
+			$tag.append($tagText);
+			$body.append($leftBox, $title, $informations);
+			$leftBox.append($date);
+			$date.append($dateText);
+			$title.append($titleText);
+			$informations.append($informationCnt, $informationRate);
+			$informationCnt.append($informationCntText);
+			$informationRate.append($informationRateText);
+			$rightSection.append($btn);
+			$list.append($a);
+		    });
+		  }
 		});
+		});
+		});	
 	</script>
 
 	<!-- Page Specific JS File -->
