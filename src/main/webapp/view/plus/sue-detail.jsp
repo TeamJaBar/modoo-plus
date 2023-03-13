@@ -55,7 +55,7 @@
 								<h2 class="section-title">${sue.bTitle}</h2>
 								<div class="card">
 									<div class="card-header">
-										<span class="badge badge-info" style="margin-right:10px;">
+										<span class="badge badge-info" style="margin-right: 10px;">
 											<modoo:exp score="${sue.score}" />
 										</span>
 										<h4>${sue.mId}</h4>
@@ -74,7 +74,7 @@
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}&sResult=1'">
 											신고취소</button>
 										<div class="btn-group mb-2" style="float: right;">
-											 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기
+											처리 yes 누르면 data-confirm-yes="delete()로 바꾸기
 											<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원 관리</button>
 											<div class="dropdown-menu">
 												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&score=-30">점수감점 (-30)</a>
@@ -93,7 +93,7 @@
 								<h2 class="section-title">${sue.bTitle}</h2>
 								<div class="card">
 									<div class="card-header">
-										<span class="badge badge-info" style="margin-right:10px;">
+										<span class="badge badge-info" style="margin-right: 10px;">
 											<modoo:exp score="${sue.score}" />
 										</span>
 										<h4>${sue.mId}</h4>
@@ -114,7 +114,7 @@
 									</div>
 									<div class="card-footer bg-whitesmoke">
 										<fmt:formatDate value="게시 : ${sue.bwDate}" pattern="yy-MM-dd HH:mm" />
-										<div class="bullet"></div> 
+										<div class="bullet"></div>
 										<fmt:formatDate value="신고 : ${sue.sDate}" pattern="yy-MM-dd HH:mm" />
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?" data-confirm-yes="location.href='updateSue.do?sNum=${sue.sNum}'">
 											신고취소</button>
@@ -131,6 +131,15 @@
 					</c:choose>
 				</section>
 			</div>
+			<footer class="main-footer">
+				<div class="footer-left">
+					<%-- ${fn:length(bDatas)} --%>
+					<div class="bullet"></div>
+					Design By
+					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+				</div>
+				<div class="footer-right"></div>
+			</footer>
 		</div>
 	</div>
 	<style>

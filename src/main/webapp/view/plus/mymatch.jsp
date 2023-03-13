@@ -265,7 +265,8 @@ body {
 													<c:if test="${pageVO.prev}">
 														<li class="page-item disabled">
 															<a class="page-link" href="myBoard.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
+																<span aria-hidden="true">&laquo;</span>
+																<span class="sr-only">Previous</span>
 															</a>
 														</li>
 													</c:if>
@@ -281,7 +282,8 @@ body {
 													<c:if test="${pageVO.next}">
 														<li class="page-item">
 															<a class="page-link" href="myBoard.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+																<span aria-hidden="true">&raquo;</span>
+																<span class="sr-only">Next</span>
 															</a>
 														</li>
 													</c:if>
@@ -295,6 +297,15 @@ body {
 					</div>
 				</section>
 			</div>
+			<footer class="main-footer">
+				<div class="footer-left">
+					<%-- ${fn:length(bDatas)} --%>
+					<div class="bullet"></div>
+					Design By
+					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+				</div>
+				<div class="footer-right"></div>
+			</footer>
 		</div>
 	</div>
 	<!-- Modal screen -->
