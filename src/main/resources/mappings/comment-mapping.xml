@@ -17,6 +17,9 @@
 		SELECT CNUM, B.BNUM, CCONTENT, CWDATE, MID, C.MNUM, CCDATE FROM COMMENT C JOIN MEMBER M ON C.MNUM = M.MNUM JOIN BOARD B ON B.BNUM=C.BNUM WHERE B.BNUM=#{bNum} ORDER BY CWDATE ASC
 	</select>
 	
+	<select id="selectOne" resultType="comment">
+		SELECT MSTATUS FROM COMMENT C JOIN MEMBER M ON C.MNUM=M.MNUM WHERE CNUM=#{cNum}
+	</select>
 	
 	<resultMap type="comment" id="commentResultSet">
     	<id property="cNum" column="CNUM"/>
