@@ -94,15 +94,17 @@
 												<div class="date">
 													<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
 												</div>
-												<c:if test="${bDatas.sue != 1}">
-													<button class="btn-sue" id="modal-sue" data-toggle="modal">
-														<i class="fas fa-siren"></i>신고하기
-													</button>
-												</c:if>
-												<c:if test="${bDatas.sue == 1}">
-													<div class="btn-sue">
-														<i class="fas fa-siren"></i>신고완료
-													</div>
+												<c:if test="${bDatas.mNum != mNum}">
+													<c:if test="${bDatas.sue != 1}">
+														<button class="btn-sue" id="modal-sue" data-toggle="modal">
+															<i class="fas fa-siren"></i>신고하기
+														</button>
+													</c:if>
+													<c:if test="${bDatas.sue == 1}">
+														<div class="btn-sue">
+															<i class="fas fa-siren"></i>신고완료
+														</div>
+													</c:if>
 												</c:if>
 											</div>
 											<div class="title">${bDatas.bTitle}</div>
@@ -220,43 +222,40 @@
 												<a class="textCount" style="font-size: 2px;">0</a>
 												<a class="TextTotal" style="font-size: 2px;">/300</a>
 											</div>
-											<c:if test="${mNum == null}">
-												<div class="form-group">
-													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px;" onclick="validation(this.id)" readonly></textarea>
-													<button class="btn-submit" id="insertCommet" disabled>
+											<div class="form-group">
+												<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize:none;" onclick="validation(this.id)"></textarea>
+												<c:if test="${mNum == null}">
+													<button class="btn-submit" id="insertCommet" onclick="loginConfirm()">
 														<i class="fas fa-comments"></i>
 													</button>
-												</div>
-											</c:if>
-											<c:if test="${mNum != null}">
-												<div class="form-group">
-													<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px;" onclick="validation(this.id)"></textarea>
+												</c:if>
+												<c:if test="${mNum != null}">
 													<button class="btn-submit" id="insertCommet" onclick="comCreate()">
 														<i class="fas fa-comments"></i>
 													</button>
-												</div>
+												</c:if>
 												<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
 												<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
 												<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
-											</c:if>
-
-
+											</div>
 											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder" style="word-break: break-all;">
 												<c:forEach var="com" items="${cDatas}">
-													<!-- 현재 로그인한 사람이 작성한 댓글 -->
-													<c:if test="${mNum == com.mNum}">
-														<li class="media" id="${com.cNum}">
-															<div class="media-body">
-																<div class="comment-head">
-																	<div class="media-title mb-1">${com.mId}</div>
+													<li class="media" id="${com.cNum}">
+														<div class="media-body">
+															<div class="comment-head">
+																<div class="media-title mb-1">${com.mId}</div>
+																<div class="text-time">
 																	<c:if test="${com.cCdate == null}">
-																		<div class="text-time">${com.cWdate}</div>
+																		<fmt:formatDate value="${com.cWdate}" pattern="yy.MM.dd (E) HH:mm" />
 																	</c:if>
 																	<c:if test="${com.cCdate != null}">
-																		<div class="text-time">수정됨</div>
+																		<fmt:formatDate value="${com.cCdate}" pattern="yy.MM.dd (E) HH:mm" /> (수정됨)
 																	</c:if>
 																</div>
-																<div class="media-description text-muted">${com.cContent}</div>
+															</div>
+															<div class="media-description text-muted">${com.cContent}</div>
+															<!-- 작성자와 현재 로그인한 사람이 같다면 -->
+															<c:if test="${mNum == com.mNum}">
 																<div class="media-links">
 																	<a data-toggle="collapse" href="#collapseExample${com.cNum}" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
 																	<div class="bullet"></div>
@@ -267,7 +266,7 @@
 																			<a class="TextTotal" style="font-size: 2px;">/300</a>
 																		</div>
 																		<div class="form-group">
-																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px;" onclick="validation(this.id)">${com.cContent}</textarea>
+																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize:none;" onclick="validation(this.id)">${com.cContent}</textarea>
 																			<button class="btn btn-lg btn-submit" id="update${com.cNum}" onclick="comUpdate(${com.cNum})">
 																				<i class="fas fa-comments"></i>
 																			</button>
@@ -277,26 +276,9 @@
 																		<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 																	</div>
 																</div>
-															</div>
-														</li>
-													</c:if>
-													<c:if test="${mNum != com.mNum}">
-														<!-- 일반 댓글 -->
-														<li class="media">
-															<div class="media-body">
-																<div class="comment-head">
-																	<div class="media-title mb-1">${com.mId}</div>
-																	<c:if test="${com.cCdate == null}">
-																		<div class="text-time">${com.cWdate}</div>
-																	</c:if>
-																	<c:if test="${com.cCdate != null}">
-																		<div class="text-time">수정됨</div>
-																	</c:if>
-																</div>
-																<div class="media-description text-muted">${com.cContent}</div>
-															</div>
-														</li>
-													</c:if>
+															</c:if>
+														</div>
+													</li>
 												</c:forEach>
 											</ul>
 										</div>
@@ -330,11 +312,16 @@
 	</div>
 
 	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
-		<p class="modal-description">신고 사유 선택해주세요.</p>
+		<p class="modal-description">
+			신고 사유 선택해주세요.
+			<select style="visibility:hidden;">
+					<option></option>
+			</select>
+		</p>
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 		<input type="hidden" name="mNum" value="${mNum}" />
 		<div class="radio-container">
-			<c:forEach items="${scDatas}" var="cate" varStatus="i" begin="1" end="${fn:length(scDatas)}" step="1">
+			<c:forEach items="${scDatas}" var="cate" varStatus="i" begin="0" end="${fn:length(scDatas)}" step="1">
 				<div class="custom-control custom-radio">
 					<input type="radio" value="${cate.scNum}" id="sc${i.index}" name="scNum" class="custom-control-input">
 					<label class="custom-control-label" for="sc${i.index}">${cate.scName}</label>
@@ -541,6 +528,13 @@
 			        $(this).parent().siblings('.char').removeClass('hidden');
 			    };
 			});
+		}
+		
+		function loginConfirm(){
+			let loginConfirm = confirm("로그인이 필요합니다. 진행하시겠습니까?");
+			if(loginConfirm) {
+				location.href = "login.do"
+			}
 		}
 	</script>
 	<!-- General JS Scripts -->
