@@ -1,6 +1,6 @@
 package com.spring.biz.sue;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class SueVO {
 	private int sNum; // 신고번호(PK)
