@@ -4,23 +4,23 @@ import java.util.Date;
 
 public class SueVO {
 	private int sNum; // 신고번호(PK)
-	private int bNum;// 보드 (FK)
-	private int mNum;// 멤버 (FK)
-	private int scNum;// 신고 카테고리(FK)
-	private Date sDate;// 신고 일자
-	private String sResult;// 신고 처리 결과
+	private int bNum; // 보드 (FK)
+	private int mNum; // 멤버 (FK)
+	private int scNum; // 신고 카테고리(FK)
+	private Date sDate; // 신고 일자
+	private String sResult; // 신고 처리 결과
 	// JAVA에서만 저장용으로 사용되는 데이터
 	private String bTitle; // 제목
+	private String mId; // 아이디
 	private String mName; // 이름
 	private String mImg; // 프로필 사진
 	private Date bWdate; // 작성일자
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
-	private String sCname;// 신고 카테고리 분류명
+	private String sCname; // 신고 카테고리 분류명
 	private int nCnt; // 미처리 신고글 갯수
 	private int cCnt; // 처리 신고글 갯수
 	private int aCnt; // 전체 신고글 갯수
-	private String mId; // 아이디
 
 	public int getsNum() {
 		return sNum;
@@ -76,6 +76,14 @@ public class SueVO {
 
 	public void setbTitle(String bTitle) {
 		this.bTitle = bTitle;
+	}
+
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 
 	public String getmName() {
@@ -150,12 +158,11 @@ public class SueVO {
 		this.aCnt = aCnt;
 	}
 
-	public String getmId() {
-		return mId;
-	}
-
-	public void setmId(String mId) {
-		this.mId = mId;
+	@Override
+	public String toString() {
+		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate + ", sResult=" + sResult + ", bTitle=" + bTitle + ", mId=" + mId + ", mName="
+				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", sCname=" + sCname + ", nCnt=" + nCnt + ", cCnt=" + cCnt + ", aCnt=" + aCnt
+				+ "]";
 	}
 
 }
