@@ -87,10 +87,10 @@ body {
 												<a class="nav-link" href="#;">
 													<%-- href="admin-sue.do?aCnt=${sueCount.aCnt}" --%>
 													전체
-													<c:if test="${fn:length(sueCount.aCnt) == 0 }">
+													<c:if test="${sueCount.aCnt == 0 }">
 														<span class="badge badge-primary" id="a"> 0 </span>
 													</c:if>
-													<c:if test="${fn:length(sueCount.aCnt) != 0 }">
+													<c:if test="${sueCount.aCnt != 0 }">
 														<span class="badge badge-primary" id="a"> ${sueCount.aCnt} </span>
 													</c:if>
 												</a>
@@ -100,10 +100,10 @@ body {
 												<a class="nav-link" href="#;">
 													<!-- href="admin-sue.do?nCnt=${sueCount.nCnt}" -->
 													미처리
-													<c:if test="${fn:length(sueCount.nCnt) == 0 }">
+													<c:if test="${sueCount.nCnt == 0 }">
 														<span class="badge badge-primary" id="n"> 0 </span>
 													</c:if>
-													<c:if test="${fn:length(sueCount.nCnt) != 0 }">
+													<c:if test="${sueCount.nCnt != 0 }">
 														<span class="badge badge-primary" id="n"> ${sueCount.nCnt} </span>
 													</c:if>
 												</a>
@@ -112,10 +112,10 @@ body {
 												<a class="nav-link" href="#;">
 													<!-- href="admin-sue.do?cCnt=${sueCount.cCnt}" -->
 													처리완료
-													<c:if test="${fn:length(sueCount.cCnt) == 0 }">
+													<c:if test="${sueCount.cCnt == 0 }">
 														<span class="badge badge-primary" id="c"> 0 </span>
 													</c:if>
-													<c:if test="${fn:length(sueCount.cCnt) != 0 }">
+													<c:if test="${sueCount.cCnt != 0 }">
 														<span class="badge badge-primary" id="c"> ${sueCount.cCnt} </span>
 													</c:if>
 												</a>

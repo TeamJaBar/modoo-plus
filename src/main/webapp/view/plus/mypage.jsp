@@ -94,7 +94,7 @@ body {
 									<div class="card-header">
 										<h4>나의 작성 글</h4>
 									</div>
-									<div class="card-body">
+									<div class="card-body" id="c_body">
 										<div class="table-responsive">
 											<table class="table table-striped" id="sortable-table">
 												<tbody>
@@ -157,20 +157,19 @@ body {
 																			<!--<a class="dropdown-item" id="matchIng" href="updateBoardAction.do?bNum=${v.bNum}&bAction=0">모집 중</a>-->
 																			<!--<a class="dropdown-item" id="matchEnd" href="updateBoardAction.do?bNum=${v.bNum}&bAction=1">모집완료</a> -->
 
-																			<a class="dropdown-item" id="matchIng">모집 중</a>
-																			<a class="dropdown-item" id="matchEnd">모집완료</a>
+																			<a href="#" class="dropdown-item" data-bNum="${v.bNum}" id="matchIng">모집 중</a>
+																			<a href="#" class="dropdown-item" data-bNum="${v.bNum}" id="matchEnd">모집완료</a>
 																		</div>
 																		<!-- ajax로 구현하기 -->
 																	</div>
 																</td>
 																<td>
-																	<a href="udpateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
+																	<a href="updateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
 																		<!-- 작성 게시글 수정페이지로 이동 -->
 																		<i class="far fa-edit"></i>
 																	</a>
 																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='deleteBoard.do?bNum=${v.bNum}'">
 																		<i class="fas fa-times"></i>
-																		<!-- 처리 yes 누르면 data-confirm-yes="delete()" -->
 																	</button>
 																</td>
 															</tr>
@@ -239,7 +238,7 @@ body {
 					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder" id="modal-box">
 						<!--일반 참여자 el식 적용
 						bNum을 넘겨서 list 받아와서 띄워주기만 하면 됌.-->
-							<%-- <li class="media">
+						<%-- <li class="media">
 								<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/">
 								<div class="media-body">
 									<div class="media-title">아이디</div>
@@ -376,86 +375,70 @@ body {
 					});
 				}); 
 
-		/* <!-- 퇴출하기 -->
-			$('#kickOut').each(function() {
-				var aNum = $(this).val();
-				console.log("aNum="+ aNum);
-				var pageNum = '${param.pageNum}';
-				$(this).on('click', function(e) {
-					e.preventDefault();
-					console.log(aNum);
-					if (confirm('퇴출하시겠습니까?')) {
-						$.ajax({
-							type : 'POST',
-							url : 'kickOut.do',
-							data : {
-								aNum : aNum
-								pageNum : pageNum
-							},
-							success : function(result) {
-								if (result == 1) {
-									$('#a_box').load(location.href + ' #a_box>*');
-								}
-							}
-						});
+		 /* 퇴출하기 */
+		 $(document).on('click', '#kickOut', function(e){
+			var aNum = $(this).val();
+			console.log("aNum="+ aNum);
+			var pageNum = '${param.pageNum}';
+			e.preventDefault();
+			if (confirm('퇴출하시겠습니까?')) {
+				$.ajax({
+					type : 'POST',
+					url : 'kickOut.do',
+					data : {
+						aNum : aNum,
+						pageNum : pageNum
+					},
+					success : function(result) {
+						if (result == 1) {
+							$('#c_body').load(location.href + ' #c_body>*', function() {
+							    $('#exampleModal').modal('hide');
+							});
+						}
 					}
-				})
-			}) */
-		<!--모집중 -->
-	/*	$(document).ready(function() {
-			$('#matchIng').each(function() {
-				var bNum = $(this).parent().parent().parent().prop("id");
-				var pageNum = '${param.pageNum}';
-				$(this).on('click', function(e) {
-					e.preventDefault();
-					console.log(bNum);
-					if (confirm('모집중으로 변경하시겠습니까?')) {
-						$.ajax({
-							type : 'POST',
-							url : 'updateBoardAction.do',
-							data : {
-								bNum : bNum,
-								bAction : 0
-								pageNum : pageNum
-							},
-							success : function(result) {
-								if (result == 1) {
-									$('#b_box').load(location.href + ' #b_box>*');
-								}
-							}
-						});
-					}
-				})
+				});
+			}
+		 });
+		 
+		/* 드롭다운 - 모집중으로 변경 */
+		$(document).on('click', '#matchIng', function(e){
+			var bNum = $(this).attr("data-bNum");
+			//var pageNum = '${param.pageNum}';
+			e.preventDefault();
+			console.log("bNum = " + bNum);
+			//console.log("pageNum = " + pageNum);
+			$.ajax({
+				type : 'POST',
+				url : 'updateBoardAction.do',
+				data : {
+					bNum : bNum,
+					bAction : 0
+				}, success : function(result){
+					$('#c_body').load(location.href + ' #c_body>*');
+				}
 			})
-		})
-			<!-- 모집완료 -->
-		$(document).ready(function() {
-			$('#matchEnd').each(function() {
-				var bNum = $(this).parent().parent().parent().prop("id");
-				console.log("bNum=" + bNum);
-				var pageNum = '${param.pageNum}';
-				$(this).on('click', function(e) {
-					e.preventDefault();
-					console.log(aNum);
-					if (confirm('모집완료 하시겠습니까?')) {
-						$.ajax({
-							type : 'POST',
-							url : 'updateBoardAction.do',
-							data : {
-								bNum : bNum,
-								bAction : 1
-								pageNum : pageNum
-							},
-							success : function(result) {
-								if (result == 1) {
-									$('#b_box').load(location.href + ' #b_box>*');
-								}
-							}
-						});
-					}
-				})
+		});
+		
+		/* 드롭다운 - 모집완료로 변경 */
+		$(document).on('click', '#matchEnd', function(e){
+			var bNum = $(this).attr("data-bNum");
+			//var pageNum = '${param.pageNum}';
+			e.preventDefault();
+			console.log("bNum = " + bNum);
+			//console.log("pageNum = " + pageNum);
+			$.ajax({
+				type : 'POST',
+				url : 'updateBoardAction.do',
+				data : {
+					bNum : bNum,
+					bAction : 1
+				}, success : function(result){
+					$('#c_body').load(location.href + ' #c_body>*');
+				}
 			})
-		}) */
+		});
+		
+		
 	</script>
 
 	<!-- Page Specific JS File -->
