@@ -48,16 +48,16 @@
 	text-align: left;
 }
 
-.fc-day-grid-event .fc-time  {
+.fc-day-grid-event .fc-time {
 	color: white;
 }
 
-.fc-title  {
-	color: white;
+.fc-title {
+	color: yellow;
 }
 
 .fc-center {
-	display : flex;
+	display: flex;
 	justify-content: space-between;
 }
 
@@ -134,6 +134,7 @@ body {
 			delete obj.bCnt;
 			delete obj.bMscore;
 			delete obj.mNum;
+			delete obj.bNum;
 			delete obj.pageNum;
 			delete obj.sortBy;
 			delete obj.sue;
