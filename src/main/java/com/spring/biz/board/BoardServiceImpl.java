@@ -47,6 +47,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
+	public BoardVO selectOneDetail(BoardVO bvo) {
+		return boardDAO.selectOneDetail(bvo);
+	}
+	
+	@Override
 	public String getbLocal(String addr) {
 		String bLocal = "";
 		String[] arList = addr.split("\\s");
