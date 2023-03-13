@@ -23,9 +23,9 @@ public class SueDAO {
 	// 신고글 총합
 	final String COUNT_SUE = "SELECT COUNT(B.BNUM) AS ACNT, COUNT(CASE WHEN BSTATUS='0' THEN 1 END) AS NCNT, COUNT(CASE WHEN BSTATUS='1' THEN 1 END) AS CCNT FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM";
 	// 신고글 목록
-	final String SELECTALL_SUE = "SELECT S.SNUM, B.BNUM, B.BTITLE, M.MNAME, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM DESC";
+	final String SELECTALL_SUE = "SELECT S.SNUM, S.MNUM, B.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM DESC";
 	// 신고글 내용
-	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE, M.MNAME, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
+	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE, M.MID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
 	//신고하기 카테고리
 	final String SELECTALL_SUECA = "SELECT * FROM SUECATEGORY";
 	public boolean insertSue(SueVO svo) {
@@ -37,7 +37,7 @@ public class SueDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean updateSue(SueVO svo) {
 		try {
 			jdbcTemplate.update(UPDATE_SUE, svo.getsNum());
@@ -61,8 +61,8 @@ public class SueDAO {
 		}
 		return datas;
 	}
-	public List<SueVO> selectCount(SueVO svo) {
-		return jdbcTemplate.query(COUNT_SUE, new SueRowMapper());
+	public SueVO selectCount(SueVO svo) {
+		return jdbcTemplate.queryForObject(COUNT_SUE, new SueCountRowMapper());
 	}
 
 	public List<SueVO> selectAllSue(SueVO svo) {
@@ -85,6 +85,19 @@ public class SueDAO {
 	}
 }
 
+
+class SueCountRowMapper implements RowMapper<SueVO> {
+	@Override
+	public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		SueVO data = new SueVO();
+		data.setaCnt(rs.getInt("ACNT"));
+		data.setnCnt(rs.getInt("NCNT"));
+		data.setcCnt(rs.getInt("CCNT"));
+		return data;
+	}
+}
+
+
 class SueRowMapper implements RowMapper<SueVO> {
 	@Override
 	public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -92,16 +105,11 @@ class SueRowMapper implements RowMapper<SueVO> {
 		data.setsNum(rs.getInt("SNUM"));
 		data.setbNum(rs.getInt("BNUM"));
 		data.setmNum(rs.getInt("MNUM"));
-		data.setScNum(rs.getInt("SCNUM"));
-		data.setsDate(rs.getDate("SDATE"));
-		data.setsResult(rs.getString("SRESULT"));
 		data.setbTitle(rs.getString("BTITLE"));
-		data.setmName(rs.getString("MNAME"));
+		data.setmId(rs.getString("MID"));
 		data.setmImg(rs.getString("MIMG"));
-		data.setBwDate(rs.getString("BWDATE"));
+		data.setbWdate(rs.getDate("BWDATE"));
 		data.setbStatus(rs.getString("BSTATUS"));
-		data.setbContent(rs.getString("BCONTENT"));
-		data.setsCname(rs.getString("SCNAME"));
 		return data;
 	}
 }
@@ -112,10 +120,10 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		SueVO data = new SueVO();
 		data.setbNum(rs.getInt("BNUM"));
 		data.setbTitle(rs.getString("BTITLE"));
-		data.setmName(rs.getString("MNAME"));
+		data.setmId(rs.getString("MID"));
 		data.setbContent(rs.getString("BCONTENT"));
 		data.setsCname(rs.getString("SCNAME"));
-		data.setBwDate(rs.getString("BWDATE"));
+		data.setbWdate(rs.getDate("BWDATE"));
 		data.setsDate(rs.getDate("SDATE"));
 		data.setsResult(rs.getString("SRESULT"));
 		return data;
