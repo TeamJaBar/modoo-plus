@@ -221,6 +221,15 @@ body {
 					</div>
 				</section>
 			</div>
+			<footer class="main-footer">
+				<div class="footer-left">
+					<%-- ${fn:length(bDatas)} --%>
+					<div class="bullet"></div>
+					Design By
+					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+				</div>
+				<div class="footer-right"></div>
+			</footer>
 		</div>
 	</div>
 
@@ -287,7 +296,7 @@ body {
 	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
 	<script type="text/javascript">
-		 $(document).on(
+		$(document).on(
 				'click',
 				'.modal-btn',
 				function(e) {
@@ -300,35 +309,35 @@ body {
 					function updateModal(result) {
 						console.log(result);
 						var html = '';
-						function score(score){
+						function score(score) {
 							var tmpScore = 0;
-							if(score<200){
-								tmpScore=(score/200)*100;
+							if (score < 200) {
+								tmpScore = (score / 200) * 100;
 							}
-							if(score<500 && score>199){
-								tmpScore=(score/500)*100;
+							if (score<500 && score>199) {
+								tmpScore = (score / 500) * 100;
 							}
-							if(score<1000 && score>499){
-								tmpScore=(score/1000)*100;
+							if (score<1000 && score>499) {
+								tmpScore = (score / 1000) * 100;
 							}
-							if(score>5000){
-								tmpScore=(score/5000)*100;
+							if (score > 5000) {
+								tmpScore = (score / 5000) * 100;
 							}
 							return tmpScore;
 						}
-						function exp(score){
+						function exp(score) {
 							var exp = '';
-							if(score<200){
-								exp='왕초보';
+							if (score < 200) {
+								exp = '왕초보';
 							}
-							if(score<500 && score>199){
-								exp='초보';
+							if (score<500 && score>199) {
+								exp = '초보';
 							}
-							if(score<1000 && score>499){
-								exp='고수';
+							if (score<1000 && score>499) {
+								exp = '고수';
 							}
-							if(score>5000){
-								exp='빡고수';
+							if (score > 5000) {
+								exp = '빡고수';
 							}
 							return exp;
 						}
@@ -345,7 +354,8 @@ body {
 										+ '</div>'
 										+ '<div class="media-progressbar">'
 										+ '<div class="progress-text">'
-										+ score(item.score) + ' 점'
+										+ score(item.score)
+										+ ' 점'
 										+ '</div>'
 										+ '<div class="progress" data-height="6" style="height: 6px;">'
 										+ '<div class="progress-bar bg-primary" data-width="'
@@ -355,8 +365,7 @@ body {
 										+ '%;"></div>'
 										+ '</div>'
 										+ '</div>'
-										+ '<div class="media-cta">'
-										+ '<button class="btn btn-outline-primary" id="kickOut" value="' + item.aNum + '">퇴출하기</button>' + '</div>' + '</li>';
+										+ '<div class="media-cta">' + '<button class="btn btn-outline-primary" id="kickOut" value="' + item.aNum + '">퇴출하기</button>' + '</div>' + '</li>';
 							});
 						} else {
 							html += '<li>참여한 회원이 없습니다.</li>';
@@ -373,12 +382,12 @@ body {
 						},
 						success : updateModal
 					});
-				}); 
+				});
 
-		 /* 퇴출하기 */
-		 $(document).on('click', '#kickOut', function(e){
+		/* 퇴출하기 */
+		$(document).on('click', '#kickOut', function(e) {
 			var aNum = $(this).val();
-			console.log("aNum="+ aNum);
+			console.log("aNum=" + aNum);
 			var pageNum = '${param.pageNum}';
 			e.preventDefault();
 			if (confirm('퇴출하시겠습니까?')) {
@@ -392,16 +401,16 @@ body {
 					success : function(result) {
 						if (result == 1) {
 							$('#c_body').load(location.href + ' #c_body>*', function() {
-							    $('#exampleModal').modal('hide');
+								$('#exampleModal').modal('hide');
 							});
 						}
 					}
 				});
 			}
-		 });
-		 
+		});
+
 		/* 드롭다운 - 모집중으로 변경 */
-		$(document).on('click', '#matchIng', function(e){
+		$(document).on('click', '#matchIng', function(e) {
 			var bNum = $(this).attr("data-bNum");
 			//var pageNum = '${param.pageNum}';
 			e.preventDefault();
@@ -413,14 +422,15 @@ body {
 				data : {
 					bNum : bNum,
 					bAction : 0
-				}, success : function(result){
+				},
+				success : function(result) {
 					$('#c_body').load(location.href + ' #c_body>*');
 				}
 			})
 		});
-		
+
 		/* 드롭다운 - 모집완료로 변경 */
-		$(document).on('click', '#matchEnd', function(e){
+		$(document).on('click', '#matchEnd', function(e) {
 			var bNum = $(this).attr("data-bNum");
 			//var pageNum = '${param.pageNum}';
 			e.preventDefault();
@@ -432,13 +442,12 @@ body {
 				data : {
 					bNum : bNum,
 					bAction : 1
-				}, success : function(result){
+				},
+				success : function(result) {
 					$('#c_body').load(location.href + ' #c_body>*');
 				}
 			})
 		});
-		
-		
 	</script>
 
 	<!-- Page Specific JS File -->

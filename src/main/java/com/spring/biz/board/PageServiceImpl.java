@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.biz.sue.SueVO;
+
 @Service("pageService")
 public class PageServiceImpl implements PageService {
 
@@ -12,8 +14,8 @@ public class PageServiceImpl implements PageService {
 	private PageDAO pageDAO;
 	
 	@Override
-	public int getSueTotal() {
-		return pageDAO.getSueTotal();
+	public int getSueTotal(SueVO svo) {
+		return pageDAO.getSueTotal(svo);
 	}
 	
 	@Override

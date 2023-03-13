@@ -87,12 +87,7 @@ body {
 												<a class="nav-link" href="#;">
 													<%-- href="admin-sue.do?aCnt=${sueCount.aCnt}" --%>
 													전체
-													<c:if test="${sueCount.aCnt == 0 }">
-														<span class="badge badge-primary" id="a"> 0 </span>
-													</c:if>
-													<c:if test="${sueCount.aCnt != 0 }">
-														<span class="badge badge-primary" id="a"> ${sueCount.aCnt} </span>
-													</c:if>
+													<span class="badge badge-primary" id="a"> ${sueCount.aCnt} </span>
 												</a>
 											</li>
 											<!-- 해야할 것 ajax 사용해서 비동기로 목록 출력 -->
@@ -100,24 +95,14 @@ body {
 												<a class="nav-link" href="#;">
 													<!-- href="admin-sue.do?nCnt=${sueCount.nCnt}" -->
 													미처리
-													<c:if test="${sueCount.nCnt == 0 }">
-														<span class="badge badge-primary" id="n"> 0 </span>
-													</c:if>
-													<c:if test="${sueCount.nCnt != 0 }">
-														<span class="badge badge-primary" id="n"> ${sueCount.nCnt} </span>
-													</c:if>
+													<span class="badge badge-primary" id="n"> ${sueCount.nCnt} </span>
 												</a>
 											</li>
 											<li class="nav-item" id="cCnt">
 												<a class="nav-link" href="#;">
 													<!-- href="admin-sue.do?cCnt=${sueCount.cCnt}" -->
 													처리완료
-													<c:if test="${sueCount.cCnt == 0 }">
-														<span class="badge badge-primary" id="c"> 0 </span>
-													</c:if>
-													<c:if test="${sueCount.cCnt != 0 }">
-														<span class="badge badge-primary" id="c"> ${sueCount.cCnt} </span>
-													</c:if>
+													<span class="badge badge-primary" id="c"> ${sueCount.cCnt} </span>
 												</a>
 											</li>
 										</ul>
@@ -155,7 +140,7 @@ body {
 														<tr>
 															<td>${v.bNum}</td>
 															<td>
-																<a href="sue-detail.do?bNum=${v.bNum}">${v.bTitle}</a>
+																<a href="selectSue.do?bNum=${v.bNum}">${v.bTitle}</a>
 															</td>
 															<td>
 																<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
@@ -180,13 +165,14 @@ body {
 												<!-- 신고 게시글 목록 끝-->
 											</table>
 										</div>
+										<input type="hidden" name="pageNum" id="pageNum" value="${param.pageNum}">
 										<c:if test="${fn:length(sue) != 0}">
 											<div class="card-footer text-center">
 												<nav class="d-inline-block">
 													<ul class="pagination mb-0">
 														<c:if test="${pageVO.prev}">
 															<li class="page-item disabled">
-																<a class="page-link" href="list.board?pageNum=${pageVO.startPage - 1}&amount=${pageVO.amount}" aria-label="Previous">
+																<a class="page-link" href="adMoveSue.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
 																	<span aria-hidden="true">&laquo;</span>
 																	<span class="sr-only">Previous</span>
 																</a>
@@ -195,15 +181,15 @@ body {
 														<!-- 1. 페이지번호 처리 -->
 														<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 															<li class="page-item active">
-																<a class="page-link" href="list.board?pageNum=${num}&amount=${pageVO.amount}">${num}</a>
+																<a class="page-link" href="adMoveSue.do?pageNum=${num}">${num}</a>
 															</li>
 														</c:forEach>
 														<!-- <li class="page-item">
-														<a class="page-link" href="#">2</a>
-													</li> -->
+															<a class="page-link" href="#">2</a>
+														</li> -->
 														<c:if test="${pageVO.next}">
 															<li class="page-item">
-																<a class="page-link" href="list.board?pageNum=${pageVO.endPage + 1}&amount=${pageVO.amount}" aria-label="Next">
+																<a class="page-link" href="adMoveSue.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
 																	<span aria-hidden="true">&raquo;</span>
 																	<span class="sr-only">Next</span>
 																</a>
@@ -220,6 +206,15 @@ body {
 					</div>
 				</section>
 			</div>
+			<footer class="main-footer">
+				<div class="footer-left">
+					<%-- ${fn:length(bDatas)} --%>
+					<div class="bullet"></div>
+					Design By
+					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+				</div>
+				<div class="footer-right"></div>
+			</footer>
 		</div>
 	</div>
 

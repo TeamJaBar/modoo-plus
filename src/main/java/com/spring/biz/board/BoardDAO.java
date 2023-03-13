@@ -21,21 +21,21 @@ public class BoardDAO {
 	private final String SQL_DELETE = "DELETE FROM BOARD WHERE BNUM=?";
 	// 등록순
 	private final String SQL_SELECTALL_REGISTER = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BWDATE ASC) A"
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BWDATE ASC LIMIT 1000000) A"
 			+ " WHERE C.BNUM=A.BNUM"
 			+ " UNION ALL "
 			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BWDATE ASC) B"
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BWDATE ASC LIMIT 1000000) B"
 			+ " WHERE C.BNUM=B.BNUM";
 	// 시합 날짜순
 	private final String SQL_SELECTALL_MATCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC) A"
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC LIMIT 1000000) A"
 			+ " WHERE C.BNUM=A.BNUM"
 			+ " UNION ALL "
 			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE ASC) B"
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE ASC LIMIT 1000000) B"
 			+ " WHERE C.BNUM=B.BNUM";
-	//지역 선택시 중복X
+	// 지역 선택시 중복X
 	private final String SQL_SELECTALL_DISTINCT="SELECT DISTINCT BLOCAL FROM BOARD ORDER BY BLOCAL";
 	// 지역 선택
 	private final String SQL_SELECTALL_AREA = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
@@ -54,12 +54,12 @@ public class BoardDAO {
 
 	// 글 관리 페이지 상태별 게시글 개수
 	private final String SQL_SELECTALL_ADMIN_CNT = "SELECT COUNT(*) AS CNT FROM BOARD WHERE BACTION = ?";
-	//private final String SQL_SELECTALL_ADMIN_CNT = "SELECT BACTION, COUNT(*) AS CNT FROM BOARD GROUP BY BACTION ORDER BY BACTION ASC";
+	// private final String SQL_SELECTALL_ADMIN_CNT = "SELECT BACTION, COUNT(*) AS CNT FROM BOARD GROUP BY BACTION ORDER BY BACTION ASC";
 	// 글 관리 페이지 글 목록
-	private final String SQL_SELECTALL_ADMIN = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM ORDER BY BDATE ASC"; //LIMIT 0+?, 9
+	private final String SQL_SELECTALL_ADMIN = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM ORDER BY BDATE ASC"; // LIMIT 0+?, 9
 	// 글 관리 페이지 글 목록 - 상태별 필터링
 	private final String SQL_SELECTALL_ADMIN_STATUS = "SELECT BNUM, BTITLE, MID, BDATE, BACTION FROM BOARD B JOIN MEMBER M ON B.MNUM=M.MNUM WHERE BACTION=? ORDER BY BDATE ASC";
-	//마이페이지 - 달력에 들어갈 데이터
+	// 마이페이지 - 달력에 들어갈 데이터
 	private final String SQL_SELECTALL_MYMATCH = "SELECT B.BNUM, BDATE, BTITLE FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?";
 	
 	// 매칭 상세 페이지
@@ -68,15 +68,15 @@ public class BoardDAO {
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM FROM SUE WHERE MNUM=?) S ON B.BNUM=S.BNUM"
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM, ANUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
 	
-	//제일 최근 작성한 글
-	private final String SELECTONE_LATELY = "SELECT A.BNUM, A.MNUM FROM (SELECT BNUM, MNUM FROM BOARD ORDER BY BNUM DESC) A LIMIT 1";
+	// 제일 최근 작성한 글
+	private final String SELECTONE_LATELY = "SELECT LAST_INSERT_ID() AS BNUM";
 	
 	public boolean insertBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 insert()");
-			jdbcTemplate.update(SQL_INSERT, bvo.getbTitle(), bvo.getmNum() ,bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(),
-					new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress());
-		}catch(Exception e){
+			jdbcTemplate.update(SQL_INSERT, bvo.getbTitle(), bvo.getmNum(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(),
+					bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress());
+		} catch (Exception e) {
 			return false;
 		}
 		return true;
@@ -85,12 +85,13 @@ public class BoardDAO {
 	public boolean updateBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 update()");
-			if(bvo.getbAction()==null) {
-				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(), bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress(), bvo.getbNum());
+			if (bvo.getbAction() == null) {
+				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(),
+						bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress(), bvo.getbNum());
 			} else {
 				jdbcTemplate.update(SQL_UPDATE_BACTION, bvo.getbAction(), bvo.getbNum());
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 		return true;
@@ -100,70 +101,67 @@ public class BoardDAO {
 		try {
 			System.out.println("BoardDAO의 delete()");
 			jdbcTemplate.update(SQL_DELETE, bvo.getbNum());
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 		return true;
 	}
-	
-	public List<BoardVO> selectAllLocal(BoardVO bvo){
-		List<BoardVO> datas=new ArrayList<BoardVO>();
+
+	public List<BoardVO> selectAllLocal(BoardVO bvo) {
+		List<BoardVO> datas = new ArrayList<BoardVO>();
 		try {
-			datas = jdbcTemplate.query(SQL_SELECTALL_DISTINCT, (rs,rowNum) -> {
+			datas = jdbcTemplate.query(SQL_SELECTALL_DISTINCT, (rs, rowNum) -> {
 				BoardVO tmpData = new BoardVO();
 				tmpData.setbLocal(rs.getString("BLOCAL"));
 				return tmpData;
 			});
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datas;
 	}
 
-	public List<BoardVO> selectAllMain(BoardVO bvo){
+	public List<BoardVO> selectAllMain(BoardVO bvo) {
 		List<BoardVO> datas = new ArrayList<BoardVO>();
-		String query=null;
+		String query = null;
 		try {
-			if(bvo.getSortBy()!=0) { //정렬
-				if(bvo.getSortBy()==1) {
-					query=SQL_SELECTALL_REGISTER;//등록순
-				}else {
-					query=SQL_SELECTALL_MATCH;//시합날짜순
+			if (bvo.getSortBy() != 0) { // 정렬
+				if (bvo.getSortBy() == 1) {
+					query = SQL_SELECTALL_REGISTER; // 등록순
+				} else {
+					query = SQL_SELECTALL_MATCH; // 시합날짜순
 				}
-				datas=jdbcTemplate.query(query, new BoardSelectAllMapper());
-			} else { //검색
-				Object[] obj=null;
-				if(bvo.getbLocal() != null) {//지역 검색
+				datas = jdbcTemplate.query(query, new BoardSelectAllMapper());
+			} else { // 검색
+				Object[] obj = null;
+				if (bvo.getbLocal() != null) { // 지역 검색
 					query = SQL_SELECTALL_AREA;
-					obj = new Object[] {bvo.getbLocal()};
-				}
-				else if(bvo.getsSearchDate()!= null) {//날짜 검색
+					obj = new Object[] { bvo.getbLocal() };
+				} else if (bvo.getsSearchDate() != null) { // 날짜 검색
 					query = SQL_SELECTALL_DATE;
-					obj = new Object[] {bvo.getsSearchDate(), bvo.geteSearchDate()};
-				}
-				else if(bvo.getbTitle()!=null) {//헤더 검색
+					obj = new Object[] { bvo.getsSearchDate(), bvo.geteSearchDate() };
+				} else if (bvo.getbTitle() != null) { // 헤더 검색
 					query = SQL_SELECTALL_SEARCH;
-					obj= new Object[] {bvo.getSearchContent()};
+					obj = new Object[] { bvo.getSearchContent() };
 				}
-				datas=jdbcTemplate.query(query, obj, new BoardSelectAllMapper());
+				datas = jdbcTemplate.query(query, obj, new BoardSelectAllMapper());
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datas;
 	}
 
-
-	public List<BoardVO> selectAllManage(BoardVO bvo) { //글 관리
-		List<BoardVO> datas=new ArrayList<BoardVO>();
+	public List<BoardVO> selectAllManage(BoardVO bvo) { // 글 관리
+		List<BoardVO> datas = new ArrayList<BoardVO>();
 		try {
-			if(bvo.getbAction() != null) { //관리자페이지 글관리 - 모집 상태별 게시글(매칭) 개수
-				datas = jdbcTemplate.query(SQL_SELECTALL_ADMIN_CNT, (rs,rowNum)-> {
+			if (bvo.getbAction() != null) { // 관리자페이지 글관리 - 모집 상태별 게시글(매칭) 개수
+				datas = jdbcTemplate.query(SQL_SELECTALL_ADMIN_CNT, (rs, rowNum) -> {
 					BoardVO tmpData = new BoardVO();
 					tmpData.setbCnt(rs.getInt("CNT"));
 					return tmpData;
 				}, bvo.getbAction());
-			} else if(bvo.getmNum() != 0) {
+			} else if (bvo.getmNum() != 0) {
 				datas = jdbcTemplate.query(SQL_SELECTALL_MYMATCH, (rs, rowNum) -> {
 					BoardVO tmpData = new BoardVO();
 					tmpData.setbNum(rs.getInt("BNUM"));
@@ -172,16 +170,16 @@ public class BoardDAO {
 					return tmpData;
 				}, bvo.getmNum());
 			} else {
-				Object[] obj=null;
+				Object[] obj = null;
 				String query;
-				if(bvo.getSearchContent() != null){//관리자 페이지- 글 목록에서 상태별 필터링
+				if (bvo.getSearchContent() != null) { // 관리자 페이지- 글 목록에서 상태별 필터링
 					query = SQL_SELECTALL_ADMIN_STATUS;
-					obj = new Object[] {bvo.getSearchContent()};
-				} else { //관리자 페이지 - 게시글 전체 목록
+					obj = new Object[] { bvo.getSearchContent() };
+				} else { // 관리자 페이지 - 게시글 전체 목록
 					query = SQL_SELECTALL_ADMIN;
 				}
-				datas=jdbcTemplate.query(query, obj, (rs, rowNum)->{
-					BoardVO tmpData= new BoardVO();
+				datas = jdbcTemplate.query(query, obj, (rs, rowNum) -> {
+					BoardVO tmpData = new BoardVO();
 					tmpData.setbNum(rs.getInt("BNUM"));
 					tmpData.setbTitle(rs.getString("BTITLE"));
 					tmpData.setbMname(rs.getString("MID"));
@@ -190,19 +188,18 @@ public class BoardDAO {
 					return tmpData;
 				});
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datas;
 	}
-	
+
 	public BoardVO selectOne(BoardVO bvo) {
 		try {
-			if(bvo == null) {
+			if (bvo == null) {
 				return jdbcTemplate.queryForObject(SELECTONE_LATELY, (rs, rowNum) -> {
-					BoardVO tmpData= new BoardVO();
+					BoardVO tmpData = new BoardVO();
 					tmpData.setbNum(rs.getInt("BNUM"));
-					tmpData.setmNum(rs.getInt("MNUM"));
 					return tmpData;
 				});
 			}
@@ -214,11 +211,10 @@ public class BoardDAO {
 
 }
 
-
 class BoardSelectAllMapper implements RowMapper<BoardVO> {
 	@Override
 	public BoardVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		BoardVO data= new BoardVO();
+		BoardVO data = new BoardVO();
 		data.setbNum(rs.getInt("BNUM"));
 		data.setmNum(rs.getInt("MNUM"));
 		data.setbTitle(rs.getString("BTITLE"));
