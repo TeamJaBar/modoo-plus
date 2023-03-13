@@ -123,11 +123,11 @@ body {
 													<th>글 번호</th>
 													<th>제목</th>
 													<th>작성자</th>
-													<th>작성날짜</th>
+													<th>신고날짜</th>
 													<th>처리상태</th>
 												</tr>
 												<!-- 신고 게시글 목록 -->
-												<c:if test="${fn:length(sue) == 0}">
+												<c:if test="${empty sue}">
 													<tr class="text-center">
 														<td class="empty" colspan="8">
 															<p>접수된 신고가 없습니다.</p>
@@ -135,23 +135,23 @@ body {
 														</td>
 													</tr>
 												</c:if>
-												<c:if test="${fn:length(sue) != 0}">
+												<c:if test="${not empty sue}">
 													<c:forEach items="${sue}" var="v">
 														<tr>
-															<td>${v.bNum}</td>
+															<td>${v.sNum}</td>
 															<td>
-																<a href="selectSue.do?bNum=${v.bNum}">${v.bTitle}</a>
+																<a href="selectSue.do?sNum=${v.sNum}">${v.bTitle}</a>
 															</td>
 															<td>
 																<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
 																<div class="d-inline-block ml-1">${v.mId}</div>
 															</td>
 															<td>
-																<fmt:formatDate value="${v.bWdate}" pattern="yy-MM-dd HH:mm" />
+																<fmt:formatDate value="${v.sDate}" pattern="yy-MM-dd HH:mm" />
 															</td>
 															<td>
 																<c:choose>
-																	<c:when test="${v.bStatus == 0}">
+																	<c:when test="${v.sResult == 0}">
 																		<div class="badge badge-danger">미처리</div>
 																	</c:when>
 																	<c:otherwise>
@@ -184,9 +184,6 @@ body {
 																<a class="page-link" href="adMoveSue.do?pageNum=${num}">${num}</a>
 															</li>
 														</c:forEach>
-														<!-- <li class="page-item">
-															<a class="page-link" href="#">2</a>
-														</li> -->
 														<c:if test="${pageVO.next}">
 															<li class="page-item">
 																<a class="page-link" href="adMoveSue.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
@@ -231,7 +228,6 @@ body {
 	
 	/* 버튼 눌렀을 때, 색상변경 */
 	 	$('.nav-item .nav-link').on("click",function(){
-	          console.log($(".nav-link .active span").prop("id"));
 	          $(".nav-link.active span").removeClass('badge-white');
 	          $(".nav-link.active span").addClass('badge-primary');
 	          $(".nav-item .nav-link.active").removeClass('active');
@@ -242,36 +238,28 @@ body {
 	
 	<!-- 전체글 -->
 	$(document).on('click','#aCnt',function(e) {
-			var pageNum = '${param.pageNum}';
 				e.preventDefault();
-				console.log(pageNum);
 					$.ajax({
 						type : 'POST',
 						url : 'adMoveSue.do',
-						data : {
-							pageNum : pageNum
-						},
 						success : function(result) {
 							if (result == 1) {
 								$('#a_box').load(location.href + ' #a_box>*');
 							}
 						}
 					});
-			});
+				});
 	
 	<!-- 미처리글 -->
 	$(document).on('click','#nCnt',function(e) {
 			var sResult = 0;
-			var pageNum = '${param.pageNum}';
 				e.preventDefault();
 				console.log(sResult);
-				console.log(pageNum);
 					$.ajax({
 						type : 'POST',
 						url : 'adMoveSue.do',
 						data : {
-							sResult : sResult,
-							pageNum : pageNum
+							sResult : sResult
 						},
 						success : function(result) {
 							if (result == 1) {
@@ -284,16 +272,13 @@ body {
 	<!-- 처리완료 글 -->
 	$(document).on('click','#cCnt',function(e) {
 			var sResult = 1;
-			var pageNum = '${param.pageNum}';
 				e.preventDefault();
 				console.log(sResult);
-				console.log(pageNum);
 					$.ajax({
 						type : 'POST',
 						url : 'adMoveSue.do',
 						data : {
-							sResult : sResult,
-							pageNum : pageNum
+							sResult : sResult
 						},
 						success : function(result) {
 							if (result == 1) {
@@ -301,7 +286,7 @@ body {
 							}
 						}
 					});
-			});
+				});
 	</script>
 
 	<!-- JS Libraies -->

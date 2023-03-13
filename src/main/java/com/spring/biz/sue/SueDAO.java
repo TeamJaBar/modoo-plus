@@ -27,7 +27,7 @@ public class SueDAO {
 	// 신고글 목록(처리, 미처리)
 	final String SELECTALL_RESULT = "SELECT S.SNUM, S.MNUM, B.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS, SRESULT FROM MEMBER M, BOARD B, SUE S WHERE SRESULT=?";
 	// 신고글 내용
-	final String SELECTONE_SUE = "SELECT S.SNUM, S.BNUM, S.MNUM, B.BTITLE, M.MID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT, M.SCORE, M.MSTATUS FROM BOARD B, SUE S, SUECATEGORY SC, MEMBER M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
+	final String SELECTONE_SUE = "SELECT S.SNUM, S.BNUM, S.MNUM, B.BTITLE, M.MID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT, M.SCORE, M.MSTATUS, B.BSTATUS FROM BOARD B, SUE S, SUECATEGORY SC, MEMBER M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.SNUM = ?";
 	// 신고하기 카테고리
 	final String SELECTALL_SUECA = "SELECT * FROM SUECATEGORY";
 
@@ -86,7 +86,7 @@ public class SueDAO {
 
 	public SueVO selectOneSue(SueVO svo) {
 		try {
-			return jdbcTemplate.queryForObject(SELECTONE_SUE, new SelectOneRowMapper(), svo.getbNum());
+			return jdbcTemplate.queryForObject(SELECTONE_SUE, new SelectOneRowMapper(), svo.getsNum());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,6 +135,7 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setsResult(rs.getString("SRESULT"));
 		data.setScore(rs.getInt("SCORE"));
 		data.setmStatus(rs.getString("MSTATUS"));
+		data.setbStatus(rs.getString("BSTATUS"));
 		return data;
 	}
 
