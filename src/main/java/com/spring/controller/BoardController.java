@@ -71,11 +71,11 @@ public class BoardController {
 		System.out.println(bDate);
 		bvo.setbDate(bDate);
 
+		avo.setmNum(bvo.getmNum());
 		if (boardService.insertBoard(bvo)) {
 			bvo = null;
 			bvo = boardService.selectOne(bvo);
 			avo.setbNum(bvo.getbNum());
-			avo.setmNum(bvo.getmNum());
 			applicantService.insert(avo);
 		}
 		return "redirect:boardList.do?sortBy=1";
