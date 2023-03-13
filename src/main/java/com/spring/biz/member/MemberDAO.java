@@ -31,7 +31,7 @@ public class MemberDAO {
 	final String SELECTALL = "SELECT DATE_FORMAT(MDATE, '%d/%a') AS TDATE, COUNT(*) AS CNT FROM MEMBER GROUP BY DATE_FORMAT(MDATE, '%d/%a') ORDER BY TDATE DESC LIMIT 7";
 	// 멤버페이지
 	final String SELECTALL_MEMBER = "SELECT * FROM MEMBER ORDER BY MNUM ASC";
-	final String UPDATE_USER = "UPDATE MEMBER SET MPW=?, MEMAIL=?, MTEL=?, ZIPCODE=?, USERADDR=?, DETAILADDR=? WHERE MNUM=?";
+	final String UPDATE_USER = "UPDATE MEMBER SET MPW=?, MEMAIL=?, MTEL=?, ZIPCODE=?, USERADDR=?, DETAILADDR=?, MIMG=? WHERE MNUM=?";
 	final String UPDATE_ADMIN = "UPDATE MEMBER SET MPW=?, MNAME=?, MEMAIL=?, MTEL=?, ZIPCODE=?, USERADDR=?, DETAILADDR=?, MPOINT=? WHERE MNUM=?";
 	final String UPDATE_PW = "UPDATE MEMBER SET MPW=? WHERE MID=?";
 	final String DELETE_USER = "DELETE FROM MEMBER WHERE MNUM=? AND MPW=?";
@@ -61,7 +61,7 @@ public class MemberDAO {
 			} else if(vo.getmPoint()!=0 &&vo.getmNum()!=0) {
 				template.update(UPDATE_POINT, vo.getmPoint(), vo.getmNum());
 			} else {
-				template.update(UPDATE_USER, vo.getmPw(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmNum());
+				template.update(UPDATE_USER, vo.getmPw(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmImg(),vo.getmNum());
 			}	
 		} catch (Exception e) {
 			e.printStackTrace();
