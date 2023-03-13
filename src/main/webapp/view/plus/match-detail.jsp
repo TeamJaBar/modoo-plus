@@ -50,6 +50,11 @@
 .hidden {
 	display: none;
 }
+
+.match-content img {
+	max-width: 100%;
+	object-fit: cover;
+}
 </style>
 
 </head>
@@ -129,7 +134,7 @@
 												<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
 											</li>
 										</ul>
-										<div class="tab-content tab-bordered"  id="a_box">
+										<div class="tab-content tab-bordered" id="a_box">
 											<!--매치 정보-->
 											<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
 												<table>
@@ -139,7 +144,7 @@
 														<td>모집 상태</td>
 													</tr>
 													<tr>
-														<td>${fn:length(aDatas)} / ${bDatas.bCnt}</td>
+														<td>${fn:length(aDatas)}/ ${bDatas.bCnt}</td>
 														<td>${bDatas.bRate}</td>
 														<td>
 															<c:if test="${bDatas.bAction==0}">모집 중</c:if>
@@ -223,7 +228,7 @@
 												<a class="TextTotal" style="font-size: 2px;">/300</a>
 											</div>
 											<div class="form-group">
-												<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize:none;" onclick="validation(this.id)"></textarea>
+												<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize: none;" onclick="validation(this.id)"></textarea>
 												<c:if test="${mNum == null}">
 													<button class="btn-submit" id="insertCommet" onclick="loginConfirm()">
 														<i class="fas fa-comments"></i>
@@ -266,7 +271,8 @@
 																			<a class="TextTotal" style="font-size: 2px;">/300</a>
 																		</div>
 																		<div class="form-group">
-																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize:none;" onclick="validation(this.id)">${com.cContent}</textarea>
+																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize: none;"
+																				onclick="validation(this.id)">${com.cContent}</textarea>
 																			<button class="btn btn-lg btn-submit" id="update${com.cNum}" onclick="comUpdate(${com.cNum})">
 																				<i class="fas fa-comments"></i>
 																			</button>
@@ -314,8 +320,8 @@
 	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">
 			신고 사유 선택해주세요.
-			<select style="visibility:hidden;">
-					<option></option>
+			<select style="visibility: hidden;">
+				<option></option>
 			</select>
 		</p>
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
