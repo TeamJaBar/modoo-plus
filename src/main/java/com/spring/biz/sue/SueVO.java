@@ -17,9 +17,9 @@ public class SueVO {
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
 	private String sCname;// 신고 카테고리 분류명
-	private int nCnt; //전체 신고글 갯수
+	private int nCnt; //미처리 신고글 갯수
 	private int cCnt; //처리 신고글 갯수
-	private int aCnt; //미처리 신고글 갯수
+	private int aCnt; //전체 신고글 갯수
 	
 
 	public int getsNum() {
