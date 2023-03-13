@@ -69,7 +69,7 @@ public class BoardDAO {
 			+ " LEFT OUTER JOIN (SELECT BNUM, MNUM, ANUM FROM APPLICANT WHERE MNUM=?) A ON B.BNUM = A.BNUM WHERE B.BNUM=?";
 	
 	// 제일 최근 작성한 글
-	private final String SELECTONE_LATELY = "SELECT A.BNUM, A.MNUM FROM (SELECT BNUM, MNUM FROM BOARD ORDER BY BNUM DESC) A LIMIT 1";
+	private final String SELECTONE_LATELY = "SELECT LAST_INSERT_ID() AS BNUM";
 	
 	public boolean insertBoard(BoardVO bvo) {
 		try {
@@ -200,7 +200,6 @@ public class BoardDAO {
 				return jdbcTemplate.queryForObject(SELECTONE_LATELY, (rs, rowNum) -> {
 					BoardVO tmpData = new BoardVO();
 					tmpData.setbNum(rs.getInt("BNUM"));
-					tmpData.setmNum(rs.getInt("MNUM"));
 					return tmpData;
 				});
 			}
