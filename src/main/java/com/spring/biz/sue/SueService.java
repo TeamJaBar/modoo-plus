@@ -7,7 +7,7 @@ public interface SueService {
 	
 	public boolean updateSue(SueVO svo);
 
-	public List<SueVO> selectAllCount(SueVO svo);
+	public SueVO selectAllCount(SueVO svo);
 
 	public List<SueVO> selectAllSue(SueVO svo);
 

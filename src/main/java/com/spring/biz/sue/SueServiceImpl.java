@@ -22,7 +22,7 @@ public class SueServiceImpl implements SueService {
 	}
 
 	@Override
-	public List<SueVO> selectAllCount(SueVO svo) {
+	public SueVO selectAllCount(SueVO svo) {
 		return sueDAO.selectCount(svo);
 	}
 
