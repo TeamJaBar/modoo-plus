@@ -78,7 +78,7 @@ public class BoardController {
 			avo.setbNum(bvo.getbNum());
 			applicantService.insert(avo);
 		}
-		return "redirect:boardList.do?sortBy=1";
+		return "redirect:boardDetail.do?bNum=" + bvo.getbNum();
 	}
 
 	// 게시글 삭제
