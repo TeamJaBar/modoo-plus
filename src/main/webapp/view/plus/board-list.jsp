@@ -785,8 +785,8 @@
 						</c:forEach>
 					</div>
 					<div class="card-footer text-right">
-						<button type="button" class="btn btn-icon btn-danger" data-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-icon btn-success" id="sort-button">확인</button>
+						<button type="button" class="btn btn-icon btn-secondary" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-icon btn-primary" id="sort-button">확인</button>
 					</div>
 				</div>
 			</div>
@@ -808,10 +808,7 @@
 	<!-- 슬릭 플러그인을 위한 CDN주소 -->
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-	<script>
-	<!-- 라디오 장소 검색 -->
-																																							
-	
+	<script>																																
 	<!-- 슬릭 플러그인을 위한 script -->
 		$(document).ready(function() {
 			$('.slider-wrap').slick({
@@ -842,34 +839,111 @@
 				} ]
 
 			});
+	<!-- /슬릭 플러그인을 위한 script -->
+	
+	<!-- Datepicker 위한 script -->
+	$(document).ready(function(){
+		var startDate;
+		var endDate;
 
-			$('#demo').daterangepicker({
-				"locale" : {
-					"format" : "YYYY-MM-DD",
-					"separator" : " ~ ",
-					"applyLabel" : "확인",
-					"cancelLabel" : "취소",
-					"fromLabel" : "From",
-					"toLabel" : "To",
-					"customRangeLabel" : "Custom",
-					"weekLabel" : "W",
-					"daysOfWeek" : [ "월", "화", "수", "목", "금", "토", "일" ],
-					"monthNames" : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-					"firstDay" : 1
+		$('#demo').daterangepicker({
+			"locale" : {
+				"format" : "YYYY-MM-DD",
+				"separator" : " ~ ",
+				"applyLabel" : "확인",
+				"cancelLabel" : "취소",
+				"fromLabel" : "From",
+				"toLabel" : "To",
+				"customRangeLabel" : "Custom",
+				"weekLabel" : "W",
+				"daysOfWeek" : [ "월", "화", "수", "목", "금", "토", "일" ],
+				"monthNames" : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+				"firstDay" : 1
+			},
+			"drops" : "down"
+		});
+
+		// 확인 버튼 클릭 시 실행되는 함수
+		$('#demo').on('apply.daterangepicker', function(ev, picker) {
+			sSearchDate = new Date(picker.startDate.format('YYYY-MM-DD')+' 00:00');
+			eSearchDate = new Date(picker.endDate.format('YYYY-MM-DD')+' 23:59');
+			
+			console.log('sDate : ' + sSearchDate);
+			console.log('eDate : ' + eSearchDate);
+
+			// 선택한 날짜 범위를 서버로 전송하거나, 다른 처리를 수행할 수 있습니다.
+			$.ajax({
+				type: "POST",
+				url: "searchBoard.do",
+				data: { sSearchDate: sSearchDate, eSearchDate: eSearchDate },
+				success: function(result){
+					console.log("success");
+					console.log(result);
+					var $list = $('#board-list');
+	                $list.empty();
+	                $.each(result, function(index, value) {
+	                    var $a = $('<a>').attr('href', 'boardDetail.do?bNum=' + value.bNum).attr('fg-component', 'match-list-item');
+	                    var $contentsBox = $('<div>').addClass('contents-box');
+	                    var $leftSection = $('<div>').addClass('left-section');
+	                    var $head = $('<div>').addClass('head');
+	                    var $tags = $('<div>').addClass('tags');
+	                    var $tag = $('<div>').addClass('tag');
+	                    var $tagText = $('<span>').addClass('text').text(value.bLocal);
+	                    var $body = $('<div>').addClass('body');
+	                    var $leftBox = $('<div>').addClass('left-box');
+	                    var $date = $('<div>').addClass('date');
+	                    //javascript Date 가공하기
+	                    let now = new Date(value.bDate).format("yy.MM.dd (E) HH:mm");
+	                    /*let formatter = new Intl.DateTimeFormat('ko', {
+	                        year: '2-digit',
+	                        month: '2-digit',
+	                        day: '2-digit',
+	                        hour: '2-digit',
+	                        minute: '2-digit',
+	                        weekday: 'short'
+	                    });
+	                    let formattedDate = formatter.format(now)*/
+
+	                    var $dateText = $('<span>').addClass('text').text(now);
+	                    var $title = $('<div>').addClass('title');
+	                    var $titleText = $('<span>').addClass('text').text(value.bTitle);
+	                    var $informations = $('<div>').addClass('informations');
+	                    var $informationCnt = $('<div>').addClass('information');
+	                    var $informationCntText = $('<span>').addClass('text').text(value.bCnt + '명');
+	                    var $informationRate = $('<div>').addClass('information');
+	                    var $informationRateText = $('<span>').addClass('text').text(value.bRate);
+	                    var $rightSection = $('<div>').addClass('right-section');
+	                    if (value.bAction == '0') {
+	                        var $btn = $('<div>').addClass('btn btn-submit').html('모집중<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                    } else {
+	                        var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                    }
+	                    // DOM 조작 코드 작성
+	                    $a.append($contentsBox);
+	                    $contentsBox.append($leftSection, $rightSection);
+	                    $leftSection.append($head, $body);
+	                    $head.append($tags);
+	                    $tags.append($tag);
+	                    $tag.append($tagText);
+	                    $body.append($leftBox, $title, $informations);
+	                    $leftBox.append($date, $title, $informations);
+	                    $date.append($dateText);
+	                    $informationCnt.append($informationCntText);
+	                    $informationRate.append($informationRateText);
+	                    $informations.append($informationCnt, $informationRate);
+	                    $title.append($titleText, $informations);
+	                    $rightSection.append($btn);
+	                    $list.append($a);
+	                });
 				},
-				"drops" : "down"
-			}, function(start, end, label) {
-				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+				error: function(){
+					console.log("error");
+					}
+				});
 			});
-		})
-		<!-- 슬릭 플러그인을 위한 script -->
-	
-	
-	
-	
-	
-	
-	
+		});
+	});
+	<!-- / Datepicker 위한 script -->	
 	</script>
 
 
