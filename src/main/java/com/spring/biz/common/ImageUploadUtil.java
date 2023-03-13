@@ -21,10 +21,10 @@ public class ImageUploadUtil {
 		
 		try {
 			if(type.equals("profile")) {
-				makeFolder(type);
+				makeFolder(path, type);
 				uploadFile.transferTo(new File(path+PROFILE_PATH+"/"+fileName));
 			} else {
-				makeFolder(type);
+				makeFolder(path, type);
 				uploadFile.transferTo(new File(path+BOARD_PATH+"/"+fileName));
 			}
 		} catch (Exception e) {
@@ -35,12 +35,12 @@ public class ImageUploadUtil {
 		return fileName;
 	}
 	
-	private static void makeFolder(String type) {
+	private static void makeFolder(String path, String type) {
 		File folder;
 		if(type.equals("profile")) {
-			folder = new File(PROFILE_PATH);
+			folder = new File(path+PROFILE_PATH);
 		} else {
-			 folder = new File(BOARD_PATH);
+			 folder = new File(path+BOARD_PATH);
 		}
 
 		// 해당 디렉토리가 없다면 디렉토리를 생성.
