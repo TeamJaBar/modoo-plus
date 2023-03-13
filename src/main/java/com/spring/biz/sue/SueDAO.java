@@ -61,8 +61,8 @@ public class SueDAO {
 		}
 		return datas;
 	}
-	public List<SueVO> selectCount(SueVO svo) {
-		return jdbcTemplate.query(COUNT_SUE, new SueCountRowMapper());
+	public SueVO selectCount(SueVO svo) {
+		return jdbcTemplate.queryForObject(COUNT_SUE, new SueCountRowMapper());
 	}
 
 	public List<SueVO> selectAllSue(SueVO svo) {
@@ -91,7 +91,7 @@ class SueCountRowMapper implements RowMapper<SueVO> {
 	public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		SueVO data = new SueVO();
 		data.setaCnt(rs.getInt("ACNT"));
-		data.setnCnt(rs.getInt("RCNT"));
+		data.setnCnt(rs.getInt("NCNT"));
 		data.setcCnt(rs.getInt("CCNT"));
 		return data;
 }
