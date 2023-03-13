@@ -21,13 +21,14 @@ public class SueDAO {
 	// 신고 취소
 	final String UPDATE_SUE = "UPDATE SUE SET SRESULT=1 WHERE SNUM=?";
 	// 신고글 총합
-	final String COUNT_SUE = "SELECT COUNT(B.BNUM) AS ACNT, COUNT(CASE WHEN BSTATUS='0' THEN 1 END) AS NCNT, COUNT(CASE WHEN BSTATUS='1' THEN 1 END) AS CCNT FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM";
+	final String COUNT_SUE = "SELECT COUNT(B.BNUM) AS ACNT, COUNT(CASE WHEN BSTATUS='0' THEN 1 END) AS NCNT, COUNT(CASE WHEN BSTATUS='1' THEN 1 END) AS CCNT FROM MEMBER M, BOARD B, SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM";
 	// 신고글 목록
-	final String SELECTALL_SUE = "SELECT S.SNUM, S.MNUM, B.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M,BOARD B,SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM DESC";
+	final String SELECTALL_SUE = "SELECT S.SNUM, S.MNUM, B.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS FROM MEMBER M, BOARD B, SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY B.BNUM DESC";
 	// 신고글 내용
-	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE, M.MID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, member M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
-	//신고하기 카테고리
+	final String SELECTONE_SUE = "SELECT S.BNUM, B.BTITLE, M.MID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT FROM BOARD B, SUE S, SUECATEGORY SC, MEMBER M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.BNUM = ?";
+	// 신고하기 카테고리
 	final String SELECTALL_SUECA = "SELECT * FROM SUECATEGORY";
+
 	public boolean insertSue(SueVO svo) {
 		try {
 			jdbcTemplate.update(INSERT_SUE, svo.getbNum(), svo.getmNum(), svo.getScNum(), svo.getsDate());
@@ -47,20 +48,22 @@ public class SueDAO {
 		}
 		return true;
 	}
-	public List<SueCategoryVO> selectAllSueCa(SueCategoryVO svo){
-		List<SueCategoryVO> datas=new ArrayList<SueCategoryVO>();
+
+	public List<SueCategoryVO> selectAllSueCa(SueCategoryVO svo) {
+		List<SueCategoryVO> datas = new ArrayList<SueCategoryVO>();
 		try {
-			datas = jdbcTemplate.query(SELECTALL_SUECA, (rs,rowNum) -> {
-				SueCategoryVO tmpData=new SueCategoryVO();
+			datas = jdbcTemplate.query(SELECTALL_SUECA, (rs, rowNum) -> {
+				SueCategoryVO tmpData = new SueCategoryVO();
 				tmpData.setScNum(rs.getInt("SCNUM"));
-				tmpData.setsCname(rs.getString("SCNAME"));
+				tmpData.setScName(rs.getString("SCNAME"));
 				return tmpData;
 			});
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datas;
 	}
+
 	public SueVO selectCount(SueVO svo) {
 		return jdbcTemplate.queryForObject(COUNT_SUE, new SueCountRowMapper());
 	}
@@ -85,7 +88,6 @@ public class SueDAO {
 	}
 }
 
-
 class SueCountRowMapper implements RowMapper<SueVO> {
 	@Override
 	public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -97,7 +99,6 @@ class SueCountRowMapper implements RowMapper<SueVO> {
 	}
 }
 
-
 class SueRowMapper implements RowMapper<SueVO> {
 	@Override
 	public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -108,7 +109,7 @@ class SueRowMapper implements RowMapper<SueVO> {
 		data.setbTitle(rs.getString("BTITLE"));
 		data.setmId(rs.getString("MID"));
 		data.setmImg(rs.getString("MIMG"));
-		data.setbWdate(rs.getDate("BWDATE"));
+		data.setbWdate(rs.getTimestamp("BWDATE"));
 		data.setbStatus(rs.getString("BSTATUS"));
 		return data;
 	}
@@ -122,9 +123,9 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setbTitle(rs.getString("BTITLE"));
 		data.setmId(rs.getString("MID"));
 		data.setbContent(rs.getString("BCONTENT"));
-		data.setsCname(rs.getString("SCNAME"));
-		data.setbWdate(rs.getDate("BWDATE"));
-		data.setsDate(rs.getDate("SDATE"));
+		data.setScName(rs.getString("SCNAME"));
+		data.setbWdate(rs.getTimestamp("BWDATE"));
+		data.setsDate(rs.getTimestamp("SDATE"));
 		data.setsResult(rs.getString("SRESULT"));
 		return data;
 	}

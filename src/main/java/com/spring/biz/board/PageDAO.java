@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.spring.biz.sue.SueVO;
+
 @Repository("pageDAO")
 public class PageDAO {
 	@Autowired
@@ -25,7 +27,7 @@ public class PageDAO {
 	private final String SQL_SELECTALL_MYMATCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, (SELECT A.ANUM, A.ACHK, B.BNUM, BTITLE, BADDRESS, BDATE, BCNT, BACTION FROM BOARD B, APPLICANT A WHERE B.BNUM=A.BNUM AND A.MNUM=?) D WHERE C.BNUM = D.BNUM ORDER BY C.BNUM ASC LIMIT ?,?";
 
 	// 총 신고글이 몇개인지
-	public int getSueTotal() {
+	public int getSueTotal(SueVO svo) {
 		System.out.println("PageDAO : getSueTotal 실행");
 		return jdbcTemplate.queryForObject(SUE_COUNT, Integer.class);
 	}

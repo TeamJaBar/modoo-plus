@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.spring.biz.board.BoardService;
 import com.spring.biz.board.BoardVO;
 import com.spring.biz.board.PageService;
+import com.spring.biz.board.PageVO;
 import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 import com.spring.biz.member.OrderService;
@@ -35,7 +36,9 @@ public class AdminController {
 	private SueService sueService;
 	@Autowired
 	private PageService pageService;
-
+	
+	private static final int DEFAULT_PAGENUM = 1;
+	private static final int DEFAULT_AMOUNT = 10;
 
 	// 관리자 메인 페이지로 이동
 	@RequestMapping(value = { "/admin-main.do" })
@@ -115,6 +118,7 @@ public class AdminController {
 	// 게시글 관리 페이지 이동
 	@RequestMapping(value = "/adPlusMain.do")
 	public String selsctAllBoard(BoardVO bvo, Model model) {
+		System.out.println(boardService.selectAllManage(bvo));
 		model.addAttribute("bDatas", boardService.selectAllManage(bvo));
 		return "/view/plus/admin-board.jsp";
 	}
@@ -132,8 +136,20 @@ public class AdminController {
 	/* 신고 */
 	// 신고글 관리 페이지 이동
 	@RequestMapping(value = "/adMoveSue.do")
-	public String selsctAllSue(SueVO svo, Model model) {
-		model.addAttribute("sueCount", sueService.selectAllCount(svo));
+	public String selsctAllSue(SueVO svo, PageVO pvo, Model model) {
+		svo.setAmount(DEFAULT_AMOUNT);
+		// 첫 페이지
+		if (svo.getPageNum() == 0) {
+			svo.setPageNum(DEFAULT_PAGENUM);
+		}
+		
+		int total = pageService.getSueTotal(svo); // 전체게시글수
+		pvo = new PageVO(svo.getPageNum(), total);
+		
+		System.out.println("로그으으ㅡ으" + pvo);
+
+		model.addAttribute("pageVO", pvo);
+		model.addAttribute("sueCount", sueService.selectCount(svo));
 		model.addAttribute("sue", sueService.selectAllSue(svo));
 		return "/view/plus/admin-sue.jsp";
 	}
@@ -154,6 +170,7 @@ public class AdminController {
 		sueService.updateSue(svo);
 		// 신고 board 차단
 		// 다른 글 차단
+		// 이메일 보내기
 		return "redirect:/view/plus/adMoveSue.do";
 	}
 	
