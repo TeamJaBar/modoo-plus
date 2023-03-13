@@ -94,7 +94,7 @@
 								<c:if test="${exception.getMessage() != null }">
 									<p>메세지 : ${exception.getMessage()}</p>
 								</c:if>
-								<c:if test="${exception.getCause()}">
+								<c:if test="${exception.getCause() != null}">
 									<p>원인 : ${exception.getCause()}</p>
 								</c:if>
 								<button class="back" onclick="history.back()">뒤로가기</button>
