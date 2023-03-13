@@ -12,5 +12,4 @@ public interface CommentService {
 
 	   public List<CommentVO> selectAll(CommentVO cvo);
 	   
-	   public CommentVO selectOne(CommentVO cvo);
 }
