@@ -217,12 +217,18 @@ public class AccountController {
 
 	// 회원정보 변경
 	@RequestMapping(value = "/update.do")
-	public String update(MemberVO mvo, HttpSession session) {
+	public String update(MemberVO mvo, HttpServletRequest request) {
 		String path = "";
-		if (session.getAttribute("mId") == null) { // pw-find
+		if (request.getSession().getAttribute("mId") == null) { // pw-find
 			path = "redirect:login.do";
 		} else { // change-inform
-			mvo.setmNum((Integer)session.getAttribute("mNum"));
+			MultipartFile uploadProfile = mvo.getUploadFile();
+			String mImg = mvo.getmImg();
+			if(!uploadProfile.isEmpty()) {
+				mImg = ImageUploadUtil.getImgFileName(request, uploadProfile, "profile");
+			}
+			mvo.setmImg(mImg);
+			mvo.setmNum((Integer)request.getSession().getAttribute("mNum"));
 			path = "redirect:changeInfo.do";
 		}
 		

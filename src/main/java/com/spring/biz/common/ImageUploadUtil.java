@@ -1,31 +1,47 @@
 package com.spring.biz.common;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageUploadUtil {
 	
-	private static final String PROFILE_PATH= "ModooPlus/src/main/webapp/assets/img/avatar";
-	private static final String BOARD_PATH="ModooPlus/src/main/webapp/assets/img/board";
+	private static final String PROJECT_NAME="ModooPlus";
+	private static final String PROFILE_PATH="/src/main/webapp/assets/img/avatar";
+	private static final String BOARD_PATH="/src/main/webapp/assets/img/board";
+	private static final String TOMCAT_PROFILE_PATH = "assets/img/avatar";
+	private static final String TOMCAT_BOARD_PATH = "assets/img/board";
 	
 	public static String getImgFileName(HttpServletRequest request, MultipartFile uploadFile, String type) {
-		String path = request.getSession().getServletContext().getRealPath("/");
-		path = path.substring(0, path.indexOf(".metadata"));
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String path = rootPath.substring(0, rootPath.indexOf(".metadata"));
+		
+		System.out.println(rootPath);
 		
 		String fileName = uuidFileName(uploadFile.getOriginalFilename());
 		System.out.println("파일 이름: " + fileName);
 		
 		try {
 			if(type.equals("profile")) {
-				makeFolder(path, type);
-				uploadFile.transferTo(new File(path+PROFILE_PATH+"/"+fileName));
+				makeFolder(path+PROJECT_NAME+PROFILE_PATH, type);
+				uploadFile.transferTo(new File(path+PROJECT_NAME+PROFILE_PATH+"/"+fileName));
+				makeFolder(rootPath+TOMCAT_PROFILE_PATH, type);
+				fileUtilsCopy(path+PROJECT_NAME+PROFILE_PATH+"/"+fileName, rootPath+TOMCAT_PROFILE_PATH+"/"+fileName);
+				
 			} else {
-				makeFolder(path, type);
-				uploadFile.transferTo(new File(path+BOARD_PATH+"/"+fileName));
+				makeFolder(path+PROJECT_NAME+BOARD_PATH, type);
+				uploadFile.transferTo(new File(path+PROJECT_NAME+BOARD_PATH+"/"+fileName));
+				makeFolder(rootPath+TOMCAT_BOARD_PATH, type);
+				fileUtilsCopy(path+PROJECT_NAME+BOARD_PATH+"/"+fileName, rootPath+TOMCAT_BOARD_PATH+"/"+fileName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,25 +51,40 @@ public class ImageUploadUtil {
 		return fileName;
 	}
 	
+	private static boolean fileUtilsCopy(String inPath, String outPath) {
+		File orgFile = new File(inPath);
+		File outFile = new File(outPath);
+		
+		try {
+			FileUtils.copyFile(orgFile, outFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
+	
 	private static void makeFolder(String path, String type) {
 		File folder;
 		if(type.equals("profile")) {
-			folder = new File(path+PROFILE_PATH);
+			folder = new File(path);
 		} else {
-			 folder = new File(path+BOARD_PATH);
+			 folder = new File(path+PROJECT_NAME+BOARD_PATH);
 		}
 
 		// 해당 디렉토리가 없다면 디렉토리를 생성.
 		if (!folder.exists()) {
-			try{
+			try {
 			    folder.mkdir(); //폴더 생성
-			    System.out.println("폴더가 생성완료.");
-		        } 
-		        catch(Exception e){
+			    System.out.println("\t[이미지 업로드 로그] : 폴더 생성완료");
+			}
+		    catch(Exception e){
 			    e.getStackTrace();
+			    return;
 			}        
-	         }else {
-			System.out.println("폴더가 이미 존재합니다..");
+	    } else {
+			System.out.println("\t[이미지 업로드 로그] : 폴더가 이미 존재합니다");
 		}
 	}
 	
