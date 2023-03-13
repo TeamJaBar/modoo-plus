@@ -112,4 +112,11 @@ public class PageVO {
 	public void setResTotal(int resTotal) {
 		this.resTotal = resTotal;
 	}
+
+	@Override
+	public String toString() {
+		return "PageVO [startPage=" + startPage + ", endPage=" + endPage + ", prev=" + prev + ", next=" + next + ", pageNum=" + pageNum + ", total=" + total + ", resTotal=" + resTotal + "]";
+	}
+	
+	
 }
