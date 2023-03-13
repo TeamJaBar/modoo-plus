@@ -4,23 +4,23 @@ import java.sql.Date;
 
 public class SueVO {
 	private int sNum; // 신고번호(PK)
-	private int bNum;//보드 (FK)
-	private int mNum;//멤버 (FK)
-	private int scNum;//신고 카테고리(FK)
-	private Date sDate;//신고 일자
-	private String sResult;//신고 처리 결과
+	private int bNum;// 보드 (FK)
+	private int mNum;// 멤버 (FK)
+	private int scNum;// 신고 카테고리(FK)
+	private Date sDate;// 신고 일자
+	private String sResult;// 신고 처리 결과
 	// JAVA에서만 저장용으로 사용되는 데이터
 	private String bTitle; // 제목
 	private String mName; // 이름
 	private String mImg; // 프로필 사진
-	private String bwDate; // 작성일자
+	private Date bWdate; // 작성일자
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
 	private String sCname;// 신고 카테고리 분류명
-	private int nCnt; //미처리 신고글 갯수
-	private int cCnt; //처리 신고글 갯수
-	private int aCnt; //전체 신고글 갯수
-	
+	private int nCnt; // 미처리 신고글 갯수
+	private int cCnt; // 처리 신고글 갯수
+	private int aCnt; // 전체 신고글 갯수
+	private String mId; // 아이디
 
 	public int getsNum() {
 		return sNum;
@@ -94,12 +94,12 @@ public class SueVO {
 		this.mImg = mImg;
 	}
 
-	public String getBwDate() {
-		return bwDate;
+	public Date getbWdate() {
+		return bWdate;
 	}
 
-	public void setBwDate(String bwDate) {
-		this.bwDate = bwDate;
+	public void setbWdate(Date bWdate) {
+		this.bWdate = bWdate;
 	}
 
 	public String getbStatus() {
@@ -150,5 +150,12 @@ public class SueVO {
 		this.aCnt = aCnt;
 	}
 
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
 
 }
