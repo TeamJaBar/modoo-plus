@@ -10,8 +10,14 @@ public class CommentVO {
 	private Date cWdate;//작성 일자
 	private Date cCdate;//수정 일자
 	private String mId;//JAVA 저장 객체: 작성자 아이디
+	private String mStatus;//JAVA 저장 객체: 댓글 작성자 상태 (기본/정지)
 	
-	
+	public String getmStatus() {
+		return mStatus;
+	}
+	public void setmStatus(String mStatus) {
+		this.mStatus = mStatus;
+	}
 	public String getmId() {
 		return mId;
 	}
@@ -53,6 +59,11 @@ public class CommentVO {
 	}
 	public void setcCdate(Date cCdate) {
 		this.cCdate = cCdate;
+	}
+	@Override
+	public String toString() {
+		return "CommentVO [cNum=" + cNum + ", bNum=" + bNum + ", mNum=" + mNum + ", cContent=" + cContent + ", cWdate="
+				+ cWdate + ", cCdate=" + cCdate + ", mId=" + mId + ", mStatus=" + mStatus + "]";
 	}
 	
 	

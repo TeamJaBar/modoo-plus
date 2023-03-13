@@ -49,5 +49,4 @@ public class CommentDAO2 {
       }
       return null;
    }
-
 }
