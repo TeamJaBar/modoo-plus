@@ -454,7 +454,7 @@ body {
 		
 		function datasetting(){
 	    	  temp.splice(0);
-	    	  let datas = ${bDatas};
+	    	  let datas = '${bDatas}';
 	          
 	         let now = $("#navi .active").prop("id");
 	         

@@ -230,25 +230,6 @@ body {
 	<script type="text/javascript">
 	
 	/* 버튼 눌렀을 때, 색상변경 */
-	
-	 	/* $('.nav-item .nav-link').on("click",function(){
-	 		if($(this).hasClass(".active") === true){
-	 			$(this).removeClass(".active");
-	 			$(this).find('span').removeClass("badge-white");
-	 			$(this).find('span').addClass("badge-primary");
-	 		} else {
-	 			//모든 class 초기화
-	 			$('.nav-item .nav-link.active').removeClass(".active");
-	 			$('.nav-item .nav-link').find('span').not(this).removeClass("badge-white");
-	 			$('.nav-item .nav-link').find('span').not(this).addClass("badge-primary");
-	 			
-	 			//선택한 탭만 class 추가
-	 			$(this).addClass(".active");
-	 			$(this).find('span').removeClass("badge-primary");
-	 			$(this).find('span').addClass("badge-white");
-	 		}
-	}); */
-	
 	 	$('.nav-item .nav-link').on("click",function(){
 	          console.log($(".nav-link .active span").prop("id"));
 	          $(".nav-link.active span").removeClass('badge-white');
@@ -260,10 +241,8 @@ body {
 	   }); 
 	
 	<!-- 전체글 -->
-	$(document).ready(function() {
-		$('#aCnt').each(function() {
+	$(document).on('click','#aCnt',function(e) {
 			var pageNum = '${param.pageNum}';
-			$(this).on('click', function(e) {
 				e.preventDefault();
 				console.log(pageNum);
 					$.ajax({
@@ -278,16 +257,12 @@ body {
 							}
 						}
 					});
-			})
-		})
-	})
+			});
 	
 	<!-- 미처리글 -->
-	$(document).ready(function() {
-		$('#nCnt').each(function() {
+	$(document).on('click','#nCnt',function(e) {
 			var sResult = 0;
 			var pageNum = '${param.pageNum}';
-			$(this).on('click', function(e) {
 				e.preventDefault();
 				console.log(sResult);
 				console.log(pageNum);
@@ -304,16 +279,12 @@ body {
 							}
 						}
 					});
-			})
-		})
-	})
+			});
 	
 	<!-- 처리완료 글 -->
-	$(document).ready(function() {
-		$('#cCnt').each(function() {
+	$(document).on('click','#cCnt',function(e) {
 			var sResult = 1;
 			var pageNum = '${param.pageNum}';
-			$(this).on('click', function(e) {
 				e.preventDefault();
 				console.log(sResult);
 				console.log(pageNum);
@@ -330,9 +301,7 @@ body {
 							}
 						}
 					});
-			})
-		})
-	})
+			});
 	</script>
 
 	<!-- JS Libraies -->

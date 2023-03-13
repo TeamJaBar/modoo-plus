@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="modoo" tagdir="/WEB-INF/tags"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <!-- 파비콘 삽입 -->
 <link rel="icon" href="../assets/img/favicon.png">
-<title>보드매칭 &rsaquo; 매칭 작성 페이지</title>
+<title><spring:message code="message.match-insert.title" /></title>
 <style type="text/css">
 .hidden {
 	display: none;
@@ -241,21 +242,43 @@ select option[disabled] {
 		<div class="main-wrapper main-wrapper-1">
 
 			<!--  header -->
-			<modoo:header/>
+			<modoo:header />
 
 			<!-- Main Content -->
 			<div class="main-content">
 				<section class="section">
 					<div class="section-header">
-						<h1>${param.type == 'update' ? '게시글 수정' : '게시글 작성'}</h1>
+						<c:choose>
+							<c:when test="${param.type == 'update'}">
+								<h1>
+									<spring:message code="message.match-insert.headerModify" />
+								</h1>
+							</c:when>
+							<c:otherwise>
+								<h1>
+									<spring:message code="message.match-insert.headerCreating" />
+								</h1>
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<div class="section-body">
-						<h2 class="section-title">${param.type == 'update' ? '매칭 게시글 수정 페이지' : '매칭 게시글 작성 페이지'}</h2>
+						<c:choose>
+							<c:when test="${param.type == 'update'}">
+								<h2 class="section-title">
+									<spring:message code="message.match-insert.sectionTitleModify" />
+								</h2>
+							</c:when>
+							<c:otherwise>
+								<h2 class="section-title">
+									<spring:message code="message.match-insert.sectionTitleCreating" />
+								</h2>
+							</c:otherwise>
+						</c:choose>
 						<div class="row mt-4">
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h4>매칭 게시글</h4>
+										<h4><spring:message code="message.match-insert.cardHeader" /></h4>
 									</div>
 									<div class="card-body">
 										<form action="${param.type == 'update' ? 'updateBoard.do' : 'insertBoard.do'}" method="post" onsubmit="return submitBoard();">
@@ -265,64 +288,64 @@ select option[disabled] {
 											<input type="hidden" name="bLatitude" id="bLatitude" value="${bDatas.bLatitude}" />
 											<input type="hidden" name="bLongitude" id="bLongitude" value="${bDatas.bLongitude}" />
 											<div class="form-group">
-												<label>제목</label>
+												<label><spring:message code="message.match-insert.postTitle" /></label>
 												<input type="text" class="form-control title" name="bTitle" value="${bDatas.bTitle}" />
 											</div>
-											<div class="alert alert-info hidden char">글자수는 50자까지 입력 가능합니다.</div>
+											<div class="alert alert-info hidden char"><spring:message code="message.match-insert.alertChar" /></div>
 											<div class="form-group">
-												<label>모집 인원</label>
+												<label><spring:message code="message.match-insert.personnel" /></label>
 												<div class="input-group">
 													<div class="input-group mb-2">
 														<input type="text" class="form-control text-right bCnt" id="inlineFormInputGroup2" name="bCnt" value="${bDatas.bCnt}" />
 														<div class="input-group-append">
-															<div class="input-group-text">명</div>
+															<div class="input-group-text"><spring:message code="message.match-insert.person" /></div>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="alert alert-info hidden max">모집인원은 최대 20명까지 입력 가능합니다.</div>
-											<div class="alert alert-info hidden num">숫자만 입력 가능합니다.</div>
+											<div class="alert alert-info hidden max"><spring:message code="message.match-insert.alertMax" /></div>
+											<div class="alert alert-info hidden num"><spring:message code="message.match-insert.alertNum" /></div>
 											<div class="form-group">
-												<label>게임 시간</label>
+												<label><spring:message code="message.match-insert.time" /></label>
 												<div class="input-group">
 													<input type="datetime-local" id="date-local" class="form-control date" name="date" value="${bDatas.bDate}" />
 												</div>
 											</div>
-											<div class="alert alert-info hidden datetime">현재 시간의 1시간 이후 보다 이전의 날짜는 설정할 수 없습니다.</div>
+											<div class="alert alert-info hidden datetime"><spring:message code="message.match-insert.alertDatetime" /></div>
 											<div class="form-group">
-												<label>게임 위치</label>
+												<label><spring:message code="message.match-insert.location" /></label>
 												<div class="input-group">
 													<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly />
 													<div class="input-group-append">
-														<button type="button" class="btn btn-primary" id="btn-map" data-toggle="modal" data-target="#mapModal">지도 검색</button>
+														<button type="button" class="btn btn-primary" id="btn-map" data-toggle="modal" data-target="#mapModal"><spring:message code="message.match-insert.mapSearch" /></button>
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label>실력</label>
+												<label><spring:message code="message.match-insert.ability" /></label>
 												<div class="input-group">
 													<div class="selectgroup w-100">
 														<label class="selectgroup-item">
 															<input type="radio" name="bRate" value="초고수" class="selectgroup-input" ${bDatas.bRate eq '초고수' ? 'checked' : ''} />
-															<span class="selectgroup-button">초고수</span>
+															<span class="selectgroup-button"><spring:message code="message.match-insert.challenger" /></span>
 														</label>
 														<label class="selectgroup-item">
 															<input type="radio" name="bRate" value="고수" class="selectgroup-input" ${bDatas.bRate eq '고수' ? 'checked' : ''} />
-															<span class="selectgroup-button">고수</span>
+															<span class="selectgroup-button"><spring:message code="message.match-insert.master" /></span>
 														</label>
 														<label class="selectgroup-item">
 															<input type="radio" name="bRate" value="초보" class="selectgroup-input" ${bDatas.bRate eq '초보' ? 'checked' : ''} />
-															<span class="selectgroup-button">초보</span>
+															<span class="selectgroup-button"><spring:message code="message.match-insert.novice" /></span>
 														</label>
 														<label class="selectgroup-item">
 															<input type="radio" name="bRate" value="왕초보" class="selectgroup-input" ${bDatas.bRate eq '왕초보' ? 'checked' : ''} />
-															<span class="selectgroup-button">왕초보</span>
+															<span class="selectgroup-button"><spring:message code="message.match-insert.nooblette" /></span>
 														</label>
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label>내용</label>
+												<label><spring:message code="message.match-insert.contents" /></label>
 												<textarea class="form-control" id="editor" name="bContent">${bDatas.bContent}</textarea>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
@@ -336,10 +359,10 @@ select option[disabled] {
 													});
 												</script>
 											</div>
-											<div class="alert alert-info hidden blankMsg">빈칸없이 입력해주세요.</div>
+											<div class="alert alert-info hidden blankMsg"><spring:message code="message.match-insert.alertblankMsg" /></div>
 											<div class="card-footer text-right">
-												<button type="button" class="btn btn-secondary" onclick="history.go(-1)">취소</button>
-												<button type="submit" class="btn btn-primary">작성 완료</button>
+												<button type="button" class="btn btn-secondary" onclick="history.go(-1)"><spring:message code="message.match-insert.cancel" /></button>
+												<button type="submit" class="btn btn-primary"><spring:message code="message.match-insert.complete" /></button>
 											</div>
 										</form>
 									</div>
@@ -358,9 +381,9 @@ select option[disabled] {
 				<div class="modal-header">
 					<form onsubmit="searchPlaces(); return false;">
 						<div class="input-group">
-							<input type="text" id="keyword" class="form-control" placeholder="장소를 입력해 주세요">
+							<input type="text" id="keyword" class="form-control" placeholder="<spring:message code='message.match-insert.enterLocation' />">
 							<div class="input-group-append">
-								<button type="submit" class="btn btn-primary">검색</button>
+								<button type="submit" class="btn btn-primary"><spring:message code="message.match-insert.mapSearch" /></button>
 							</div>
 						</div>
 					</form>
@@ -377,7 +400,7 @@ select option[disabled] {
 					</div>
 				</div>
 				<div class="modal-footer bg-whitesmoke br">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"><spring:message code="message.match-insert.cancel" /></button>
 				</div>
 			</div>
 		</div>
@@ -423,7 +446,7 @@ body {
 	<script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 	<!-- Page Specific JS File -->
 	<script src="../assets/js/page/forms-advanced-forms.js"></script>
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e98e93c6644d1ff13c4d2be348fb6bd&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e98e93c6644d1ff13c4d2be348fb6bd&libraries=services"></script>
 	<script>
 		// 마커를 담을 배열입니다
 		var markers = [];
@@ -437,7 +460,7 @@ body {
 
 		// 지도를 생성합니다    
 		var map = new kakao.maps.Map(mapContainer, mapOption);
-		
+
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -539,10 +562,10 @@ body {
 
 		// 검색결과 항목을 Element로 반환하는 함수입니다
 		function getListItem(index, places) {
-			var arr = [ index, places.place_name, places.address_name , places.y, places.x ];
+			var arr = [ index, places.place_name, places.address_name, places.y, places.x ];
 
 			var el = document.createElement('li'), itemStr = '<div class="media-body">' + '<div class="media-title">' + places.place_name + '</div>' + '<div class="text-small text-muted">'
-					+ places.address_name + '</div> </div>' + '<button class="btn btn-primary" value="' + arr + '" onclick="selectAdd(this);" data-dismiss="modal" id="adBtn">선택</button>';
+					+ places.address_name + '</div> </div>' + '<button class="btn btn-primary" value="' + arr + '" onclick="selectAdd(this);" data-dismiss="modal" id="adBtn"><spring:message code="message.match-insert.choice" /></button>';
 
 			el.innerHTML = itemStr;
 			el.className = 'media';
@@ -627,18 +650,18 @@ body {
 		function selectAdd(args0) {
 			var value = $(args0).val().split(",");
 
-			document.getElementById("address").value = value[2]+' '+value[1];
-			document.getElementById("address").innerText = value[2]+' '+value[1];
+			document.getElementById("address").value = value[2] + ' ' + value[1];
+			document.getElementById("address").innerText = value[2] + ' ' + value[1];
 			document.getElementById("bLatitude").value = value[3];
 			document.getElementById("bLongitude").value = value[4];
 		}
-	
-		$(document).ready(function () {
+
+		$(document).ready(function() {
 			//타이틀 유효성검사
 			$(".title").keyup(function(e) {
 				let title = $(this).val();
 				// console.log($(this).val());
-	
+
 				// 글자수 제한
 				if (title.length > 50) {
 					// 50자 부터는 타이핑 되지 않도록
@@ -649,13 +672,13 @@ body {
 					$(this).parent().siblings('.char').addClass('hidden');
 				}
 			});
-	
+
 			//모집인원 유효성검사
 			$(".bCnt").keyup(function(e) {
 				var regExp = /^[0-9]*$/;
 				let cnt = $(this).val();
 				console.log(cnt);
-	
+
 				// 인원 제한
 				if (!regExp.test(cnt)) {
 					// 숫자 이외의 값 입력시 0으로 변환
@@ -676,7 +699,7 @@ body {
 					$(this).parent().parent().parent().siblings('.max').addClass('hidden');
 				}
 			});
-	
+
 			//모임 기간 유효성검사
 			var now_utc = new Date();
 			var oneHoursLater = new Date(now_utc.setHours(now_utc.getHours() + 1));
@@ -684,14 +707,14 @@ body {
 			var today = new Date(oneHoursLater - timeOff).toISOString().substring(0, 16);
 			//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
 			$("#date-local").attr("min", today);
-	
+
 			var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
 			var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
 			//최대 2달 이후까지 선택할수 있게 설정
 			$("#date-local").attr("max", monthLater);
-	
+
 			//현재 시간의 1시간 이후 시간보다 이전 시간 선택시 알림창 뜨도록
-			$('#date-local').focusout(function () {
+			$('#date-local').focusout(function() {
 				if ($("#date-local").val() < today) {
 					$(".datetime").removeClass('hidden');
 					$("#date-local").val(today);
@@ -699,20 +722,20 @@ body {
 					$(".datetime").addClass('hidden');
 				}
 			});
-			
-			$('#mapModal').on('shown.bs.modal', function () {
-				  map.relayout(); // 여기서 'map'은 카카오 맵 객체를 나타냅니다.
+
+			$('#mapModal').on('shown.bs.modal', function() {
+				map.relayout(); // 여기서 'map'은 카카오 맵 객체를 나타냅니다.
 			});
 		});
-	
+
 		//버튼입력 시 유효성검사
 		function submitBoard() {
 			var title = $(".title").val();
 			var cnt = $(".bCnt").val();
 			var datetime = $(".date").val();
 			var address = $("#address").val();
-			
-			if(title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null){
+
+			if (title == '' || title == null || title == " " || cnt == '' || cnt == null || datetime == '' || datetime == null || address == '' || address == null) {
 				$('.blankMsg').removeClass('hidden');
 				return false;
 			} else {
