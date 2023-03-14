@@ -207,18 +207,27 @@ public class BoardDAO {
 					tmpData.setbNum(rs.getInt("BNUM"));
 					return tmpData;
 				});
-			}else if (bvo.getmNum() != 0) {
+			} else {
 				return jdbcTemplate.queryForObject(SELECTONE_MSTATUS, (rs, rowNum) -> {
 					BoardVO tmpData = new BoardVO();
 					tmpData.setmStatus(rs.getString("MSTATUS"));
 					return tmpData;
 				}, bvo.getbNum());
 			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public BoardVO selectOneDetail(BoardVO bvo) {
+		try {
 			return jdbcTemplate.queryForObject(SELECTONE_MATCH, new BoardRowMapper(), bvo.getmNum(), bvo.getmNum(), bvo.getbNum());
 		} catch (Exception e) {
 			return null;
 		}
 	}
+	
+	
 
 }
 

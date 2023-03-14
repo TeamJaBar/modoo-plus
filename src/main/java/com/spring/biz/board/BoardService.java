@@ -17,6 +17,8 @@ public interface BoardService {
 
 	public BoardVO selectOne(BoardVO bvo);
 	
+	public BoardVO selectOneDetail(BoardVO bvo);
+	
 	public String getbLocal(String addr);
 
 }

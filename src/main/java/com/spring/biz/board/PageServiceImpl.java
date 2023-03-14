@@ -37,4 +37,10 @@ public class PageServiceImpl implements PageService {
 	public List<BoardVO> selectAllMatch(BoardVO bvo) {
 		return pageDAO.selectAllMatch(bvo);
 	}
+	
+	@Override
+	public List<SueVO> selectAllSue(SueVO svo) {
+		return pageDAO.selectAllSue(svo);
+	}
+	
 }
