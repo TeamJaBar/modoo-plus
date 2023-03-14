@@ -33,7 +33,7 @@ public class SueDAO {
 
 	public boolean insertSue(SueVO svo) {
 		try {
-			jdbcTemplate.update(INSERT_SUE, svo.getbNum(), svo.getmNum(), svo.getScNum(), svo.getsDate());
+			jdbcTemplate.update(INSERT_SUE, svo.getbNum(), svo.getmNum(), svo.getScNum());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
