@@ -40,6 +40,9 @@
 </script>
 <!-- /END GA -->
 <style>
+.table:not(.table-sm):not(.table-md):not(.dataTable) td, .table:not(.table-sm):not(.table-md):not(.dataTable) th{
+	padding: 0 10px;
+}
 .main-content {
 	padding-left: 15%;
 	padding-right: 15%;
@@ -99,15 +102,15 @@ body {
 											<table class="table table-striped" id="sortable-table">
 												<tbody>
 													<tr class="text-center">
-														<th class="text-center">
+														<th width="5%" class="text-center">
 															<i class="fas fa-th"></i>
 														</th>
-														<th>제목</th>
-														<th>장소</th>
-														<th>모임일자</th>
-														<th>인원</th>
-														<th>상태</th>
-														<th>수정/삭제</th>
+														<th width="20%">제목</th>
+														<th width="15%">장소</th>
+														<th width="13%">모임일자</th>
+														<th width="7%">인원</th>
+														<th width="12%" style="padding-right:0;">상태</th>
+														<th width="15%" style="padding-left:0;">수정/삭제</th>
 													</tr>
 
 													<!-- 작성글 없을때 -->
@@ -124,23 +127,23 @@ body {
 													<c:if test="${fn:length(bDatas) != 0 }">
 														<c:forEach items="${bDatas}" var="v">
 															<tr class="text-center">
-																<td>
+																<td width="5%">
 																	<div class="sort-handler">
 																		<i class="fas fa-th"></i>
 																	</div>
 																</td>
-																<td>
+																<td width="20%">
 																	<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
 																</td>
-																<td>${v.bAddress}</td>
-																<td>
+																<td width="15%">${v.bAddress}</td>
+																<td width="13%">
 																	<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
 																</td>
-																<td>
+																<td width="7%">
 																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
 																	<a href="#" class="modal-btn" data-toggle="modal" data-bNum="${v.bNum}" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
 																</td>
-																<td>
+																<td width="15%" style="padding-right:0;">
 																	<div class="dropdown d-inline mr-2" id="b_box">
 																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																			<c:if test="${v.bAction==0}">
@@ -163,12 +166,12 @@ body {
 																		<!-- ajax로 구현하기 -->
 																	</div>
 																</td>
-																<td>
+																<td width="15%" style="padding-left:0;">
 																	<a href="updateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
 																		<!-- 작성 게시글 수정페이지로 이동 -->
 																		<i class="far fa-edit"></i>
 																	</a>
-																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='deleteBoard.do?bNum=${v.bNum}'">
+																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='BoardDelete.do?bNum=${v.bNum}'">
 																		<i class="fas fa-times"></i>
 																	</button>
 																</td>
