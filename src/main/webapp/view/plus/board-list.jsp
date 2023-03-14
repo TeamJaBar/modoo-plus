@@ -628,6 +628,48 @@
 	font-family: 'GmarketSansMedium', sans-serif;
 	font-weight: 500;
 }
+
+.modal {
+	font-family: 'GmarketSansMedium', sans-serif;
+}
+
+.modal-body .form-group {
+	padding-left:25px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+.modal-body .form-group .form-check {
+	margin-bottom:12px !important;
+}
+
+.modal-body input[type="radio"] {
+	vertical-align: middle;
+	appearance: none;
+	border: max(2px, 0.1em) solid #BCBCBC;
+	border-radius: 50%;
+	width: 1.0em;
+	height: 1.0em;
+	transition: border 0.2s ease-in-out;
+}
+
+.modal-body input[type="radio"]:hover {
+	box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+	cursor: pointer;
+}
+
+.modal-body input[type="radio"]:checked {
+	border: 0.3em #0188CB solid;
+}
+
+.navbar-bg {
+	height:80px !important;
+}
+
+.navbar {
+	height:80px !important;
+	padding:0 100px 0 100px !important;
+}
 </style>
 
 <!-- General CSS Files -->
