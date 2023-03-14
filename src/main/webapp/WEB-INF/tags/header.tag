@@ -35,12 +35,8 @@
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do">모두의 보드</a>
 			<div class="dropdown-divider"></div>
-			<!--<c:if test="${param.lang == ko}">-->
 			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=en">ENGLISH</a>
-			<!--</c:if>
-			<c:if test="${param.lang == en}">-->
 			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=ko">한국어</a>
-			<!--<</c:if>-->
 		</div>
 	</div>
 	<!-- 검색창 -->
