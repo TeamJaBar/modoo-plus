@@ -25,7 +25,7 @@ public class SueDAO {
 	// 신고글 목록
 	final String SELECTALL_SUE = "SELECT S.SNUM, B.BTITLE, M.MID, M.MIMG, S.SDATE, S.SRESULT FROM MEMBER M, BOARD B, SUE S WHERE M.MNUM = B.MNUM AND B.BNUM = S.BNUM ORDER BY S.SNUM ASC";
 	// 신고글 목록(처리, 미처리)
-	final String SELECTALL_RESULT = "SELECT S.SNUM, S.MNUM, B.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS, SRESULT FROM MEMBER M, BOARD B, SUE S WHERE SRESULT=?";
+	final String SELECTALL_RESULT = "SELECT S.SNUM, S.MNUM, S.BNUM, B.BTITLE, M.MID, M.MIMG, B.BWDATE, B.BSTATUS, S.SRESULT, S.SDATE FROM SUE S, BOARD B, MEMBER M WHERE S.SRESULT=? AND S.BNUM = B.BNUM AND S.MNUM = M.MNUM";
 	// 신고글 내용
 	final String SELECTONE_SUE = "SELECT S.SNUM, S.BNUM, S.MNUM, B.BTITLE, M.MID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT, M.SCORE, M.MSTATUS, B.BSTATUS FROM BOARD B, SUE S, SUECATEGORY SC, MEMBER M WHERE B.BNUM = S.BNUM AND S.SCNUM = SC.SCNUM AND M.MNUM = B.MNUM AND S.SNUM = ?";
 	// 신고하기 카테고리
@@ -74,6 +74,7 @@ public class SueDAO {
 		List<SueVO> datas = new ArrayList<SueVO>();
 		try {
 			if (svo.getsResult() != null) {
+				System.out.println("sResult = " + svo.getsResult());
 				datas = jdbcTemplate.query(SELECTALL_RESULT, new SueRowMapper(), svo.getsResult());
 			} else {
 				datas = jdbcTemplate.query(SELECTALL_SUE, new SueRowMapper());
@@ -81,6 +82,7 @@ public class SueDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("datas = " + datas);
 		return datas;
 	}
 
