@@ -790,14 +790,14 @@
 					<div class="form-group">
 						<c:forEach var="address" items="${localList}">
 							<div class="form-check">
-								<input class="form-check-input" type="radio" value="${address.bLocal}" name=" exampleRadios" id="exampleRadios1" checked="">
+								<input class="form-check-input" type="radio" value="${address.bLocal}" name="exampleRadios" id="exampleRadios1" checked="">
 								<label class="form-check-label" for="exampleRadios1">${address.bLocal}</label>
 							</div>
 						</c:forEach>
 					</div>
 					<div class="modal-footer text-right">
 						<button type="button" class="btn btn-icon btn-secondary" style="width: auto" data-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-icon btn-primary" id="sort-button">확인</button>
+						<button type="button" class="btn btn-icon btn-primary" id="sort-button1">확인</button>
 					</div>
 				</div>
 			</div>
@@ -1065,20 +1065,76 @@
 	<script>
 	<!-- 지역 선택검색을 위한 script -->
 	$(document).ready(function() {
-	    $('#sort-button').click(function() {
-	        var selectedValue = $('input[name="exampleRadios"]:checked').val();
+	    $('#sort-button1').click(function() {
+	        var bLocal = $('input[name="exampleRadios"]:checked').val();
 	        // 선택된 라디오 버튼의 값을 가져옵니다.
+	        console.log(bLocal);
 	
 	        $.ajax({
-	            url: 'your_controller_url', // 컨트롤러 URL을 입력합니다.
+	            url: 'searchBoard.do', // 컨트롤러 URL을 입력합니다.
 	            type: 'POST', // POST 방식으로 전송합니다.
-	            data: { selectedValue: selectedValue }, // 선택된 라디오 버튼의 값을 전송합니다.
+	            data: { bLocal: bLocal }, // 선택된 라디오 버튼의 값을 전송합니다.
 	            success: function(data) {
 	                // 성공적으로 전송된 경우 실행될 코드를 입력합니다.
 	                console.log('전송 성공');
-	
 	                // 모달 창을 닫습니다.
 	                $('#exampleModal').modal('hide');
+	                var $list = $('#board-list');
+	                $list.empty();
+	                $.each(data, function(index, value) {
+	                    var $a = $('<a>').attr('href', 'boardDetail.do?bNum=' + value.bNum).attr('fg-component', 'match-list-item');
+	                    var $contentsBox = $('<div>').addClass('contents-box');
+	                    var $leftSection = $('<div>').addClass('left-section');
+	                    var $head = $('<div>').addClass('head');
+	                    var $tags = $('<div>').addClass('tags');
+	                    var $tag = $('<div>').addClass('tag');
+	                    var $tagText = $('<span>').addClass('text').text(value.bLocal);
+	                    var $body = $('<div>').addClass('body');
+	                    var $leftBox = $('<div>').addClass('left-box');
+	                    var $date = $('<div>').addClass('date');
+	                    //javascript Date 가공하기
+	                    let now = new Date(value.bDate).format("yy.MM.dd (E) HH:mm");
+	                    /*let formatter = new Intl.DateTimeFormat('ko', {
+	                        year: '2-digit',
+	                        month: '2-digit',
+	                        day: '2-digit',
+	                        hour: '2-digit',
+	                        minute: '2-digit',
+	                        weekday: 'short'
+	                    });
+	                    let formattedDate = formatter.format(now)*/
+
+	                    var $dateText = $('<span>').addClass('text').text(now);
+	                    var $title = $('<div>').addClass('title');
+	                    var $titleText = $('<span>').addClass('text').text(value.bTitle);
+	                    var $informations = $('<div>').addClass('informations');
+	                    var $informationCnt = $('<div>').addClass('information');
+	                    var $informationCntText = $('<span>').addClass('text').text(value.bCnt + '명');
+	                    var $informationRate = $('<div>').addClass('information');
+	                    var $informationRateText = $('<span>').addClass('text').text(value.bRate);
+	                    var $rightSection = $('<div>').addClass('right-section');
+	                    if (value.bAction == '0') {
+	                        var $btn = $('<div>').addClass('btn btn-submit').html('모집중<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                    } else {
+	                        var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                    }
+	                    // DOM 조작 코드 작성
+	                    $a.append($contentsBox);
+	                    $contentsBox.append($leftSection, $rightSection);
+	                    $leftSection.append($head, $body);
+	                    $head.append($tags);
+	                    $tags.append($tag);
+	                    $tag.append($tagText);
+	                    $body.append($leftBox, $title, $informations);
+	                    $leftBox.append($date, $title, $informations);
+	                    $date.append($dateText);
+	                    $informationCnt.append($informationCntText);
+	                    $informationRate.append($informationRateText);
+	                    $informations.append($informationCnt, $informationRate);
+	                    $title.append($titleText, $informations);
+	                    $rightSection.append($btn);
+	                    $list.append($a);
+	                });
 	            },
 	            error: function() {
 	                // 전송 실패 시 실행될 코드를 입력합니다.
