@@ -39,8 +39,12 @@ public class BoardDAO {
 	private final String SQL_SELECTALL_DISTINCT="SELECT DISTINCT BLOCAL FROM BOARD ORDER BY BLOCAL";
 	// 지역 선택
 	private final String SQL_SELECTALL_AREA = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
-			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BLOCAL=? ORDER BY BDATE ASC LIMIT 1000000) A "
-			+ "WHERE C.BNUM=A.BNUM";
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BLOCAL=? AND BACTION = 0 ORDER BY BDATE ASC LIMIT 1000000) A "
+			+ "WHERE C.BNUM=A.BNUM "
+			+ "UNION ALL "
+			+ "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, "
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BLOCAL=? AND BACTION = 1 ORDER BY BDATE ASC LIMIT 1000000) B "
+			+ "WHERE C.BNUM=B.BNUM";
 	// 날짜 선택
 	private final String SQL_SELECTALL_DATE = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C,"
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=0 ORDER BY BDATE ASC LIMIT 1000000) A"
@@ -141,7 +145,7 @@ public class BoardDAO {
 				Object[] obj = null;
 				if (bvo.getbLocal() != null) { // 지역 검색
 					query = SQL_SELECTALL_AREA;
-					obj = new Object[] { bvo.getbLocal() };
+					obj = new Object[] { bvo.getbLocal(), bvo.getbLocal() };
 				} else if (bvo.getsSearchDate() != null) { // 날짜 검색
 					query = SQL_SELECTALL_DATE;
 					obj = new Object[] { bvo.getsSearchDate(), bvo.geteSearchDate(),bvo.getsSearchDate(),bvo.geteSearchDate() };
