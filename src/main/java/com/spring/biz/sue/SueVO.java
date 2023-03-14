@@ -5,26 +5,45 @@ import java.util.Date;
 public class SueVO {
 	private int sNum; // 신고번호(PK)
 	private int bNum; // 보드 (FK)
-	private int mNum; // 멤버 (FK)
+	private int mNum; // 멤버 (FK) - 신고한 사람
 	private int scNum; // 신고 카테고리(FK)
 	private Date sDate; // 신고 일자
 	private String sResult; // 신고 처리 결과
 	// JAVA에서만 저장용으로 사용되는 데이터
 	private String bTitle; // 제목
-	private String mId; // 아이디
+	private String mId; // 신고한 사람 아이디
 	private String mName; // 이름
 	private String mImg; // 프로필 사진
 	private Date bWdate; // 작성일자
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
 	private String scName; // 신고 카테고리 분류명
+	private String mStatus; //상태(기본/정지)
+	private String smId;//신고 당한 사람의 ID
+	private int smNum;// 신고 당한 사람
 	private int aCnt; // 전체 신고글 갯수
 	private int nCnt; // 미처리 신고글 갯수
 	private int cCnt; // 처리 신고글 갯수
 	private int pageNum; 
 	private int amount;
 	private int score;
-	private String mStatus;
+	
+	
+	public String getSmId() {
+		return smId;
+	}
+
+	public void setSmId(String smId) {
+		this.smId = smId;
+	}
+
+	public int getSmNum() {
+		return smNum;
+	}
+
+	public void setSmNum(int smNum) {
+		this.smNum = smNum;
+	}
 
 	public int getsNum() {
 		return sNum;
@@ -196,11 +215,10 @@ public class SueVO {
 
 	@Override
 	public String toString() {
-		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate + ", sResult=" + sResult + ", bTitle=" + bTitle + ", mId=" + mId + ", mName="
-				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName + ", aCnt=" + aCnt + ", nCnt=" + nCnt + ", cCnt=" + cCnt
-				+ ", pageNum=" + pageNum + ", amount=" + amount + ", score=" + score + ", mStatus=" + mStatus + "]";
+		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate
+				+ ", sResult=" + sResult + ", bTitle=" + bTitle + ", mId=" + mId + ", mName=" + mName + ", mImg=" + mImg
+				+ ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName
+				+ ", mStatus=" + mStatus + ", smId=" + smId + ", smNum=" + smNum + ", aCnt=" + aCnt + ", nCnt=" + nCnt
+				+ ", cCnt=" + cCnt + ", pageNum=" + pageNum + ", amount=" + amount + ", score=" + score + "]";
 	}
-
-
-
 }
