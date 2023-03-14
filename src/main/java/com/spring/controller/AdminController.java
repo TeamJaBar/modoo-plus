@@ -121,9 +121,7 @@ public class AdminController {
 	// 게시글 관리 페이지 이동
 	@RequestMapping(value = "/adPlusMain.do")
 	public String selsctAllBoard(BoardVO bvo, Model model) {
-        String bDatas = new Gson().toJson(boardService.selectAllManage(bvo));
-        System.out.println("bDatas 로그 : " + bDatas);
-        model.addAttribute("bDatas", bDatas);
+        model.addAttribute("bDatas", boardService.selectAllManage(bvo));
 		return "/view/plus/admin-board.jsp";
 	}
 
