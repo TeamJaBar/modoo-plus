@@ -340,7 +340,7 @@ body {
 								exp = '고수';
 							}
 							if (score > 5000) {
-								exp = '빡고수';
+								exp = '초고수';
 							}
 							return exp;
 						}
