@@ -164,12 +164,13 @@ public class AdminController {
 
 	// 신고 처리
 	@RequestMapping(value = "/adSueMem.do")
-	public String glglgl(SueVO svo, Model model) {
-		// 사용자 정지
-		// sue 처리 완료
+	public String glglgl(SueVO svo, MemberVO mvo, BoardVO bvo, Model model) {
+		// 사용자 정지 (mStatus "0" > "1")
+        memberService.update(mvo);
+		// 신고글 (sResult "0" > "1")
 		sueService.updateSue(svo);
-		// 신고 board 차단
-		// 다른 글 차단
+		// 신고당한 게시글 차단 (bStatus "0" > "1")
+        boardService.updateBoard(bvo);
 		// 이메일 보내기
 		return "redirect:/view/plus/adMoveSue.do";
 	}
