@@ -36,6 +36,9 @@
 <!-- /END GA -->
 
 <style>
+.table:not(.table-sm):not(.table-md):not(.dataTable) td, .table:not(.table-sm):not(.table-md):not(.dataTable) th{
+	padding: 0 10px;
+}
 @font-face {
 	font-family: 'GmarketSansMedium';
 	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -85,7 +88,11 @@ body {
 	background: transparent;
 }
 
-#modal-box>tr>td>input[type="radio"] {
+.modal-radio {
+	margin : 10px;
+}
+
+.modal-radio>input[type="radio"] {
 	vertical-align: middle;
 	appearance: none;
 	border: max(2px, 0.1em) solid #BCBCBC;
@@ -95,16 +102,16 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-#modal-box>tr>td>input[type="radio"]:hover {
+.modal-radio>input[type="radio"]:hover {
 	box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
 	cursor: pointer;
 }
 
-#modal-box>tr>td>input[type="radio"]:checked {
+.modal-radio>input[type="radio"]:checked {
 	border: 0.3em #0188CB solid;
 }
 
-#modal-box>tr>td>input[type="text"]:focus {
+#modal-box>ul>li>input[type="text"]:focus {
 	outline: none;
 }
 </style>
@@ -182,28 +189,26 @@ body {
 											<table class="table table-striped" id="a_box">
 												<tbody>
 													<tr class="text-center">
-														<th>
+														<th width="5%">
 															<div class="sort-handler">
 																<i class="fas fa-th"></i>
 															</div>
 														</th>
-														<th>제목</th>
-														<th>장소</th>
-														<th>인원</th>
-														<th>날짜</th>
-														<th>신청 / 평가</th>
+														<th width="20%">제목</th>
+														<th width="15%">장소</th>
+														<th width="13%">모임일자</th>
+														<th width="7%">인원</th>
+														<th width="12%">신청 / 평가</th>
 													</tr>
 													<!-- 매치 없을때 -->
 													<c:if test="${fn:length(bDatas) == 0 }">
-														<tr class="text-center" id="a_box">
-															<td>
+														<tr class="text-center">
+															<td width="">
 																<div class="sort-handler">
 																	<i class="fas fa-th"></i>
 																</div>
 															</td>
-															<td></td>
-															<td>게시글이 없습니다.</td>
-															<td></td>
+															<td colspan="4">게시글이 없습니다.</td>
 															<td>
 																<button class="btn btn-primary" type="button" onclick="location.href='boardList.do'">매치하러 가기</button>
 															</td>
@@ -217,27 +222,27 @@ body {
 														<c:forEach items="${bDatas}" var="v" varStatus="i">
 															<input type="hidden" name="aNum" id="aNum${v.bNum}" value="${v.aNum}" />
 															<tr class="text-center">
-																<td>
+																<td width="5%">
 																	<div class="sort-handler">
 																		<i class="fas fa-th"></i>
 																	</div>
 																</td>
 
-																<td>
+																<td width="20%">
 																	<a href="boardDetail.do?bNum=${v.bNum}">${v.bTitle}</a>
 																</td>
-																<td>${v.bAddress}</td>
-																<td>
-																	<a href="#" class="modal-btn2" data-bNum="${v.bNum}" data-toggle="modal" data-target="#exampleModal2">${v.aCnt}/${v.bCnt}</a>
-																</td>
-																<td>
+																<td width="15%">${v.bAddress}</td>
+																<td width="13%">
 																	<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
+																</td>
+																<td width="7%">
+																	<a href="#" class="modal-btn2" data-bNum="${v.bNum}" data-toggle="modal" data-target="#exampleModal2">${v.aCnt}/${v.bCnt}</a>
 																</td>
 																<c:choose>
 																	<c:when test="${v.bAction == 2}">
-																		<td>
+																		<td width="12%">
 																			<c:if test="${v.aChk != 1}">
-																				<button class="btn btn-primary modal-btn" value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
+																				<button class="btn btn-primary modal-btn" id="modal-btn" value="${v.bNum}" data-toggle="modal" data-target="#exampleModal">평가하기</button>
 																			</c:if>
 																			<c:if test="${v.aChk == 1}">
 																				<button class="btn btn-primary" disabled="disabled">평가완료</button>
@@ -320,15 +325,8 @@ body {
 				</div>
 				<form action="userRating.do">
 					<div class="modal-body">
-						<table class="table table-striped">
-							<tbody id="modal-box">
-								<tr>
-									<th>선택</th>
-									<th>프로필</th>
-									<th>아이디</th>
-								</tr>
-							</tbody>
-						</table>
+						<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder" id="modal-box">
+						</ul>
 					</div>
 					<div class="modal-footer bg-whitesmoke br">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -339,24 +337,19 @@ body {
 		</div>
 	</div>
 
-	<!-- Modal screen2 -->
+	<!-- Modal screen 2 -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="exampleModal2">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">참여인원</h5>
+					<h5 class="modal-title">함께 참여한 회원</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<table class="table table-striped">
-						<tbody id="modal-box2">
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer bg-whitesmoke br">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder" id="modal-box2">
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -375,63 +368,67 @@ body {
 		$(document).ready(
 				function() {
 					$('#exampleModal').on('show.bs.modal', function() {
-						$('#modal-box').empty(); // 모달창 초기화
+					    $('#modal-box').empty(); // 모달창 초기화
 					});
 
-					$('.modal-btn').each(
-							function() {
-								$(this).on(
-										'click',
-										function(e) {
-											var bNum = $(this).val();
-											var id = "aNum" + bNum;
-											var aNum = $('#' + id).val();
-											console.log("bNum [" + bNum + "]");
-											console.log("aNum : " + aNum);
-											e.preventDefault();
-											$.ajax({
-												type : 'POST',
-												url : 'showApplicant.do',
-												data : {
-													bNum : bNum
-												},
-												success : function(result) {
-													console.log(result);
-													console.log("왔다");
-													var $list = $("#modal-box");
+					$('.modal-btn').each(function() {
+					    $(this).on('click', function(e) {
+					        var bNum = $(this).val();
+					        var id = "aNum" + bNum;
+					        var aNum = $('#' + id).val();
+					        console.log("bNum [" + bNum + "]");
+					        console.log("aNum : " + aNum);
+					        e.preventDefault();
+					        $.ajax({
+					            type : 'POST',
+					            url : 'showApplicant.do',
+					            data : {
+					                bNum : bNum
+					            },
+					            success : function(result) {
+					                console.log(result);
+					                console.log("왔다");
+					                var html = '';
 
-													// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
-													if (result.length > 0) {
-														var $tr_header = $("<tr>").attr("class", "text-center");
-														var $th1 = $("<th>").text("선택");
-														var $th2 = $("<th>").text("프로필");
-														var $th3 = $("<th>").text("아이디");
-														$tr_header.append($th1).append($th2).append($th3);
-														$list.append($tr_header);
-													}
-
-													$.each(result, function(index, value) {
-														var $aNum = $("<input>").attr("type", "hidden").attr("name", "aNum").attr("value", aNum);
-														var $radio = $("<input>").attr("type", "radio").attr("name", "mNum").attr("value", value.mNum);
-														var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
-																"data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
-														var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr(
-																"disabled", "true");
-														var $td1 = $("<td>").append($radio);
-														var $td2 = $("<td>").append($img);
-														var $td3 = $("<td>").append($text);
-														var $tr = $("<tr>").attr("class", "text-center");
-														$tr.append($td1).append($td2).append($td3).append($aNum);
-														$list.append($tr);
-													});
-												},
-												error : function(jqXHR, textStatus, errorThrown) {
-													// 실패했을 때 실행될 콜백 함수
-													console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
-												}
-											});
-										});
-							});
+					                $.each(result, function(i, item) {
+					                	html += '<li class="media">' 
+					                		+ '<input type="hidden" name="aNum" value="'+ aNum +'">'
+					                		+ '<div class=modal-radio>'
+					                		+ '<input type="radio" name="mNum" value="'+ item.mNum +'">'
+					                		+ '</div>'
+											+ '<div class="media-body">'
+											+ '<div class="media-title text-center">'
+											+ item.mId
+											+ '</div>'
+											+ '<div class="text-job text-center text-muted">'
+											+ exp(item.score)
+											+ '</div>'
+											+ '</div>'
+											+ '<img class="mr-3 rounded-circle text-center" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' 
+											+ '<div class="media-progressbar">'
+											+ '<div class="progress-text">'
+											+ score(item.score)
+											+ ' 점'
+											+ '</div>'
+											+ '<div class="progress" data-height="6" style="height: 6px;">'
+											+ '<div class="progress-bar bg-primary" data-width="'
+											+ score(item.score)
+											+ '%" style="width: '
+											+ score(item.score)
+											+ '%;"></div>'
+											+ '</div>'
+											+ '</div>'
+											+ '</li>';
+					                });
+					                $('#modal-box').html(html);
+					            },
+					            error : function(jqXHR, textStatus, errorThrown) {
+					                // 실패했을 때 실행될 콜백 함수
+					                console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
+					            }
+					        });
+					    });
+					});
 
 					// 취소하기버튼
 					$('#cancleBtn').each(function() {
@@ -456,7 +453,8 @@ body {
 						})
 					})
 
-				})
+				});
+		// 현재 참여인원 모달창 
 		$(document).on(
 				'click',
 				'.modal-btn2',
@@ -465,45 +463,85 @@ body {
 						$('#modal-box2').empty(); // 모달창 초기화
 					});
 					var bNum = $(this).attr("data-bNum");
-					console.log("bNum [" + bNum + "]");
+					console.log("bNum = " + bNum);
 					e.preventDefault();
+					function updateModal2(result) {
+						console.log(result);
+						var html = '';
+						// result가 비어있지 않을 때만 추가
+						if (result.length > 0) {
+							$.each(result, function(i, item) {
+								html += '<li class="media">' + '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
+										+ '<div class="media-title">'
+										+ item.mId
+										+ '</div>'
+										+ '<div class="text-job text-muted">'
+										+ exp(item.score)
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="media-progressbar">'
+										+ '<div class="progress-text">'
+										+ score(item.score)
+										+ ' 점'
+										+ '</div>'
+										+ '<div class="progress" data-height="6" style="height: 6px;">'
+										+ '<div class="progress-bar bg-primary" data-width="'
+										+ score(item.score)
+										+ '%" style="width: '
+										+ score(item.score)
+										+ '%;"></div>'
+										+ '</div>'
+										+ '</div>'
+										+ '</li>';
+							});
+						} else {
+							html += '<li>참여한 회원이 없습니다.</li>';
+						}
+						$('#modal-box2').html(html); // 리스트 추가
+						$('#exampleModal2').modal('show'); // 모달창 보여주기
+					}
+
 					$.ajax({
 						type : 'POST',
 						url : 'showApplicant.do',
 						data : {
 							bNum : bNum
 						},
-						success : function(result) {
-							console.log(result);
-							console.log("와따리");
-							var $list = $("#modal-box2");
-
-							// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
-							if (result.length > 0) {
-								var $tr_header = $("<tr>").attr("class", "text-center");
-								var $th2 = $("<th>").text("프로필");
-								var $th3 = $("<th>").text("아이디");
-								$tr_header.append($th2).append($th3);
-								$list.append($tr_header);
-							}
-
-							$.each(result, function(index, value) {
-								var $img = $("<img>").attr("alt", "image").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35)
-										.attr("data-toggle", "tooltip").attr("title", "").attr("data-original-title", value.mId);
-								var $text = $("<input>").attr("class", "text-center").attr("type", "text").attr("name", "mId").attr("value", value.mId).attr("id", "mId").attr("disabled", "true");
-								var $td2 = $("<td>").append($img);
-								var $td3 = $("<td>").append($text);
-								var $tr = $("<tr>").attr("class", "text-center");
-								$tr.append($td2).append($td3);
-								$list.append($tr);
-							});
-						},
-						error : function(jqXHR, textStatus, errorThrown) {
-							// 실패했을 때 실행될 콜백 함수
-							console.log(textStatus + ": 데이터를 불러오지 못했습니다." + errorThrown);
-						}
+						success : updateModal2
 					});
-				})
+				});
+		function score(score) {
+			var tmpScore = 0;
+			if (score < 200) {
+				tmpScore = (score / 200) * 100;
+			}
+			if (score<500 && score>199) {
+				tmpScore = (score / 500) * 100;
+			}
+			if (score<1000 && score>499) {
+				tmpScore = (score / 1000) * 100;
+			}
+			if (score > 5000) {
+				tmpScore = (score / 5000) * 100;
+			}
+			return tmpScore;
+		};
+		function exp(score) {
+			var exp = '';
+			if (score < 200) {
+				exp = '왕초보';
+			}
+			if (score<500 && score>199) {
+				exp = '초보';
+			}
+			if (score<1000 && score>499) {
+				exp = '고수';
+			}
+			if (score > 5000) {
+				exp = '빡고수';
+			}
+			return exp;
+		};
 	</script>
 
 	<!-- JS Libraies -->

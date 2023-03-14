@@ -143,7 +143,7 @@ body {
 																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
 																	<a href="#" class="modal-btn" data-toggle="modal" data-bNum="${v.bNum}" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
 																</td>
-																<td width="15%" style="padding-right:0;">
+																<td width="15%">
 																	<div class="dropdown d-inline mr-2" id="b_box">
 																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																			<c:if test="${v.bAction==0}">
@@ -171,7 +171,7 @@ body {
 																		<!-- 작성 게시글 수정페이지로 이동 -->
 																		<i class="far fa-edit"></i>
 																	</a>
-																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='BoardDelete.do?bNum=${v.bNum}'">
+																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do?bNum=${v.bNum}'">
 																		<i class="fas fa-times"></i>
 																	</button>
 																</td>
@@ -347,7 +347,8 @@ body {
 						// result가 비어있지 않을 때만 추가
 						if (result.length > 0) {
 							$.each(result, function(i, item) {
-								html += '<li class="media">' + '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
+								html += '<li class="media">' 
+										+ '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
 										+ '<div class="media-title">'
 										+ item.mId
 										+ '</div>'
