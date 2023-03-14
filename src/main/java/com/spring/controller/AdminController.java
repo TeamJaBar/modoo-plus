@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
 import com.spring.biz.board.BoardService;
 import com.spring.biz.board.BoardVO;
 import com.spring.biz.board.PageService;
@@ -146,11 +147,10 @@ public class AdminController {
 		int total = pageService.getSueTotal(svo); // 전체게시글수
 		pvo = new PageVO(svo.getPageNum(), total);
 		
-		System.out.println("로그으으ㅡ으" + pvo);
 
 		model.addAttribute("pageVO", pvo);
 		model.addAttribute("sueCount", sueService.selectCount(svo));
-		model.addAttribute("sue", sueService.selectAllSue(svo));
+		model.addAttribute("sue", pageService.selectAllSue(svo));
 		return "/view/plus/admin-sue.jsp";
 	}
 
