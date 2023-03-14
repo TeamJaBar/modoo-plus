@@ -342,12 +342,9 @@
 		</div>
 	</div>
 
-	<form class="modal-part" id="modal-sue-part" style="font-family: 'GmarketSansMedium'">
+	<form class="modal-part" id="modal-sue-part" method="post" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">
-			신고 사유 선택해주세요.
-			<select style="visibility: hidden;">
-				<option></option>
-			</select>
+			신고 사유를 선택해주세요.
 		</p>
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 		<input type="hidden" name="mNum" value="${mNum}" />
