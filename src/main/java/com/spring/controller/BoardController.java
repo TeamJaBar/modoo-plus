@@ -116,7 +116,7 @@ public class BoardController {
 	@RequestMapping(value = "/insertSue.do")
 	public String insertSue(SueVO svo, Model model) {
 		if (sueService.insertSue(svo)) {
-			return "redirect:boardList.do?sortBy=1";
+			return "redirect:boardDetail.do?bNum="+svo.getbNum();
 		}
 		return null;
 	}

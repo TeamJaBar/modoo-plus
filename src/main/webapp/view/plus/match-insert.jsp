@@ -24,9 +24,9 @@ select option[disabled] {
 }
 
 .main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
+	padding-left: 15% !important;
+	padding-right: 15% !important;
+	min-width: 40% !important;
 }
 
 @font-face {
@@ -37,7 +37,7 @@ select option[disabled] {
 }
 
 body {
-	font-family: 'GmarketSansMedium';
+	font-family: 'GmarketSansMedium' !important;
 }
 
 select option[disabled] {
