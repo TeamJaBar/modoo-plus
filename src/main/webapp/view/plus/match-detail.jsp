@@ -85,6 +85,22 @@
 							</div>
 						</div>
 					</c:if>
+					<c:if test="${status.mStatus==1 && bDatas.bStatus==0}">
+						<div class="card-body">
+							<div class="alert alert-primary alert-has-icon p-4">
+								<div class="alert-icon">
+									<i class="far fa-lightbulb"></i>
+								</div>
+								<div class="alert-body">
+									<div class="alert-title">블라인드된 게시물</div>
+									<p>다수 유저의 신고로 인해 관리자의 권한으로 정지당한 회원의 블라인드된 매칭 게시글입니다.</p>
+									<p class="mt-3">
+										<a href="boardList.do" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</c:if>
 					<c:if test="${bDatas.bStatus==0}">
 						<div class="section-body">
 							<div class="card">
@@ -99,7 +115,7 @@
 												<div class="date">
 													<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
 												</div>
-												<c:if test="${bDatas.mNum != mNum}">
+												<c:if test="${bDatas.mNum != mNum && mNum ne null}">
 													<c:if test="${bDatas.sue != 1}">
 														<button class="btn-sue" id="modal-sue" data-toggle="modal">
 															<i class="fas fa-siren"></i>신고하기
@@ -144,7 +160,7 @@
 														<td>모집 상태</td>
 													</tr>
 													<tr>
-														<td>${fn:length(aDatas)}/ ${bDatas.bCnt}</td>
+														<td>${fn:length(aDatas)}/${bDatas.bCnt}</td>
 														<td>${bDatas.bRate}</td>
 														<td>
 															<c:if test="${bDatas.bAction==0}">모집 중</c:if>
@@ -245,46 +261,55 @@
 											</div>
 											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder" style="word-break: break-all;">
 												<c:forEach var="com" items="${cDatas}">
-													<li class="media" id="${com.cNum}">
-														<div class="media-body">
-															<div class="comment-head">
-																<div class="media-title mb-1">${com.mId}</div>
-																<div class="text-time">
-																	<c:if test="${com.cCdate == null}">
-																		<fmt:formatDate value="${com.cWdate}" pattern="yy.MM.dd (E) HH:mm" />
+													<c:choose>
+														<c:when test="com.mStatus == 0">
+															<li class="media" id="${com.cNum}">
+																<div class="media-body">
+																	<div class="comment-head">
+																		<div class="media-title mb-1">${com.mId}</div>
+																		<div class="text-time">
+																			<c:if test="${com.cCdate == null}">
+																				<fmt:formatDate value="${com.cWdate}" pattern="yy.MM.dd (E) HH:mm" />
+																			</c:if>
+																			<c:if test="${com.cCdate != null}">
+																				<fmt:formatDate value="${com.cCdate}" pattern="yy.MM.dd (E) HH:mm" /> (수정됨)
 																	</c:if>
-																	<c:if test="${com.cCdate != null}">
-																		<fmt:formatDate value="${com.cCdate}" pattern="yy.MM.dd (E) HH:mm" /> (수정됨)
-																	</c:if>
-																</div>
-															</div>
-															<div class="media-description text-muted">${com.cContent}</div>
-															<!-- 작성자와 현재 로그인한 사람이 같다면 -->
-															<c:if test="${mNum == com.mNum}">
-																<div class="media-links">
-																	<a data-toggle="collapse" href="#collapseExample${com.cNum}" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
-																	<div class="bullet"></div>
-																	<a class="text-danger deleteBoard" onclick="comDel(${com.cNum});">삭제</a>
-																	<div class="collapse" id="collapseExample${com.cNum}">
-																		<div class="media-links">
-																			<a class="textCount" style="font-size: 2px;">${fn:length(com.cContent)}</a>
-																			<a class="TextTotal" style="font-size: 2px;">/300</a>
 																		</div>
-																		<div class="form-group">
-																			<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize: none;"
-																				onclick="validation(this.id)">${com.cContent}</textarea>
-																			<button class="btn btn-lg btn-submit" id="update${com.cNum}" onclick="comUpdate(${com.cNum})">
-																				<i class="fas fa-comments"></i>
-																			</button>
-																		</div>
-																		<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
-																		<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
-																		<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 																	</div>
+																	<div class="media-description text-muted">${com.cContent}</div>
+																	<!-- 작성자와 현재 로그인한 사람이 같다면 -->
+																	<c:if test="${mNum == com.mNum}">
+																		<div class="media-links">
+																			<a data-toggle="collapse" href="#collapseExample${com.cNum}" role="button" aria-expanded="false" aria-controls="collapseExample">수정</a>
+																			<div class="bullet"></div>
+																			<a class="text-danger deleteBoard" onclick="comDel(${com.cNum});">삭제</a>
+																			<div class="collapse" id="collapseExample${com.cNum}">
+																				<div class="media-links">
+																					<a class="textCount" style="font-size: 2px;">${fn:length(com.cContent)}</a>
+																					<a class="TextTotal" style="font-size: 2px;">/300</a>
+																				</div>
+																				<div class="form-group">
+																					<textarea class="form-control" name="cContent" id="c${com.cNum}" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize: none;"
+																						onclick="validation(this.id)">${com.cContent}</textarea>
+																					<button class="btn btn-lg btn-submit" id="update${com.cNum}" onclick="comUpdate(${com.cNum})">
+																						<i class="fas fa-comments"></i>
+																					</button>
+																				</div>
+																				<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
+																				<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+																				<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
+																			</div>
+																		</div>
+																	</c:if>
 																</div>
-															</c:if>
-														</div>
-													</li>
+															</li>
+														</c:when>
+														<c:otherwise>
+															<li class="media">
+																<div class="far fa-user media-description text-muted">&nbsp; 관리자에 의해 규제된 게시글입니다.</div>
+															</li>
+														</c:otherwise>
+													</c:choose>
 												</c:forEach>
 											</ul>
 										</div>
@@ -317,7 +342,7 @@
 		</div>
 	</div>
 
-	<form class="modal-part" id="modal-sue-part" action="insertSue.do" method="post" style="font-family: 'GmarketSansMedium'">
+	<form class="modal-part" id="modal-sue-part" style="font-family: 'GmarketSansMedium'">
 		<p class="modal-description">
 			신고 사유 선택해주세요.
 			<select style="visibility: hidden;">

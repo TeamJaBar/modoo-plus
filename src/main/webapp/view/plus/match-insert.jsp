@@ -23,6 +23,23 @@ select option[disabled] {
 	min-height: 300px;
 }
 
+.main-content {
+	padding-left: 15%;
+	padding-right: 15%;
+	min-width: 40%;
+}
+
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'GmarketSansMedium';
+}
+
 select option[disabled] {
 	display: none;
 }
@@ -278,7 +295,9 @@ select option[disabled] {
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h4><spring:message code="message.match-insert.cardHeader" /></h4>
+										<h4>
+											<spring:message code="message.match-insert.cardHeader" />
+										</h4>
 									</div>
 									<div class="card-body">
 										<form action="${param.type == 'update' ? 'updateBoard.do' : 'insertBoard.do'}" method="post" onsubmit="return submitBoard();">
@@ -288,41 +307,63 @@ select option[disabled] {
 											<input type="hidden" name="bLatitude" id="bLatitude" value="${bDatas.bLatitude}" />
 											<input type="hidden" name="bLongitude" id="bLongitude" value="${bDatas.bLongitude}" />
 											<div class="form-group">
-												<label><spring:message code="message.match-insert.postTitle" /></label>
+												<label>
+													<spring:message code="message.match-insert.postTitle" />
+												</label>
 												<input type="text" class="form-control title" name="bTitle" value="${bDatas.bTitle}" />
 											</div>
-											<div class="alert alert-info hidden char"><spring:message code="message.match-insert.alertChar" /></div>
+											<div class="alert alert-info hidden char">
+												<spring:message code="message.match-insert.alertChar" />
+											</div>
 											<div class="form-group">
-												<label><spring:message code="message.match-insert.personnel" /></label>
+												<label>
+													<spring:message code="message.match-insert.personnel" />
+												</label>
 												<div class="input-group">
 													<div class="input-group mb-2">
 														<input type="text" class="form-control text-right bCnt" id="inlineFormInputGroup2" name="bCnt" value="${bDatas.bCnt}" />
 														<div class="input-group-append">
-															<div class="input-group-text"><spring:message code="message.match-insert.person" /></div>
+															<div class="input-group-text">
+																<spring:message code="message.match-insert.person" />
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="alert alert-info hidden max"><spring:message code="message.match-insert.alertMax" /></div>
-											<div class="alert alert-info hidden num"><spring:message code="message.match-insert.alertNum" /></div>
+											<div class="alert alert-info hidden max">
+												<spring:message code="message.match-insert.alertMax" />
+											</div>
+											<div class="alert alert-info hidden num">
+												<spring:message code="message.match-insert.alertNum" />
+											</div>
 											<div class="form-group">
-												<label><spring:message code="message.match-insert.time" /></label>
+												<label>
+													<spring:message code="message.match-insert.time" />
+												</label>
 												<div class="input-group">
 													<input type="datetime-local" id="date-local" class="form-control date" name="date" value="${bDatas.bDate}" />
 												</div>
 											</div>
-											<div class="alert alert-info hidden datetime"><spring:message code="message.match-insert.alertDatetime" /></div>
+											<div class="alert alert-info hidden datetime">
+												<spring:message code="message.match-insert.alertDatetime" />
+											</div>
 											<div class="form-group">
-												<label><spring:message code="message.match-insert.location" /></label>
+												<label>
+													<spring:message code="message.match-insert.location" />
+												</label>
 												<div class="input-group">
 													<input type="text" id="address" class="form-control" name="bAddress" value="${bDatas.bAddress}" readonly />
 													<div class="input-group-append">
-														<button type="button" class="btn btn-primary" id="btn-map" data-toggle="modal" data-target="#mapModal"><spring:message code="message.match-insert.mapSearch" /></button>
+														<button type="button" class="btn btn-primary" id="btn-map" data-toggle="modal" data-target="#mapModal">
+															<spring:message code="message.match-insert.mapSearch" />
+														</button>
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label><spring:message code="message.match-insert.ability" /></label>
+												<label>
+													<spring:message code="message.match-insert.ability" />
+												</label>
 												<div class="input-group">
 													<div class="selectgroup w-100">
 														<label class="selectgroup-item">
@@ -345,7 +386,9 @@ select option[disabled] {
 												</div>
 											</div>
 											<div class="form-group">
-												<label><spring:message code="message.match-insert.contents" /></label>
+												<label>
+													<spring:message code="message.match-insert.contents" />
+												</label>
 												<textarea class="form-control" id="editor" name="bContent">${bDatas.bContent}</textarea>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 												<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
@@ -353,16 +396,23 @@ select option[disabled] {
 												<script>
 													ClassicEditor.create(document.querySelector('#editor'), {
 														language : "ko",
+														removePlugins: ['MediaEmbed'],
 														ckfinder : {
 															uploadUrl : 'uploadImg.do'
 														}
 													});
 												</script>
 											</div>
-											<div class="alert alert-info hidden blankMsg"><spring:message code="message.match-insert.alertblankMsg" /></div>
+											<div class="alert alert-info hidden blankMsg">
+												<spring:message code="message.match-insert.alertblankMsg" />
+											</div>
 											<div class="card-footer text-right">
-												<button type="button" class="btn btn-secondary" onclick="history.go(-1)"><spring:message code="message.match-insert.cancel" /></button>
-												<button type="submit" class="btn btn-primary"><spring:message code="message.match-insert.complete" /></button>
+												<button type="button" class="btn btn-secondary" onclick="history.go(-1)">
+													<spring:message code="message.match-insert.cancel" />
+												</button>
+												<button type="submit" class="btn btn-primary">
+													<spring:message code="message.match-insert.complete" />
+												</button>
 											</div>
 										</form>
 									</div>
@@ -383,7 +433,9 @@ select option[disabled] {
 						<div class="input-group">
 							<input type="text" id="keyword" class="form-control" placeholder="<spring:message code='message.match-insert.enterLocation' />">
 							<div class="input-group-append">
-								<button type="submit" class="btn btn-primary"><spring:message code="message.match-insert.mapSearch" /></button>
+								<button type="submit" class="btn btn-primary">
+									<spring:message code="message.match-insert.mapSearch" />
+								</button>
 							</div>
 						</div>
 					</form>
@@ -400,30 +452,14 @@ select option[disabled] {
 					</div>
 				</div>
 				<div class="modal-footer bg-whitesmoke br">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"><spring:message code="message.match-insert.cancel" /></button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+						<spring:message code="message.match-insert.cancel" />
+					</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<style>
-.main-content {
-	padding-left: 15%;
-	padding-right: 15%;
-	min-width: 40%;
-}
-
-@font-face {
-	font-family: 'GmarketSansMedium';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: 'GmarketSansMedium';
-}
-</style>
 	<!-- General JS Scripts -->
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	<script src="../assets/modules/jquery.min.js"></script>
