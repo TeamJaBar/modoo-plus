@@ -619,6 +619,15 @@
 	border: none;
 	outline: none;
 }
+
+.modal-footer {
+	padding: 0.75rem 1.25rem;
+}
+
+.modal-header h5.modal-title {
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-weight: 500;
+}
 </style>
 
 <!-- General CSS Files -->
@@ -774,7 +783,9 @@
 	<div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header"></div>
+				<div class="modal-header">
+					<h5 class="modal-title">지역 선택</h5>
+				</div>
 				<div class="modal-body">
 					<div class="form-group">
 						<c:forEach var="address" items="${localList}">
@@ -784,8 +795,8 @@
 							</div>
 						</c:forEach>
 					</div>
-					<div class="card-footer text-right">
-						<button type="button" class="btn btn-icon btn-secondary" data-dismiss="modal">취소</button>
+					<div class="modal-footer text-right">
+						<button type="button" class="btn btn-icon btn-secondary" style="width: auto" data-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-icon btn-primary" id="sort-button">확인</button>
 					</div>
 				</div>
@@ -1050,6 +1061,34 @@
 
 	});
 	</script>
+
+	<script>
+	<!-- 지역 선택검색을 위한 script -->
+	$(document).ready(function() {
+	    $('#sort-button').click(function() {
+	        var selectedValue = $('input[name="exampleRadios"]:checked').val();
+	        // 선택된 라디오 버튼의 값을 가져옵니다.
+	
+	        $.ajax({
+	            url: 'your_controller_url', // 컨트롤러 URL을 입력합니다.
+	            type: 'POST', // POST 방식으로 전송합니다.
+	            data: { selectedValue: selectedValue }, // 선택된 라디오 버튼의 값을 전송합니다.
+	            success: function(data) {
+	                // 성공적으로 전송된 경우 실행될 코드를 입력합니다.
+	                console.log('전송 성공');
+	
+	                // 모달 창을 닫습니다.
+	                $('#exampleModal').modal('hide');
+	            },
+	            error: function() {
+	                // 전송 실패 시 실행될 코드를 입력합니다.
+	                console.log('전송 실패');
+	            }
+	        });
+	    });
+	});
+</script>
+
 
 	<!-- Page Specific JS File -->
 
