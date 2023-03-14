@@ -107,8 +107,8 @@ $("#modal-sue").fireModal({
 	onFormSubmit: function(modal, e, form) {
 		// Form Data
 		let form_data = $(e.target).serialize();
-		console.log(form_data)
-
+		console.log(form_data);
+		location.href = "insertSue.do?"+form_data;
 		// DO AJAX HERE
 		let fake_ajax = setTimeout(function() {
 			form.stopProgress();
@@ -127,9 +127,7 @@ $("#modal-sue").fireModal({
 			text: '신고하기',
 			submit: true,
 			class: 'btn-modal btn-shadow',
-			handler: function(e) {
-				let form_data = $(e.target).serialize();
-				location.href = "insertSue.do?"+form_data;
+			handler: function(modal) {
 			}
 		}
 	]
