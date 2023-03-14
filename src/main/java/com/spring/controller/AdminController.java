@@ -1,11 +1,13 @@
 package com.spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.spring.biz.board.BoardService;
@@ -37,7 +39,7 @@ public class AdminController {
 	private SueService sueService;
 	@Autowired
 	private PageService pageService;
-	
+
 	private static final int DEFAULT_PAGENUM = 1;
 	private static final int DEFAULT_AMOUNT = 10;
 
@@ -119,8 +121,9 @@ public class AdminController {
 	// 게시글 관리 페이지 이동
 	@RequestMapping(value = "/adPlusMain.do")
 	public String selsctAllBoard(BoardVO bvo, Model model) {
-		System.out.println(boardService.selectAllManage(bvo));
-		model.addAttribute("bDatas", boardService.selectAllManage(bvo));
+        String bDatas = new Gson().toJson(boardService.selectAllManage(bvo));
+        System.out.println("bDatas 로그 : " + bDatas);
+        model.addAttribute("bDatas", bDatas);
 		return "/view/plus/admin-board.jsp";
 	}
 
@@ -143,10 +146,9 @@ public class AdminController {
 		if (svo.getPageNum() == 0) {
 			svo.setPageNum(DEFAULT_PAGENUM);
 		}
-		
+
 		int total = pageService.getSueTotal(svo); // 전체게시글수
 		pvo = new PageVO(svo.getPageNum(), total);
-		
 
 		model.addAttribute("pageVO", pvo);
 		model.addAttribute("sueCount", sueService.selectCount(svo));
