@@ -8,5 +8,5 @@
 	</c:when>
 	<c:when test="${score<500 && score>199}">초보</c:when>
 	<c:when test="${score<1000 && score>499}">고수</c:when>
-	<c:when test="${score>5000}">빡고수</c:when>
+	<c:when test="${score>5000}">초고수</c:when>
 </c:choose>

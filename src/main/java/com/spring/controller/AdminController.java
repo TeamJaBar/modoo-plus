@@ -41,7 +41,7 @@ public class AdminController {
 	private SueService sueService;
 	@Autowired
 	private PageService pageService;
-	
+
 	private static final int DEFAULT_PAGENUM = 1;
 	private static final int DEFAULT_AMOUNT = 10;
 
@@ -123,8 +123,7 @@ public class AdminController {
 	// 게시글 관리 페이지 이동
 	@RequestMapping(value = "/adPlusMain.do")
 	public String selsctAllBoard(BoardVO bvo, Model model) {
-		System.out.println(boardService.selectAllManage(bvo));
-		model.addAttribute("bDatas", boardService.selectAllManage(bvo));
+        model.addAttribute("bDatas", boardService.selectAllManage(bvo));
 		return "/view/plus/admin-board.jsp";
 	}
 
@@ -147,10 +146,9 @@ public class AdminController {
 		if (svo.getPageNum() == 0) {
 			svo.setPageNum(DEFAULT_PAGENUM);
 		}
-		
+
 		int total = pageService.getSueTotal(svo); // 전체게시글수
 		pvo = new PageVO(svo.getPageNum(), total);
-		
 
 		model.addAttribute("pageVO", pvo);
 		model.addAttribute("sueCount", sueService.selectCount(svo));
