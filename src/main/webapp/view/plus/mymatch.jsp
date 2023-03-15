@@ -89,7 +89,8 @@ body {
 }
 
 .modal-radio {
-	margin : 10px;
+	margin: auto;
+    margin-right: 10px
 }
 
 .modal-radio>input[type="radio"] {
@@ -114,6 +115,17 @@ body {
 #modal-box>ul>li>input[type="text"]:focus {
 	outline: none;
 }
+
+#modal-box {
+	margin-top:1rem;
+}
+
+#modal-box .media-body {
+	margin:auto;
+	flex:0.9;
+}
+
+
 </style>
 </head>
 
@@ -396,11 +408,11 @@ body {
 					                		+ '<div class=modal-radio>'
 					                		+ '<input type="radio" name="mNum" value="'+ item.mNum +'">'
 					                		+ '</div>'
-											+ '<div class="media-body">'
-											+ '<div class="media-title text-center">'
+											+ '<div class="media-body ml-2">'
+											+ '<div class="media-title">'
 											+ item.mId
 											+ '</div>'
-											+ '<div class="text-job text-center text-muted">'
+											+ '<div class="text-job text-muted">'
 											+ exp(item.score)
 											+ '</div>'
 											+ '</div>'
