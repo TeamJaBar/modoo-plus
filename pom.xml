@@ -14,12 +14,6 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
-	<!-- mail API -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-		</dependency>
 		<!-- JDBC : MySQL -->
 		<dependency>
 			<groupId>com.mysql</groupId>
