@@ -9,7 +9,7 @@ public class SueVO {
 	private int scNum; // 신고 카테고리(FK)
 	private Date sDate; // 신고 일자
 	private String sResult; // 신고 처리 결과
-	private Date srDate;//신고처리 일자
+	private Date srDate;// 신고처리 일자
 	// JAVA에서만 저장용으로 사용되는 데이터
 	private String bTitle; // 제목
 	private String mId; // 신고한 사람 아이디
@@ -19,24 +19,17 @@ public class SueVO {
 	private String bStatus; // 신고처리
 	private String bContent; // 내용
 	private String scName; // 신고 카테고리 분류명
-	private String mStatus; //상태(기본/정지)
-	private String smId;//신고 당한 사람의 ID
+	private String mStatus; // 상태(기본/정지)
+	private String smId;// 신고 당한 사람의 ID
 	private int smNum;// 신고 당한 사람
 	private int aCnt; // 전체 신고글 갯수
 	private int nCnt; // 미처리 신고글 갯수
 	private int cCnt; // 처리 신고글 갯수
-	private int pageNum; 
+	private int pageNum;
 	private int amount;
 	private int score;
-	
-	
-	public Date getSrDate() {
-		return srDate;
-	}
 
-	public void setSrDate(Date srDate) {
-		this.srDate = srDate;
-	}
+
 
 	public String getSmId() {
 		return smId;
@@ -222,15 +215,13 @@ public class SueVO {
 		this.mStatus = mStatus;
 	}
 
-	@Override
-	public String toString() {
-		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate
-				+ ", sResult=" + sResult + ", srDate=" + srDate + ", bTitle=" + bTitle + ", mId=" + mId + ", mName="
-				+ mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent
-				+ ", scName=" + scName + ", mStatus=" + mStatus + ", smId=" + smId + ", smNum=" + smNum + ", aCnt="
-				+ aCnt + ", nCnt=" + nCnt + ", cCnt=" + cCnt + ", pageNum=" + pageNum + ", amount=" + amount
-				+ ", score=" + score + "]";
+	public Date getSrDate() {
+		return srDate;
 	}
 
-	
+	public void setSrDate(Date srDate) {
+		this.srDate = srDate;
+	}
+
+
 }
