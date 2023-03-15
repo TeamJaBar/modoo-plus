@@ -7,7 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>Layout &rsaquo; Top Navigation &mdash; Stisla</title>
+<title>보드매칭 &rsaquo; 메인페이지</title>
+<!-- 기존의 head 내용 -->
 
 
 <style>
@@ -634,13 +635,13 @@
 }
 
 .modal-body .form-group {
-	padding-left:25px;
-	margin-bottom:10px;
-	margin-top:10px;
+	padding-left: 25px;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .modal-body .form-group .form-check {
-	margin-bottom:12px !important;
+	margin-bottom: 12px !important;
 }
 
 .modal-body input[type="radio"] {
@@ -663,12 +664,12 @@
 }
 
 .navbar-bg {
-	height:80px !important;
+	height: 80px !important;
 }
 
 .navbar {
-	height:80px !important;
-	padding:0 100px 0 100px !important;
+	height: 80px !important;
+	padding: 0 100px 0 100px !important;
 }
 </style>
 
@@ -751,63 +752,65 @@
 									</div>
 								</div>
 							</div>
-							<div id="board-list">
-								<c:forEach var="board" items="${boardList}">
-									<a href="boardDetail.do?bNum=${board.bNum}" fg-component="match-list-item">
-										<div class="contents-box">
-											<div class="left-section">
-												<div class="head">
-													<div class="tags">
-														<div class="tag">
-															<span class="text">${board.bLocal}</span>
+							<div id="scroll-container">
+								<div id="board-list">
+									<c:forEach var="board" items="${boardList}">
+										<a href="boardDetail.do?bNum=${board.bNum}" class="boardList-item" fg-component="match-list-item">
+											<div class="contents-box">
+												<div class="left-section">
+													<div class="head">
+														<div class="tags">
+															<div class="tag">
+																<span class="text">${board.bLocal}</span>
+															</div>
 														</div>
-													</div>
-													<!--<div  class="tags rate">
+														<!--<div  class="tags rate">
 														<div  class="tag">
 															<span  class="text">${board.bRate}</span>
 														</div>
 													</div>-->
-												</div>
-												<div class="body">
-													<div class="left-box">
-														<div class="date">
-															<span class="text">
-																<fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" />
-															</span>
-														</div>
-														<div class="title">
-															<span class="text">${board.bTitle}</span>
-															<div class="informations">
-																<div class="information">
-																	<span class="text">${board.bCnt}명</span>
-																</div>
-																<div class="information">
-																	<span class="text">${board.bRate}</span>
+													</div>
+													<div class="body">
+														<div class="left-box">
+															<div class="date">
+																<span class="text">
+																	<fmt:formatDate value="${board.bDate}" pattern="yy.MM.dd (E) HH:mm" />
+																</span>
+															</div>
+															<div class="title">
+																<span class="text">${board.bTitle}</span>
+																<div class="informations">
+																	<div class="information">
+																		<span class="text">${board.bCnt}명</span>
+																	</div>
+																	<div class="information">
+																		<span class="text">${board.bRate}</span>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
+												<div class="right-section">
+													<c:if test="${board.bAction == 0}">
+														<div class="btn btn-submit">
+															모집중
+															<p>${board.aCnt}/${board.bCnt}</p>
+															<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
+														</div>
+													</c:if>
+													<c:if test="${board.bAction == 1}">
+														<div class="btn btn-secondary">
+															모집완료
+															<p>${board.aCnt}/${board.bCnt}</p>
+															<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
+														</div>
+													</c:if>
+												</div>
 											</div>
-											<div class="right-section">
-												<c:if test="${board.bAction == 0}">
-													<div class="btn btn-submit">
-														모집중
-														<p>${board.aCnt}/${board.bCnt}</p>
-														<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
-													</div>
-												</c:if>
-												<c:if test="${board.bAction == 1}">
-													<div class="btn btn-secondary">
-														모집완료
-														<p>${board.aCnt}/${board.bCnt}</p>
-														<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
-													</div>
-												</c:if>
-											</div>
-										</div>
-									</a>
-								</c:forEach>
+										</a>
+									</c:forEach>
+								</div>
 							</div>
 						</div>
 				</section>
@@ -860,6 +863,7 @@
 	<!-- JS Libraies -->
 	<!-- 슬릭 플러그인을 위한 CDN주소 -->
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
 
 	<script>																																
 	<!-- 슬릭 플러그인을 위한 script -->
@@ -1186,6 +1190,21 @@
 	    });
 	});
 </script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	  $('#board-list').infiniteScroll({
+	    path: function() {
+	      return $('.pagination__next').attr('href');
+	    },
+	    append: '.boardList-item',
+	    history: false,
+	    scrollThreshold: 0.5,
+	    status: '.page-load-status',
+	    button: '.view-more-button',
+	    debug: true,
+	  });
+	});
+	</script>
 
 
 	<!-- Page Specific JS File -->
@@ -1195,6 +1214,7 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<script src="../assets/js/scripts.js"></script>
 	<script src="../assets/js/custom.js"></script>
+
 
 </body>
 </html>
