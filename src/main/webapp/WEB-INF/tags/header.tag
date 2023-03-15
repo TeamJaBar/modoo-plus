@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
 .navbar .nav-link.nav-link-user img {
-	background-color:white;
+	background-color: white;
 }
 </style>
 <!-- 테그 연결해 보기!!!!!! -->
@@ -19,18 +19,18 @@
 		</button>
 		<div class="dropdown-menu">
 			<%--<c:if test="${not empty mId}">--%>
-				<c:choose>
-					<c:when test="${mId == 'admin'}">
-						<a class="dropdown-item" href="adPlusMain.do">글 관리</a>
-						<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
-					</c:when>
-					<c:otherwise>
-						<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="mypage.do?sortBy=1">내가 작성한 글</a>
-						<a class="dropdown-item" href="myBoard.do?sortBy=1">내가 매칭한 목록</a>
-					</c:otherwise>
-				</c:choose>
+			<c:choose>
+				<c:when test="${mId == 'admin'}">
+					<a class="dropdown-item" href="adPlusMain.do">글 관리</a>
+					<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
+				</c:when>
+				<c:otherwise>
+					<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="mypage.do?sortBy=1">내가 작성한 글</a>
+					<a class="dropdown-item" href="myBoard.do?sortBy=1">내가 매칭한 목록</a>
+				</c:otherwise>
+			</c:choose>
 			<%--</c:if>--%>
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do">모두의 보드</a>
@@ -40,10 +40,10 @@
 		</div>
 	</div>
 	<!-- 검색창 -->
-	<form class="form-inline ml-auto">
+	<form class="form-inline ml-auto" action="searchBoard.do" method="get">
 		<ul class="navbar-nav">
 			<li>
-				<a href="searchBoard.do" data-toggle="search" class="nav-link nav-link-lg d-sm-none">
+				<a href="board-list.do" class="nav-link nav-link-lg d-sm-none">
 					<i class="fas fa-search"></i>
 				</a>
 			</li>
