@@ -40,7 +40,7 @@
 		</div>
 	</div>
 	<!-- 검색창 -->
-	<form class="form-inline ml-auto" action="searchBoard.do" method="get">
+	<form class="form-inline ml-auto" action="searchHeader.do" method="get">
 		<ul class="navbar-nav">
 			<li>
 				<a href="board-list.do" class="nav-link nav-link-lg d-sm-none">
