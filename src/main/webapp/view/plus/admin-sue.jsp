@@ -34,6 +34,9 @@
 </script>
 <!-- /END GA -->
 <style>
+.table:not(.table-sm):not(.table-md):not(.dataTable) td, .table:not(.table-sm):not(.table-md):not(.dataTable) th{
+	padding: 0 10px;
+}
 .empty {
 	padding-top: 30px !important;
 }
@@ -118,12 +121,12 @@ body {
 									<div class="card-body" id="a_box">
 										<div class="table-responsive">
 											<table class="table table-striped" id="sue-table">
-												<tr>
-													<th>글 번호</th>
-													<th>제목</th>
-													<th>작성자</th>
-													<th>신고날짜</th>
-													<th>처리상태</th>
+												<tr class="text-center">
+													<th width="5%">글 번호</th>
+													<th width="20%">제목</th>
+													<th width="12%">작성자</th>
+													<th width="13%">신고날짜</th>
+													<th width="8%">처리상태</th>
 												</tr>
 												<!-- 신고 게시글 목록 -->
 												<c:if test="${empty sue}">
@@ -137,18 +140,18 @@ body {
 												<c:if test="${not empty sue}">
 													<c:forEach items="${sue}" var="v">
 														<tr>
-															<td>${v.sNum}</td>
-															<td>
+															<td class="text-center" width="5%">${v.sNum}</td>
+															<td width="20%">
 																<a href="selectSue.do?sNum=${v.sNum}">${v.bTitle}</a>
 															</td>
-															<td>
+															<td width="12%">
 																<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
 																<div class="d-inline-block ml-1">${v.mId}</div>
 															</td>
-															<td>
+															<td class="text-center" width="13%">
 																<fmt:formatDate value="${v.sDate}" pattern="yy-MM-dd HH:mm" />
 															</td>
-															<td>
+															<td class="text-center" width="8%">
 																<c:choose>
 																	<c:when test="${v.sResult == 0}">
 																		<div class="badge badge-danger">미처리</div>
@@ -235,12 +238,12 @@ body {
 			$list.empty();
 			
 			if (sue.length > 0) {
-				var $tr_header = $("<tr>");
-				var $th1 = $("<th>").text("글 번호");
-				var $th2 = $("<th>").text("제목");
-				var $th3 = $("<th>").text("작성자");
-				var $th4 = $("<th>").text("신고날짜");
-				var $th5 = $("<th>").text("처리상태");
+				var $tr_header = $("<tr>").addClass("text-center");
+				var $th1 = $("<th>").text("글 번호").attr("width","5%");
+				var $th2 = $("<th>").text("제목").attr("width","20%");
+				var $th3 = $("<th>").text("작성자").attr("width","12%");
+				var $th4 = $("<th>").text("신고날짜").attr("width","13%");
+				var $th5 = $("<th>").text("처리상태").attr("width","8%");
 				$tr_header.append($th1).append($th2).append($th3).append($th4).append($th5);
 				$list.append($tr_header);
 				
@@ -254,11 +257,11 @@ body {
 	                } else {
 	                    var $btn = $('<div>').addClass('badge badge-primary').html('처리완료');
 	                }
-					var $td1 = $("<td>").append(value.sNum);
-					var $td2 = $("<td>").append($a);
-					var $td3 = $("<td>").append($img).append($mId);
-					var $td4 = $("<td>").append(dateFormat(new Date(value.sDate)));
-					var $td5 = $("<td>").append($btn);
+					var $td1 = $("<td>").attr("width","5%").addClass("text-center").append(value.sNum);
+					var $td2 = $("<td>").attr("width","20%").append($a);
+					var $td3 = $("<td>").attr("width","12%").append($img).append($mId);
+					var $td4 = $("<td>").attr("width","13%").addClass("text-center").append(dateFormat(new Date(value.sDate)));
+					var $td5 = $("<td>").attr("width","8%").addClass("text-center").append($btn);
 					var $tr = $("<tr>");
 					$tr.append($td1).append($td2).append($td3).append($td4).append($td5);
 					$list.append($tr);
@@ -308,7 +311,6 @@ body {
 						url : 'adMoveSue.do',
 						success : function(result) {
 							console.log(result);
-							console.log(result);
 							var pageVO = JSON.parse(result.pageVO);
 							var sue = JSON.parse(result.sue);
 							console.log("------pageVO-------");
@@ -337,7 +339,6 @@ body {
 						},
 						success : function(result) {
 							console.log(result);
-							console.log(result);
 							var pageVO = JSON.parse(result.pageVO);
 							var sue = JSON.parse(result.sue);
 							console.log("------pageVO-------");
@@ -364,7 +365,6 @@ body {
 							sResult : sResult
 						},
 						success : function(result) {
-							console.log(result);
 							console.log(result);
 							var pageVO = JSON.parse(result.pageVO);
 							var sue = JSON.parse(result.sue);
