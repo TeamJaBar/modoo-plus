@@ -254,7 +254,7 @@ select option[disabled] {
 <!-- /END GA -->
 </head>
 
-<body>
+<body onLoad="intervalExcute();form.keyword.focus()">
 	<div id="app">
 		<div class="main-wrapper main-wrapper-1">
 
@@ -429,9 +429,10 @@ select option[disabled] {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<form onsubmit="searchPlaces(); return false;">
+					<form name="form" onsubmit="searchPlaces(); return false;">
 						<div class="input-group">
-							<input type="text" id="keyword" class="form-control" placeholder="<spring:message code='message.match-insert.enterLocation' />">
+							<input type="text" id="keyword" name="keyword" class="form-control" placeholder="<spring:message code='message.match-insert.enterLocation' />">
+							<input type="hidden" name="korean" />
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-primary">
 									<spring:message code="message.match-insert.mapSearch" />
@@ -532,12 +533,14 @@ select option[disabled] {
 				displayPagination(pagination);
 
 			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
-				alert('검색 결과가 존재하지 않습니다.');
-				return;
+				if(confirm("검색 결과가 존재하지 않습니다.\n'" + form.korean.value + "'으로 변경하여 재검색할까요?")){
+					document.getElementById('keyword').value = form.korean.value;
+					searchPlaces();
+				} else {
+					return;
+				}
 
 			} else if (status === kakao.maps.services.Status.ERROR) {
-
 				alert('검색 결과 중 오류가 발생했습니다.');
 				return;
 
@@ -779,6 +782,169 @@ select option[disabled] {
 				return true;
 			}
 		}
+		
+		  /**
+		    * 주기적 함수 실행
+		    * 영어를 한글로 바꿔주는 englishToKorean() 함수를
+		    * 100/1 초 간격으로 재실행
+		    */
+		  function intervalExcute()
+		  {
+		          setInterval( "englishToKorean()", 10 );
+		  }
+		  
+		  /**
+		    * 영어를 한글로...
+		    */
+		  function englishToKorean()
+		  {
+				  form.korean.value = "";
+				  
+		          // 입력한 영문 텍스트 추출
+		          var text = form.keyword.value;
+		  
+		          // 변수 초기화
+		          var initialCode = 0;
+		          var medialCode  = 0;
+		          var finalCode   = 0;
+		  
+		          // 입력한 문자열 길이 추출
+		          var textLength = text.length;
+		  
+		          for( var idx = 0; idx < textLength; idx++ )
+		          {
+		  
+		                  // 초성 코드 추출
+		                  initialCode = getCode( 'initial', text.substring( idx, idx + 1 ) );
+		                  idx++; // 다음 문자로.
+		  
+		                  /**
+		                    * 현재 문자와 다음 문자를 합한 문자열의 중성 코드 추출
+		                    * ㅞ ( np ) 또는 ㄼ ( fq ) 같은 두개의 문자가 들어가는 것을 체크하기 위함
+		                    */
+		                  tempMedialCode = getCode( 'medial', text.substring( idx, idx + 2 ) );
+		  
+		                  // 코드 값이 있을 경우
+		                  if( tempMedialCode != -1 )
+		                  {
+		                          // 코드 값을 저장하고 인덱스가 다다음 문자열을 가르키게 한다.
+		                          medialCode = tempMedialCode;
+		                          idx += 2;
+		                  }
+		                  else // 코드값이 없을 경우 하나의 문자에 대한 중성 코드 추출
+		                  {
+		                          medialCode = getCode( 'medial', text.substring( idx, idx + 1 ) );
+		                          idx++;
+		                  }
+		  
+		                  // 현재 문자와 다음 문자를 합한 문자열의 종성 코드 추출
+		                  tempFinalCode = getCode( 'final', text.substring( idx, idx + 2 ) );
+		  
+		                  // 코드 값이 있을 경우
+		                  if( tempFinalCode != -1 )
+		                  {
+		                          // 코드 값을 저장한다.
+		                          finalCode = tempFinalCode;
+		  
+		                          // 그 다음의 중성 문자에 대한 코드를 추출한다.
+		                          tempMedialCode = getCode( 'medial', text.substring( idx + 2, idx + 3 ) );
+		  
+		                          // 코드 값이 있을 경우
+		                          if( tempMedialCode != -1 )
+		                          {
+		                                  // 종성 코드 값을 저장한다.
+		                                  finalCode = getCode( 'final', text.substring( idx, idx + 1 ) );
+		                          }
+		                          else
+		                          {
+		                                  idx++;
+		                          }
+		                  }
+		                  else // 코드 값이 없을 경우
+		                  {
+		                          // 그 다음의 중성 문자에 대한 코드 추출
+		                          tempMedialCode = getCode( 'medial', text.substring( idx + 1, idx + 2 ) );
+		  
+		                          // 그 다음에 중성 문자가 존재할 경우
+		                          if( tempMedialCode != -1 )
+		                          {
+		                                  // 종성 문자는 없음.
+		                                  finalCode = 0;
+		                                  idx--;
+		                          }
+		                          else
+		                          {
+		                                  // 종성 문자 추출
+		                                  finalCode = getCode( 'final', text.substring( idx, idx + 1 ) );
+		  
+		                                  if( finalCode == -1 ) finalCode = 0;
+		                          }
+		                  }
+		  
+		                  // 추출한 초성 문자 코드, 중성 문자 코드, 종성 문자 코드를 합한 후 변환하여 출력
+		                  result = String.fromCharCode( 0xAC00 + initialCode + medialCode + finalCode );
+		                  form.korean.value += result;
+		          }
+		  }
+		  
+		  /**
+		    * 해당 문자에 따른 코드를 추출한다.
+		    * @param type 초성 : chosung, 중성 : jungsung, 종성 : jongsung 구분
+		    * @param char 해당 문자
+		    */
+		  function getCode( type, char )
+		  {
+		          // 초성
+		          var initial = "rRseEfaqQtTdwWczxvg";
+		         
+		          // 중성
+		          var medial = new Array( 'k', 'o', 'i', 'O', 'j', 'p', 'u', 'P', 'h', 'hk', 'ho', 'hl', 'y', 'n', 'nj', 'np', 'nl', 'b', 'm', 'ml', 'l' );
+		  
+		          // 종성
+		          var final = new Array( 'r', 'R', 'rt', 's', 'sw', 'sg', 'e', 'f', 'fr', 'fa', 'fq', 'ft', 'fx', 'fv', 'fg', 'a', 'q', 'qt', 't', 'T', 'd', 'w', 'c', 'z', 'x', 'v', 'g' );
+		  
+		          var returnCode; // 리턴 코드 저장 변수
+		  
+		          var isFind = false; // 문자를 찾았는지 체크 변수
+		  
+		          if( type == 'initial' )
+		          {
+		                  returnCode = initial.indexOf( char ) * 21 * 28;
+		                  isFind = true;
+		          }
+		          else if( type == 'medial' )
+		          {
+		                  for( var i = 0; i < medial.length; i++ )
+		                  {
+		                          if( medial[i] == char )
+		                          {
+		                                  returnCode = i * 28;
+		                                  isFind = true;
+		                                  break;
+		                          }
+		                  }
+		          }
+		          else if( type == 'final' )
+		          {
+		                  for( var i = 0; i < final.length; i++ )
+		                  {
+		                          if( final[i] == char )
+		                          {
+		                                  returnCode = i + 1;
+		                                  isFind = true;
+		                                  break;
+		                          }
+		                  }
+		          }
+		          else
+		          {
+		                  alert("잘못된 타입입니다.");
+		          }
+		  
+		          if( isFind == false ) returnCode = -1; // 값을 찾지 못했을 경우 -1 리턴
+		  
+		          return returnCode;
+		  }
 	</script>
 
 	<!-- Template JS File -->
