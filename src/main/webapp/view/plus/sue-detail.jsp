@@ -55,7 +55,7 @@
 body {
 	font-family: 'GmarketSansMedium';
 }
-.match-content img {
+.card-body img {
 	max-width: 100%;
 	object-fit: cover;
 }
@@ -97,8 +97,6 @@ body {
 										게시일 : <fmt:formatDate value="${sue.bWdate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
 										신고일 : <fmt:formatDate value="${sue.sDate}" pattern="yy-MM-dd HH:mm" />
-										<div class="bullet"></div>
-										신고처리일 : <fmt:formatDate value="${sue.srDate}" pattern="yy-MM-dd HH:mm" />
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?"
 											data-confirm-yes="location.href='adSueMem.do?sNum=${sue.sNum}&mNum=${sue.mNum}'">신고취소</button>
 										<div class="btn-group mb-2" style="float: right;">
