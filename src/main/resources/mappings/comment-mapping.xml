@@ -25,5 +25,6 @@
     	<result property="mId" column="MID"/> 
     	<result property="mNum" column="MNUM"/>
     	<result property="cCdate" column="CCDATE"/>
+    	<result property="mStatus" column="MSTATUS"/>
     	</resultMap>
 </mapper>
