@@ -264,7 +264,7 @@
 											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder" style="word-break: break-all;">
 												<c:forEach var="com" items="${cDatas}">
 													<c:choose>
-														<c:when test="com.mStatus == 0">
+														<c:when test="${com.mStatus == '0'}">
 															<li class="media" id="${com.cNum}">
 																<div class="media-body">
 																	<div class="comment-head">
