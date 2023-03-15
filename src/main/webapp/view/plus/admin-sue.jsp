@@ -174,7 +174,7 @@ body {
 													<ul class="pagination mb-0" id="pagination">
 														<!-- 1. 페이지번호 처리 -->
 														<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
-															<li class="page-item active">
+															<li class="page-item ${param.pageNum == num || param.pageNum == null ? 'active' : ''}">
 																<c:if test="${param.sResult != null}">
 																	<a class="page-link" href="adMoveSue.do?pageNum=${num}&sResult=${param.sResult}">${num}</a>
 																</c:if>
