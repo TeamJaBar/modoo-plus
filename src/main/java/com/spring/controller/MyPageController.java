@@ -169,12 +169,12 @@ public class MyPageController {
 	}
 
 	// 검색
-	@RequestMapping(value = { "/searchBoard.do", "/sortBoard.do" }, method=RequestMethod.POST)
+	@RequestMapping(value = { "/searchBoard.do", "/sortBoard.do" })
 	public @ResponseBody List<BoardVO> sort(BoardVO bvo, Model model) {
 		return boardService.selectAllMain(bvo);
 	}
 	
-	@RequestMapping(value = "/searchBoard.do", method=RequestMethod.POST)
+	@RequestMapping(value = "/searchHeader.do")
 	public String search (BoardVO bvo, Model model) {
 		model.addAttribute("boardList", boardService.selectAllMain(bvo));
 		model.addAttribute("localList", boardService.selectAllLocal(bvo));
