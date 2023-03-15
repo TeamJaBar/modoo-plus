@@ -18,7 +18,7 @@
 			<span class="sr-only">Toggle Dropdown</span>
 		</button>
 		<div class="dropdown-menu">
-			<%--<c:if test="${not empty mId}">--%>
+			<c:if test="${not empty mId}">
 			<c:choose>
 				<c:when test="${mId == 'admin'}">
 					<a class="dropdown-item" href="adPlusMain.do">글 관리</a>
@@ -31,7 +31,7 @@
 					<a class="dropdown-item" href="myBoard.do?sortBy=1">내가 매칭한 목록</a>
 				</c:otherwise>
 			</c:choose>
-			<%--</c:if>--%>
+			</c:if>
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do">모두의 보드</a>
 			<div class="dropdown-divider"></div>

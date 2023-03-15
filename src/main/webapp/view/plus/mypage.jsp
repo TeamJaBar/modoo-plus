@@ -189,7 +189,7 @@ body {
 												<nav class="d-inline-block">
 													<ul class="pagination mb-0">
 														<c:if test="${pageVO.prev}">
-															<li class="page-item disabled">
+															<li class="page-item">
 																<a class="page-link" href="mypage.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
 																	<span aria-hidden="true">&laquo;</span>
 																	<span class="sr-only">Previous</span>
@@ -198,7 +198,7 @@ body {
 														</c:if>
 														<!-- 1. 페이지번호 처리 -->
 														<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
-															<li class="page-item active">
+															<li class="page-item ${param.pageNum == num || param.pageNum == null ? 'active' : ''}">
 																<a class="page-link" href="mypage.do?pageNum=${num}">${num}</a>
 															</li>
 														</c:forEach>
@@ -248,28 +248,6 @@ body {
 				</div>
 				<div class="modal-body">
 					<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder" id="modal-box">
-						<!--일반 참여자 el식 적용
-						bNum을 넘겨서 list 받아와서 띄워주기만 하면 됌.-->
-						<%-- <li class="media">
-								<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/">
-								<div class="media-body">
-									<div class="media-title">아이디</div>
-									<div class="text-job text-muted">
-										<modoo:exp score="50" />
-									</div>
-								</div>
-								<div class="media-progressbar">
-									<div class="progress-text">
-										50
-									</div>
-									<div class="progress" data-height="6" style="height: 6px;">
-										<div class="progress-bar bg-primary" data-width="<modoo:score score="50" />%" style="width: <modoo:score score="50" />%;"></div>
-									</div>
-								</div>
-								<div class="media-cta">
-									<button id="kickOut" class="btn btn-outline-primary" value="1">퇴출하기</button>
-								</div>
-							</li> --%>
 					</ul>
 				</div>
 			</div>
