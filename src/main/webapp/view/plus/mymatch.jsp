@@ -125,6 +125,9 @@ body {
 	flex:0.9;
 }
 
+a.fc-day-grid-event {
+	margin-bottom:10px;
+}
 
 </style>
 </head>
