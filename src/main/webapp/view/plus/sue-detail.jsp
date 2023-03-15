@@ -99,11 +99,9 @@ body {
 										신고일 : <fmt:formatDate value="${sue.sDate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
 										신고처리일 : <fmt:formatDate value="${sue.srDate}" pattern="yy-MM-dd HH:mm" />
-										<!-- <button class="btn btn-danger" style="float: right;" data-confirm="정말 취소하시겠습니까?" data-confirm-yes="alert('취소 되었습니다. :)');">신고취소</button> -->
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?"
 											data-confirm-yes="location.href='adSueMem.do?sNum=${sue.sNum}&mNum=${sue.mNum}'">신고취소</button>
 										<div class="btn-group mb-2" style="float: right;">
-											<!-- 처리 yes 누르면 data-confirm-yes="delete()로 바꾸기 -->
 											<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원 관리</button>
 											<div class="dropdown-menu">
 												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${sue.smNum}">점수감점 (-30)</a>
@@ -116,7 +114,6 @@ body {
 								</div>
 							</div>
 						</c:when>
-						<!-- 처리된 신고일 경우 -->
 						<c:otherwise>
 							<div class="section-body">
 								<h2 class="section-title">${sue.bTitle}</h2>
@@ -139,7 +136,6 @@ body {
 												<c:when test="${sue.bStatus == 1}">게시글 블락 상태</c:when>
 												<c:otherwise>점수감점</c:otherwise>
 											</c:choose>
-											<!-- 처리결과 어떤 처리를 했는지 나타내고 싶음 -->
 										</p>
 									</div>
 									<div class="card-footer bg-whitesmoke">
