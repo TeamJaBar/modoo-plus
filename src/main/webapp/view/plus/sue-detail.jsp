@@ -102,7 +102,6 @@ body {
 										<div class="btn-group mb-2" style="float: right;">
 											<button class="btn btn-info btn-sm dropdown-toggle" id="sue-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원 관리</button>
 											<div class="dropdown-menu">
-												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${sue.smNum}">점수감점 (-30)</a>
 												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${smNum}&sNum=${sue.sNum}&bNum=${sue.bNum}&mStatus=1">계정 3일 정지</a>
 												<div class="dropdown-divider"></div>
 												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${smNum}&bNum=${sue.bNum}">게시글 막기</a>
@@ -132,7 +131,7 @@ body {
 											<c:choose>
 												<c:when test="${sue.mStatus == 1}">계정 정지상태</c:when>
 												<c:when test="${sue.bStatus == 1}">게시글 블락 상태</c:when>
-												<c:otherwise>점수감점</c:otherwise>
+												<c:otherwise>신고취소</c:otherwise>
 											</c:choose>
 										</p>
 									</div>
