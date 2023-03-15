@@ -82,22 +82,22 @@ body {
 										<ul class="nav nav-pills" id="navi">
 											<li class="nav-item">
 												<a href="#;" class="nav-link active" id="4" onclick="changeList('4'); return false;">
-													전체 <span class="badge badge-white" id="allMeeting"></span>
+													전체 <span class="badge badge-white" id="allMeeting">0</span>
 												</a>
 											</li>
 											<li class="nav-item ">
 												<a href="#;" class="nav-link " id="0" onclick="changeList('0'); return false;">
-													모집 중 <span class="badge badge-primary" id="Recruiting"></span>
+													모집 중 <span class="badge badge-primary" id="Recruiting">0</span>
 												</a>
 											</li>
 											<li class="nav-item">
 												<a href="#;" class="nav-link" id="1" onclick="changeList('1'); return false;">
-													모집 완료 <span class="badge badge-primary" id="RecruitingCom"></span>
+													모집 완료 <span class="badge badge-primary" id="RecruitingCom">0</span>
 												</a>
 											</li>
 											<li class="nav-item">
 												<a href="#;" class="nav-link" id="2" onclick="changeList('2'); return false;">
-													지난 모임 <span class="badge badge-primary" id="lastMeeting"></span>
+													지난 모임 <span class="badge badge-primary" id="lastMeeting">0</span>
 												</a>
 											</li>
 										</ul>
@@ -125,10 +125,10 @@ body {
 														</div>
 													</th>
 													<th width="30%">제목</th>
-													<th width="15%">작성자</th>
-													<th width="17%">모임날짜</th>
-													<th width="10%">상태</th>
-													<th width="8%">실행</th>
+													<th width="12%">작성자</th>
+													<th width="12%">모임날짜</th>
+													<th width="13%">상태</th>
+													<th width="13%">실행</th>
 												</tr>
 												<tbody id="html_list">
 												</tbody>
@@ -151,50 +151,18 @@ body {
 					</div>
 				</section>
 			</div>
-			<footer class="main-footer">
-				<div class="footer-left">
-					${fn:length(bDatas)}
-					<div class="bullet"></div>
-					Design By
-					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
-				</div>
-				<div class="footer-right"></div>
-			</footer>
 		</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	<script>
-	// 상단 네비게이션 데이터 세팅
-		 $(document).ready(function() {
-			 let i = 0;
-			 let j = 0;
-			 let k = 0;
-			 let datas = '${bDatas}';
-			 datas.forEach(function(e){
-				 if($(this.bAction) == 0){
-					 i++;
-				 } else if($(this.bAction) == 1){
-					 j++;
-				 } else if($(this.bAction) == 2){
-					 k++;
-				 }
-			 });
-			 document.getElementById("allMeeting").innerHTML = ((i+j+k) == 0 ? 0 : (i+j+k));
-			 document.getElementById("Recruiting").innerHTML = (i == 0 ? 0 : i);
-			 document.getElementById("RecruitingCom").innerHTML = (j == 0 ? 0 : j);
-			 document.getElementById("lastMeeting").innerHTML = (k == 0 ? 0 : k);
-		}) 
-	
 		// 단일 삭제
-		$('.btn-danger').each(function() {
-			let bNum = $(this).parent().parent().prop("id");
-			$(this).on('click', function(e) {
-				e.preventDefault();
+		function delBtn(num){
 				if (confirm('정말 삭제하시겠습니까?')) {
-					$.ajax({
+					location.href = "boardDelete.do?bNum="+num;
+					/* $.ajax({
 						type : 'POST',
-						url : 'BoardDelete.do',
+						url : 'boardDelete.do',
 						traditional : true,
 						data : {
 							bNum : bNum
@@ -202,14 +170,13 @@ body {
 						success : function(result) {
 							if (result == 1) {
 								// location.href + ' 선택자' : 경로와 선택자 사이에 공백 필수!
-								$('.section-body').load(location.href + ' .section-body > *');
-								alert("삭제되었습니다.");
+								//$('.section-body').load(location.href + ' .section-body > *');
+							
 							}
 						}
-					});
+					}); */
 				}
-			});
-		});
+		}
 
 		// 선택 삭제
 		function del() {
@@ -217,14 +184,14 @@ body {
 			var arbNum = new Array();
 
 			$("input[name='chk']:checked").each(function() {
-				var item = $(this).val();
+				var item = $(this).siblings().prop('id');
 				console.log(item);
 				arbNum.push(item);
 			})
 
 			console.log('arbNum: ' + arbNum);
 
-			if (arDel.length < 1) {
+			if (arbNum.length < 1) {
 				alert("선택한 게시글이 없습니다.");
 				return;
 			} else {
@@ -238,9 +205,10 @@ body {
 						},
 						success : function(result) {
 							if (result == 1) {
+								location.href = "adPlusMain.do";
 								// location.href + ' 선택자' : 경로와 선택자 사이에 공백 필수!
-								$('.section-body').load(location.href + ' .section-body > *');
-								alert("삭제되었습니다.");
+								/* $('.section-body').load(location.href + ' .section-body > *');
+								alert("삭제되었습니다."); */
 							}
 						}
 					});
@@ -248,27 +216,53 @@ body {
 			}
 		}
 
-		// 전체 데이터 세팅
-		 let temp = new Array;
-		console.log();
-		 datasetting();
-		 
+
 		// 페이지네이션
-		var totalCount = datas.length;
+		var json = '${jbDatas}';
+		var origin = JSON.parse(json);
+	   	var temp = JSON.parse(json);
+	   	var setNumber = 0;
+		
+		var totalCount = temp.length;
 		//총 페이지
 		var totalPage = Math.ceil(totalCount / 10.0);
-
+		
 		document.addEventListener('DOMContentLoaded', () => {
 			 if(totalCount==0){
 	        	  emptyData();
+	        	  document.getElementById("paging").replaceChildren();
 	        	  return;
 	          }
+			 // 네비게이션 세팅
+			 setNavi();
 		    // 페이지네이션 세팅
 		    setPageHtml();
 		    // 데이터 세팅
 		    setList();
 		})
 
+		// 상단 네비게이션 데이터 세팅
+		function setNavi(){
+			 let i = 0;
+			 let j = 0;
+			 let k = 0;
+	    	  
+			origin.forEach(function(e){
+				 if(e.bAction == 0){
+					 i++;
+				 } else if(e.bAction == 1){
+					 j++;
+				 } else if(e.bAction == 2){
+					 k++;
+				 }
+			 });
+			 
+			 document.getElementById("allMeeting").innerHTML = ((i+j+k) == 0 ? 0 : (i+j+k));
+			 document.getElementById("Recruiting").innerHTML = (i == 0 ? 0 : i);
+			 document.getElementById("RecruitingCom").innerHTML = (j == 0 ? 0 : j);
+			 document.getElementById("lastMeeting").innerHTML = (k == 0 ? 0 : k);
+		}
+		
 		function setPageHtml(){
 		    let pageHtml =
 		       `<li class="page-item">
@@ -280,12 +274,9 @@ body {
 		        <li class="page-item active">
 		            <a href="#;" class="page-link" onClick="changePage(1);return false;">1</a>
 		        </li>`;
-
+		        
 		    for(let i = 2; i <= totalPage; i ++){
-		        pageHtml +=
-		            `<li class="page-item">
-		               <a href="#;" class="page-link" onClick="changePage(${i});return false;">${i}</a>
-		             </li>`;
+		        pageHtml += '<li class="page-item"> <a href="#;" class="page-link" onClick="changePage('+ i +');return false;">'+ i +'</a></li>';
 		    }
 
 		    pageHtml +=
@@ -296,12 +287,20 @@ body {
 		            <a href="#;" class="page-link" onClick="changePage('last');return false;">Last</a>
 		        </li>`;
 
-		    document.getElementById("paging").innerHTML = pageHtml;
+		    let pagingEl = document.getElementById("paging");
+		    if (!pagingEl) {
+		      // 만약 "paging" id를 가진 엘리먼트가 없으면 새로운 엘리먼트 생성
+		      pagingEl = document.createElement("ul");
+		      pagingEl.setAttribute("id", "paging");
+		      // 페이지의 어느 위치에 넣을지 지정해야 함
+		      document.querySelector("#page-content").appendChild(pagingEl);
+		    }
+
+		    pagingEl.innerHTML = pageHtml;
 
 		}
 
 		function setList(page){
-
 		    // 페이지 당 표시 될 튜플 수
 		    let pageCount = 10;
 		    page = page == null ? 1 : page;
@@ -327,60 +326,58 @@ body {
 
 		}
 		
+		// 날짜 포멧 변경 함수
+		function dateFormat(date) {
+			let dateFormat2 = date.getFullYear() +
+				'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+				'-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+			return dateFormat2;
+		}
+		
 	      /**
 	       * 해당 페이지 데이터 세팅
 	       * @param startPage
 	       * @param endPage
 	       */
 	      function showList(startPage, endPage){
-
 	          let html = "";
 
 	          for(let i = (startPage - 1) ; i < endPage; i++) {
-
-	              let bDatas = temp;
-
-	              html += `<c:forEach var="board" items="${bDatas}">
-	              				<c:set var="i" value="${i+1}"/>
-								<tr id="${board.bNum}">
-								<c:set var="sysDate">
-								<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm" />
-								</c:set>
+	        	  let board = temp[i];
+	        	  let toDay = dateFormat(new Date(board.bDate));	        	 
+	        	  let status;
+	        	    if (board.bAction == 0) {
+	        	      status = '<div class="badge badge-warning btn-status">모집 중</div>';
+	        	    } else if (board.bAction == 1) {
+	        	      status = '<div class="badge badge-primary btn-status">모집 완료</div>';
+	        	    } else if (board.bDate < new Date()) {
+	        	      status = '<div class="badge badge-danger btn-status">지난 모임</div>';
+	        	    }
+	        	  
+	              html += `<tr id="`+ board.bNum + `}">
 								<td style="text-align: center;">
 								<div class="custom-checkbox custom-control">
-								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-${i}" name="chk">
-								<label for="checkbox-${i}" class="custom-control-label">&nbsp;</label>
+								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-`+ i + `" name="chk">
+								<label for="checkbox-`+ i + `" class="custom-control-label"  id="`+ board.bNum + `">&nbsp;</label>
 								</div>
 								</td>
-								<td class="bTitle" name="bTitle">${board.bTitle}</td>
+								<td class="bTitle" name="bTitle">`+ board.bTitle + `</td>
 								<td>
-								<div>${board.bMname}</div>
+								<div>`+ board.bMname + `</div>
 								</td>
-								<td class="bDate" name="bDate">${board.bDate}</td>
-								<td>
-								<c:if test="${board.bAction==0}">
-								<div class="badge badge-warning btn-status">모집 완료</div>
-								</c:if>
-								<c:if test="${board.bAction==1}">
-								<div class="badge badge-primary btn-status">모집 중</div>
-								</c:if>
-								<c:if test="${board.bDate < sysDate}">
-								<div class="badge badge-danger btn-status">지난 모임</div>
-								</c:if>
-								</td>
+								<td class="bDate" name="bDate">` +  toDay + `</td>
+								<td>`+ status + `</td>
 								<td>
 								<!-- 게시글로 이동 -->
-								<a href="boardDetail.do?bNum=${board.bNum}" class="btn btn-icon btn-primary">
+								<a href="boardDetail.do?bNum=` + board.bNum + `" class="btn btn-icon btn-primary">
 								<i class="fas fa-check"></i>
 								</a>
 								<!-- 게시글 삭제 -->
-								<button class="btn btn-icon btn-danger" onclick="">
+								<button class="btn btn-icon btn-danger" onclick="delBtn(` + board.bNum + `)">
 								<i class="fas fa-times"></i>
 								</button>
 								</td>
-								</tr>
-								</c:forEach>`;
-
+								</tr>`;
 	          }
 
 	          document.getElementById("html_list").innerHTML = html;
@@ -414,12 +411,11 @@ body {
 		
 		// 상단 바클릭 이벤트
 		function changeList(num){
-			log("num ==> " + num);
-
+			setNumber = num;
 		    // 현재 페이지
 		    //let nowPage = document.querySelector("#navi .active a").innerText;
 		    let nowPage = $("#navi .active").prop("id");
-		    log("nowPage --> " + nowPage);
+		    console.log("nowPage --> " + nowPage);
 
 			if(nowPage != num){
 				// 변경된 페이지 표시
@@ -437,15 +433,22 @@ body {
 	                 }
 			    });
 			    }
+			
 			datasetting();
+			
 	        totalCount = temp.length;
+
 	        if(totalCount==0){
 	        	 emptyData();
+	        	 document.getElementById("paging").replaceChildren();
 	        	 return;
 	         }
+	        
 	        //총 페이지
 	        totalPage = Math.ceil(totalCount / 10.0);
 
+	        // 네비게이션 세팅
+	        setNavi();
 	        // 페이지네이션 세팅
 	        setPageHtml();
 	       	// 데이터 세팅
@@ -453,42 +456,36 @@ body {
 		}
 		
 		function datasetting(){
-	    	  temp.splice(0);
-	    	  let datas = '${bDatas}';
-	          
-	         let now = $("#navi .active").prop("id");
-	         
+			temp.splice(0);
+	    	 let now = $("#navi .active").prop("id");
 	         if(now == 4){
-	        	 datas.forEach((i) => {
-	                  temp.push(i);
+	        	 origin.forEach((i) => {
+	        		 temp.push(i);
 	            })
-	                  console.log(temp);
 	         } else if(now == 0){
-	        	 datas.forEach((i) => {
-	               if($(i.bAction == 0)){
-	                  temp.push(i);
+	        	 origin.forEach((i) => {
+	               if(i.bAction == 0){
+	            	   temp.push(i);
 	               }
 	            })
-	            console.log(temp);
 	         } else if(now == 1){
-	        	 datas.forEach((i) => {
-	               if($(i.bAction == 1)){
-	                  temp.push(i);
+	        	 origin.forEach((i) => {
+	               if(i.bAction == 1){
+	        		 console.log(i.bAction);
+	        		 temp.push(i);
 	               }
 	            })
-	            console.log(temp);
 	         } else if(now == 2){
-	        	 datas.forEach((i) => {
-	               if($(i.bAction == 2)){
-	                  temp.push(i);
+	        	 origin.forEach((i) => {
+	               if(i.bAction == 2){
+	            	   temp.push(i);
 	               }
 	            })
-	            console.log(temp);
 	         }
 	      }
 		
 		  function emptyData(){
-	    	  let html = `<tr "text-center"><td colspan="6" style="height : 100px;"><div style="padding-top : 20px;">게시글이 없습니다.</div></td></tr>`;
+	    	  let html = `<tr "text-center"><td colspan="6" style="height : 100px;"><div style="padding-top : 20px; text-align:center;">게시글이 없습니다.</div></td></tr>`;
 	          document.getElementById("html_list").innerHTML = html;
 	          document.getElementById("selectDel").classList.add("hidden");
 	      }

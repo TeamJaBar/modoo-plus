@@ -121,11 +121,13 @@ public class AdminController {
 
 	/* 게시글 */
 	// 게시글 관리 페이지 이동
-	@RequestMapping(value = "/adPlusMain.do")
-	public String selsctAllBoard(BoardVO bvo, Model model) {
-        model.addAttribute("bDatas", boardService.selectAllManage(bvo));
-		return "/view/plus/admin-board.jsp";
-	}
+	  @RequestMapping(value = "/adPlusMain.do")
+	    public String selsctAllBoard(BoardVO bvo, Model model) {
+	        String jbDatas = new Gson().toJson(boardService.selectAllManage(bvo));
+	        System.out.println("bDatas 로그 : " + jbDatas);
+	        model.addAttribute("jbDatas", jbDatas);
+	        return "/view/plus/admin-board.jsp";
+	    }
 
 	// 게시글 삭제
 	@RequestMapping(value = "/deleteAdBoard.do")

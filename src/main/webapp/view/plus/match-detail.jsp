@@ -142,95 +142,97 @@
 									<div class="match-body">
 
 										<!-- 탭 -->
-										<ul class="nav nav-tabs" id="myTab2" role="tablist">
-											<li class="nav-item">
-												<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
-											</li>
-										</ul>
-										<div class="tab-content tab-bordered" id="a_box">
-											<!--매치 정보-->
-											<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
-												<table>
-													<tr>
-														<td>모집 인원</td>
-														<td>모집 실력</td>
-														<td>모집 상태</td>
-													</tr>
-													<tr>
-														<td>${fn:length(aDatas)}/${bDatas.bCnt}</td>
-														<td>${bDatas.bRate}</td>
-														<td>
-															<c:if test="${bDatas.bAction==0}">모집 중</c:if>
-															<c:if test="${bDatas.bAction==1}">모집완료</c:if>
-															<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
-														</td>
-													</tr>
-												</table>
-											</div>
-											<!--참가 신청자 정보-->
-											<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
-												<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
-													<c:forEach var="entry" items="${aDatas}">
-														<c:if test="${bDatas.mNum == entry.mNum}">
-															<!--방장 - 글 작성자-->
-															<li class="media">
-																<div class="avatar-item">
-																	<img alt="image" src="../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
-																	<div class="avatar-badge">
-																		<i class="fas fa-crown" style="color: #ffdd00"></i>
+										<div  id="a_box">
+											<ul class="nav nav-tabs" id="myTab2" role="tablist">
+												<li class="nav-item">
+													<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" id="applicant-tab2" data-toggle="tab" href="#applicant" role="tab" aria-controls="applicant" aria-selected="false">신청자</a>
+												</li>
+											</ul>
+											<div class="tab-content tab-bordered">
+												<!--매치 정보-->
+												<div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="info-tab2">
+													<table>
+														<tr>
+															<td>모집 인원</td>
+															<td>모집 실력</td>
+															<td>모집 상태</td>
+														</tr>
+														<tr>
+															<td>${fn:length(aDatas)}/${bDatas.bCnt}</td>
+															<td>${bDatas.bRate}</td>
+															<td>
+																<c:if test="${bDatas.bAction==0}">모집 중</c:if>
+																<c:if test="${bDatas.bAction==1}">모집완료</c:if>
+																<c:if test="${bDatas.bAction==2}">지난 모임</c:if>
+															</td>
+														</tr>
+													</table>
+												</div>
+												<!--참가 신청자 정보-->
+												<div class="tab-pane fade" id="applicant" role="tabpanel" aria-labelledby="applicant-tab2">
+													<ul class="tab-applicant list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+														<c:forEach var="entry" items="${aDatas}">
+															<c:if test="${bDatas.mNum == entry.mNum}">
+																<!--방장 - 글 작성자-->
+																<li class="media">
+																	<div class="avatar-item">
+																		<img alt="image" src="../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
+																		<div class="avatar-badge">
+																			<i class="fas fa-crown" style="color: #ffdd00"></i>
+																		</div>
 																	</div>
-																</div>
-																<div class="media-body">
-																	<div class="media-title">${entry.mId}</div>
-																	<div class="text-job text-muted">
-																		<modoo:exp score="${entry.score}" />
+																	<div class="media-body">
+																		<div class="media-title">${entry.mId}</div>
+																		<div class="text-job text-muted">
+																			<modoo:exp score="${entry.score}" />
+																		</div>
 																	</div>
-																</div>
-																<div class="media-progressbar">
-																	<div class="progress-text">${entry.score}점</div>
-																	<div class="progress" data-height="6" style="height: 6px;">
-																		<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																	<div class="media-progressbar">
+																		<div class="progress-text">${entry.score}점</div>
+																		<div class="progress" data-height="6" style="height: 6px;">
+																			<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																		</div>
 																	</div>
-																</div>
-																<div class="media-cta">
-																	<div class="btn btn-outline-info">방개설자</div>
-																</div>
-															</li>
-														</c:if>
-														<c:if test="${bDatas.mNum != entry.mNum}">
-															<!--일반 참여자-->
-															<li class="media" id="${entry.aNum}">
-																<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/${entry.mImg}">
-																<div class="media-body">
-																	<div class="media-title">${entry.mId}</div>
-																	<div class="text-job text-muted">
-																		<modoo:exp score="${entry.score}" />
-																	</div>
-																</div>
-																<div class="media-progressbar">
-																	<div class="progress-text">${entry.score}점</div>
-																	<div class="progress" data-height="6" style="height: 6px;">
-																		<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
-																	</div>
-																</div>
-																<!--퇴출하기 버튼은 글 작성자에게만 보임-->
-																<c:if test="${bDatas.mNum == mNum || 'admin' eq mId}">
 																	<div class="media-cta">
-																		<button class="btn btn-outline-primary" id="kickUser" onclick="kickuser(${entry.aNum})">퇴출하기</button>
+																		<div class="btn btn-outline-info">방개설자</div>
 																	</div>
-																</c:if>
-																<c:if test="${bDatas.mNum != mNum && 'admin' ne mId}">
-																	<div class="media-cta">
-																		<div class="btn btn-outline-primary">방참가자</div>
+																</li>
+															</c:if>
+															<c:if test="${bDatas.mNum != entry.mNum}">
+																<!--일반 참여자-->
+																<li class="media" id="${entry.aNum}">
+																	<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/${entry.mImg}">
+																	<div class="media-body">
+																		<div class="media-title">${entry.mId}</div>
+																		<div class="text-job text-muted">
+																			<modoo:exp score="${entry.score}" />
+																		</div>
 																	</div>
-																</c:if>
-															</li>
-														</c:if>
-													</c:forEach>
-												</ul>
+																	<div class="media-progressbar">
+																		<div class="progress-text">${entry.score}점</div>
+																		<div class="progress" data-height="6" style="height: 6px;">
+																			<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																		</div>
+																	</div>
+																	<!--퇴출하기 버튼은 글 작성자에게만 보임-->
+																	<c:if test="${bDatas.mNum == mNum || 'admin' eq mId}">
+																		<div class="media-cta">
+																			<button class="btn btn-outline-primary" id="kickUser" onclick="kickuser(${entry.aNum})">퇴출하기</button>
+																		</div>
+																	</c:if>
+																	<c:if test="${bDatas.mNum != mNum && 'admin' ne mId}">
+																		<div class="media-cta">
+																			<div class="btn btn-outline-primary">방참가자</div>
+																		</div>
+																	</c:if>
+																</li>
+															</c:if>
+														</c:forEach>
+													</ul>
+												</div>
 											</div>
 										</div>
 										<!-- 본문 내용 -->
@@ -262,7 +264,7 @@
 											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder" style="word-break: break-all;">
 												<c:forEach var="com" items="${cDatas}">
 													<c:choose>
-														<c:when test="com.mStatus == 0">
+														<c:when test="${com.mStatus == '0'}">
 															<li class="media" id="${com.cNum}">
 																<div class="media-body">
 																	<div class="comment-head">
@@ -306,7 +308,7 @@
 														</c:when>
 														<c:otherwise>
 															<li class="media">
-																<div class="far fa-user media-description text-muted">&nbsp; 관리자에 의해 규제된 게시글입니다.</div>
+																<div class="far fa-user media-description text-muted">&nbsp; 관리자에 의해 규제된 댓글입니다.</div>
 															</li>
 														</c:otherwise>
 													</c:choose>
@@ -343,9 +345,7 @@
 	</div>
 
 	<form class="modal-part" id="modal-sue-part" method="post" style="font-family: 'GmarketSansMedium'">
-		<p class="modal-description">
-			신고 사유를 선택해주세요.
-		</p>
+		<p class="modal-description">신고 사유를 선택해주세요.</p>
 		<input type="hidden" name="bNum" value="${bDatas.bNum}" />
 		<input type="hidden" name="mNum" value="${mNum}" />
 		<div class="radio-container">
