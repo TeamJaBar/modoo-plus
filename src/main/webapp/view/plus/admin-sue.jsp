@@ -77,32 +77,31 @@ body {
 					</div>
 					<div class="section-body">
 						<h2 class="section-title">신고 게시글 처리 현황</h2>
-
 						<div class="row">
 							<div class="col-12">
 								<div class="card mb-0">
 									<div class="card-body">
 										<ul class="nav nav-pills" id="navi">
 											<li class="nav-item" id="aCnt">
-												<a class="nav-link" href="#;">
+												<a class="nav-link ${param.sResult == null ? 'active' : ''}" href="#;">
 													<%-- href="admin-sue.do?aCnt=${sueCount.aCnt}" --%>
 													전체
-													<span class="badge badge-primary" id="a"> ${sueCount.aCnt} </span>
+													<span class="badge ${param.sResult == null ? 'badge-white' : 'badge-primary'}" id="a"> ${sueCount.aCnt} </span>
 												</a>
 											</li>
 											<!-- 해야할 것 ajax 사용해서 비동기로 목록 출력 -->
 											<li class="nav-item" id="nCnt">
-												<a class="nav-link" href="#;">
+												<a class="nav-link ${param.sResult == 0 ? 'active' : ''}" href="#;">
 													<!-- href="admin-sue.do?nCnt=${sueCount.nCnt}" -->
 													미처리
-													<span class="badge badge-primary" id="n"> ${sueCount.nCnt} </span>
+													<span class="badge ${param.sResult==0 ? 'badge-white' : 'badge-primary'}" id="n"> ${sueCount.nCnt} </span>
 												</a>
 											</li>
 											<li class="nav-item" id="cCnt">
-												<a class="nav-link" href="#;">
+												<a class="nav-link ${param.sResult == 1 ? 'active' : ''}" href="#;">
 													<!-- href="admin-sue.do?cCnt=${sueCount.cCnt}" -->
 													처리완료
-													<span class="badge badge-primary" id="c"> ${sueCount.cCnt} </span>
+													<span class="badge ${param.sResult== 1 ? 'badge-white' : 'badge-primary'}" id="c"> ${sueCount.cCnt} </span>
 												</a>
 											</li>
 										</ul>
@@ -118,7 +117,7 @@ body {
 									</div>
 									<div class="card-body" id="a_box">
 										<div class="table-responsive">
-											<table class="table table-striped">
+											<table class="table table-striped" id="sue-table">
 												<tr>
 													<th>글 번호</th>
 													<th>제목</th>
@@ -169,29 +168,18 @@ body {
 										<c:if test="${fn:length(sue) != 0}">
 											<div class="card-footer text-center">
 												<nav class="d-inline-block">
-													<ul class="pagination mb-0">
-														<c:if test="${pageVO.prev}">
-															<li class="page-item disabled">
-																<a class="page-link" href="adMoveSue.do?pageNum=${pageVO.startPage - 1}" aria-label="Previous">
-																	<span aria-hidden="true">&laquo;</span>
-																	<span class="sr-only">Previous</span>
-																</a>
-															</li>
-														</c:if>
+													<ul class="pagination mb-0" id="pagination">
 														<!-- 1. 페이지번호 처리 -->
 														<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 															<li class="page-item active">
-																<a class="page-link" href="adMoveSue.do?pageNum=${num}">${num}</a>
+																<c:if test="${param.sResult != null}">
+																	<a class="page-link" href="adMoveSue.do?pageNum=${num}&sResult=${param.sResult}">${num}</a>
+																</c:if>
+																<c:if test="${param.sResult == null}">
+																	<a class="page-link" href="adMoveSue.do?pageNum=${num}">${num}</a>
+																</c:if>
 															</li>
 														</c:forEach>
-														<c:if test="${pageVO.next}">
-															<li class="page-item">
-																<a class="page-link" href="adMoveSue.do?pageNum=${pageVO.endPage + 1}" aria-label="Next">
-																	<span aria-hidden="true">&raquo;</span>
-																	<span class="sr-only">Next</span>
-																</a>
-															</li>
-														</c:if>
 													</ul>
 												</nav>
 											</div>
@@ -225,7 +213,83 @@ body {
 	<script src="../assets/js/stisla.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript">
+		function dateFormat(date) {
+	        let month = date.getMonth() + 1;
+	        let day = date.getDate();
+	        let hour = date.getHours();
+	        let minute = date.getMinutes();
+	        let second = date.getSeconds();
+			let year = String(date.getFullYear()).substring(2,4);
+		        
+	        month = month >= 10 ? month : '0' + month;
+	        day = day >= 10 ? day : '0' + day;
+	        hour = hour >= 10 ? hour : '0' + hour;
+	        minute = minute >= 10 ? minute : '0' + minute;
 	
+	        return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+		}
+		
+		function showList(sue) {
+			var $list = $("#sue-table");
+			
+			$list.empty();
+			
+			if (sue.length > 0) {
+				var $tr_header = $("<tr>");
+				var $th1 = $("<th>").text("글 번호");
+				var $th2 = $("<th>").text("제목");
+				var $th3 = $("<th>").text("작성자");
+				var $th4 = $("<th>").text("신고날짜");
+				var $th5 = $("<th>").text("처리상태");
+				$tr_header.append($th1).append($th2).append($th3).append($th4).append($th5);
+				$list.append($tr_header);
+				
+				$.each(sue, function(index, value) {
+					var $a = $("<a>").attr("href", "selectSue.do?sNum="+value.sNum).html(value.bTitle);
+					var $img = $("<img>").attr("alt", "프로필 이미지").attr("src", "../assets/img/avatar/" + value.mImg).addClass("rounded-circle").attr("width", 35).attr(
+							"data-toggle", "title").attr("title", "");
+					var $mId = $('<div>').addClass('d-inline-block ml-2').html(value.mId);
+					if (value.sResult == '0') {
+	                    var $btn = $('<div>').addClass('badge badge-danger').html('미처리');
+	                } else {
+	                    var $btn = $('<div>').addClass('badge badge-primary').html('처리완료');
+	                }
+					var $td1 = $("<td>").append(value.sNum);
+					var $td2 = $("<td>").append($a);
+					var $td3 = $("<td>").append($img).append($mId);
+					var $td4 = $("<td>").append(dateFormat(new Date(value.sDate)));
+					var $td5 = $("<td>").append($btn);
+					var $tr = $("<tr>");
+					$tr.append($td1).append($td2).append($td3).append($td4).append($td5);
+					$list.append($tr);
+				});
+			} else {
+				var $tr_header = $("<tr>").attr("class", "text-center");
+				var $td = $("<td>").attr("colspan", "5").text("데이터가 없습니다.");
+				$tr_header.append($td);
+				$list.append($tr_header);
+			}
+		}
+		
+		function printPageNum(start, end, sResult) {
+			var $ul = $('#pagination');
+			$ul.empty();
+			
+			var request
+			if(sResult != null) {
+				request = "adMoveSue.do?sResult="+sResult+"&pageNum=";
+			} else {
+				request = "adMoveSue.do?pageNum="
+			}
+		
+			for(var i=start; i<=end; i++) {
+				var $a = $("<a>").addClass("page-link").attr("href",request+i).html(i);
+				var $li = $("<li>").addClass("page-item active");
+				$li.append($a);
+				$ul.append($li);
+			}
+		}
+		
 	/* 버튼 눌렀을 때, 색상변경 */
 	 	$('.nav-item .nav-link').on("click",function(){
 	          $(".nav-link.active span").removeClass('badge-white');
@@ -243,9 +307,18 @@ body {
 						type : 'POST',
 						url : 'adMoveSue.do',
 						success : function(result) {
-							if (result == 1) {
-								$('#a_box').load(location.href + ' #a_box>*');
-							}
+							console.log(result);
+							console.log(result);
+							var pageVO = JSON.parse(result.pageVO);
+							var sue = JSON.parse(result.sue);
+							console.log("------pageVO-------");
+							console.log(pageVO);
+							console.log("--------sue--------");
+							console.log(sue);
+							
+							// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
+							showList(sue);
+							printPageNum(Number(pageVO.startPage), Number(pageVO.endPage), null);
 						}
 					});
 				});
@@ -253,18 +326,28 @@ body {
 	<!-- 미처리글 -->
 	$(document).on('click','#nCnt',function(e) {
 			var sResult = 0;
-				e.preventDefault();
-				console.log(sResult);
+			e.preventDefault();
+			console.log(sResult);
 					$.ajax({
 						type : 'POST',
 						url : 'adMoveSue.do',
+						dataType : "json",
 						data : {
 							sResult : sResult
 						},
 						success : function(result) {
-							if (result == 1) {
-								$('#a_box').load(location.href + ' #a_box>*');
-							}
+							console.log(result);
+							console.log(result);
+							var pageVO = JSON.parse(result.pageVO);
+							var sue = JSON.parse(result.sue);
+							console.log("------pageVO-------");
+							console.log(pageVO);
+							console.log("--------sue--------");
+							console.log(sue);
+							
+							// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
+							showList(sue);
+							printPageNum(Number(pageVO.startPage), Number(pageVO.endPage), sResult);
 						}
 					});
 			});
@@ -281,12 +364,22 @@ body {
 							sResult : sResult
 						},
 						success : function(result) {
-							if (result == 1) {
-								$('#a_box').load(location.href + ' #a_box>*');
-							}
+							console.log(result);
+							console.log(result);
+							var pageVO = JSON.parse(result.pageVO);
+							var sue = JSON.parse(result.sue);
+							console.log("------pageVO-------");
+							console.log(pageVO);
+							console.log("--------sue--------");
+							console.log(sue);
+							
+							// 추가: result가 비어있지 않을 때만 <tr><th> ... </th></tr> 추가
+							showList(sue);
+							printPageNum(Number(pageVO.startPage), Number(pageVO.endPage), sResult);
 						}
 					});
 				});
+	
 	</script>
 
 	<!-- JS Libraies -->

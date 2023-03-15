@@ -1,15 +1,17 @@
 package com.spring.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.spring.biz.board.BoardService;
 import com.spring.biz.board.BoardVO;
 import com.spring.biz.board.PageService;
@@ -137,7 +139,7 @@ public class AdminController {
 
 	/* 신고 */
 	// 신고글 관리 페이지 이동
-	@RequestMapping(value = "/adMoveSue.do")
+	@RequestMapping(value = "/adMoveSue.do", method = RequestMethod.GET)
 	public String selsctAllSue(SueVO svo, PageVO pvo, Model model) {
 		svo.setAmount(DEFAULT_AMOUNT);
 		// 첫 페이지
@@ -152,6 +154,26 @@ public class AdminController {
 		model.addAttribute("sueCount", sueService.selectCount(svo));
 		model.addAttribute("sue", pageService.selectAllSue(svo));
 		return "/view/plus/admin-sue.jsp";
+	}
+	
+	@RequestMapping(value = "/adMoveSue.do", method = RequestMethod.POST)
+	public @ResponseBody JsonObject selsctAllSueResult(SueVO svo, PageVO pvo, Model model) {
+		svo.setAmount(DEFAULT_AMOUNT);
+		// 첫 페이지
+		if (svo.getPageNum() == 0) {
+			svo.setPageNum(DEFAULT_PAGENUM);
+		}
+		
+		int total = pageService.getSueTotal(svo); // 전체게시글수
+		pvo = new PageVO(svo.getPageNum(), total);
+		
+		JsonObject result = new JsonObject();
+		result.addProperty("pageVO", new Gson().toJson(pvo));
+		result.addProperty("sue",  new GsonBuilder().setPrettyPrinting().create().toJson(pageService.selectAllSue(svo)));
+		
+		System.out.println(result);
+
+		return result;
 	}
 
 	// 신고 상세 페이지 이동
