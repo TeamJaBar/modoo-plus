@@ -54,7 +54,9 @@ public class BoardDAO {
 			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION=1 ORDER BY BDATE asc LIMIT 1000000) AS B"
 			+ " WHERE C.BNUM=B.BNUM AND BDATE BETWEEN ? AND ?";
 	// 헤더 부분 검색(제목만 가능)
-	private final String SQL_SELECTALL_SEARCH = "SELECT * FROM BOARD WHERE BTITLE LIKE CONCAT('%',?,'%')";
+	private final String SQL_SELECTALL_SEARCH = "SELECT * FROM (SELECT B.BNUM, COUNT(*) ACNT FROM BOARD B LEFT JOIN APPLICANT A ON B.BNUM=A.BNUM GROUP BY B.BNUM) C, "
+			+ "(SELECT BNUM, MNUM, BTITLE, BRATE, BCNT, BDATE, BLOCAL, BACTION FROM BOARD WHERE BACTION != 2 ORDER BY BDATE ASC LIMIT 1000000)A "
+			+ " WHERE C.BNUM=A.BNUM AND BTITLE LIKE CONCAT('%',?,'%')";
 
 	// 글 관리 페이지 상태별 게시글 개수
 	private final String SQL_SELECTALL_ADMIN_CNT = "SELECT COUNT(*) AS CNT FROM BOARD WHERE BACTION = ?";
@@ -149,7 +151,7 @@ public class BoardDAO {
 				} else if (bvo.getsSearchDate() != null) { // 날짜 검색
 					query = SQL_SELECTALL_DATE;
 					obj = new Object[] { bvo.getsSearchDate(), bvo.geteSearchDate(),bvo.getsSearchDate(),bvo.geteSearchDate() };
-				} else if (bvo.getbTitle() != null) { // 헤더 검색
+				} else if (bvo.getSearchContent() != null) { // 헤더 검색
 					query = SQL_SELECTALL_SEARCH;
 					obj = new Object[] { bvo.getSearchContent() };
 				}
