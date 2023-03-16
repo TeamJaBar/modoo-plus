@@ -1,5 +1,6 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="msg"%>
 <style>
 .navbar .nav-link.nav-link-user img {
 	background-color: white;
@@ -12,7 +13,7 @@
 	<div class="btn-group">
 		<button type="button" class="btn btn-header" onclick="location.href='boardList.do?sortBy=1'">
 			<img class="mr-3 rounded" src="../assets/img/favicon.png">
-			모두의 매칭
+			<msg:message code="message.header.header"/>
 		</button>
 		<button type="button" class="btn btn-header dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
 			<span class="sr-only">Toggle Dropdown</span>
@@ -21,19 +22,19 @@
 			<c:if test="${not empty mId}">
 			<c:choose>
 				<c:when test="${mId == 'admin'}">
-					<a class="dropdown-item" href="adPlusMain.do">글 관리</a>
-					<a class="dropdown-item" href="adMoveSue.do">신고 관리</a>
+					<a class="dropdown-item" href="adPlusMain.do"><msg:message code="message.header.adBoard"/></a>
+					<a class="dropdown-item" href="adMoveSue.do"><msg:message code="message.header.adSue"/></a>
 				</c:when>
 				<c:otherwise>
-					<a class="dropdown-item" href="createBoard.do">매칭 게시글 작성</a>
+					<a class="dropdown-item" href="createBoard.do"><msg:message code="message.header.createBoard"/></a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="mypage.do?sortBy=1">내가 작성한 글</a>
-					<a class="dropdown-item" href="myBoard.do?sortBy=1">내가 매칭한 목록</a>
+					<a class="dropdown-item" href="mypage.do?sortBy=1"><msg:message code="message.header.mypage"/></a>
+					<a class="dropdown-item" href="myBoard.do?sortBy=1"><msg:message code="message.header.mymatch"/></a>
 				</c:otherwise>
 			</c:choose>
 			</c:if>
 			<div class="dropdown-divider"></div>
-			<a class="dropdown-item" href="main.do">모두의 보드</a>
+			<a class="dropdown-item" href="main.do"><msg:message code="message.header.main"/></a>
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=en">ENGLISH</a>
 			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=ko">한국어</a>
@@ -49,7 +50,7 @@
 			</li>
 		</ul>
 		<div class="search-element">
-			<input class="form-control" type="search" name="searchContent" placeholder="검색" aria-label="Search" data-width="250">
+			<input class="form-control" type="search" name="searchContent" placeholder="<msg:message code="message.header.search"/>" aria-label="Search" data-width="250">
 			<button class="btn" type="submit">
 				<i class="fas fa-search"></i>
 			</button>
@@ -129,7 +130,7 @@
 
 		<c:choose>
 			<c:when test="${empty mId}">
-				<button type="button" class="btn btn-header" onclick="location.href='login.do'">로그인</button>
+				<button type="button" class="btn btn-header" onclick="location.href='login.do'"><msg:message code="message.header.login"/></button>
 			</c:when>
 			<c:otherwise>
 				<li class="dropdown">
@@ -138,19 +139,19 @@
 						<div class="d-sm-none d-lg-inline-block">${mId}</div>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
-						<div class="dropdown-title">안녕하세요, ${mName}님</div>
+						<div class="dropdown-title">${mName}, <msg:message code="message.header.hello"/></div>
 						<a href="mypage.do" class="dropdown-item has-icon">
-							<i class="far fa-user"></i> 마이 페이지
+							<i class="far fa-user"></i> <msg:message code="message.header.loginMypage"/>
 						</a>
 						<c:if test="${mId == 'admin'}">
 							<a href="adPlusMain.do" class="dropdown-item has-icon">
 								<img alt="image" src="../assets/img/favicon.png" class="rounded-circle mr-1">
-								관리자 페이지
+								<msg:message code="message.header.adPage"/>
 							</a>
 						</c:if>
 						<div class="dropdown-divider"></div>
 						<a href="logout.do" class="dropdown-item has-icon text-danger">
-							<i class="fas fa-sign-out-alt"></i> 로그아웃
+							<i class="fas fa-sign-out-alt"></i> <msg:message code="message.header.logout"/>
 						</a>
 					</div>
 				</li>
