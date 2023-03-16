@@ -101,7 +101,7 @@
 							</div>
 						</div>
 					</c:if>
-					<c:if test="${bDatas.bStatus==0}">
+					<c:if test="${status.mStatus==0 && bDatas.bStatus==0}">
 						<div class="section-body">
 							<div class="card">
 								<div class="navermap-container" style="width: 100%;">
