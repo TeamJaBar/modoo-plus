@@ -292,7 +292,7 @@ a.fc-day-grid-event {
 													</c:if>
 													<!-- 1. 페이지번호 처리 -->
 													<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
-														<li class="page-item active">
+														<li class="page-item ${param.pageNum == num || param.pageNum == null ? 'active' : ''}">
 															<a class="page-link" href="myBoard.do?pageNum=${num}">${num}</a>
 														</li>
 													</c:forEach>
@@ -444,31 +444,29 @@ a.fc-day-grid-event {
 					        });
 					    });
 					});
-
-					// 취소하기버튼
-					$('#cancleBtn').each(function() {
-						$(this).on('click', function(e) {
-							var aNum = $(this).val();
-							e.preventDefault();
-							console.log(aNum);
-							if (confirm('취소 하시겠습니까?')) {
-								$.ajax({
-									type : 'POST',
-									url : 'myEntryDelete.do',
-									data : {
-										aNum : aNum
-									},
-									success : function(result) {
-										if (result == 1) {
-											$('#a_box').load(location.href + ' #a_box > *');
-										}
-									}
-								});
-							}
-						})
-					})
-
 				});
+		
+		// 취소하기버튼
+		$(document).on('click','#cancleBtn',function(e) {
+				var aNum = $(this).val();
+				e.preventDefault();
+				console.log(aNum);
+				if (confirm('취소 하시겠습니까?')) {
+					$.ajax({
+						type : 'POST',
+						url : 'myEntryDelete.do',
+						data : {
+							aNum : aNum
+						},
+						success : function(result) {
+							if (result == 1) {
+								$('#a_box').load(location.href + ' #a_box > *');
+							}
+						}
+					});
+				}
+			});
+		
 		// 현재 참여인원 모달창 
 		$(document).on(
 				'click',
