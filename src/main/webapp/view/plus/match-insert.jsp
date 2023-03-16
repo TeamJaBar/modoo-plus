@@ -432,7 +432,7 @@ select option[disabled] {
 					<form name="form" onsubmit="searchPlaces(); return false;">
 						<div class="input-group">
 							<input type="text" id="keyword" name="keyword" class="form-control" placeholder="<spring:message code='message.match-insert.enterLocation' />">
-							<input type="hidden" name="korean" />
+							<input type="hidden" name="korean" id="korean"/>
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-primary">
 									<spring:message code="message.match-insert.mapSearch" />
@@ -533,11 +533,19 @@ select option[disabled] {
 				displayPagination(pagination);
 
 			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-				if(confirm("검색 결과가 존재하지 않습니다.\n'" + form.korean.value + "'으로 변경하여 재검색할까요?")){
-					document.getElementById('keyword').value = form.korean.value;
-					searchPlaces();
+				var search = document.getElementById('korean').value;
+				var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+				console.log('search : ' + search);
+				console.log(!check.test(search));
+				if(!check.test(search)){
+					alert('검색 결과가 존재하지 않습니다.');
 				} else {
-					return;
+					if(confirm("검색 결과가 존재하지 않습니다.\n'" + form.korean.value + "'으로 변경하여 재검색할까요?")){
+					document.getElementById('keyword').value = form.korean.value;
+					document.getElementById('korean').value = "";
+					console.log(form.korean.value);
+					searchPlaces();
+					}
 				}
 
 			} else if (status === kakao.maps.services.Status.ERROR) {

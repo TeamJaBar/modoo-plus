@@ -79,7 +79,7 @@
 									<div class="alert-title">삭제된 게시물</div>
 									<p>다수 유저의 신고로 인해 관리자의 권한으로 삭제된 매칭 게시글입니다.</p>
 									<p class="mt-3">
-										<a href="boardList.do" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+										<a href="boardList.do?sortBy=1" target="_blank" class="btn bg-white text-dark">돌아가기</a>
 									</p>
 								</div>
 							</div>
@@ -95,7 +95,7 @@
 									<div class="alert-title">블라인드된 게시물</div>
 									<p>다수 유저의 신고로 인해 관리자의 권한으로 정지당한 회원의 블라인드된 매칭 게시글입니다.</p>
 									<p class="mt-3">
-										<a href="boardList.do" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+										<a href="boardList.do?sortBy=1" target="_blank" class="btn bg-white text-dark">돌아가기</a>
 									</p>
 								</div>
 							</div>
@@ -114,6 +114,10 @@
 												<!-- 날짜 -->
 												<div class="date">
 													<fmt:formatDate value="${bDatas.bDate}" pattern="yy.MM.dd. (E) HH:mm" />
+													<input type="hidden" id="code_reddit" value="모임장소는 ${bDatas.bAddress}이고 모임일자는 ${bDatas.bDate}입니다. " autocomplete="off" />
+													<button class="btn btn-icon" onclick="g_gout()" style="transform: translateX(10px);">
+														<span class="fas fa-volume-up"></span>
+													</button>
 												</div>
 												<c:if test="${bDatas.mNum != mNum && mNum ne null}">
 													<c:if test="${bDatas.sue != 1}">
@@ -142,7 +146,7 @@
 									<div class="match-body">
 
 										<!-- 탭 -->
-										<div  id="a_box">
+										<div id="a_box">
 											<ul class="nav nav-tabs" id="myTab2" role="tablist">
 												<li class="nav-item">
 													<a class="nav-link active show" id="info-tab2" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">정보</a>
@@ -179,7 +183,7 @@
 																<!--방장 - 글 작성자-->
 																<li class="media">
 																	<div class="avatar-item">
-																		<img alt="image" src="../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
+																		<img alt="writerAvatar" src="../assets/img/avatar/${entry.mImg}" width="50" class="mr-3 img-fluid">
 																		<div class="avatar-badge">
 																			<i class="fas fa-crown" style="color: #ffdd00"></i>
 																		</div>
@@ -204,7 +208,7 @@
 															<c:if test="${bDatas.mNum != entry.mNum}">
 																<!--일반 참여자-->
 																<li class="media" id="${entry.aNum}">
-																	<img alt="image" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/${entry.mImg}">
+																	<img alt="participantAvatar" class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/${entry.mImg}">
 																	<div class="media-body">
 																		<div class="media-title">${entry.mId}</div>
 																		<div class="text-job text-muted">
@@ -247,7 +251,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control cContent" name="cContent" id="textBox" placeholder="댓글을 입력해주세요. (최대 300자)" data-height="150" style="height: 87px; resize: none;" onclick="validation(this.id)"></textarea>
-												<c:if test="${mNum == null}">
+												<%-- <c:if test="${mNum == null}">
 													<button class="btn-submit" id="insertCommet" onclick="loginConfirm()">
 														<i class="fas fa-comments"></i>
 													</button>
@@ -256,11 +260,14 @@
 													<button class="btn-submit" id="insertCommet" onclick="comCreate()">
 														<i class="fas fa-comments"></i>
 													</button>
-												</c:if>
-												<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
-												<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
-												<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
+												</c:if> --%>
+												<button class="btn-submit" id="insertCommet" onclick="${mNum == null} ? loginConfirm() : comCreate()">
+													<i class="fas fa-comments"></i>
+												</button>
 											</div>
+											<div class="alert alert-info hidden char">글자수는 300자까지 입력 가능합니다.</div>
+											<div class="alert alert-info hidden space">댓글을 입력해주세요.</div>
+											<div class="alert alert-info hidden gap">공백만 입력되었습니다.</div>
 											<ul class="list-unstyled list-unstyled-border list-unstyled-noborder" style="word-break: break-all;">
 												<c:forEach var="com" items="${cDatas}">
 													<c:choose>
@@ -377,7 +384,7 @@
 			map:map,
 			position: new naver.maps.LatLng('${bDatas.bLatitude}', '${bDatas.bLongitude}'),
 			icon: {
-				content: '<img src="<c:url value="../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
+				content: '<img alt="mapMaker" src="<c:url value="../assets/img/marker2.png"/>" alt=""style="width: 48px; height: 60px;">',
 				size: new naver.maps.Size(32,32),
 				anchor: new naver.maps.Point(16, 32)
 			}
@@ -564,6 +571,60 @@
 				location.href = "login.do"
 			}
 		}
+		
+		  //음성 tts 실행
+	      var voices = [];
+	      function setVoiceList() {
+	         voices = window.speechSynthesis.getVoices();
+	      }
+
+	      setVoiceList();
+
+	      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+	         window.speechSynthesis.onvoiceschanged = setVoiceList;
+	      }
+
+	      function speech(txt) {
+	         if (!window.speechSynthesis) {
+	            alert("음성 재생을 지원하지 않는 브라우저입니다. 크롬, 파이어폭스 등의 최신 브라우저를 이용하세요");
+	            return;
+	         }
+
+	         var lang = 'ko-KR';
+	         var utterThis = new SpeechSynthesisUtterance(txt);
+
+	         utterThis.onend = function(event) {
+	            console.log('end');
+	         };
+
+	         utterThis.onerror = function(event) {
+	            console.log('error', event);
+	         };
+
+	         var voiceFound = false;
+
+	         for (var i = 0; i < voices.length; i++) {
+	            if (voices[i].lang.indexOf(lang) >= 0 || voices[i].lang.indexOf(lang.replace('-', '_')) >= 0) {
+	               utterThis.voice = voices[i];
+	               voiceFound = true;
+	            }
+	         }
+	         if (!voiceFound) {
+	            alert('voice not found');
+	            return;
+	         }
+
+	         utterThis.lang = lang;
+	         utterThis.pitch = 1;
+	         utterThis.rate = 0.8; //속도
+
+	         window.speechSynthesis.speak(utterThis);
+	      }
+
+	      function g_gout() {
+	         var t = document.getElementById("code_reddit");
+	         speech(t.value);
+	      }
 	</script>
 	<!-- General JS Scripts -->
 	<script src="../assets/modules/jquery.min.js"></script>
