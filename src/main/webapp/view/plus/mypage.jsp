@@ -40,9 +40,10 @@
 </script>
 <!-- /END GA -->
 <style>
-.table:not(.table-sm):not(.table-md):not(.dataTable) td, .table:not(.table-sm):not(.table-md):not(.dataTable) th{
+.table:not(.table-sm):not(.table-md):not(.dataTable) td, .table:not(.table-sm):not(.table-md):not(.dataTable) th {
 	padding: 0 10px;
 }
+
 .main-content {
 	padding-left: 15%;
 	padding-right: 15%;
@@ -102,15 +103,15 @@ body {
 											<table class="table table-striped" id="sortable-table">
 												<tbody>
 													<tr class="text-center">
-														<th width="5%" class="text-center">
+														<th width="5%">
 															<i class="fas fa-th"></i>
 														</th>
 														<th width="20%">제목</th>
 														<th width="15%">장소</th>
 														<th width="13%">모임일자</th>
-														<th width="7%">인원</th>
-														<th width="12%" style="padding-right:0;">상태</th>
-														<th width="15%" style="padding-left:0;">수정/삭제</th>
+														<th width="10%">인원</th>
+														<th width="10%">상태</th>
+														<th width="13%">수정/삭제</th>
 													</tr>
 
 													<!-- 작성글 없을때 -->
@@ -139,43 +140,54 @@ body {
 																<td width="13%">
 																	<fmt:formatDate value="${v.bDate}" pattern="yy-MM-dd HH:mm" />
 																</td>
-																<td width="7%">
+																<td width="10%">
 																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
 																	<a href="#" class="modal-btn" data-toggle="modal" data-bNum="${v.bNum}" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
-																	<button onclick="location.href='sendTest.do'">이메일 보내기</button>
 																</td>
-																<td width="15%">
-																	<div class="dropdown d-inline mr-2" id="b_box">
-																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																			<c:if test="${v.bAction==0}">
+																<c:choose>
+																	<c:when test="${v.bAction!=2}">
+																		<td width="10%">
+																			<div class="dropdown d-inline mr-2" id="b_box">
+																				<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																					<c:if test="${v.bAction==0}">
 																		모집중
 																		</c:if>
-																			<c:if test="${v.bAction==1}">
+																					<c:if test="${v.bAction==1}">
 																		모집완료
 																		</c:if>
-																			<c:if test="${v.bAction==2}">
-																		지난 모임
-																		</c:if>
-																		</button>
-																		<div class="dropdown-menu">
-																			<!--<a class="dropdown-item" id="matchIng" href="updateBoardAction.do?bNum=${v.bNum}&bAction=0">모집 중</a>-->
-																			<!--<a class="dropdown-item" id="matchEnd" href="updateBoardAction.do?bNum=${v.bNum}&bAction=1">모집완료</a> -->
 
-																			<a href="#" class="dropdown-item" data-bNum="${v.bNum}" id="matchIng">모집 중</a>
-																			<a href="#" class="dropdown-item" data-bNum="${v.bNum}" id="matchEnd">모집완료</a>
-																		</div>
-																		<!-- ajax로 구현하기 -->
-																	</div>
-																</td>
-																<td width="15%" style="padding-left:0;">
-																	<a href="updateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
-																		<!-- 작성 게시글 수정페이지로 이동 -->
-																		<i class="far fa-edit"></i>
-																	</a>
-																	<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do?bNum=${v.bNum}'">
-																		<i class="fas fa-times"></i>
-																	</button>
-																</td>
+																				</button>
+																				<div class="dropdown-menu">
+																					<a href="#" class="dropdown-item" data-bNum="${v.bNum}" id="matchIng">모집 중</a>
+																					<a href="#" class="dropdown-item" data-bNum="${v.bNum}" id="matchEnd">모집완료</a>
+																				</div>
+																			</div>
+																		</td>
+																		<td width="13%">
+																			<a href="updateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
+																				<i class="far fa-edit"></i>
+																			</a>
+																			<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do?bNum=${v.bNum}'">
+																				<i class="fas fa-times"></i>
+																			</button>
+																		</td>
+																	</c:when>
+																	<c:otherwise>
+																		<td width="10%">
+																			<div class="dropdown d-inline mr-2" id="b_box">
+																				<button class="btn btn-secondary" disabled="disabled">지난 모임</button>
+																			</div>
+																		</td>
+																		<td width="13%">
+																			<button class="btn btn-icon btn-secondary" disabled="disabled">
+																				<i class="far fa-edit"></i>
+																			</button>
+																			<button class="btn btn-icon btn-secondary" disabled="disabled">
+																				<i class="fas fa-times"></i>
+																			</button>
+																		</td>
+																	</c:otherwise>
+																</c:choose>
 															</tr>
 														</c:forEach>
 													</c:if>
@@ -326,8 +338,7 @@ body {
 						// result가 비어있지 않을 때만 추가
 						if (result.length > 0) {
 							$.each(result, function(i, item) {
-								html += '<li class="media">' 
-										+ '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
+								html += '<li class="media">' + '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
 										+ '<div class="media-title">'
 										+ item.mId
 										+ '</div>'

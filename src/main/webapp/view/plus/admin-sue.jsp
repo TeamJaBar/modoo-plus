@@ -141,7 +141,7 @@ body {
 													<c:forEach items="${sue}" var="v">
 														<tr>
 															<td class="text-center" width="5%">${v.sNum}</td>
-															<td width="20%">
+															<td class="text-center" width="20%">
 																<a href="selectSue.do?sNum=${v.sNum}">${v.bTitle}</a>
 															</td>
 															<td width="12%">
