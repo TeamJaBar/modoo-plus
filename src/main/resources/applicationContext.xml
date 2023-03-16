@@ -25,4 +25,25 @@
    <bean class="org.mybatis.spring.SqlSessionTemplate">
       <constructor-arg ref="sqlSession" />
    </bean>
+   <!-- gmail -->
+ 
+<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="465" />
+    <property name="defaultEncoding" value="utf-8"/>
+    <property name="username" value="vaughnkim2486@gmail.com" />
+    <property name="password" value="fjikkegnjfmhakrv" />
+   
+    <property name="javaMailProperties">
+        <props>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.ssl.enable">true</prop>
+        </props>
+    </property>
+</bean>
+    
+    <bean id="email" class="com.spring.biz.common.EmailVO"></bean>
+    <bean id="emailSender" class="com.spring.biz.common.EmailSender"></bean>
+   
 </beans>

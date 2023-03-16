@@ -142,6 +142,7 @@ body {
 																<td width="7%">
 																	<!-- aData == 이 글의 현재 매칭된 참여자가 몇명인지 applicant 배열 -->
 																	<a href="#" class="modal-btn" data-toggle="modal" data-bNum="${v.bNum}" data-target="#exampleModal"> ${v.aCnt} / ${v.bCnt}</a>
+																	<button onclick="location.href='sendTest.do'">이메일 보내기</button>
 																</td>
 																<td width="15%">
 																	<div class="dropdown d-inline mr-2" id="b_box">
