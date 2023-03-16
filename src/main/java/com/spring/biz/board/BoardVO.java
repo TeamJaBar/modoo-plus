@@ -33,8 +33,17 @@ public class BoardVO {
 	private int sue; // JAVA 저장 객체 : 신고여부
 	private int apply; // JAVA 저장 객체 : 신청여부
 	private String mStatus;//JAVA 저장 객체: 작성자 상태(기본/정지)
+	private String mId;//JAVA 저장 객체: Id
 	
 	
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
+
 	public String getmStatus() {
 		return mStatus;
 	}
@@ -284,8 +293,6 @@ public class BoardVO {
 				+ ", eSearchDate=" + eSearchDate + ", searchContent=" + searchContent + ", bMname=" + bMname
 				+ ", bMscore=" + bMscore + ", bMimg=" + bMimg + ", aCnt=" + aCnt + ", sortBy=" + sortBy + ", aNum="
 				+ aNum + ", aChk=" + aChk + ", pageNum=" + pageNum + ", amount=" + amount + ", sue=" + sue + ", apply="
-				+ apply + ", mStatus=" + mStatus + "]";
+				+ apply + ", mStatus=" + mStatus + ", mId=" + mId + "]";
 	}
-
-	
 }
