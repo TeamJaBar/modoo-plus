@@ -87,7 +87,7 @@ public class BoardDAO {
 	private final String SELECTONE_LATELY = "SELECT LAST_INSERT_ID() AS BNUM";
 	
 	//관리자 페이지에서 신고글 바꿔주는 쿼리문
-	private final String UPDATE_BSTATUS = "UPDATE BOARD SET BSTATAUS=? WHERE BNUM=?";
+	private final String UPDATE_BSTATUS = "UPDATE BOARD SET BSTATUS=? WHERE BNUM=?";
 	public boolean insertBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 insert()");
@@ -102,13 +102,13 @@ public class BoardDAO {
 	public boolean updateBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 update()");
-			if (bvo.getbAction() == null) {
-				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(),
-						bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress(), bvo.getbNum());
-			} else if (bvo.getbStatus()!=null) {
+			if (bvo.getbAction() != null) {
+				jdbcTemplate.update(SQL_UPDATE_BACTION, bvo.getbAction(), bvo.getbNum());
+			} else if (bvo.getbStatus() != null) {
 				jdbcTemplate.update(UPDATE_BSTATUS, bvo.getbStatus(), bvo.getbNum());
 			} else {
-				jdbcTemplate.update(SQL_UPDATE_BACTION, bvo.getbAction(), bvo.getbNum());
+				jdbcTemplate.update(SQL_UPDATE, bvo.getbTitle(), bvo.getbContent(), bvo.getbRate(), bvo.getbCnt(), new java.sql.Timestamp(bvo.getbDate().getTime()), bvo.getbLatitude(),
+						bvo.getbLongitude(), bvo.getbLocal(), bvo.getbAddress(), bvo.getbNum());
 			}
 		} catch (Exception e) {
 			return false;

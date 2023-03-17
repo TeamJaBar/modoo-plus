@@ -1,5 +1,6 @@
 package com.spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ public class AdminController {
 
 	private static final int DEFAULT_PAGENUM = 1;
 	private static final int DEFAULT_AMOUNT = 10;
+	private static final int SCORE = -30; // 신고당한 회원 감점
+	private static final int POINT = 100; // 신고한 회원 쇼핑몰 포인트 추가
 
 	// 관리자 메인 페이지로 이동
 	@RequestMapping(value = { "/admin-main.do" })
@@ -121,19 +124,29 @@ public class AdminController {
 
 	/* 게시글 */
 	// 게시글 관리 페이지 이동
-	  @RequestMapping(value = "/adPlusMain.do")
-	    public String selsctAllBoard(BoardVO bvo, Model model) {
-	        String jbDatas = new Gson().toJson(boardService.selectAllManage(bvo));
-	        System.out.println("bDatas 로그 : " + jbDatas);
-	        model.addAttribute("jbDatas", jbDatas);
-	        return "/view/plus/admin-board.jsp";
-	    }
+	@RequestMapping(value = "/adPlusMain.do")
+	public String selsctAllBoard(BoardVO bvo, Model model) {
+		String jbDatas = new Gson().toJson(boardService.selectAllManage(bvo));
+		System.out.println("bDatas 로그 : " + jbDatas);
+		model.addAttribute("jbDatas", jbDatas);
+		return "/view/plus/admin-board.jsp";
+	}
 
 	// 게시글 삭제
-	@RequestMapping(value = "/deleteAdBoard.do")
-	public String deleteBoard(BoardVO bvo) {
-		boardService.deleteBoard(bvo);
-		return "redirect:/view/plus/adPlusMain.do";
+	// MyPageController - deleteBoard() 통일
+
+	// 게시글 선택 삭제
+	@ResponseBody
+	@RequestMapping(value = "/arBoardDelete.do")
+	public String deleteArBoard(BoardVO bvo, HttpServletRequest request) {
+		String[] arDelete = request.getParameterValues("arbNum");
+
+		for (int i = 0; i < arDelete.length; i++) {
+			bvo.setbNum(Integer.parseInt(arDelete[i]));
+			boardService.deleteBoard(bvo);
+		}
+
+		return "1";
 	}
 
 	/* 매칭 */
@@ -157,7 +170,7 @@ public class AdminController {
 		model.addAttribute("sue", pageService.selectAllSue(svo));
 		return "/view/plus/admin-sue.jsp";
 	}
-	
+
 	@RequestMapping(value = "/adMoveSue.do", method = RequestMethod.POST)
 	public @ResponseBody JsonObject selsctAllSueResult(SueVO svo, PageVO pvo, Model model) {
 		svo.setAmount(DEFAULT_AMOUNT);
@@ -165,14 +178,14 @@ public class AdminController {
 		if (svo.getPageNum() == 0) {
 			svo.setPageNum(DEFAULT_PAGENUM);
 		}
-		
+
 		int total = pageService.getSueTotal(svo); // 전체게시글수
 		pvo = new PageVO(svo.getPageNum(), total);
-		
+
 		JsonObject result = new JsonObject();
 		result.addProperty("pageVO", new Gson().toJson(pvo));
-		result.addProperty("sue",  new GsonBuilder().setPrettyPrinting().create().toJson(pageService.selectAllSue(svo)));
-		
+		result.addProperty("sue", new GsonBuilder().setPrettyPrinting().create().toJson(pageService.selectAllSue(svo)));
+
 		System.out.println(result);
 
 		return result;
@@ -188,14 +201,43 @@ public class AdminController {
 
 	// 신고 처리
 	@RequestMapping(value = "/adSueMem.do")
-	public String glglgl(SueVO svo, Model model) {
-		// 사용자 정지
-		// sue 처리 완료
+	public String updateSueAd(SueVO svo, MemberVO mvo, BoardVO bvo, Model model) {
+		boolean ismStat = svo.getmStatus() != null ? true : false;
+		
+		// 신고글 (sResult "0" > "1")
 		sueService.updateSue(svo);
-		// 신고 board 차단
-		// 다른 글 차단
+		mvo.setmStatus(null);
+
+		// 신고한 회원 포인트 적립
+		System.out.println("포인트");
+		mvo.setmPoint(POINT);
+		memberService.update(mvo);
+		
+		mvo = new MemberVO();
+		mvo.setmNum(svo.getSmNum());
+		
+		if (bvo.getbNum() != 0) {
+			System.out.println("점수");
+			// 신고당한 회원 감점
+			mvo.setScore(SCORE);
+			memberService.update(mvo);
+
+			// 신고당한 게시글 차단 (bStatus "0" > "1")
+			bvo.setbStatus("1");
+			boardService.updateBoard(bvo);
+		}
+		
+		if (ismStat) {
+			System.out.println("mStatus");
+			// 계정 3일 정지 (mStatus "0" > "1")
+			mvo.setmStatus("1");
+			memberService.update(mvo);
+			mvo.setmStatus(null);
+		}
+
 		// 이메일 보내기
-		return "redirect:/view/plus/adMoveSue.do";
+
+		return "redirect:selectSue.do?sNum=" + svo.getsNum();
 	}
-	
+
 }
