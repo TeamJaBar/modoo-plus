@@ -79,7 +79,7 @@ public class BoardDAO {
 	private final String SELECTONE_LATELY = "SELECT LAST_INSERT_ID() AS BNUM";
 	
 	//관리자 페이지에서 신고글 바꿔주는 쿼리문
-	private final String UPDATE_BSTATUS = "UPDATE BOARD SET BSTATAUS=? WHERE BNUM=?";
+	private final String UPDATE_BSTATUS = "UPDATE BOARD SET BSTATUS=? WHERE BNUM=?";
 	public boolean insertBoard(BoardVO bvo) {
 		try {
 			System.out.println("BoardDAO의 insert()");
