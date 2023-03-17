@@ -156,7 +156,7 @@ public class AccountController {
 	}
 
 	// 비밀번호 찾기 - 02. 이메일 전송
-	@RequestMapping(value = "/sendEmail.do")
+//	@RequestMapping(value = "/sendEmail.do")
 	public String sendEmail(MemberVO mvo, Random rand, Properties props, MimeMessage message, Session session, Model model) {
 		model.addAttribute("mId", mvo.getmId());
 
