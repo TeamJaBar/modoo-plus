@@ -18,7 +18,7 @@ public class MemberVO {
 	private Date mDate; // 가입일
 	private String kakao; // 카카오로그인
 	private int score; // 회원 점수
-	private String mstatus; // 회원 상태
+	private String mStatus; // 회원 상태
 	private String mImg; // 프로필 이미지 file name
 	private MultipartFile uploadFile; //JAVA에서만 저장용으로 사용하는 데이터 
 	private String tempDate; // JAVA에서만 저장용으로 사용하는 데이터 : 가입일
@@ -131,12 +131,12 @@ public class MemberVO {
 		this.score = score;
 	}
 
-	public String getMstatus() {
-		return mstatus;
+	public String getmStatus() {
+		return mStatus;
 	}
 
-	public void setMstatus(String mstatus) {
-		this.mstatus = mstatus;
+	public void setmStatus(String mStatus) {
+		this.mStatus = mStatus;
 	}
 
 	public String getmImg() {
@@ -198,7 +198,7 @@ public class MemberVO {
 	@Override
 	public String toString() {
 		return "MemberVO [mNum=" + mNum + ", mId=" + mId + ", mPw=" + mPw + ", mName=" + mName + ", mEmail=" + mEmail + ", mTel=" + mTel + ", zipCode=" + zipCode + ", userAddr=" + userAddr
-				+ ", detailAddr=" + detailAddr + ", mPoint=" + mPoint + ", mDate=" + mDate + ", kakao=" + kakao + ", score=" + score + ", mstatus=" + mstatus + ", mImg=" + mImg + ", tempDate="
+				+ ", detailAddr=" + detailAddr + ", mPoint=" + mPoint + ", mDate=" + mDate + ", kakao=" + kakao + ", score=" + score + ", mstatus=" + mStatus + ", mImg=" + mImg + ", tempDate="
 				+ tempDate + ", tempCnt=" + tempCnt + ", findPw=" + findPw + ", saveId=" + saveId + ", mode=" + mode + "]";
 	}
 	
