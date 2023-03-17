@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,13 +45,23 @@ public class BoardController {
 	@Autowired
 	private SueService sueService;
 	
+	private static final int DEFAULT_PAGENUM = 1;
+	private static final int DEFAULT_AMOUNT = 5;
+	
 	/* 게시글 */
 	// 게시글 목록
-	@RequestMapping("/boardList.do")
-	public String selectAllMyBoard(BoardVO bvo, Model model) {
+	@RequestMapping(value="/boardList.do", method = RequestMethod.GET)
+	public String selectAllBoard(BoardVO bvo, Model model) {
+		bvo.setPageNum(DEFAULT_PAGENUM);
+		bvo.setAmount(DEFAULT_AMOUNT);
 		model.addAttribute("boardList", boardService.selectAllMain(bvo));
 		model.addAttribute("localList", boardService.selectAllLocal(bvo));
 		return "/view/plus/board-list.jsp";
+	}
+	
+	@RequestMapping(value="/boardList.do",  method = RequestMethod.POST)
+	public @ResponseBody List<BoardVO> selectAllScroll(BoardVO bvo) {
+		return boardService.selectAllMain(bvo);
 	}
 
 	// 게시글 작성하러 이동

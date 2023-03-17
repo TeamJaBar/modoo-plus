@@ -93,7 +93,7 @@ public class MyPageController {
 		String referer = request.getHeader("Referer");
 		boardService.deleteBoard(bvo);
 		if (referer.contains("boardDetail")) {
-			return "redirect:boardList.do?sortBy=1";
+			return "redirect:boardList.do";
 		}
 		return "redirect:" + referer;
 	}

@@ -139,14 +139,7 @@ public class BoardDAO {
 		}
 		return datas;
 	}
-	public List <BoardVO> selectAllPage(BoardVO bvo){
-		List<BoardVO> datas = new ArrayList<BoardVO>();
-		try {
-			 return datas=jdbcTemplate.query(SQL_SELECTALL_MAIN, new BoardRowMapper(),bvo.getPageNum(),bvo.getAmount());
-		}catch(Exception e) {
-			return null;
-		}
-	}
+
 
 	public List<BoardVO> selectAllMain(BoardVO bvo) {
 		List<BoardVO> datas = new ArrayList<BoardVO>();
@@ -159,6 +152,8 @@ public class BoardDAO {
 					query = SQL_SELECTALL_MATCH; // 시합날짜순
 				}
 				datas = jdbcTemplate.query(query, new BoardSelectAllMapper());
+			} else if(bvo.getPageNum() != 0){
+				datas=jdbcTemplate.query(SQL_SELECTALL_MAIN, new BoardSelectAllMapper(),(bvo.getPageNum() - 1) * bvo.getAmount(), bvo.getAmount());
 			} else { // 검색
 				Object[] obj = null;
 				if (bvo.getbLocal() != null) { // 지역 검색

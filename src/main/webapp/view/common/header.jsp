@@ -254,7 +254,7 @@
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 			</c:if>
-			<a href="boardList.do?sortBy=1" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+			<a href="boardList.do" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
 				 <i class="fas fa-dice"></i>
 			</a>
 		</div>
