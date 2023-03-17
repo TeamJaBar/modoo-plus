@@ -133,10 +133,20 @@ public class AdminController {
 	}
 
 	// 게시글 삭제
-	@RequestMapping(value = "/deleteAdBoard.do")
-	public String deleteBoard(BoardVO bvo) {
-		boardService.deleteBoard(bvo);
-		return "redirect:/view/plus/adPlusMain.do";
+	// MyPageController - deleteBoard() 통일
+
+	// 게시글 선택 삭제
+	@ResponseBody
+	@RequestMapping(value = "/arBoardDelete.do")
+	public String deleteArBoard(BoardVO bvo, HttpServletRequest request) {
+		String[] arDelete = request.getParameterValues("arbNum");
+
+		for (int i = 0; i < arDelete.length; i++) {
+			bvo.setbNum(Integer.parseInt(arDelete[i]));
+			boardService.deleteBoard(bvo);
+		}
+
+		return "1";
 	}
 
 	/* 매칭 */
