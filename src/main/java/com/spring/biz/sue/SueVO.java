@@ -29,8 +29,6 @@ public class SueVO {
 	private int amount;
 	private int score;
 
-
-
 	public String getSmId() {
 		return smId;
 	}
@@ -223,5 +221,11 @@ public class SueVO {
 		this.srDate = srDate;
 	}
 
+	@Override
+	public String toString() {
+		return "SueVO [sNum=" + sNum + ", bNum=" + bNum + ", mNum=" + mNum + ", scNum=" + scNum + ", sDate=" + sDate + ", sResult=" + sResult + ", srDate=" + srDate + ", bTitle=" + bTitle + ", mId="
+				+ mId + ", mName=" + mName + ", mImg=" + mImg + ", bWdate=" + bWdate + ", bStatus=" + bStatus + ", bContent=" + bContent + ", scName=" + scName + ", mStatus=" + mStatus + ", smId="
+				+ smId + ", smNum=" + smNum + ", aCnt=" + aCnt + ", nCnt=" + nCnt + ", cCnt=" + cCnt + ", pageNum=" + pageNum + ", amount=" + amount + ", score=" + score + "]";
+	}
 
 }
