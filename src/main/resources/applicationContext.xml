@@ -42,8 +42,5 @@
         </props>
     </property>
 </bean>
-    
-    <bean id="email" class="com.spring.biz.common.EmailVO"></bean>
-    <bean id="emailSender" class="com.spring.biz.common.EmailSender"></bean>
    
 </beans>
