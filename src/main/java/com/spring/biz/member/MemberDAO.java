@@ -20,7 +20,7 @@ public class MemberDAO {
 
 	final String INSERT = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAOLOGIN, MIMG) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), NULL, ?)";
 	final String INSERT_KAKAO = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAOLOGIN, MIMG) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), ?, ?)";
-	final String SELECTONE_LOGIN = "SELECT MNUM, MID, MNAME, MIMG FROM MEMBER WHERE MID=? AND MPW=?";
+	final String SELECTONE_LOGIN = "SELECT MNUM, MID, MNAME, MIMG, MSTATUS FROM MEMBER WHERE MID=? AND MPW=?";
 	final String SELECTONE_KAKAOCHK = "SELECT KAKAOLOGIN FROM MEMBER WHERE MNUM=?";
 	final String SELECTONE_INFO = "SELECT MNUM, MID, MPW, MNAME, MEMAIL, MTEL, MPOINT, ZIPCODE, USERADDR, DETAILADDR, SCORE, MSTATUS, MIMG FROM MEMBER WHERE MNUM=?";
 	final String SELECTONE_ID = "SELECT MID FROM MEMBER WHERE MNAME=? AND MEMAIL=?";
@@ -54,8 +54,8 @@ public class MemberDAO {
 				template.update(UPDATE_PW, vo.getmPw(), vo.getmId());
 			} else if(vo.getmName()!=null){
 				template.update(UPDATE_ADMIN, vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmPoint(), vo.getmNum());	
-			} else if(vo.getMstatus()!=null) {
-				template.update(UPDATE_STATUS, vo.getMstatus(), vo.getmNum());
+			} else if(vo.getmStatus()!=null) {
+				template.update(UPDATE_STATUS, vo.getmStatus(), vo.getmNum());
 			} else if(vo.getScore()!=0) {
 				template.update(UPDATE_SCORE, vo.getScore(), vo.getmNum());
 			} else if(vo.getmPoint()!=0 &&vo.getmNum()!=0) {

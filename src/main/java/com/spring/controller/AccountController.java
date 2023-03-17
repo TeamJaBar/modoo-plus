@@ -102,6 +102,12 @@ public class AccountController {
 			sweet.setUrl("login.jsp");
 			model.addAttribute("sweet", sweet);
 			return "alert.jsp";
+		} else if (mvo.getmStatus().equals("1")){
+			sweet.setTitle("사용자의 신고로 정지당한 계정입니다.");
+			sweet.setMsg("관리자에게 문의하세요.");
+			sweet.setUrl("login.jsp");
+			model.addAttribute("sweet", sweet);
+			return "alert.jsp";
 		} else {
 			// 로그인 성공
 			session.setAttribute("mNum", mvo.getmNum());
@@ -110,6 +116,7 @@ public class AccountController {
 			session.setAttribute("mImg", mvo.getmImg());
 			session.removeAttribute("redirectURI");
 		}
+		
 		if(redirectURI.contains("join")) {
 			return "redirect:main.do";
 		}
