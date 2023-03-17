@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("boardService")
-public class BoardServiceImpl implements BoardService{
-	
+public class BoardServiceImpl implements BoardService {
+
 	@Autowired
 	BoardDAO boardDAO;
 
@@ -35,7 +35,7 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardVO> selectAllManage(BoardVO bvo) {
 		return boardDAO.selectAllManage(bvo);
 	}
-	
+
 	@Override
 	public List<BoardVO> selectAllLocal(BoardVO bvo) {
 		return boardDAO.selectAllLocal(bvo);
@@ -45,23 +45,23 @@ public class BoardServiceImpl implements BoardService{
 	public BoardVO selectOne(BoardVO bvo) {
 		return boardDAO.selectOne(bvo);
 	}
-	
+
 	@Override
 	public BoardVO selectOneDetail(BoardVO bvo) {
 		return boardDAO.selectOneDetail(bvo);
 	}
-	
+
 	@Override
 	public String getbLocal(String addr) {
 		String bLocal = "";
 		String[] arList = addr.split("\\s");
-		
-		for (int i = 0; i < arList.length; i++) {
+
+		for (int i = 0; i < 2; i++) {
 			System.out.println("arList" + i + " : " + arList[i]);
 		}
 		boolean isRequired = true;
 
-		for (int i = 0; i < arList.length; i++) {
+		for (int i = 0; i < 2; i++) {
 			if (i > 0 && arList[i].contains("구")) {
 				for (int j = 0; j < i + 1; j++) {
 					System.out.println("arList" + j + " : " + arList[j]);
@@ -73,7 +73,7 @@ public class BoardServiceImpl implements BoardService{
 		}
 
 		if (isRequired) {
-			for (int i = 0; i < arList.length; i++) {
+			for (int i = 0; i < 2; i++) {
 				if (i > 0 && arList[i].contains("읍")) {
 					for (int j = 0; j < i + 1; j++) {
 						bLocal += arList[j] + " ";
@@ -84,7 +84,13 @@ public class BoardServiceImpl implements BoardService{
 			}
 		}
 
+		if (isRequired) {
+			for (int i = 0; i < 2; i++) {
+				bLocal += arList[i] + " ";
+			}
+		}
 		bLocal = bLocal.substring(0, bLocal.length() - 1);
+
 		return bLocal;
 	}
 }
