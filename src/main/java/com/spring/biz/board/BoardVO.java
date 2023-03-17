@@ -28,8 +28,8 @@ public class BoardVO {
 	private int sortBy; // JAVA 저장 객체 : 정렬 기준 - bDate(1) or bWdate(2)
 	private int aNum; // JAVA 저장 객체 : applicant 테이블 PK
 	private String aChk; // JAVA 저장 객체 : 평가 확인 여부
-	private int pageNum;
-	private int amount;
+	private int pageNum;// 현재 조회하는 페이지번호
+	private int amount;// 화면에 그려질 데이터
 	private int sue; // JAVA 저장 객체 : 신고여부
 	private int apply; // JAVA 저장 객체 : 신청여부
 	private String mStatus;//JAVA 저장 객체: 작성자 상태(기본/정지)
