@@ -1016,6 +1016,7 @@
 				success: function(result){
 					console.log("success");
 					console.log(result);
+					
 					var $list = $('#board-list');
 	                $list.empty();
 	                $.each(result, function(index, value) {
@@ -1291,29 +1292,90 @@
 
 	<!-- Template JS File -->
 	<script type="text/javascript">
-	/* $(document).ready(function() {
+	$(document).ready(function() {
 		  var page = 2; // 다음 페이지를 나타내는 변수를 초기화합니다.
 		  
 		  $(document).scroll(function() {
 		    var maxHeight = $(document).height();
 		    var currentScroll = $(window).scrollTop() + $(window).height();
 
-		    if (maxHeight <= currentScroll + 100) {
+		    if (maxHeight <= currentScroll + 50) {
 		      $.ajax({
-		        url: '/boardList.do?page=' + page, // 다음 페이지를 가져옵니다.
-		        success: function(html, status) {
+		        url: 'boardList.do',
+		        type: 'POST',
+		        data: { pageNum: page, amount:5 },
+		        success: function(data) {
 		          // Append next contents
-		          $('#board-list').append($(html).find('.boardList-item'));
-		          
-		          // Initialize Masonry layout after appending new items
-		         
+		          console.log('무한 스크롤링');
+		          console.log(page);
+		          var $list = $('#board-list');
+	                $.each(data, function(index, value) {
+	                	console.log(value);
+	                	
+	                    var $a = $('<a>').attr('href', 'boardDetail.do?bNum=' + value.bNum).attr('fg-component', 'match-list-item');
+	                    var $contentsBox = $('<div>').addClass('contents-box');
+	                    var $leftSection = $('<div>').addClass('left-section');
+	                    var $head = $('<div>').addClass('head');
+	                    var $tags = $('<div>').addClass('tags');
+	                    var $tag = $('<div>').addClass('tag');
+	                    var $tagText = $('<span>').addClass('text').text(value.bLocal);
+	                    var $body = $('<div>').addClass('body');
+	                    var $leftBox = $('<div>').addClass('left-box');
+	                    var $date = $('<div>').addClass('date');
+	                    var $dateText = $('<span>').addClass('text').text(value.bTitle);
+	                    var $title = $('<div>').addClass('title');
+
+	                    //javascript Date 가공하기
+	                    let now = new Date(value.bDate).format("yy.MM.dd (E) HH:mm");
+	                    var $titleText = $('<span>').addClass('text').text(now);
+	                    /*let formatter = new Intl.DateTimeFormat('ko', {
+	                        year: '2-digit',
+	                        month: '2-digit',
+	                        day: '2-digit',
+	                        hour: '2-digit',
+	                        minute: '2-digit',
+	                        weekday: 'short'
+	                    });
+	                    let formattedDate = formatter.format(now)*/
+
+	                    var $informations = $('<div>').addClass('informations');
+	                    var $informationId = $('<div>').addClass('information');
+	                    var $informationIdText = $('<span>').addClass('text').text(value.mId);
+	                    var $informationCnt = $('<div>').addClass('information');
+	                    var $informationCntText = $('<span>').addClass('text').text(value.bCnt + '명');
+	                    var $informationRate = $('<div>').addClass('information');
+	                    var $informationRateText = $('<span>').addClass('text').text(value.bRate);
+	                    var $rightSection = $('<div>').addClass('right-section');
+	                    if (value.bAction == '0') {
+	                        var $btn = $('<div>').addClass('btn btn-submit').html('모집중<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                    } else {
+	                        var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                    }
+	                    // DOM 조작 코드 작성
+	                    $a.append($contentsBox);
+	                    $contentsBox.append($leftSection, $rightSection);
+	                    $leftSection.append($head, $body);
+	                    $head.append($tags);
+	                    $tags.append($tag);
+	                    $tag.append($tagText);
+	                    $body.append($leftBox, $title, $informations);
+	                    $leftBox.append($date, $title, $informations);
+	                    $date.append($dateText);
+	                    $informationId.append($informationIdText);
+	                    $informationCnt.append($informationCntText);
+	                    $informationRate.append($informationRateText);
+	                    $informations.append($informationId, $informationCnt, $informationRate);
+	                    $title.append($titleText, $informations);
+	                    $rightSection.append($btn);
+	                    $list.append($a);
+	                });
 		        }
 		      })
 		      
 		      page++; // 다음 페이지 변수를 증가합니다.
 		    }
 		  });
-		}); */
+		});
 	</script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
