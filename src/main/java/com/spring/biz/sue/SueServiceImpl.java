@@ -39,4 +39,9 @@ public class SueServiceImpl implements SueService {
 	public SueVO selectCount(SueVO svo) {
 		return sueDAO.selectCount(svo);
 	}
+
+	@Override
+	public SueVO selectEmail(SueVO svo) {
+		return sueDAO.selectEmail(svo);
+	}
 }

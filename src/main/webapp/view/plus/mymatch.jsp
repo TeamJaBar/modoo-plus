@@ -419,7 +419,7 @@ a.fc-day-grid-event {
 											+ exp(item.score)
 											+ '</div>'
 											+ '</div>'
-											+ '<img class="mr-3 rounded-circle text-center" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' 
+											+ '<img class="mr-3 rounded-circle text-center" src="../assets/img/avatar/' + item.mImg + '" alt="회원 아이콘" width="35">' 
 											+ '<div class="media-progressbar">'
 											+ '<div class="progress-text">'
 											+ score(item.score)
@@ -484,7 +484,7 @@ a.fc-day-grid-event {
 						// result가 비어있지 않을 때만 추가
 						if (result.length > 0) {
 							$.each(result, function(i, item) {
-								html += '<li class="media">' + '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="image" width="50">' + '<div class="media-body">'
+								html += '<li class="media">' + '<img class="mr-3 rounded-circle" src="../assets/img/avatar/' + item.mImg + '" alt="회원 아이콘" width="50">' + '<div class="media-body">'
 										+ '<div class="media-title">'
 										+ item.mId
 										+ '</div>'

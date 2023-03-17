@@ -145,7 +145,7 @@ body {
 																<a href="selectSue.do?sNum=${v.sNum}">${v.bTitle}</a>
 															</td>
 															<td width="12%">
-																<img alt="image" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
+																<img alt="회원 아이콘" src="../assets/img/avatar/${v.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
 																<div class="d-inline-block ml-1">${v.mId}</div>
 															</td>
 															<td class="text-center" width="13%">
