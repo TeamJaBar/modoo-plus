@@ -8,9 +8,6 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <title>보드매칭 &rsaquo; 메인페이지</title>
-<!-- 기존의 head 내용 -->
-
-
 <style>
 @font-face {
 	font-family: 'GmarketSansMedium';
@@ -671,6 +668,82 @@
 	height: 80px !important;
 	padding: 0 100px 0 100px !important;
 }
+
+#dn {
+	display: none;
+}
+
+.toggle2 {
+	cursor: pointer;
+	display: inline-block;
+	position: fixed; /* 변경된 속성 */
+	bottom: 20px; /* 하단에서 20px 떨어진 위치 */
+	right: 100px; /* 오른쪽에서 20px 떨어진 위치 */
+	width: 56px;
+	height: 32px;
+	background: #dfe2e3;
+	border-radius: 84px;
+	transition: background 200ms cubic-bezier(.445, .05, .55, .95);
+}
+
+.toggle2:before, .toggle2:after {
+	margin-top: 5px;
+}
+
+.toggle2:before {
+	content: "라이트모드";
+	position: absolute;
+	left: -85px;
+	color: #749ed7;
+}
+
+.toggle2:after {
+	content: "다크모드";
+	position: absolute;
+	right: -75px;
+}
+
+.toggle__handler {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	display: inline-block;
+	position: relative;
+	z-index: 2;
+	background: #ffe5b5;
+	background: #ffde7b;
+	border-color: #debd56;
+	box-shadow: none;
+	background-size: 0;
+	transition: transform .5s;
+	border: 0.188em solid #caba94;
+}
+
+#dn:checked+.toggle2 {
+	background: #dfe2e3
+}
+
+#dn:checked+.toggle2:before {
+	color: var(- -font-color)
+}
+
+#dn:checked+.toggle2:after {
+	color: var(- -check-color)
+}
+
+#dn:checked+.toggle2 .toggle__handler {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	display: inline-block;
+	transform: translate3d(28px, 0, 0) rotate(0);
+	border: .188em solid #caba94;
+	background: #ffefb5;
+	box-shadow: inset -.15em -.15em #ffe096;
+	background-image: radial-gradient(circle at 60% 10%, #e6cea5 15%, transparent 0), radial-gradient(circle at 30% 50%, #e6cea5 10%, transparent 0),
+		radial-gradient(circle at 60% 70%, #e6cea5 13%, transparent 0);
+	transition: transform .2s ease-in-out, background .3s, border-color .3s
+}
 </style>
 
 <!-- General CSS Files -->
@@ -690,6 +763,7 @@
 
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+<!-- 다크모드 아이콘 -->
 <script>
 	window.dataLayer = window.dataLayer || [];
 	function gtag() {
@@ -764,16 +838,11 @@
 																<span class="text">${board.bLocal}</span>
 															</div>
 														</div>
-														<!--<div  class="tags rate">
-														<div  class="tag">
-															<span  class="text">${board.bRate}</span>
-														</div>
-													</div>-->
 													</div>
 													<div class="body">
 														<div class="left-box">
 															<div class="date">
-																	<span class="text">${board.bTitle}</span>
+																<span class="text">${board.bTitle}</span>
 															</div>
 															<div class="title">
 																<span class="text">
@@ -799,20 +868,23 @@
 														<div class="btn btn-submit">
 															모집중
 															<p>${board.aCnt}/${board.bCnt}</p>
-															<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
 														</div>
 													</c:if>
 													<c:if test="${board.bAction == 1}">
 														<div class="btn btn-secondary">
 															모집완료
 															<p>${board.aCnt}/${board.bCnt}</p>
-															<!-- aCnt/bCnt 출력을 위한 p 태그 추가 -->
 														</div>
 													</c:if>
 												</div>
 											</div>
 										</a>
 									</c:forEach>
+								</div>
+								<div id="pagination">
+									<p>
+										<a href="/boardList.do?page=2"></a>
+									</p>
 								</div>
 							</div>
 						</div>
@@ -825,6 +897,11 @@
 					</button>
 				</c:if>
 			</div>
+			<input type="checkbox" id="dn">
+			<label for="dn" class="toggle2">
+				<span class="toggle__handler"> </span>
+			</label>
+
 		</div>
 	</div>
 	<!-- Modal screen -->
@@ -1206,28 +1283,38 @@
 	    });
 	});
 </script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-		  // Infinite Scroll 초기화
-		  var infiniteScroll = $('#board-list').infiniteScroll({
-		    path: function() {
-		      return $('.pagination__next').attr('href');
-		    },
-		    append: '.boardList-item',
-		    history: false,
-		    scrollThreshold: 0.5,
-		    status: '.page-load-status',
-		    button: '.view-more-button',
-		    debug: true,
-		  });
 
-		});
-	</script>
+
 
 
 	<!-- Page Specific JS File -->
 
 	<!-- Template JS File -->
+	<script type="text/javascript">
+	/* $(document).ready(function() {
+		  var page = 2; // 다음 페이지를 나타내는 변수를 초기화합니다.
+		  
+		  $(document).scroll(function() {
+		    var maxHeight = $(document).height();
+		    var currentScroll = $(window).scrollTop() + $(window).height();
+
+		    if (maxHeight <= currentScroll + 100) {
+		      $.ajax({
+		        url: '/boardList.do?page=' + page, // 다음 페이지를 가져옵니다.
+		        success: function(html, status) {
+		          // Append next contents
+		          $('#board-list').append($(html).find('.boardList-item'));
+		          
+		          // Initialize Masonry layout after appending new items
+		         
+		        }
+		      })
+		      
+		      page++; // 다음 페이지 변수를 증가합니다.
+		    }
+		  });
+		}); */
+	</script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<script src="../assets/js/scripts.js"></script>
