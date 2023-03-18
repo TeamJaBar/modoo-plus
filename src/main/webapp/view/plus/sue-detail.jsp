@@ -55,6 +55,7 @@
 body {
 	font-family: 'GmarketSansMedium';
 }
+
 .card-body img {
 	max-width: 100%;
 	object-fit: cover;
@@ -92,12 +93,15 @@ body {
 										<p>${sue.bContent}</p>
 									</div>
 									<div class="card-body">
+										<p>신고자 : ${sue.mId}</p>
 										<p>신고 사유 : ${sue.scName}</p>
 									</div>
 									<div class="card-footer bg-whitesmoke">
-										게시일 : <fmt:formatDate value="${sue.bWdate}" pattern="yy-MM-dd HH:mm" />
+										게시일 :
+										<fmt:formatDate value="${sue.bWdate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
-										신고일 : <fmt:formatDate value="${sue.sDate}" pattern="yy-MM-dd HH:mm" />
+										신고일 :
+										<fmt:formatDate value="${sue.sDate}" pattern="yy-MM-dd HH:mm" />
 										<button name="updateSue" style="float: right;" class="btn btn-icon btn-danger" data-confirm="신고 취소 | 정말로 취소하실껀가요?"
 											data-confirm-yes="location.href='adSueMem.do?sNum=${sue.sNum}&mNum=${sue.mNum}'">신고취소</button>
 										<div class="btn-group mb-2" style="float: right;">
@@ -126,6 +130,7 @@ body {
 										<p>${sue.bContent}</p>
 									</div>
 									<div class="card-body">
+										<p>신고자 : ${sue.mId}</p>
 										<p>신고 사유 : ${sue.scName}</p>
 										<p>
 											처리 결과 :
@@ -137,11 +142,14 @@ body {
 										</p>
 									</div>
 									<div class="card-footer bg-whitesmoke">
-										게시일 : <fmt:formatDate value="${sue.bWdate}" pattern="yy-MM-dd HH:mm" />
+										게시일 :
+										<fmt:formatDate value="${sue.bWdate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
-										신고일 : <fmt:formatDate value="${sue.sDate}" pattern="yy-MM-dd HH:mm" />
+										신고일 :
+										<fmt:formatDate value="${sue.sDate}" pattern="yy-MM-dd HH:mm" />
 										<div class="bullet"></div>
-										신고처리일 : <fmt:formatDate value="${sue.srDate}" pattern="yy-MM-dd HH:mm" />
+										신고처리일 :
+										<fmt:formatDate value="${sue.srDate}" pattern="yy-MM-dd HH:mm" />
 									</div>
 								</div>
 							</div>
