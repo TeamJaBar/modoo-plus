@@ -105,7 +105,7 @@ body {
 											<div class="dropdown-menu">
 												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${sue.smNum}&sNum=${sue.sNum}&bNum=${sue.bNum}&mStatus=1">계정 3일 정지</a>
 												<div class="dropdown-divider"></div>
-												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${sue.smNum}&bNum=${sue.bNum}">게시글 막기</a>
+												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&sNum=${sue.sNum}&smNum=${sue.smNum}&bNum=${sue.bNum}">게시글 막기</a>
 											</div>
 										</div>
 									</div>
