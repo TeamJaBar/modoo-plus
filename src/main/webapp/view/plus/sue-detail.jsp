@@ -86,7 +86,7 @@ body {
 											<modoo:exp score="${sue.score}" />
 										</span>
 										<img alt="회원 아이콘" src="../assets/img/avatar/${sue.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
-										<h4>${sue.mId}</h4>
+										<h4>${sue.smId}</h4>
 									</div>
 									<div class="card-body">
 										<p>${sue.bContent}</p>
@@ -105,7 +105,7 @@ body {
 											<div class="dropdown-menu">
 												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${sue.smNum}&sNum=${sue.sNum}&bNum=${sue.bNum}&mStatus=1">계정 3일 정지</a>
 												<div class="dropdown-divider"></div>
-												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&smNum=${sue.smNum}&bNum=${sue.bNum}">게시글 막기</a>
+												<a class="dropdown-item" href="adSueMem.do?mNum=${sue.mNum}&sNum=${sue.sNum}&smNum=${sue.smNum}&bNum=${sue.bNum}">게시글 막기</a>
 											</div>
 										</div>
 									</div>
@@ -120,7 +120,7 @@ body {
 										<span class="badge badge-info" style="margin-right: 10px;">
 											<modoo:exp score="${sue.score}" />
 										</span>
-										<h4>${sue.mId}</h4>
+										<h4>${sue.smId}</h4>
 									</div>
 									<div class="card-body">
 										<p>${sue.bContent}</p>
