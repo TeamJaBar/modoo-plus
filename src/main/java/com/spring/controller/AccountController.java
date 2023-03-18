@@ -82,40 +82,74 @@ public class AccountController {
 	// 로그인
 	@RequestMapping(value = "/login.do", method=RequestMethod.POST)
 	public String login(MemberVO mvo, SweetAlertDTO sweet, HttpServletResponse response, HttpSession session, Model model) {
-		Cookie cookie = new Cookie("mId", mvo.getmId());
 		String redirectURI = (String)session.getAttribute("redirectURI");
-		if (mvo.getSaveId() != null) {// saveId가 있을때(아이디저장 체크가 되어있을때)
-			cookie.setMaxAge(60 * 60 * 24 * 30);
-			response.addCookie(cookie);
-		} else {// 체크가 되어있지 않을때
-			cookie.setMaxAge(0);
-			response.addCookie(cookie);
+		Cookie cookie;
+		if(mvo.getmId() != null) {
+			cookie = new Cookie("mId", mvo.getmId());
+			if (mvo.getSaveId() != null) {// saveId가 있을때(아이디저장 체크가 되어있을때)
+				cookie.setMaxAge(60 * 60 * 24 * 30);
+				response.addCookie(cookie);
+			} else {// 체크가 되어있지 않을때
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}
+			
+			mvo = memberService.selectOneMember(mvo);
+			
+			if (mvo == null) {
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+				sweet.setTitle("가입된 정보가 없습니다.");
+				sweet.setMsg("아이디 혹은 비밀번호를 확인하세요.");
+				sweet.setUrl("login.jsp");
+				model.addAttribute("sweet", sweet);
+				return "alert.jsp";
+			} else if (mvo.getmStatus().equals("1")){
+				sweet.setTitle("사용자의 신고로 정지당한 계정입니다.");
+				sweet.setMsg("관리자에게 문의하세요.");
+				sweet.setUrl("login.jsp");
+				model.addAttribute("sweet", sweet);
+				return "alert.jsp";
+			} else {
+				// 로그인 성공
+				session.setAttribute("mNum", mvo.getmNum());
+				session.setAttribute("mId", mvo.getmId());
+				session.setAttribute("mName", mvo.getmName());
+				session.setAttribute("mImg", mvo.getmImg());
+				session.removeAttribute("redirectURI");
+			}
+			//카카오 로그인시
+		} else {
+			String email = mvo.getmEmail();
+			mvo.setKakao("kakao");
+			mvo = memberService.selectOneMember(mvo);
+			System.out.println(mvo);
+			if (mvo == null) {
+				System.out.println(email);
+				model.addAttribute("mEmail", email);
+				return "inform.jsp";
+			} else if (mvo.getmStatus().equals("1")){
+				sweet.setTitle("사용자의 신고로 정지당한 계정입니다.");
+				sweet.setMsg("관리자에게 문의하세요.");
+				sweet.setUrl("login.jsp");
+				model.addAttribute("sweet", sweet);
+				return "alert.jsp";
+			} else if(mvo.getKakao() == null) {
+				sweet.setTitle("이미 가입되어있는 이메일 주소입니다.");
+				sweet.setMsg("기존에 가입한 회원아이디로 로그인해주세요.");
+				sweet.setUrl("login.jsp");
+				model.addAttribute("sweet", sweet);
+				return "alert.jsp";
+			} else {
+				// 로그인 성공
+				session.setAttribute("mNum", mvo.getmNum());
+				session.setAttribute("mId", mvo.getmId());
+				session.setAttribute("mName", mvo.getmName());
+				session.setAttribute("mImg", mvo.getmImg());
+				session.removeAttribute("redirectURI");
+			}
 		}
 		
-		mvo = memberService.selectOneMember(mvo);
-
-		if (mvo == null) {
-			cookie.setMaxAge(0);
-			response.addCookie(cookie);
-			sweet.setTitle("가입된 정보가 없습니다.");
-			sweet.setMsg("아이디 혹은 비밀번호를 확인하세요.");
-			sweet.setUrl("login.jsp");
-			model.addAttribute("sweet", sweet);
-			return "alert.jsp";
-		} else if (mvo.getmStatus().equals("1")){
-			sweet.setTitle("사용자의 신고로 정지당한 계정입니다.");
-			sweet.setMsg("관리자에게 문의하세요.");
-			sweet.setUrl("login.jsp");
-			model.addAttribute("sweet", sweet);
-			return "alert.jsp";
-		} else {
-			// 로그인 성공
-			session.setAttribute("mNum", mvo.getmNum());
-			session.setAttribute("mId", mvo.getmId());
-			session.setAttribute("mName", mvo.getmName());
-			session.setAttribute("mImg", mvo.getmImg());
-			session.removeAttribute("redirectURI");
-		}
 		
 		if(redirectURI.contains("join")) {
 			return "redirect:main.do";
