@@ -258,7 +258,7 @@ body {
 	                    var $btn = $('<div>').addClass('badge badge-primary').html('처리완료');
 	                }
 					var $td1 = $("<td>").attr("width","5%").addClass("text-center").append(value.sNum);
-					var $td2 = $("<td>").attr("width","20%").append($a);
+					var $td2 = $("<td>").attr("width","20%").addClass("text-center").append($a);
 					var $td3 = $("<td>").attr("width","12%").append($img).append($mId);
 					var $td4 = $("<td>").attr("width","13%").addClass("text-center").append(dateFormat(new Date(value.sDate)));
 					var $td5 = $("<td>").attr("width","8%").addClass("text-center").append($btn);

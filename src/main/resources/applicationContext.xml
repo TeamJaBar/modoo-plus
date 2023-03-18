@@ -31,8 +31,8 @@
     <property name="host" value="smtp.gmail.com" />
     <property name="port" value="465" />
     <property name="defaultEncoding" value="utf-8"/>
-    <property name="username" value="vaughnkim2486@gmail.com" />
-    <property name="password" value="fjikkegnjfmhakrv" />
+    <property name="username" value="modoo.shop.3@gmail.com" />
+    <property name="password" value="mevmbjfiiljtapwy" />
    
     <property name="javaMailProperties">
         <props>
