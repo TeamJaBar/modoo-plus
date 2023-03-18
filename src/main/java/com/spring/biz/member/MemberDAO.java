@@ -18,10 +18,9 @@ public class MemberDAO {
 	@Autowired
 	private JdbcTemplate template;
 
-	final String INSERT = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAOLOGIN, MIMG) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), NULL, ?)";
-	final String INSERT_KAKAO = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAOLOGIN, MIMG) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), ?, ?)";
+	final String INSERT = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAO, MIMG, MPOINT) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), ?, ?, 0)";
 	final String SELECTONE_LOGIN = "SELECT MNUM, MID, MNAME, MIMG, MSTATUS FROM MEMBER WHERE MID=? AND MPW=?";
-	final String SELECTONE_KAKAOCHK = "SELECT KAKAOLOGIN FROM MEMBER WHERE MNUM=?";
+	final String SELECTONE_KAKAOCHK = "SELECT MNUM, MID, MNAME, MIMG, MSTATUS, KAKAO FROM MEMBER WHERE MEMAIL=?";
 	final String SELECTONE_INFO = "SELECT MNUM, MID, MPW, MNAME, MEMAIL, MTEL, MPOINT, ZIPCODE, USERADDR, DETAILADDR, SCORE, MSTATUS, MIMG FROM MEMBER WHERE MNUM=?";
 	final String SELECTONE_ID = "SELECT MID FROM MEMBER WHERE MNAME=? AND MEMAIL=?";
 	final String SELECTONE_IDCHK = "SELECT MID FROM MEMBER WHERE MID=?";
@@ -44,7 +43,7 @@ public class MemberDAO {
 	final String UPDATE_SCORE = "UPDATE MEMBER SET SCORE=SCORE+? WHERE MNUM=?";
 
 	public boolean insert(MemberVO vo) {
-		template.update(INSERT, vo.getmId(), vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmImg());
+		template.update(INSERT, vo.getmId(), vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getKakao(), vo.getmImg());
 		return true;
 	}
     
@@ -91,9 +90,15 @@ public class MemberDAO {
 			if(vo.getmPw()!=null) {
 				args = new Object[] { vo.getmId(), vo.getmPw() };
 				query=SELECTONE_LOGIN;
+				System.out.println("1");
+			} else if(vo.getKakao() != null) {
+				args = new Object[] { vo.getmEmail() };
+				query=SELECTONE_KAKAOCHK;
+				System.out.println("2");
 			} else if(vo.getmNum()!=0) {
 				args = new Object[]  { vo.getmNum() };
 				query=SELECTONE_INFO;
+				System.out.println("3");
 			} else if(vo.getmName()!=null) {
 				args = new Object[] { vo.getmName(), vo.getmEmail() };
 				query=SELECTONE_ID;
@@ -163,6 +168,7 @@ class MemberRowMapper implements RowMapper<MemberVO> {
 		data.setZipCode(rs.getString("ZIPCODE"));
 		data.setUserAddr(rs.getString("USERADDR"));
 		data.setDetailAddr(rs.getString("DETAILADDR"));
+		data.setKakao(rs.getString("KAKAO"));
 		return data;
 	}
 }

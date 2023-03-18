@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +37,7 @@
 					<!-- //member_tit -->
 					<div class="member_cont">
 						<!-- action="join.do" -->
-						<form action="join.do" method="post" id="formJoin" name="formJoin" onsubmit="return joinSubmit();"  enctype="multipart/form-data">
+						<form action="join.do" method="post" id="formJoin" name="formJoin" onsubmit="return joinSubmit();" enctype="multipart/form-data">
 							<!-- 회원가입/정보 기본정보 -->
 							<div class="base_info_box">
 								<h3>기본정보</h3>
@@ -47,44 +49,53 @@
 											<col width="75%">
 										</colgroup>
 										<tbody>
-											<tr>
-												<th>
-													<span class="important">아이디</span>
-												</th>
-												<td>
-													<div class="member_warning">
-														<input type="text" id="memId" name="mId" data-pattern="gdMemberId" required>
-													</div>
-													<div id="memId-length-error" class="text_warning hidden">아이디는 4~20자리 이내로 입력해주세요.</div>
-													<div id="memId-error" class="text_warning hidden">아이디는 영어로 시작하며 영소문자 혹은 숫자만 사용할 수 있습니다.</div>
-													<div id="memId-existing-error" class="text_warning hidden">이미 사용 중인 아이디입니다.</div>
-													<div id="memId-good" class="text_affirm hidden">사용 가능합니다.</div>
-												</td>
-											</tr>
-											<tr class="">
-												<th>
-													<span class="important">비밀번호</span>
-												</th>
-												<td class="member_password">
-													<div class="member_warning">
-														<input type="password" id="newPassword" name="mPw" autocomplete="off" placeholder="" required>
-													</div>
-													<div id="memPw-error" class="text_warning hidden">비밀번호는 영문, 숫자, 특수문자 중 2가지 이상이 조합된 10~20자여야 합니다.</div>
-													<div id="memPw-good" class="text_affirm hidden">사용 가능합니다.</div>
-												</td>
-											</tr>
-											<tr class="">
-												<th>
-													<span class="important">비밀번호 확인</span>
-												</th>
-												<td>
-													<div class="member_warning">
-														<input type="password" id="chkPassword" class="check-id" name="memPwRe" autocomplete="off" required>
-													</div>
-													<div id="memPwRe-error" class="text_warning hidden">비밀번호가 서로 다릅니다.</div>
-													<div id="memPwRe-good" class="text_affirm hidden">비밀번호가 일치합니다.</div>
-												</td>
-											</tr>
+											<c:if test="${mEmail == null}">
+												<tr>
+													<th>
+														<span class="important">아이디</span>
+													</th>
+													<td>
+														<div class="member_warning">
+															<input type="text" id="memId" name="mId" data-pattern="gdMemberId" required>
+														</div>
+														<div id="memId-length-error" class="text_warning hidden">아이디는 4~20자리 이내로 입력해주세요.</div>
+														<div id="memId-error" class="text_warning hidden">아이디는 영어로 시작하며 영소문자 혹은 숫자만 사용할 수 있습니다.</div>
+														<div id="memId-existing-error" class="text_warning hidden">이미 사용 중인 아이디입니다.</div>
+														<div id="memId-good" class="text_affirm hidden">사용 가능합니다.</div>
+													</td>
+												</tr>
+												<tr class="">
+													<th>
+														<span class="important">비밀번호</span>
+													</th>
+													<td class="member_password">
+														<div class="member_warning">
+															<input type="password" id="newPassword" name="mPw" autocomplete="off" placeholder="" required>
+														</div>
+														<div id="memPw-error" class="text_warning hidden">비밀번호는 영문, 숫자, 특수문자 중 2가지 이상이 조합된 10~20자여야 합니다.</div>
+														<div id="memPw-good" class="text_affirm hidden">사용 가능합니다.</div>
+													</td>
+												</tr>
+												<tr class="">
+													<th>
+														<span class="important">비밀번호 확인</span>
+													</th>
+													<td>
+														<div class="member_warning">
+															<input type="password" id="chkPassword" class="check-id" name="memPwRe" autocomplete="off" required>
+														</div>
+														<div id="memPwRe-error" class="text_warning hidden">비밀번호가 서로 다릅니다.</div>
+														<div id="memPwRe-good" class="text_affirm hidden">비밀번호가 일치합니다.</div>
+													</td>
+												</tr>
+											</c:if>
+											<!-- 카카오 로그인시 -->
+											<c:if test="${mEmail != null}">
+												<input type="hidden" id="memId" name="mId" data-pattern="gdMemberId" value="${fn:split(mEmail , '@')[0]}_Kakao">
+												<input type="hidden" id="newPassword" name="mPw" autocomplete="off" placeholder="" value="abcd1234!!">
+												<input type="hidden" id="chkPassword" class="check-id" name="memPwRe" autocomplete="off" value="abcd1234!!">
+												<input type="hidden" name="kakao" value="kakao">
+											</c:if>
 											<tr>
 												<th>
 													<span class="important">이름</span>
@@ -102,18 +113,27 @@
 												</th>
 												<td class="member_email">
 													<div class="member_warning">
-														<input type="text" name="email" id="email" value="" required>
-														<select id="emailDomain" name="emailDomain" class="chosen_select" required>
-															<option value="self">직접입력</option>
-															<option value="naver.com" selected>naver.com</option>
-															<option value="hanmail.net">hanmail.net</option>
-															<option value="daum.net">daum.net</option>
-															<option value="nate.com">nate.com</option>
-															<option value="hotmail.com">hotmail.com</option>
-															<option value="gmail.com">gmail.com</option>
-															<option value="icloud.com">icloud.com</option>
-														</select>
-														<input type="hidden" name="mEmail" id="mEmail" value="">
+														<c:if test="${mEmail != null}">
+															<input type="text" name="email" id="email" value="${mEmail}" readonly>
+															<select id="emailDomain" name="emailDomain" class="chosen_select">
+																<option value="self" selected>직접입력</option>
+															</select>
+															<input type="hidden" name="mEmail" id="mEmail" value="">
+														</c:if>
+														<c:if test="${mEmail == null}">
+															<input type="text" name="email" id="email" value="" required>
+															<select id="emailDomain" name="emailDomain" class="chosen_select" required>
+																<option value="self">직접입력</option>
+																<option value="naver.com" selected>naver.com</option>
+																<option value="hanmail.net">hanmail.net</option>
+																<option value="daum.net">daum.net</option>
+																<option value="nate.com">nate.com</option>
+																<option value="hotmail.com">hotmail.com</option>
+																<option value="gmail.com">gmail.com</option>
+																<option value="icloud.com">icloud.com</option>
+															</select>
+															<input type="text" name="mEmail" id="mEmail" value="">
+														</c:if>
 													</div>
 													<div id="memEm-error" class="text_warning hidden">이메일을 다시 한 번 확인해주세요.</div>
 													<div id="memEm-existing-error" class="text_warning hidden">이미 사용 중인 아이디입니다.</div>
@@ -177,14 +197,14 @@
 												<td>
 													<div class="member_warning">
 														<input type="file" id="imageSelector" name="uploadFile" accept="image/jpeg, image/jpg, image/png" multiple style="display: none;" />
-															<label for="imageSelector" style="margin:0 auto;">
-																<div class="box">
-																		<img class="thumb" src="../assets/img/avatar/default.png" style="width:100%; hiehgt:100%; object-fit:cover;" />
-																</div>
-																<div class="img-add-btn">
-																	<i class="fas fa-plus"></i>
-																</div>
-															</label>
+														<label for="imageSelector" style="margin: 0 auto;">
+															<div class="box">
+																<img class="thumb" src="../assets/img/avatar/default.png" style="width: 100%; hiehgt: 100%; object-fit: cover;" />
+															</div>
+															<div class="img-add-btn">
+																<i class="fas fa-plus"></i>
+															</div>
+														</label>
 													</div>
 												</td>
 											</tr>
@@ -472,6 +492,8 @@ var phoneCheck = false;
 			let emailFront = $('#email').val();
 			let domain = $('#emailDomain option:selected').val();
 			mEmail = emailFront;
+			
+			console.log(mEmail);
 					
 			$('#memEm-error').addClass('hidden');
 			$('#memEm-existing-error').addClass('hidden');
@@ -559,6 +581,12 @@ var phoneCheck = false;
 	
 	function joinSubmit() {
 		var checked =  $('#maillingFl').is(':checked');
+		if('${mEmail}' != null){
+			idCheck = true;
+			pwCheck = true;
+			emailCheck = true;
+		}
+		
 		if(!checked) {
 			alert("이메일 수신동의를 해주세요. 추후 비밀번호찾기에 사용됩니다.");
 			return false;
@@ -566,6 +594,10 @@ var phoneCheck = false;
 		if(idCheck && pwCheck && nameCheck && emailCheck && phoneCheck) {
 			console.log("정규식 모두 통과");
 			$('#mEmail').val(mEmail);
+			if('${mEmail}' != null) {
+			$('#mEmail').val('${mEmail}');
+			console.log('${mEmail}');
+			}
 			return true;
 		} else {
 			alert("입력 조건을 확인해주세요.");
