@@ -11,7 +11,7 @@
 <nav class="navbar navbar-expand-lg main-navbar">
 	<!-- 해더 드롭다운 -->
 	<div class="btn-group">
-		<button type="button" class="btn btn-header" onclick="location.href='boardList.do?sortBy=1'">
+		<button type="button" class="btn btn-header" onclick="location.href='boardList.do'">
 			<img class="mr-3 rounded" src="../assets/img/favicon.png">
 			<msg:message code="message.header.header"/>
 		</button>
@@ -36,8 +36,8 @@
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do"><msg:message code="message.header.main"/></a>
 			<div class="dropdown-divider"></div>
-			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=en">ENGLISH</a>
-			<a class="dropdown-item" href="boardList.do?sortBy=1&lang=ko">한국어</a>
+			<a class="dropdown-item" href="boardList.do?lang=en">ENGLISH</a>
+			<a class="dropdown-item" href="boardList.do?lang=ko">한국어</a>
 		</div>
 	</div>
 	<!-- 검색창 -->

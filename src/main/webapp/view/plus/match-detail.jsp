@@ -79,7 +79,7 @@
 									<div class="alert-title">삭제된 게시물</div>
 									<p>다수 유저의 신고로 인해 관리자의 권한으로 삭제된 매칭 게시글입니다.</p>
 									<p class="mt-3">
-										<a href="boardList.do?sortBy=1" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+										<a href="boardList.do" target="_blank" class="btn bg-white text-dark">돌아가기</a>
 									</p>
 								</div>
 							</div>
@@ -95,7 +95,7 @@
 									<div class="alert-title">블라인드된 게시물</div>
 									<p>다수 유저의 신고로 인해 관리자의 권한으로 정지당한 회원의 블라인드된 매칭 게시글입니다.</p>
 									<p class="mt-3">
-										<a href="boardList.do?sortBy=1" target="_blank" class="btn bg-white text-dark">돌아가기</a>
+										<a href="boardList.do" target="_blank" class="btn bg-white text-dark">돌아가기</a>
 									</p>
 								</div>
 							</div>
