@@ -680,7 +680,7 @@
 	bottom: 20px; /* 하단에서 20px 떨어진 위치 */
 	right: 100px; /* 오른쪽에서 20px 떨어진 위치 */
 	width: 56px;
-	height: 32px;
+	height: 28px;
 	background: #dfe2e3;
 	border-radius: 84px;
 	transition: background 200ms cubic-bezier(.445, .05, .55, .95);
@@ -743,6 +743,19 @@
 	background-image: radial-gradient(circle at 60% 10%, #e6cea5 15%, transparent 0), radial-gradient(circle at 30% 50%, #e6cea5 10%, transparent 0),
 		radial-gradient(circle at 60% 70%, #e6cea5 13%, transparent 0);
 	transition: transform .2s ease-in-out, background .3s, border-color .3s
+}
+.end-page {
+  position: relative;
+  font-family: 'GmarketSansMedium', sans-serif;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+#end-page.show {
+  display: block;
 }
 </style>
 
@@ -947,35 +960,35 @@
 
 	<script>																																
 	<!-- 슬릭 플러그인을 위한 script -->
-		$(document).ready(function() {
-			$('.slider-wrap').slick({
-				infinite : true, //무한 반복 옵션     
-				slidesToShow : 1, // 한 화면에 보여질 컨텐츠 개수
-				slidesToScroll : 1, //스크롤 한번에 움직일 컨텐츠 개수
-				speed : 500, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-				arrows : true, // 옆으로 이동하는 화살표 표시 여부
-				dots : true, // 스크롤바 아래 점으로 페이지네이션 여부
-				autoplay : true, // 자동 스크롤 사용 여부
-				autoplaySpeed : 3000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
-				pauseOnHover : true, // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
-				vertical : false, // 세로 방향 슬라이드 옵션
-				prevArrow : "<button type='button' class='slick-prev'>Previous</button>",
-				nextArrow : "<button type='button' class='slick-next'>Next</button>",
-				draggable : true, //드래그 가능 여부 
-				responsive : [ // 반응형 웹 구현 옵션
-				{
-					breakpoint : 960, //화면 사이즈 960px
-					settings : {
-						slidesToShow : 1
-					}
-				}, {
-					breakpoint : 768, //화면 사이즈 768px
-					settings : {
-						slidesToShow : 1
-					}
-				} ]
+	$(document).ready(function() {
+		$('.slider-wrap').slick({
+			infinite : true, //무한 반복 옵션     
+			slidesToShow : 1, // 한 화면에 보여질 컨텐츠 개수
+			slidesToScroll : 1, //스크롤 한번에 움직일 컨텐츠 개수
+			speed : 500, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+			arrows : true, // 옆으로 이동하는 화살표 표시 여부
+			dots : true, // 스크롤바 아래 점으로 페이지네이션 여부
+			autoplay : true, // 자동 스크롤 사용 여부
+			autoplaySpeed : 3000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+			pauseOnHover : true, // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
+			vertical : false, // 세로 방향 슬라이드 옵션
+			prevArrow : "<button type='button' class='slick-prev'>Previous</button>",
+			nextArrow : "<button type='button' class='slick-next'>Next</button>",
+			draggable : true, //드래그 가능 여부 
+			responsive : [ // 반응형 웹 구현 옵션
+			{
+				breakpoint : 960, //화면 사이즈 960px
+				settings : {
+					slidesToShow : 1
+				}
+			}, {
+				breakpoint : 768, //화면 사이즈 768px
+				settings : {
+					slidesToShow : 1
+				}
+			} ]
 
-			});
+		});
 	<!-- /슬릭 플러그인을 위한 script -->
 	
 	<!-- Datepicker 위한 script -->
@@ -1016,7 +1029,6 @@
 				success: function(result){
 					console.log("success");
 					console.log(result);
-					
 					var $list = $('#board-list');
 	                $list.empty();
 	                $.each(result, function(index, value) {
@@ -1293,89 +1305,109 @@
 	<!-- Template JS File -->
 	<script type="text/javascript">
 	$(document).ready(function() {
-		  var page = 2; // 다음 페이지를 나타내는 변수를 초기화합니다.
-		  
-		  $(document).scroll(function() {
-		    var maxHeight = $(document).height();
-		    var currentScroll = $(window).scrollTop() + $(window).height();
+	    var page = 2; // 다음 페이지를 나타내는 변수를 초기화합니다.
+	    var isLoading = false; // 로딩 중인지 확인하는 변수를 초기화합니다.
 
-		    if (maxHeight <= currentScroll + 50) {
-		      $.ajax({
-		        url: 'boardList.do',
-		        type: 'POST',
-		        data: { pageNum: page, amount:5 },
-		        success: function(data) {
-		          // Append next contents
-		          console.log('무한 스크롤링');
-		          console.log(page);
-		          var $list = $('#board-list');
-	                $.each(data, function(index, value) {
-	                	console.log(value);
-	                	
-	                    var $a = $('<a>').attr('href', 'boardDetail.do?bNum=' + value.bNum).attr('fg-component', 'match-list-item');
-	                    var $contentsBox = $('<div>').addClass('contents-box');
-	                    var $leftSection = $('<div>').addClass('left-section');
-	                    var $head = $('<div>').addClass('head');
-	                    var $tags = $('<div>').addClass('tags');
-	                    var $tag = $('<div>').addClass('tag');
-	                    var $tagText = $('<span>').addClass('text').text(value.bLocal);
-	                    var $body = $('<div>').addClass('body');
-	                    var $leftBox = $('<div>').addClass('left-box');
-	                    var $date = $('<div>').addClass('date');
-	                    var $dateText = $('<span>').addClass('text').text(value.bTitle);
-	                    var $title = $('<div>').addClass('title');
+	    $(document).scroll(function() {
+	        var maxHeight = $(document).height();
+	        var currentScroll = $(window).scrollTop() + $(window).height();
 
-	                    //javascript Date 가공하기
-	                    let now = new Date(value.bDate).format("yy.MM.dd (E) HH:mm");
-	                    var $titleText = $('<span>').addClass('text').text(now);
-	                    /*let formatter = new Intl.DateTimeFormat('ko', {
-	                        year: '2-digit',
-	                        month: '2-digit',
-	                        day: '2-digit',
-	                        hour: '2-digit',
-	                        minute: '2-digit',
-	                        weekday: 'short'
-	                    });
-	                    let formattedDate = formatter.format(now)*/
+	        if (maxHeight <= currentScroll + 10 && !isLoading) {
+	            isLoading = true; // 로딩 중이라는 표시를 합니다.
 
-	                    var $informations = $('<div>').addClass('informations');
-	                    var $informationId = $('<div>').addClass('information');
-	                    var $informationIdText = $('<span>').addClass('text').text(value.mId);
-	                    var $informationCnt = $('<div>').addClass('information');
-	                    var $informationCntText = $('<span>').addClass('text').text(value.bCnt + '명');
-	                    var $informationRate = $('<div>').addClass('information');
-	                    var $informationRateText = $('<span>').addClass('text').text(value.bRate);
-	                    var $rightSection = $('<div>').addClass('right-section');
-	                    if (value.bAction == '0') {
-	                        var $btn = $('<div>').addClass('btn btn-submit').html('모집중<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	            $.ajax({
+	                url: 'boardList.do',
+	                type: 'POST',
+	                data: { pageNum: page, amount:5 },
+	                async:true,
+	                success: function(data) {
+	                    // Append next contents
+	                    console.log('무한 스크롤링');
+	                    console.log(page);
+	                    var $list = $('#board-list');
+	                    if (data.length == 0) {
+	                        $list.append('<div class="end-page">마지막 페이지입니다.</div>');
+	                        $(document).unbind('scroll'); // 스크롤 이벤트를 해제합니다.
 	                    } else {
-	                        var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+	                        $.each(data, function(index, value) {
+	                            console.log(value);
+	                            var $a = $('<a>').attr('href', 'boardDetail.do?bNum=' + value.bNum).attr('fg-component', 'match-list-item');
+	                            var $contentsBox = $('<div>').addClass('contents-box');
+	                            var $leftSection = $('<div>').addClass('left-section');
+	                            var $head = $('<div>').addClass('head');
+	                            var $tags = $('<div>').addClass('tags');
+	                            var $tag = $('<div>').addClass('tag');
+	                            var $tagText = $('<span>').addClass('text').text(value.bLocal);
+	                            var $body = $('<div>').addClass('body');
+	                            var $leftBox = $('<div>').addClass('left-box');
+	                            var $date = $('<div>').addClass('date');
+	                            var $dateText = $('<span>').addClass('text').text(value.bTitle);
+	                            var $title = $('<div>').addClass('title');
+
+	                            //javascript Date 가공하기
+	                            let now = new Date(value.bDate).format("yy.MM.dd (E) HH:mm");
+	                            var $titleText = $('<span>').addClass('text').text(now);
+		                        /*let formatter = new Intl.DateTimeFormat('ko', {
+		                            year: '2-digit',
+		                            month: '2-digit',
+		                            day: '2-digit',
+		                            hour: '2-digit',
+		                            minute: '2-digit',
+		                            weekday: 'short'
+		                        });
+		                        let formattedDate = formatter.format(now)*/
+
+		                        var $informations = $('<div>').addClass('informations');
+		                        var $informationId = $('<div>').addClass('information');
+		                        var $informationIdText = $('<span>').addClass('text').text(value.mId);
+		                        var $informationCnt = $('<div>').addClass('information');
+		                        var $informationCntText = $('<span>').addClass('text').text(value.bCnt + '명');
+		                        var $informationRate = $('<div>').addClass('information');
+		                        var $informationRateText = $('<span>').addClass('text').text(value.bRate);
+		                        var $rightSection = $('<div>').addClass('right-section');
+		                        if (value.bAction === 0) {
+		                            var $btn = $('<div>').addClass('btn btn-submit').html('모집중<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+		                        } else {
+		                            var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<p>' + value.aCnt + '/' + value.bCnt + '</p>');
+		                        }
+		                        // DOM 조작 코드 작성
+		                        $a.append($contentsBox);
+		                        $contentsBox.append($leftSection, $rightSection);
+		                        $leftSection.append($head, $body);
+		                        $head.append($tags);
+		                        $tags.append($tag);
+		                        $tag.append($tagText);
+		                        $body.append($leftBox, $title, $informations);
+		                        $leftBox.append($date, $title, $informations);
+		                        $date.append($dateText);
+		                        $informationId.append($informationIdText);
+		                        $informationCnt.append($informationCntText);
+		                        $informationRate.append($informationRateText);
+		                        $informations.append($informationId, $informationCnt, $informationRate);
+		                        $title.append($titleText, $informations);
+		                        $rightSection.append($btn);
+		                        $list.append($a);
+	                        });
+	                        isLoading = false;
+	                        page++; // 다음 페이지 변수를 증가합니다.
 	                    }
-	                    // DOM 조작 코드 작성
-	                    $a.append($contentsBox);
-	                    $contentsBox.append($leftSection, $rightSection);
-	                    $leftSection.append($head, $body);
-	                    $head.append($tags);
-	                    $tags.append($tag);
-	                    $tag.append($tagText);
-	                    $body.append($leftBox, $title, $informations);
-	                    $leftBox.append($date, $title, $informations);
-	                    $date.append($dateText);
-	                    $informationId.append($informationIdText);
-	                    $informationCnt.append($informationCntText);
-	                    $informationRate.append($informationRateText);
-	                    $informations.append($informationId, $informationCnt, $informationRate);
-	                    $title.append($titleText, $informations);
-	                    $rightSection.append($btn);
-	                    $list.append($a);
-	                });
-		        }
-		      })
-		      
-		      page++; // 다음 페이지 변수를 증가합니다.
-		    }
-		  });
-		});
+	                }
+	            });
+	        }
+	    });
+	});
+	</script>
+	<script type="text/javascript">
+	const toggle = document.getElementById('dn');
+	const body = document.querySelector('body');
+
+	toggle.addEventListener('click', function() {
+	  if (this.checked) {
+	    body.classList.add('dark-mode');
+	  } else {
+	    body.classList.remove('dark-mode');
+	  }
+	});
 	</script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
