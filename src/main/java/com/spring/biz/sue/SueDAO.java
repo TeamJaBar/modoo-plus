@@ -164,6 +164,7 @@ class SelectOneRowMapper implements RowMapper<SueVO> {
 		data.setSmNum(rs.getInt("SMNUM"));
 		data.setSmId(rs.getString("SMID"));
 		data.setSrDate(rs.getTimestamp("SRDATE"));
+		data.setmImg(rs.getString("MIMG"));
 		return data;
 	}
 
