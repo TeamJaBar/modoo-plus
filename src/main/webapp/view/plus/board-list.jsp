@@ -1365,7 +1365,7 @@
 		                        var $informationRate = $('<div>').addClass('information');
 		                        var $informationRateText = $('<span>').addClass('text').text(value.bRate);
 		                        var $rightSection = $('<div>').addClass('right-section');
-		                        if (value.bAction === 0) {
+		                        if (value.bAction == '0') {
 		                            var $btn = $('<div>').addClass('btn btn-submit').html('모집중<p>' + value.aCnt + '/' + value.bCnt + '</p>');
 		                        } else {
 		                            var $btn = $('<div>').addClass('btn btn-secondary').html('모집완료<p>' + value.aCnt + '/' + value.bCnt + '</p>');
