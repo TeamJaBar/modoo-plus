@@ -28,15 +28,15 @@ public class ImageUploadUtil {
 		
 		try {
 			if(type.equals("profile")) {
-				makeFolder(path+PROJECT_NAME+PROFILE_PATH, type);
+				makeFolder(path+PROJECT_NAME+PROFILE_PATH);
 				uploadFile.transferTo(new File(path+PROJECT_NAME+PROFILE_PATH+"/"+fileName));
-				makeFolder(rootPath+TOMCAT_PROFILE_PATH, type);
+				makeFolder(rootPath+TOMCAT_PROFILE_PATH);
 				fileUtilsCopy(path+PROJECT_NAME+PROFILE_PATH+"/"+fileName, rootPath+TOMCAT_PROFILE_PATH+"/"+fileName);
 				
 			} else {
-				makeFolder(path+PROJECT_NAME+BOARD_PATH, type);
+				makeFolder(path+PROJECT_NAME+BOARD_PATH);
 				uploadFile.transferTo(new File(path+PROJECT_NAME+BOARD_PATH+"/"+fileName));
-				makeFolder(rootPath+TOMCAT_BOARD_PATH, type);
+				makeFolder(rootPath+TOMCAT_BOARD_PATH);
 				fileUtilsCopy(path+PROJECT_NAME+BOARD_PATH+"/"+fileName, rootPath+TOMCAT_BOARD_PATH+"/"+fileName);
 			}
 		} catch (Exception e) {
@@ -61,13 +61,8 @@ public class ImageUploadUtil {
 		
 	}
 	
-	private static void makeFolder(String path, String type) {
-		File folder;
-		if(type.equals("profile")) {
-			folder = new File(path);
-		} else {
-			 folder = new File(path+PROJECT_NAME+BOARD_PATH);
-		}
+	private static void makeFolder(String path) {
+		File folder = new File(path);
 
 		// 해당 디렉토리가 없다면 디렉토리를 생성.
 		if (!folder.exists()) {
@@ -84,8 +79,8 @@ public class ImageUploadUtil {
 		}
 	}
 	
-	private static String uuidFileName(String originalFileName) {
+	private static String uuidFileName(String originFileName) {
 	    UUID uuid = UUID.randomUUID();
-	    return uuid.toString() + '_' + originalFileName;
+	    return uuid.toString() + '_' + originFileName;
 	}
 }
