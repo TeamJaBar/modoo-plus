@@ -151,6 +151,8 @@ body {
 					</div>
 				</section>
 			</div>
+						<!-- footer -->
+			<%@include file="../common/footerPlus.jsp" %>
 		</div>
 	</div>
 

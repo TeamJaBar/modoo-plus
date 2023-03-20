@@ -86,7 +86,7 @@ body {
 										<span class="badge badge-info" style="margin-right: 10px;">
 											<modoo:exp score="${sue.score}" />
 										</span>
-										<img alt="회원 아이콘" src="../assets/img/avatar/${sue.mImg}" class="rounded-circle" width="35" data-toggle="title" title="">
+										<img alt="회원 아이콘" src="../assets/img/avatar/${sue.mImg}" class="rounded-circle" width="35" style="margin-right:5px;" data-toggle="title" title="">
 										<h4>${sue.smId}</h4>
 									</div>
 									<div class="card-body">
@@ -124,6 +124,7 @@ body {
 										<span class="badge badge-info" style="margin-right: 10px;">
 											<modoo:exp score="${sue.score}" />
 										</span>
+										<img alt="회원 아이콘" src="../assets/img/avatar/${sue.mImg}" class="rounded-circle" width="35" style="margin-right:5px;" data-toggle="title" title="">
 										<h4>${sue.smId}</h4>
 									</div>
 									<div class="card-body">
@@ -157,15 +158,8 @@ body {
 					</c:choose>
 				</section>
 			</div>
-			<footer class="main-footer">
-				<div class="footer-left">
-					<%-- ${fn:length(bDatas)} --%>
-					<div class="bullet"></div>
-					Design By
-					<a href="https://nauval.in/">Muhamad Nauval Azhar</a>
-				</div>
-				<div class="footer-right"></div>
-			</footer>
+			<!-- footer -->
+			<%@include file="../common/footerPlus.jsp" %>
 		</div>
 	</div>
 
