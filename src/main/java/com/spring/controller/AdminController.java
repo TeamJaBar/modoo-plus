@@ -243,6 +243,7 @@ public class AdminController {
 			avo.setmNum(svo.getSmNum()); // 신고당한 회원의 PK
 			applicantService.deleteApplicant(avo);
 
+			// 이메일 보내기
 			return "sendFreezeEmail.do";
 		}
 
