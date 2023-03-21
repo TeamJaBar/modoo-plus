@@ -6,28 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("applicantService")
-public class ApplicantServiceImpl implements ApplicantService{
+public class ApplicantServiceImpl implements ApplicantService {
 	@Autowired
 	ApplicantDAO applicantDAO;
 
 	@Override
-	public boolean insert(ApplicantVO vo) {
-		return applicantDAO.insert(vo);
+	public boolean insertApplicant(ApplicantVO vo) {
+		return applicantDAO.insertApplicant(vo);
 	}
 
 	@Override
-	public List<ApplicantVO> selectAll(ApplicantVO vo) {
-		return applicantDAO.selectAll(vo);
+	public List<ApplicantVO> selectAllApplicant(ApplicantVO vo) {
+		return applicantDAO.selectAllApplicant(vo);
 	}
 
 	@Override
-	public boolean update(ApplicantVO vo) {
-		return applicantDAO.update(vo);
+	public boolean updateApplicant(ApplicantVO vo) {
+		return applicantDAO.updateApplicant(vo);
 	}
 
 	@Override
-	public boolean delete(ApplicantVO vo) {
-		return applicantDAO.delete(vo);
+	public boolean deleteApplicant(ApplicantVO vo) {
+		return applicantDAO.deleteApplicant(vo);
 	}
 
 }
