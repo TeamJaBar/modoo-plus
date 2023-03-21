@@ -99,6 +99,10 @@ public class AccountController {
 				response.addCookie(cookie);
 			}
 
+			MemberVO vo = memberService.selectOneLogin(mvo);
+			if (bCryptEncoder.matches(mvo.getmPw(), vo.getmPw())) {
+				mvo.setmPw(vo.getmPw());
+			}
 			mvo = memberService.selectOneMember(mvo);
 
 			if (mvo == null) {
