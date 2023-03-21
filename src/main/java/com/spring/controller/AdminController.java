@@ -202,9 +202,9 @@ public class AdminController {
 	// 신고 처리
 	@RequestMapping(value = "/adSueMem.do")
 	public String updateSueAd(SueVO svo, MemberVO mvo, BoardVO bvo, ApplicantVO avo, Model model) {
-		boolean ismStat = svo.getmStatus() != null ? true : false;
+		boolean ismStatus = svo.getmStatus() != null ? true : false;
 		System.out.println(avo);
-		
+
 		// 신고글 (sResult "0" > "1")
 		sueService.updateSue(svo);
 		mvo.setmStatus(null);
@@ -212,10 +212,10 @@ public class AdminController {
 		// 신고한 회원 포인트 적립
 		mvo.setmPoint(POINT);
 		memberService.update(mvo);
-		
+
 		mvo = new MemberVO();
 		mvo.setmNum(svo.getSmNum());
-		
+
 		// 게시글 차단
 		if (bvo.getbNum() != 0) {
 			// 신고당한 회원 감점
@@ -225,25 +225,24 @@ public class AdminController {
 			// 신고당한 게시글 차단 (bStatus "0" > "1")
 			bvo.setbStatus("1");
 			boardService.updateBoard(bvo);
-			
+
 			// 해당 글에 대한 매칭 삭제
 			avo.setbNum(svo.getbNum());
 			applicantService.deleteApplicant(avo);
 		}
-		
+
 		// 회원 정지
-		if (ismStat) {
-			System.out.println("mStatus");
+		if (ismStatus) {
 			// 계정 3일 정지 (mStatus "0" > "1")
 			mvo.setmStatus("1");
 			memberService.update(mvo);
 			mvo.setmStatus(null);
-			
+
 			// 해당 회원에 대한 매칭 삭제
 			avo.setbNum(0);
 			avo.setmNum(svo.getSmNum()); // 신고당한 회원의 PK
 			applicantService.deleteApplicant(avo);
-			
+
 			// 이메일 보내기
 			return "sendFreezeEmail.do";
 		}
