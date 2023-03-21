@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
 	<!-- dataSource : 스프링 JDBC에서 Conn객체를 확보하는 역할을 담당 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
@@ -14,33 +15,33 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+
 	<context:component-scan base-package="com.spring.biz" />
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	<!-- mybatis -->
+
+	<!-- MyBatis -->
 	<!-- Factor 패턴을 사용 + dataSource 연결 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
-      <property name="configLocation" value="classpath:sql-map-config.xml" />
-      <property name="dataSource" ref="dataSource" />
-   </bean>
-   <bean class="org.mybatis.spring.SqlSessionTemplate">
-      <constructor-arg ref="sqlSession" />
-   </bean>
-   <!-- gmail -->
- 
-<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
-    <property name="host" value="smtp.gmail.com" />
-    <property name="port" value="465" />
-    <property name="defaultEncoding" value="utf-8"/>
-    <property name="username" value="modoo.shop.3@gmail.com" />
-    <property name="password" value="mevmbjfiiljtapwy" />
-   
-    <property name="javaMailProperties">
-        <props>
-            <prop key="mail.smtp.starttls.enable">true</prop>
-            <prop key="mail.smtp.auth">true</prop>
-            <prop key="mail.smtp.ssl.enable">true</prop>
-        </props>
-    </property>
-</bean>
-   
+		<property name="configLocation" value="classpath:sql-map-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+
+	<!-- JavaMail -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="username" value="modoo.shop.3@gmail.com" />
+		<property name="password" value="csfucsxhtvxfbukn" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.transport.protocol">smtp</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
