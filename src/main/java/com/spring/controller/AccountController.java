@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,17 +30,18 @@ import com.spring.biz.member.MemberService;
 import com.spring.biz.member.MemberVO;
 
 @Controller
-@RequestMapping(value="/view")
+@RequestMapping(value = "/view")
 public class AccountController {
 
 	@Autowired
 	private MemberService memberService;
-	
+	@Autowired
+	private BCryptPasswordEncoder bCryptEncoder;
+
 	// 로그아웃
 	@RequestMapping(value = "/logout.do")
 	public String logout(HttpSession session) {
 		System.out.println("LogoutController 입장");
-
 		session.removeAttribute("mNum");
 		session.removeAttribute("mId");
 		session.removeAttribute("mName");
@@ -57,7 +59,7 @@ public class AccountController {
 		}
 		MultipartFile uploadProfile = mvo.getUploadFile();
 		String mImg = "default.png";
-		if(!uploadProfile.isEmpty()) {
+		if (!uploadProfile.isEmpty()) {
 			mImg = ImageUploadUtil.getImgFileName(request, uploadProfile, "profile");
 		}
 		mvo.setmImg(mImg);
@@ -68,23 +70,23 @@ public class AccountController {
 		}
 		return null;
 	}
-	
+
 	// 로그인
-	@RequestMapping(value = "/login.do", method=RequestMethod.GET)
+	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public String loginView(HttpServletRequest request) {
 		String referer = request.getHeader("Referer");
 		System.out.println("referer: " + referer);
 		request.getSession().setAttribute("redirectURI", referer);
-		
+
 		return "redirect:login.jsp";
 	}
 
 	// 로그인
-	@RequestMapping(value = "/login.do", method=RequestMethod.POST)
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login(MemberVO mvo, SweetAlertDTO sweet, HttpServletResponse response, HttpSession session, Model model) {
 		String redirectURI = (String)session.getAttribute("redirectURI");
 		Cookie cookie;
-		if(mvo.getmId() != null) {
+		if (mvo.getmId() != null) {
 			cookie = new Cookie("mId", mvo.getmId());
 			if (mvo.getSaveId() != null) {// saveId가 있을때(아이디저장 체크가 되어있을때)
 				cookie.setMaxAge(60 * 60 * 24 * 30);
@@ -95,7 +97,7 @@ public class AccountController {
 			}
 			
 			mvo = memberService.selectOneMember(mvo);
-			
+
 			if (mvo == null) {
 				cookie.setMaxAge(0);
 				response.addCookie(cookie);
@@ -104,7 +106,7 @@ public class AccountController {
 				sweet.setUrl("login.jsp");
 				model.addAttribute("sweet", sweet);
 				return "alert.jsp";
-			} else if (mvo.getmStatus().equals("1")){
+			} else if (mvo.getmStatus().equals("1")) {
 				sweet.setTitle("사용자의 신고로 정지당한 계정입니다.");
 				sweet.setMsg("관리자에게 문의하세요.");
 				sweet.setUrl("login.jsp");
@@ -118,7 +120,7 @@ public class AccountController {
 				session.setAttribute("mImg", mvo.getmImg());
 				session.removeAttribute("redirectURI");
 			}
-			//카카오 로그인시
+			// 카카오 로그인시
 		} else {
 			String email = mvo.getmEmail();
 			mvo.setKakao("kakao");
@@ -128,13 +130,13 @@ public class AccountController {
 				System.out.println(email);
 				model.addAttribute("mEmail", email);
 				return "inform.jsp";
-			} else if (mvo.getmStatus().equals("1")){
+			} else if (mvo.getmStatus().equals("1")) {
 				sweet.setTitle("사용자의 신고로 정지당한 계정입니다.");
 				sweet.setMsg("관리자에게 문의하세요.");
 				sweet.setUrl("login.jsp");
 				model.addAttribute("sweet", sweet);
 				return "alert.jsp";
-			} else if(mvo.getKakao() == null) {
+			} else if (mvo.getKakao() == null) {
 				sweet.setTitle("이미 가입되어있는 이메일 주소입니다.");
 				sweet.setMsg("기존에 가입한 회원아이디로 로그인해주세요.");
 				sweet.setUrl("login.jsp");
@@ -149,12 +151,11 @@ public class AccountController {
 				session.removeAttribute("redirectURI");
 			}
 		}
-		
-		
-		if(redirectURI.contains("join")) {
+
+		if (redirectURI.contains("join")) {
 			return "redirect:main.do";
 		}
-		return "redirect:"+ redirectURI;
+		return "redirect:" + redirectURI;
 	}
 
 	// 아이디 찾기
@@ -265,14 +266,14 @@ public class AccountController {
 		} else { // change-inform
 			MultipartFile uploadProfile = mvo.getUploadFile();
 			String mImg = mvo.getmImg();
-			if(!uploadProfile.isEmpty()) {
+			if (!uploadProfile.isEmpty()) {
 				mImg = ImageUploadUtil.getImgFileName(request, uploadProfile, "profile");
 			}
 			mvo.setmImg(mImg);
 			mvo.setmNum((Integer)request.getSession().getAttribute("mNum"));
 			path = "redirect:changeInfo.do";
 		}
-		
+
 		if (memberService.update(mvo)) {
 			return path;
 		}
@@ -305,7 +306,7 @@ public class AccountController {
 		}
 		return null;
 	}
-	
+
 	// 회원정보 변경 페이지 이동
 	@RequestMapping(value = "/changeInfo.do")
 	public String selectOneChangeInfo(MemberVO mvo, HttpSession session, Model model) {
@@ -314,7 +315,7 @@ public class AccountController {
 
 		return "change-inform.jsp";
 	}
-	
+
 	// inform - 아이디 중복 검사
 	// pw-find-01 - 아이디 실재 검사
 	@ResponseBody
@@ -324,9 +325,8 @@ public class AccountController {
 		if (memberService.selectOneMember(mvo) == null) {
 			return "1";
 		}
-		
+
 		return "-1";
 	}
-	
 
 }
