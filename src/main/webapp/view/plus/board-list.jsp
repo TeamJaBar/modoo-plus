@@ -673,7 +673,7 @@
 	display: none;
 }
 
-.toggle2 {
+/* .toggle2 {
 	cursor: pointer;
 	display: inline-block;
 	position: fixed; /* 변경된 속성 */
@@ -684,24 +684,25 @@
 	background: #dfe2e3;
 	border-radius: 84px;
 	transition: background 200ms cubic-bezier(.445, .05, .55, .95);
-}
+} */
 
-.toggle2:before, .toggle2:after {
+/* .toggle2:before, .toggle2:after {
 	margin-top: 5px;
-}
+} */
 
-.toggle2:before {
+
+/* .toggle2:before {
 	content: "라이트모드";
 	position: absolute;
 	left: -85px;
 	color: #749ed7;
-}
+} */
 
-.toggle2:after {
+/* .toggle2:after {
 	content: "다크모드";
 	position: absolute;
 	right: -75px;
-}
+} */
 
 .toggle__handler {
 	width: 26px;
@@ -719,17 +720,17 @@
 	border: 0.188em solid #caba94;
 }
 
-#dn:checked+.toggle2 {
+/* #dn:checked+.toggle2 {
 	background: #dfe2e3
 }
 
 #dn:checked+.toggle2:before {
 	color: var(- -font-color)
-}
+} */
 
-#dn:checked+.toggle2:after {
+/* #dn:checked+.toggle2:after {
 	color: var(- -check-color)
-}
+} */
 
 #dn:checked+.toggle2 .toggle__handler {
 	width: 26px;
@@ -744,6 +745,8 @@
 		radial-gradient(circle at 60% 70%, #e6cea5 13%, transparent 0);
 	transition: transform .2s ease-in-out, background .3s, border-color .3s
 }
+
+
 .end-page {
   position: relative;
   font-family: 'GmarketSansMedium', sans-serif;
@@ -911,9 +914,9 @@
 				</c:if>
 			</div>
 			<input type="checkbox" id="dn">
-			<label for="dn" class="toggle2">
+		 	<!-- <label for="dn" class="toggle2">
 				<span class="toggle__handler"> </span>
-			</label>
+			</label> -->
 
 		</div>
 	</div>
@@ -1397,7 +1400,7 @@
 	    });
 	});
 	</script>
-	<script type="text/javascript">
+ 	<script type="text/javascript">
 	const toggle = document.getElementById('dn');
 	const body = document.querySelector('body');
 
