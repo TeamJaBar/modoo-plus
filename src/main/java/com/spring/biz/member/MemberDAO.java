@@ -25,7 +25,7 @@ public class MemberDAO {
 	final String SELECTONE_INFO = "SELECT MNUM, MID, MPW, MNAME, MEMAIL, MTEL, MPOINT, ZIPCODE, USERADDR, DETAILADDR, SCORE, MSTATUS, MIMG FROM MEMBER WHERE MNUM=?";
 	final String SELECTONE_ID = "SELECT MID FROM MEMBER WHERE MNAME=? AND MEMAIL=?";
 	final String SELECTONE_IDCHK = "SELECT MID FROM MEMBER WHERE MID=?";
-	final String SELECTONE_EMAIL = "SELECT REPLACE(MEMAIL, SUBSTR(MEMAIL,INSTR4(MEMAIL, '@', 1, 1)-4, 4 ), '****') AS FINDPW, MEMAIL FROM MEMBER WHERE MID=?";
+	final String SELECTONE_EMAILTEL = "SELECT REPLACE(MEMAIL, SUBSTR(MEMAIL,INSTR4(MEMAIL, '@', 1, 1)-4, 4 ), '****') AS FINDPW, MEMAIL, MTEL FROM MEMBER WHERE MID=?";
 	final String SELECTONE_EMAILCHK = "SELECT MEMAIL FROM MEMBER WHERE MEMAIL=?";
 	// 관리자페이지
 	final String SELECTALL = "SELECT DATE_FORMAT(MDATE, '%d/%a') AS TDATE, COUNT(*) AS CNT FROM MEMBER GROUP BY DATE_FORMAT(MDATE, '%d/%a') ORDER BY TDATE DESC LIMIT 7";
@@ -128,9 +128,9 @@ public class MemberDAO {
 	}
 
 	// selectOneMember의 SELECTONE_IDCHK와 인자가 같아서 메서드를 따로 생성
-	public MemberVO selectOneEmail(MemberVO vo) {
+	public MemberVO selectOneEmailTel(MemberVO vo) {
 		try {
-			return template.queryForObject(SELECTONE_EMAIL, BeanPropertyRowMapper.newInstance(MemberVO.class), vo.getmId());
+			return template.queryForObject(SELECTONE_EMAILTEL, BeanPropertyRowMapper.newInstance(MemberVO.class), vo.getmId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
