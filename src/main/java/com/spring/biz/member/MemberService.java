@@ -14,7 +14,7 @@ public interface MemberService {
 
 	public MemberVO selectOneLogin(MemberVO mvo);
 
-	public MemberVO selectOneEmail(MemberVO mvo);
+	public MemberVO selectOneEmailTel(MemberVO mvo);
 
 	public boolean update(MemberVO mvo);
 
