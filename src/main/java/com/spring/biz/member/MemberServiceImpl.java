@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
-	
+
 	@Autowired
 	private MemberDAO memberDAO;
 
@@ -32,10 +32,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public MemberVO selectOneLogin(MemberVO vo) {
+		return memberDAO.selectOneLogin(vo);
+	}
+
+	@Override
 	public MemberVO selectOneEmail(MemberVO vo) {
 		return memberDAO.selectOneEmail(vo);
 	}
-
 
 	@Override
 	public boolean update(MemberVO vo) {
