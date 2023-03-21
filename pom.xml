@@ -69,7 +69,7 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-		<!-- java mail -->
+		<!-- JavaMail -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
@@ -79,6 +79,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- CoolSMS -->
+		<dependency>
+			<groupId>net.nurigo</groupId>
+			<artifactId>javaSDK</artifactId>
+			<version>2.2</version>
 		</dependency>
 
 		<!-- Jsoup -->

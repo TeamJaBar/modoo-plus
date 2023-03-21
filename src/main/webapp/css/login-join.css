@@ -298,7 +298,7 @@ span.form_element {
 	text-align: center !important;
 }
 
-label[for="authEmail"] {
+label.chk_info {
 	position: relative;
 	top: -3px;
 	display: inline;

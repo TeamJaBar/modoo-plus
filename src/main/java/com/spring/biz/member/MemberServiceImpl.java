@@ -37,8 +37,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO selectOneEmail(MemberVO vo) {
-		return memberDAO.selectOneEmail(vo);
+	public MemberVO selectOneEmailTel(MemberVO vo) {
+		return memberDAO.selectOneEmailTel(vo);
 	}
 
 	@Override

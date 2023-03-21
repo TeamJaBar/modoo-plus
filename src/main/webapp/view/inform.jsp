@@ -598,10 +598,7 @@ var phoneCheck = false;
 				$('#mEmail').val('${mEmail}');
 				console.log('${mEmail}');
 			}
-			if (confirm('뭐')) {
-				return true;
-			}
-			return false;
+			return true;
 		} else {
 			alert("입력 조건을 확인해주세요.");
 			console.log("아이디" + idCheck);
