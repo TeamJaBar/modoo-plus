@@ -46,22 +46,22 @@ public class MemberDAO {
 		template.update(INSERT, vo.getmId(), vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getKakao(), vo.getmImg());
 		return true;
 	}
-    
+
 	public boolean update(MemberVO vo) {
 		try {
-			if(vo.getmId()!=null) {
+			if (vo.getmId() != null) {
 				template.update(UPDATE_PW, vo.getmPw(), vo.getmId());
-			} else if(vo.getmName()!=null){
-				template.update(UPDATE_ADMIN, vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmPoint(), vo.getmNum());	
-			} else if(vo.getmStatus()!=null) {
+			} else if (vo.getmName() != null) {
+				template.update(UPDATE_ADMIN, vo.getmPw(), vo.getmName(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmPoint(), vo.getmNum());
+			} else if (vo.getmStatus() != null) {
 				template.update(UPDATE_STATUS, vo.getmStatus(), vo.getmNum());
-			} else if(vo.getScore()!=0) {
+			} else if (vo.getScore() != 0) {
 				template.update(UPDATE_SCORE, vo.getScore(), vo.getmNum());
-			} else if(vo.getmPoint()!=0 &&vo.getmNum()!=0) {
+			} else if (vo.getmPoint() != 0 && vo.getmNum() != 0) {
 				template.update(UPDATE_POINT, vo.getmPoint(), vo.getmNum());
 			} else {
-				template.update(UPDATE_USER, vo.getmPw(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmImg(),vo.getmNum());
-			}	
+				template.update(UPDATE_USER, vo.getmPw(), vo.getmEmail(), vo.getmTel(), vo.getZipCode(), vo.getUserAddr(), vo.getDetailAddr(), vo.getmImg(), vo.getmNum());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -71,12 +71,12 @@ public class MemberDAO {
 
 	public boolean delete(MemberVO vo) {
 		try {
-			if(vo.getmPw()!=null) {
+			if (vo.getmPw() != null) {
 				template.update(DELETE_USER, vo.getmNum(), vo.getmPw());
 			} else {
 				template.update(DELETE_ADMIN, vo.getmNum());
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -87,46 +87,42 @@ public class MemberDAO {
 		String query;
 		Object[] args;
 		try {
-			if(vo.getmPw()!=null) {
+			if (vo.getmPw() != null) {
 				args = new Object[] { vo.getmId(), vo.getmPw() };
-				query=SELECTONE_LOGIN;
-				System.out.println("1");
-			} else if(vo.getKakao() != null) {
+				query = SELECTONE_LOGIN;
+			} else if (vo.getKakao() != null) {
 				args = new Object[] { vo.getmEmail() };
-				query=SELECTONE_KAKAOCHK;
-				System.out.println("2");
-			} else if(vo.getmNum()!=0) {
-				args = new Object[]  { vo.getmNum() };
-				query=SELECTONE_INFO;
-				System.out.println("3");
-			} else if(vo.getmName()!=null) {
+				query = SELECTONE_KAKAOCHK;
+			} else if (vo.getmNum() != 0) {
+				args = new Object[] { vo.getmNum() };
+				query = SELECTONE_INFO;
+			} else if (vo.getmName() != null) {
 				args = new Object[] { vo.getmName(), vo.getmEmail() };
-				query=SELECTONE_ID;
-			} else if(vo.getmEmail()!=null) {
+				query = SELECTONE_ID;
+			} else if (vo.getmEmail() != null) {
 				args = new Object[] { vo.getmEmail() };
 				query = SELECTONE_EMAILCHK;
 			} else {
-				args = new Object[]  { vo.getmId() };
-				query=SELECTONE_IDCHK;
+				args = new Object[] { vo.getmId() };
+				query = SELECTONE_IDCHK;
 			}
 			return template.queryForObject(query, args, BeanPropertyRowMapper.newInstance(MemberVO.class));
-		}catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	//selectOneMember의 SELECTONE_IDCHK와 인자가 같아서 메서드를 따로 생성
+
+	// selectOneMember의 SELECTONE_IDCHK와 인자가 같아서 메서드를 따로 생성
 	public MemberVO selectOneEmail(MemberVO vo) {
 		try {
 			return template.queryForObject(SELECTONE_EMAIL, BeanPropertyRowMapper.newInstance(MemberVO.class), vo.getmId());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	
+
 	public List<MemberVO> selectAll(MemberVO vo) {
 		List<MemberVO> datas = new ArrayList<MemberVO>();
 		try {
@@ -136,8 +132,8 @@ public class MemberDAO {
 				tmpData.setTempCnt(rs.getInt("CNT"));
 				return tmpData;
 			});
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datas;
@@ -147,7 +143,7 @@ public class MemberDAO {
 		List<MemberVO> datas = new ArrayList<MemberVO>();
 		try {
 			datas = template.query(SELECTALL_MEMBER, new MemberRowMapper());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datas;

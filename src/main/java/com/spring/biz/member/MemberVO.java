@@ -20,7 +20,7 @@ public class MemberVO {
 	private int score; // 회원 점수
 	private String mStatus; // 회원 상태
 	private String mImg; // 프로필 이미지 file name
-	private MultipartFile uploadFile; //JAVA에서만 저장용으로 사용하는 데이터 
+	private MultipartFile uploadFile; // JAVA에서만 저장용으로 사용하는 데이터
 	private String tempDate; // JAVA에서만 저장용으로 사용하는 데이터 : 가입일
 	private int tempCnt; // JAVA에서만 저장용으로 사용하는 데이터 : 신규회원수
 	private String findPw; // JAVA에서만 저장용으로 사용하는 데이터 : 암호화 이메일 임시 저장
@@ -201,7 +201,5 @@ public class MemberVO {
 				+ ", detailAddr=" + detailAddr + ", mPoint=" + mPoint + ", mDate=" + mDate + ", kakao=" + kakao + ", score=" + score + ", mstatus=" + mStatus + ", mImg=" + mImg + ", tempDate="
 				+ tempDate + ", tempCnt=" + tempCnt + ", findPw=" + findPw + ", saveId=" + saveId + ", mode=" + mode + "]";
 	}
-	
-	
 
 }
