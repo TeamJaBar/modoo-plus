@@ -30,8 +30,6 @@ public class SueDAO {
 	final String SELECTONE_SUE = "SELECT * FROM (SELECT S.MNUM, MID, BNUM FROM MEMBER M JOIN SUE S ON S.MNUM = M.MNUM) A, (SELECT S.SNUM, S.BNUM, B.MNUM AS SMNUM, SRDATE, B.BTITLE, M.MID AS SMID, B.BCONTENT, SC.SCNAME, B.BWDATE, S.SDATE, S.SRESULT, M.SCORE, M.MSTATUS, B.BSTATUS, M.MIMG  FROM BOARD B JOIN SUE S ON B.BNUM=S.BNUM JOIN SUECATEGORY SC ON S.SCNUM=SC.SCNUM JOIN MEMBER M ON M.MNUM =B.MNUM )B WHERE A.BNUM=B.BNUM AND A.MNUM != B.SMNUM AND SNUM=?";
 	// 신고하기 카테고리
 	final String SELECTALL_SUECA = "SELECT * FROM SUECATEGORY";
-	// 신고당한 사람에게 이메일 전송
-	final String SELECT_EMAIL = "SELECT SNUM, SCNAME, SMNUM, MNUM FROM SUE S JOIN SUECATEGORY SC ON S.SCNUM = SC.SCNUM WHERE SNUM=?";
 
 	public boolean insertSue(SueVO svo) {
 		try {
@@ -95,27 +93,6 @@ public class SueDAO {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public SueVO selectEmail(SueVO svo) {
-		try {
-			return jdbcTemplate.queryForObject(SELECT_EMAIL, new SueEmailRowMapper());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-}
-
-class SueEmailRowMapper implements RowMapper<SueVO> {
-	@Override
-	public SueVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-		SueVO data = new SueVO();
-		data.setsNum(rs.getInt("SNUM"));
-		data.setScName(rs.getString("SCNAME"));
-		data.setSmNum(rs.getInt("SMNUM"));
-		data.setmNum(rs.getInt("MNUM"));
-		return data;
 	}
 }
 
