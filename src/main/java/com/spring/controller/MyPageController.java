@@ -134,24 +134,23 @@ public class MyPageController {
 	@RequestMapping(value = "/myEntryDelete.do", method = RequestMethod.GET)
 	public String deleteMatch(ApplicantVO avo, HttpServletRequest request) {
 		String referer = request.getHeader("Referer");
-		applicantService.delete(avo);
+		applicantService.deleteApplicant(avo);
 		return "redirect:" + referer;
 	}
 
 	// 내가 신청한 매칭 목록 - 매칭 신청 취소
 	@RequestMapping(value = "/myEntryDelete.do", method = RequestMethod.POST)
 	public @ResponseBody String deleteMatchAjax(ApplicantVO avo) {
-		if (applicantService.delete(avo)) {
+		if (applicantService.deleteApplicant(avo)) {
 			return "1";
 		}
 		return "-1";
-
 	}
 
 	// 내가 작성한 글 - 매칭 강퇴
 	@RequestMapping("/kickOut.do")
 	public @ResponseBody String deleteApplicant(ApplicantVO avo, HttpServletRequest request, Model model) {
-		if (applicantService.delete(avo)) {
+		if (applicantService.deleteApplicant(avo)) {
 			return "1";
 		}
 		return "-1";
@@ -164,7 +163,7 @@ public class MyPageController {
 		int mvp = 50;
 		mvo.setScore(mvp);
 		memberService.update(mvo);
-		applicantService.update(avo);
+		applicantService.updateApplicant(avo);
 		return "redirect:" + referer;
 	}
 
@@ -173,9 +172,9 @@ public class MyPageController {
 	public @ResponseBody List<BoardVO> sort(BoardVO bvo, Model model) {
 		return boardService.selectAllMain(bvo);
 	}
-	
+
 	@RequestMapping(value = "/searchHeader.do")
-	public String search (BoardVO bvo, Model model) {
+	public String search(BoardVO bvo, Model model) {
 		model.addAttribute("boardList", boardService.selectAllMain(bvo));
 		model.addAttribute("localList", boardService.selectAllLocal(bvo));
 		return "/view/plus/board-list.jsp";
@@ -184,16 +183,16 @@ public class MyPageController {
 	// 보드 디테일
 	@RequestMapping("/boardDetail.do")
 	public String selectOneBoard(BoardVO bvo, ApplicantVO avo, HttpSession session, CommentVO cvo, Model model) {
-		
+
 		model.addAttribute("status", boardService.selectOne(bvo));
-		System.out.println("status : " +boardService.selectOne(bvo));
-		
+		System.out.println("status : " + boardService.selectOne(bvo));
+
 		if (session.getAttribute("mNum") != null) {
 			bvo.setmNum((Integer)session.getAttribute("mNum"));
 		}
 		model.addAttribute("bDatas", boardService.selectOneDetail(bvo));
-		System.out.println("bDatas : " +boardService.selectOneDetail(bvo));
-		model.addAttribute("aDatas", applicantService.selectAll(avo));
+		System.out.println("bDatas : " + boardService.selectOneDetail(bvo));
+		model.addAttribute("aDatas", applicantService.selectAllApplicant(avo));
 		model.addAttribute("cDatas", commentService.selectAll(cvo));
 		// 신고 카테고리
 		model.addAttribute("scDatas", sueService.selectAllSueCa(null));
@@ -205,7 +204,7 @@ public class MyPageController {
 	public String insertApplicant(ApplicantVO avo, HttpServletRequest request) {
 		String referer = request.getHeader("Referer");
 		avo.setmNum((Integer)request.getSession().getAttribute("mNum"));
-		applicantService.insert(avo);
+		applicantService.insertApplicant(avo);
 		return "redirect:" + referer;
 	}
 
@@ -231,6 +230,6 @@ public class MyPageController {
 	@RequestMapping(value = "/showApplicant.do", method = RequestMethod.POST)
 	public @ResponseBody List<ApplicantVO> selectAllApplicant(ApplicantVO avo, HttpSession session) {
 		avo.setmNum((Integer)session.getAttribute("mNum"));
-		return applicantService.selectAll(avo);
+		return applicantService.selectAllApplicant(avo);
 	}
 }
