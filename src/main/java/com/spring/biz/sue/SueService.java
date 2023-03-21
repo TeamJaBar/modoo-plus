@@ -14,6 +14,4 @@ public interface SueService {
 	public SueVO selectOneSue(SueVO svo);
 
 	public SueVO selectCount(SueVO svo);
-	
-	public SueVO selectEmail(SueVO svo);
 }
