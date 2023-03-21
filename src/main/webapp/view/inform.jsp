@@ -132,7 +132,7 @@
 																<option value="gmail.com">gmail.com</option>
 																<option value="icloud.com">icloud.com</option>
 															</select>
-															<input type="text" name="mEmail" id="mEmail" value="">
+															<input type="hidden" name="mEmail" id="mEmail" value="" style="width: 100%">
 														</c:if>
 													</div>
 													<div id="memEm-error" class="text_warning hidden">이메일을 다시 한 번 확인해주세요.</div>
@@ -488,13 +488,14 @@ var phoneCheck = false;
 		/* 이메일 정규식 */
 		const emailRegEx = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/m
 		
+		let mEmail = '';
 		$('#email, #emailDomain').focusout(function () {
 			let emailFront = $('#email').val();
 			let domain = $('#emailDomain option:selected').val();
 			mEmail = emailFront;
 			
 			console.log(mEmail);
-					
+			
 			$('#memEm-error').addClass('hidden');
 			$('#memEm-existing-error').addClass('hidden');
 			$('#memEm-good').addClass('hidden');
@@ -525,6 +526,7 @@ var phoneCheck = false;
 						//사용가능한 아이디
 						$('#memEm-existing-error').addClass('hidden');
 						$('#memEm-good').removeClass('hidden');
+						$('#mEmail').val(mEmail);
 						emailCheck = true;
 					} else {
 						$('#memEm-existing-error').removeClass('hidden');
@@ -534,8 +536,6 @@ var phoneCheck = false;
 				}
 			})		
 		});
-
-
 		
 		/* 휴대폰 정규식 */
 		// 01X
@@ -593,12 +593,15 @@ var phoneCheck = false;
 		}
 		if(idCheck && pwCheck && nameCheck && emailCheck && phoneCheck) {
 			console.log("정규식 모두 통과");
-			$('#mEmail').val(mEmail);
-			if('${mEmail}' != null) {
-			$('#mEmail').val('${mEmail}');
-			console.log('${mEmail}');
+			console.log('${mEmail == null}');
+			if ('${mEmail == null}' == false) {
+				$('#mEmail').val('${mEmail}');
+				console.log('${mEmail}');
 			}
-			return true;
+			if (confirm('뭐')) {
+				return true;
+			}
+			return false;
 		} else {
 			alert("입력 조건을 확인해주세요.");
 			console.log("아이디" + idCheck);
@@ -606,7 +609,7 @@ var phoneCheck = false;
 			console.log("이름" + nameCheck);
 			console.log("이메일" + emailCheck);
 			console.log("전화번호" + phoneCheck);
-			return false;	
+			return false;
 		}
 	}
 	
