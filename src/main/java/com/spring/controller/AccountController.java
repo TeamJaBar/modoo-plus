@@ -64,6 +64,9 @@ public class AccountController {
 		}
 		mvo.setmImg(mImg);
 
+		// 암호화
+		mvo.setmPw(bCryptEncoder.encode(mvo.getmPw()));
+
 		if (memberService.insert(mvo)) {
 			model.addAttribute("mName", mvo.getmName());
 			return "join-ok.jsp";
@@ -95,7 +98,7 @@ public class AccountController {
 				cookie.setMaxAge(0);
 				response.addCookie(cookie);
 			}
-			
+
 			mvo = memberService.selectOneMember(mvo);
 
 			if (mvo == null) {
@@ -273,6 +276,9 @@ public class AccountController {
 			mvo.setmNum((Integer)request.getSession().getAttribute("mNum"));
 			path = "redirect:changeInfo.do";
 		}
+
+		// 암호화
+		mvo.setmPw(bCryptEncoder.encode(mvo.getmPw()));
 
 		if (memberService.update(mvo)) {
 			return path;
