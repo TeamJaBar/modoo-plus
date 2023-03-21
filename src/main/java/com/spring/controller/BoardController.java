@@ -35,7 +35,7 @@ import com.spring.biz.sue.SueVO;
 @Controller
 @RequestMapping(value = "/view")
 public class BoardController {
-	
+
 	@Autowired
 	private BoardService boardService;
 	@Autowired
@@ -44,13 +44,13 @@ public class BoardController {
 	private ApplicantService applicantService;
 	@Autowired
 	private SueService sueService;
-	
+
 	private static final int DEFAULT_PAGENUM = 1;
 	private static final int DEFAULT_AMOUNT = 5;
-	
+
 	/* 게시글 */
 	// 게시글 목록
-	@RequestMapping(value="/boardList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardList.do", method = RequestMethod.GET)
 	public String selectAllBoard(BoardVO bvo, Model model) {
 		bvo.setPageNum(DEFAULT_PAGENUM);
 		bvo.setAmount(DEFAULT_AMOUNT);
@@ -58,8 +58,8 @@ public class BoardController {
 		model.addAttribute("localList", boardService.selectAllLocal(bvo));
 		return "/view/plus/board-list.jsp";
 	}
-	
-	@RequestMapping(value="/boardList.do",  method = RequestMethod.POST)
+
+	@RequestMapping(value = "/boardList.do", method = RequestMethod.POST)
 	public @ResponseBody List<BoardVO> selectAllScroll(BoardVO bvo) {
 		return boardService.selectAllMain(bvo);
 	}
@@ -72,13 +72,13 @@ public class BoardController {
 
 	// 게시글 작성
 	@RequestMapping(value = "/insertBoard.do")
-	public String insertBoard(BoardVO bvo, ApplicantVO avo,  @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date bDate, HttpSession session) {
+	public String insertBoard(BoardVO bvo, ApplicantVO avo, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date bDate, HttpSession session) {
 		System.out.println(bvo);
 
 		// bLocal 설정
 		bvo.setbLocal(boardService.getbLocal(bvo.getbAddress()));
 		bvo.setmNum((Integer)(session.getAttribute("mNum")));
-		
+
 		// bDate 설정
 		System.out.println(bDate);
 		bvo.setbDate(bDate);
@@ -88,7 +88,7 @@ public class BoardController {
 			bvo = null;
 			bvo = boardService.selectOne(bvo);
 			avo.setbNum(bvo.getbNum());
-			applicantService.insert(avo);
+			applicantService.insertApplicant(avo);
 		}
 		return "redirect:boardDetail.do?bNum=" + bvo.getbNum();
 	}
@@ -128,37 +128,37 @@ public class BoardController {
 	@RequestMapping(value = "/insertSue.do")
 	public String insertSue(SueVO svo, Model model) {
 		if (sueService.insertSue(svo)) {
-			return "redirect:boardDetail.do?bNum="+svo.getbNum();
+			return "redirect:boardDetail.do?bNum=" + svo.getbNum();
 		}
 		return null;
 	}
-	
-	@RequestMapping(value="/uploadImg.do")
-	public @ResponseBody String uploadImg(HttpServletRequest request, HttpServletResponse response,MultipartHttpServletRequest multiFile) {
+
+	@RequestMapping(value = "/uploadImg.do")
+	public @ResponseBody String uploadImg(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest multiFile) {
 		JsonObject json = new JsonObject();
 		PrintWriter printWriter = null;
 		MultipartFile file = multiFile.getFile("upload");
 		String fileName;
 		String uploadPath;
-		
+
 		try {
-			if(!file.isEmpty() && file.getContentType().toLowerCase().startsWith("image/")) {
+			if (!file.isEmpty() && file.getContentType().toLowerCase().startsWith("image/")) {
 				fileName = ImageUploadUtil.getImgFileName(request, file, "board");
 				uploadPath = "../assets/img/board/" + fileName;
 				json.addProperty("uploaded", 1);
 				json.addProperty("fileName", fileName);
 				json.addProperty("url", uploadPath);
-				
+
 				response.setCharacterEncoding("utf-8");
-		        response.setContentType("text/html; charset=utf-8");
-		        printWriter = response.getWriter();
+				response.setContentType("text/html; charset=utf-8");
+				printWriter = response.getWriter();
 				printWriter.println(json);
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if(printWriter != null) {
+			if (printWriter != null) {
 				printWriter.close();
 			}
 		}
