@@ -20,6 +20,7 @@ public class MemberDAO {
 
 	final String INSERT = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, ZIPCODE, USERADDR, DETAILADDR, MDATE, KAKAO, MIMG, MPOINT) VALUES(?, ?, ?, ?, ?, ?, ?, ?, SYSDATE(), ?, ?, 0)";
 	final String SELECTONE_LOGIN = "SELECT MNUM, MID, MNAME, MIMG, MSTATUS FROM MEMBER WHERE MID=? AND MPW=?";
+	final String SELECTONE_PW = "SELECT MPW FROM MEMBER WHERE MID=?";
 	final String SELECTONE_KAKAOCHK = "SELECT MNUM, MID, MNAME, MIMG, MSTATUS, KAKAO FROM MEMBER WHERE MEMAIL=?";
 	final String SELECTONE_INFO = "SELECT MNUM, MID, MPW, MNAME, MEMAIL, MTEL, MPOINT, ZIPCODE, USERADDR, DETAILADDR, SCORE, MSTATUS, MIMG FROM MEMBER WHERE MNUM=?";
 	final String SELECTONE_ID = "SELECT MID FROM MEMBER WHERE MNAME=? AND MEMAIL=?";
@@ -108,6 +109,19 @@ public class MemberDAO {
 			}
 			return template.queryForObject(query, args, BeanPropertyRowMapper.newInstance(MemberVO.class));
 		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public MemberVO selectOneLogin(MemberVO vo) {
+		String query;
+		Object[] args;
+		try {
+			args = new Object[] { vo.getmId() };
+			query = SELECTONE_PW;
+			return template.queryForObject(query, args, BeanPropertyRowMapper.newInstance(MemberVO.class));
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
