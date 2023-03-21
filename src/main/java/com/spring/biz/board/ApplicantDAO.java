@@ -33,8 +33,14 @@ public class ApplicantDAO {
 	//평가 완료
 	private final String UPDATE_EVAL = "UPDATE APPLICANT SET ACHK=1 WHERE ANUM=?";
 	
+	// 차단된 BOARD에 대한 모든 APPLICANT 삭제 (회원정지, 게시글 블락)
+	private final String DELETE_SUED = "DELETE A FROM APPLICANT A JOIN BOARD B ON A.BNUM=B.BNUM WHERE NOW()<=B.BDATE AND B.BNUM=?";
+	// 정지당한 회원이 신청한 모든 APPLICANT 삭제 (회원정지)
+	private final String DELETE_PAUSED_APPLI = "DELETE A FROM APPLICANT A JOIN BOARD B ON A.MNUM=B.MNUM WHERE NOW()<=B.BDATE AND B.MNUM=?";
+	// 정지당한 회원이 작성한 모든 BOARD에 대한 APPLICANT 삭제 (회원정지)
+	private final String DELETE_PAUSED_BOARD = "DELETE A FROM APPLICANT A JOIN BOARD B ON A.BNUM=B.BNUM WHERE NOW()<=B.BDATE AND B.MNUM=?";
 	
-	public boolean insert(ApplicantVO vo) {
+	public boolean insertApplicant(ApplicantVO vo) {
 		try {
 			jdbcTemplate.update(INSERT, vo.getbNum(),vo.getmNum());
 		} catch (Exception e) {
@@ -44,7 +50,7 @@ public class ApplicantDAO {
 		return true;
 	}	
 	
-	public List<ApplicantVO> selectAll(ApplicantVO vo){
+	public List<ApplicantVO> selectAllApplicant(ApplicantVO vo){
 		List<ApplicantVO> datas = new ArrayList<ApplicantVO>();
 		Object[] arg;
 		String query;
@@ -63,7 +69,7 @@ public class ApplicantDAO {
 		return datas;
 	}
 	
-	public boolean update(ApplicantVO vo) {
+	public boolean updateApplicant(ApplicantVO vo) {
 		try {
 			jdbcTemplate.update(UPDATE_EVAL, vo.getaNum());
 		} catch (Exception e) {
@@ -73,15 +79,23 @@ public class ApplicantDAO {
 		return true;
 	}
 	
-	public boolean delete(ApplicantVO vo) {
+	public boolean deleteApplicant(ApplicantVO vo) {
 		try {
-			jdbcTemplate.update(DELETE, vo.getaNum());
+			if (vo.getaNum() != 0) {
+				jdbcTemplate.update(DELETE, vo.getaNum());
+			} else if (vo.getbNum() != 0) { // 순서 변경 X
+				jdbcTemplate.update(DELETE_SUED, vo.getbNum());
+			} else if (vo.getmNum() != 0) { // 순서 변경 X
+				jdbcTemplate.update(DELETE_PAUSED_APPLI, vo.getmNum());
+				jdbcTemplate.update(DELETE_PAUSED_BOARD, vo.getmNum());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
+	
 }
 
 class ApplicantRowMapper implements RowMapper<ApplicantVO> {

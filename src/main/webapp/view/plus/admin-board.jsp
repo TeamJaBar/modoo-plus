@@ -117,7 +117,7 @@ body {
 
 										<div class="table-responsive">
 											<table class="table table-striped">
-												<tr>
+												<tr class="text-center">
 													<th width="5%" class="text-center pt-2">
 														<div class="custom-checkbox custom-checkbox-table custom-control">
 															<input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
@@ -356,7 +356,7 @@ body {
 	        	      status = '<div class="badge badge-danger btn-status">지난 모임</div>';
 	        	    }
 	        	  
-	              html += `<tr id="`+ board.bNum + `}">
+	        	    html += `<tr id="`+ board.bNum + `" class="text-center">
 								<td style="text-align: center;">
 								<div class="custom-checkbox custom-control">
 								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-`+ i + `" name="chk">
