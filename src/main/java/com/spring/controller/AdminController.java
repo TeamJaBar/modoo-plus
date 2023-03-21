@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.spring.biz.board.ApplicantService;
+import com.spring.biz.board.ApplicantVO;
 import com.spring.biz.board.BoardService;
 import com.spring.biz.board.BoardVO;
 import com.spring.biz.board.PageService;
@@ -40,6 +42,8 @@ public class AdminController {
 	private BoardService boardService;
 	@Autowired
 	private SueService sueService;
+	@Autowired
+	private ApplicantService applicantService;
 	@Autowired
 	private PageService pageService;
 
@@ -132,8 +136,8 @@ public class AdminController {
 		return "/view/plus/admin-board.jsp";
 	}
 
-	// 게시글 삭제
-	// MyPageController - deleteBoard() 통일
+	// 게시글 개별 삭제
+	// MyPageController - deleteBoard() 사용
 
 	// 게시글 선택 삭제
 	@ResponseBody
@@ -145,12 +149,8 @@ public class AdminController {
 			bvo.setbNum(Integer.parseInt(arDelete[i]));
 			boardService.deleteBoard(bvo);
 		}
-
 		return "1";
 	}
-
-	/* 매칭 */
-	// 매칭 내역 삭제
 
 	/* 신고 */
 	// 신고글 관리 페이지 이동
@@ -201,23 +201,23 @@ public class AdminController {
 
 	// 신고 처리
 	@RequestMapping(value = "/adSueMem.do")
-	public String updateSueAd(SueVO svo, MemberVO mvo, BoardVO bvo, Model model) {
+	public String updateSueAd(SueVO svo, MemberVO mvo, BoardVO bvo, ApplicantVO avo, Model model) {
 		boolean ismStat = svo.getmStatus() != null ? true : false;
+		System.out.println(avo);
 		
 		// 신고글 (sResult "0" > "1")
 		sueService.updateSue(svo);
 		mvo.setmStatus(null);
 
 		// 신고한 회원 포인트 적립
-		System.out.println("포인트");
 		mvo.setmPoint(POINT);
 		memberService.update(mvo);
 		
 		mvo = new MemberVO();
 		mvo.setmNum(svo.getSmNum());
 		
+		// 게시글 차단
 		if (bvo.getbNum() != 0) {
-			System.out.println("점수");
 			// 신고당한 회원 감점
 			mvo.setScore(SCORE);
 			memberService.update(mvo);
@@ -225,17 +225,28 @@ public class AdminController {
 			// 신고당한 게시글 차단 (bStatus "0" > "1")
 			bvo.setbStatus("1");
 			boardService.updateBoard(bvo);
+			
+			// 해당 글에 대한 매칭 삭제
+			avo.setbNum(svo.getbNum());
+			applicantService.deleteApplicant(avo);
 		}
 		
+		// 회원 정지
 		if (ismStat) {
 			System.out.println("mStatus");
 			// 계정 3일 정지 (mStatus "0" > "1")
 			mvo.setmStatus("1");
 			memberService.update(mvo);
 			mvo.setmStatus(null);
+			
+			// 해당 회원에 대한 매칭 삭제
+			avo.setbNum(0);
+			avo.setmNum(svo.getSmNum()); // 신고당한 회원의 PK
+			applicantService.deleteApplicant(avo);
+			
+			// 이메일 보내기
+			return "sendFreezeEmail.do";
 		}
-
-		// 이메일 보내기
 
 		return "redirect:selectSue.do?sNum=" + svo.getsNum();
 	}

@@ -3,8 +3,11 @@ package com.spring.biz.board;
 import java.util.List;
 
 public interface ApplicantService {
-	public boolean insert(ApplicantVO vo);
-	public List<ApplicantVO> selectAll(ApplicantVO vo);
-	public boolean update(ApplicantVO vo);
-	public boolean delete(ApplicantVO vo);
+	public boolean insertApplicant(ApplicantVO vo);
+
+	public List<ApplicantVO> selectAllApplicant(ApplicantVO vo);
+
+	public boolean updateApplicant(ApplicantVO vo);
+
+	public boolean deleteApplicant(ApplicantVO vo);
 }
