@@ -43,7 +43,7 @@ input[type="text"], input[type="password"] {
 						<form name="formReset" method="post" id="formReset" action="pw-find-04.jsp">
 							<div class="member_login_box">
 								<h3>인증번호 입력</h3>
-								<p class="findPw-info">수신된 이메일의 인증번호를 입력해 주세요.</p>
+								<p class="findPw-info">수신된 인증번호를 입력해 주세요.</p>
 								<div class="login_input">
 									<div class="findpw_box">
 										<div class="member_warning prior_wrong">

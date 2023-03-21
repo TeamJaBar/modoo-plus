@@ -25,14 +25,12 @@
 								</div>
 								<!-- //user_certify_tit -->
 								<div class="user_certify_check">
-									<input type="checkbox" id="authEmail" name="authEmail" required>
-									<label for='authEmail' class="label-for-checkbox">
-										이메일 인증
-										<span class="email">${findPw}</span>
-									</label>
+									<label><input type="radio" class="chk_info" name="chk_info" value="mEmail" checked>이메일</label>
+									<label><input type="radio" class="chk_info" name="chk_info" value="mTel">휴대폰</label>
+									<input type="hidden" name="mTel" value="${mTel}">
 									<input type="hidden" name="mEmail" value="${mEmail}">
 									<input type="hidden" name="mId" value="${mId}">
-									<p>가입 시 등록한 이메일로 인증번호가 발송됩니다.</p>
+									<p>가입 시 등록한 정보로 인증번호가 발송됩니다.</p>
 								</div>
 								<!-- //user_certify_list -->
 								<div class="btn-center-box">
@@ -50,6 +48,25 @@
 	</div>
 </section>
 <%@include file="common/footer.jsp"%>
+<!--===============================================================================================-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<!--===============================================================================================-->
+<script>
+	$(document).ready(function() {
+		$('.chk_info').click(function() {
+			let check = $(this).val();
+			let action = '';
+			
+			if (check === 'mEmail') {
+				action = 'sendEmail.do';
+			} else {
+				action = 'sendSMS.do';
+			}
+			$('#formAuth').attr("action", action);
+			console.log($('#formAuth').attr());
+		})
+	})
+</script>
 <!--===============================================================================================-->
 <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
