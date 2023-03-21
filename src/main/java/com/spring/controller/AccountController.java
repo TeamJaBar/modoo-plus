@@ -80,7 +80,7 @@ public class AccountController {
 		String referer = request.getHeader("Referer");
 		System.out.println("referer: " + referer);
 		request.getSession().setAttribute("redirectURI", referer);
-
+		
 		return "redirect:login.jsp";
 	}
 
@@ -190,86 +190,22 @@ public class AccountController {
 		mvo = memberService.selectOneMember(mvo);
 		model.addAttribute("mId", mvo.getmId());
 
-		mvo = memberService.selectOneEmail(mvo);
+		mvo = memberService.selectOneEmailTel(mvo);
+		model.addAttribute("mTel", mvo.getmTel());
 		model.addAttribute("mEmail", mvo.getmEmail());
-		model.addAttribute("findPw", mvo.getFindPw());
 
 		return "pw-find-02.jsp";
 	}
 
 	// 비밀번호 찾기 - 02. 이메일 전송
-//	@RequestMapping(value = "/sendEmail.do")
-	public String sendEmail(MemberVO mvo, Random rand, Properties props, MimeMessage message, Session session, Model model) {
-		model.addAttribute("mId", mvo.getmId());
-
-		// 랜덤 인증번호 생성
-		final int CIPHER = 5; // 자릿수
-		int range = (int)Math.pow(10, CIPHER);// 10의 5승
-		int trim = (int)Math.pow(10, CIPHER - 1);// 10의 4승
-		int result = rand.nextInt(range) + trim; // 5자리 숫자 생성
-
-		if (result > range) { // 자릿수가 넘었다면
-			result = result - trim;
-		}
-
-		System.out.println("로그 : 랜덤 인증번호 생성 - " + result);
-
-		model.addAttribute("code", result);
-
-		String host = "smtp.gmail.com"; // 구글
-		final String user = "modoo.shop.3@gmail.com"; // 이메일 주소
-		final String password = "xzikqxicctfulsii"; // 앱 비밀번호
-
-//      String host = "smtp.naver.com"; // 네이버
-//      final String user = "발신자 이메일"; // 이메일 주소
-//      final String password = "이메일 비밀번호"; // 이메일 비밀번호
-
-		String to = mvo.getmEmail(); // 사용자의 이메일 주소
-
-		// 설정
-		props.put("mail.smtp.host", host); // STMP 서버 설정
-		props.put("mail.smtp.starttls.enable", "true"); // 두 컴퓨터 사이의 연결 암호화 표준 기술
-		props.put("mail.smtp.ssl.protocols", "TLSv1.2"); // TLS 버전정보 설정
-		props.put("mail.smtp.auth", "true"); // 인증을 필요로 하는 SMTP에 접속하기위해 필요한 설정
-		props.put("mail.smtp.port", "587"); // 포트 번호 설정
-
-		// [1] Session 인스턴스 생성
-		session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(user, password); // 인증을 필요로 하기 때문에 이메일 주소와 앱 비밀번호를 Session에 넘겨줘야 함
-			}
-		});
-
-		// [2] 메세지 작성
-		try {
-			message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-			// 제목
-			message.setSubject("[모두의 보드] 인증번호 발송");
-
-			// 내용
-			message.setText("안녕하세요 모두의 보드입니다." + "\n인증번호: " + result + "\n요청하신 페이지에 해당 인증번호를 입력해 주세요.");
-			// setText의 parameter는 String 타입
-
-			// [3] 메세지 전송
-			Transport.send(message);
-			System.out.println("이메일 전송 성공!");
-
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-
-		return "pw-find-03.jsp";
-	}
+	// EmailController 참조
 
 	// 회원정보 변경
 	@RequestMapping(value = "/update.do")
 	public String update(MemberVO mvo, HttpServletRequest request) {
 		String path = "";
 		if (request.getSession().getAttribute("mId") == null) { // pw-find
-			path = "redirect:login.do";
+			path = "redirect:main.do";
 		} else { // change-inform
 			MultipartFile uploadProfile = mvo.getUploadFile();
 			String mImg = mvo.getmImg();
