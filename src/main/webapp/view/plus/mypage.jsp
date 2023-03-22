@@ -164,7 +164,7 @@ body {
 																			</div>
 																		</td>
 																		<td width="13%">
-																			<a href="updateBoard.do?bNum=${v.bNum}" class="btn btn-icon btn-primary">
+																			<a href="updateBoard.do?bNum=${v.bNum}type=update" class="btn btn-icon btn-primary">
 																				<i class="far fa-edit"></i>
 																			</a>
 																			<button name="deleteBoard" class="btn btn-icon btn-danger" data-confirm="삭제?|정말로 삭제하실껀가요?" data-confirm-yes="location.href='boardDelete.do?bNum=${v.bNum}'">

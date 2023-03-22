@@ -352,7 +352,7 @@ body {
 	        	      status = '<div class="badge badge-warning btn-status">모집 중</div>';
 	        	    } else if (board.bAction == 1) {
 	        	      status = '<div class="badge badge-primary btn-status">모집 완료</div>';
-	        	    } else if (board.bDate < new Date()) {
+	        	    } else{
 	        	      status = '<div class="badge badge-danger btn-status">지난 모임</div>';
 	        	    }
 	        	  
