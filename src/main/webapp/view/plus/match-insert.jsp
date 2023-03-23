@@ -755,7 +755,7 @@ select option[disabled] {
 			//현재 시간보다 1시간 후의 시간만 선택할수 있게 설정
 			$("#date-local").attr("min", today);
 
-			var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 2));
+			var twoMonthLater = new Date(now_utc.setMonth(now_utc.getMonth() + 1));
 			var monthLater = new Date(twoMonthLater - timeOff).toISOString().substring(0, 16);
 			//최대 2달 이후까지 선택할수 있게 설정
 			$("#date-local").attr("max", monthLater);
