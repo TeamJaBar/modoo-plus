@@ -931,8 +931,8 @@
 					<div class="form-group">
 						<c:forEach var="address" items="${localList}">
 							<div class="form-check">
-								<input class="form-check-input" type="radio" value="${address.bLocal}" name="exampleRadios" id="exampleRadios1" checked="">
-								<label class="form-check-label" for="exampleRadios1">${address.bLocal}</label>
+								<input class="form-check-input" type="radio" value="${address.bLocal}" name="exampleRadios" id="${address.bLocal}" checked="">
+								<label class="form-check-label" for="${address.bLocal}">${address.bLocal}</label>
 							</div>
 						</c:forEach>
 					</div>
