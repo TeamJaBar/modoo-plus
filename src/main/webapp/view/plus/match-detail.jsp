@@ -197,7 +197,7 @@
 																	<div class="media-progressbar">
 																		<div class="progress-text">${entry.score}점</div>
 																		<div class="progress" data-height="6" style="height: 6px;">
-																			<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																			<div class="progress-bar bg-primary" data-width="<modoo:exp score='${entry.score}'/>" style="width:<modoo:score score='${entry.score}'/>;"></div>
 																		</div>
 																	</div>
 																	<div class="media-cta">
@@ -218,7 +218,7 @@
 																	<div class="media-progressbar">
 																		<div class="progress-text">${entry.score}점</div>
 																		<div class="progress" data-height="6" style="height: 6px;">
-																			<div class="progress-bar bg-primary" data-width="<modoo:score score="${entry.score}" />%" style="width: <modoo:exp score="${entry.score}" />%;"></div>
+																			<div class="progress-bar bg-primary" data-width="<modoo:exp score="${entry.score}" />" style="width: <modoo:score score="${entry.score}" />;"></div>
 																		</div>
 																	</div>
 																	<!--퇴출하기 버튼은 글 작성자에게만 보임-->

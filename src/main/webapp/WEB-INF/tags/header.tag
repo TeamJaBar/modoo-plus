@@ -36,8 +36,8 @@
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="main.do"><msg:message code="message.header.main"/></a>
 			<div class="dropdown-divider"></div>
-			<a class="dropdown-item" href="boardList.do?lang=en">ENGLISH</a>
-			<a class="dropdown-item" href="boardList.do?lang=ko">한국어</a>
+			<a class="dropdown-item" href="createBoard.do?lang=en">ENGLISH</a>
+			<a class="dropdown-item" href="createBoard.do?lang=ko">한국어</a>
 		</div>
 	</div>
 	<!-- 검색창 -->
